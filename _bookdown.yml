@@ -1,0 +1,13 @@
+book_filename: cnu-r-programming
+repo: https://github.com/zorba78/cnu-stat-package-lecture
+output_dir: "docs"
+clean: [packages.bib]
+language:
+  label: 
+    fig: "Figure "
+    tab: "Table "
+  ui:
+    chapter_name: ""
+    edit: "Edit"
+delete_merged_file: true
+new_session: true

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>통계 패키지 활용</title>
+  <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="통계 패키지 활용" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="통계 패키지 활용" />
+  
+  <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  
+
+<meta name="author" content="한국한의학연구원, 구본초" />
+
+
+<meta name="date" content="2020-09-12" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="r-markdown.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">통계 패키지 활용</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Overview</a></li>
+<li class="chapter" data-level="1" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>1</b> R Markdown</a><ul>
+<li class="chapter" data-level="1.1" data-path="r-markdown의-구성.html"><a href="r-markdown의-구성.html"><i class="fa fa-check"></i><b>1.1</b> R Markdown의 구성</a></li>
+<li class="chapter" data-level="1.2" data-path="r-markdown-문서-시작하기.html"><a href="r-markdown-문서-시작하기.html"><i class="fa fa-check"></i><b>1.2</b> R Markdown 문서 시작하기</a></li>
+<li class="chapter" data-level="1.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html"><i class="fa fa-check"></i><b>1.3</b> R Markdown 기본 문법(syntax)</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#텍스트-문법"><i class="fa fa-check"></i><b>1.3.1</b> 텍스트 문법</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#block-level-elements"><i class="fa fa-check"></i><b>1.3.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="1.3.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#수식표현math-expression"><i class="fa fa-check"></i><b>1.3.3</b> 수식표현(math expression)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-code-chunks.html"><a href="r-code-chunks.html"><i class="fa fa-check"></i><b>1.4</b> R Code Chunks</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">통계 패키지 활용</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">통계 패키지 활용</h1>
+<h2 class="subtitle"><em>2020년도 2학기 충남대학교 정보통계학과 강의 노트</em></h2>
+<p class="author"><em>한국한의학연구원, 구본초</em></p>
+<p class="date"><em>2020-09-12</em></p>
+</div>
+<div id="overview" class="section level1 unnumbered">
+<h1>Course Overview</h1>
+<p>R을 이용한 데이터 분석 시 CRAN에 등록된 패키지를 활용한다. 적절한 패키지의 활용은 데이터 분석의 효율을 증대할 뿐 아니라 분석의 재현성을 향상할 수 있다. 본 강의는 지난학기에 학습한 통계프로그래밍언어 강의 내용의 연속선 상에서 진행할 예정이며, 해당 강의에서 학습한 내용들을 기반으로 데이터 분석 및 그 결과에 대한 보고서 작성, 그리고 R 생성 파일에 대한 버전 관리 방법에 대해 알아보고자 한다.</p>
+<div id="purpose-course" class="section level4 unnumbered">
+<h4>교과 목표</h4>
+<blockquote>
+<ul>
+<li><strong>R Markdown의 이해와 활용</strong></li>
+<li><strong>R 프로그래밍 능력 향상 및 통계 시뮬레이션의 이해</strong></li>
+<li><strong>R을 이용한 데이터 분석 실습</strong></li>
+<li><strong>R을 이용한 기초 통계분석</strong></li>
+<li><strong>텍스트 마이닝에 대한 이해</strong></li>
+<li><strong>Shiny, plotly 를 활용한 동적 문서 및 시각화 이해</strong></li>
+<li><strong>RStudio + Github을 이용한 버전관리 이해</strong></li>
+</ul>
+</blockquote>
+</div>
+<div id="pre-course" class="section level4 unnumbered">
+<h4>선수과목</h4>
+<blockquote>
+<p><strong>통계학 개론</strong>
+<strong>통계 프로그래밍 언어</strong></p>
+</blockquote>
+</div>
+<div id="course-method" class="section level4 unnumbered">
+<h4>수업 방법</h4>
+<ul>
+<li><strong>강의: 30 %</strong></li>
+<li><strong>실험/실습: 70 %</strong></li>
+</ul>
+</div>
+<div id="grade-method" class="section level4 unnumbered">
+<h4>평가방법</h4>
+<blockquote>
+<ul>
+<li><strong>중간고사: 35 %</strong></li>
+<li><strong>기말고사: 35 %</strong></li>
+<li><strong>출석: 10 %</strong></li>
+<li><strong>과제: 20 %</strong></li>
+</ul>
+</blockquote>
+</div>
+<div id="material-course" class="section level4 unnumbered">
+<h4>교재</h4>
+<blockquote>
+<p>별도의 교재 없이 본 강의 노트로 수업을 진행할 예정이며, 수업의 이해도 향상을 위해 아래 소개할 도서 및 웹 문서 등을 참고할 것을 권장함.</p>
+</blockquote>
+</div>
+<div id="ref-course" class="section level4 unnumbered">
+<h4>참고문헌</h4>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown-cookbook/">R Markdown Cookbook</a> <span class="citation">(Xie, Dervieux, and Riederer <a href="#ref-xie-2020" role="doc-biblioref">2020</a>)</span></li>
+<li><a href="https://bookdown.org/yihui/bookdown/">bookdown: Authoring Books and Technical Documents with R Markdown</a> <span class="citation">(Xie <a href="#ref-xie-2016" role="doc-biblioref">2016</a>)</span></li>
+<li>R과 knitr를 활용한 데이터 연동형 문서 만들기 <span class="citation">(고석범 <a href="#ref-ko-2014" role="doc-biblioref">2014</a>)</span></li>
+<li><a href="https://r4ds.had.co.nz/">R for data science</a> <span class="citation">(Wickham and Grolemund <a href="#ref-wickham-2016r" role="doc-biblioref">2016</a>)</span></li>
+<li>Statistical Computing with R <span class="citation">(Rizzo <a href="#ref-rizzo-2019" role="doc-biblioref">2019</a>)</span></li>
+<li><a href="https://bookdown.org/rdpeng/rprogdatascience/">R programming for data science</a> <span class="citation">(Peng <a href="#ref-peng-2016" role="doc-biblioref">2016</a>)</span></li>
+<li><a href="https://www.tidytextmining.com/">Text mining with R</a> <span class="citation">(Silge and Robinson <a href="#ref-silge-2017" role="doc-biblioref">2017</a>)</span></li>
+</ul>
+
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-peng-2016">
+<p>Peng, Roger D. 2016. <em>R Programming for Data Science</em>. Learnpub. <a href="https://bookdown.org/rdpeng/rprogdatascience/">https://bookdown.org/rdpeng/rprogdatascience/</a>.</p>
+</div>
+<div id="ref-rizzo-2019">
+<p>Rizzo, Maria L. 2019. <em>Statistical Computing with R</em>. CRC Press.</p>
+</div>
+<div id="ref-silge-2017">
+<p>Silge, Julia, and David Robinson. 2017. <em>Text Mining with R</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com/">https://www.tidytextmining.com/</a>.</p>
+</div>
+<div id="ref-wickham-2016r">
+<p>Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".</p>
+</div>
+<div id="ref-xie-2016">
+<p>Xie, Yihui. 2016. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.</p>
+</div>
+<div id="ref-xie-2020">
+<p>Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">https://bookdown.org/yihui/rmarkdown-cookbook/</a>.</p>
+</div>
+<div id="ref-ko-2014">
+<p>고석범. 2014. <em>R과 Knitr를 활용한 데이터 연동형 문서 만들기</em>. 1st ed. 에이콘 출판사.</p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="r-markdown.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["cnu-r-programming.pdf", "cnu-r-programming.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
