@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.1.2)  12 SEP 2020 04:20
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.1.2)  12 SEP 2020 05:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2197,6 +2197,11 @@ Underfull \hbox (badness 1675) in paragraph at lines 4--4
  출 과 정 \TU/lmr/m/n/11 (http://applied- 
  []
 
+
+Underfull \hbox (badness 2197) in paragraph at lines 7--7
+ [][] [][][]\TU/lmr/m/n/11 Chunk anatomy (https://ulyngs.github.io/rmarkdown- 
+ []
+
 )
 \tf@lof=\write10
 \openout10 = `cnu-r-programming.lof'.
@@ -2482,7 +2487,71 @@ se x} p^x
 [14] [15]
 File: figures/chunk-parts.png Graphic file (type bmp)
 <figures/chunk-parts.png>
-(./cnu-r-programming.bbl [16]
+
+Underfull \hbox (badness 5359) in paragraph at lines 1053--1053
+[]\TU/lmr/bx/n/10 FIGURE 1.6: |\TU/lmr/m/n/10 Chunk anatomy (https://ulyngs.git
+hub.io/rmarkdown-
+ []
+
+
+Overfull \hbox (63.3858pt too wide) in paragraph at lines 1073--1081
+ [][] 
+ []
+
+[16]
+
+LaTeX Font Warning: Font shape `TU/NanumGothic(0)/m/it' undefined
+(Font)              using `TU/NanumGothic(0)/m/n' instead on input line 1103.
+
+LaTeX Font Info:    Font shape `TU/NanumGothic(0)/m/n' will be
+(Font)              scaled to size 7.758pt on input line 1103.
+LaTeX Font Info:    Font shape `TU/NanumGothic(0)/m/it' will be
+(Font)              scaled to size 7.758pt on input line 1103.
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1104.
+[17]
+File: 01-Rmarkdown-1st_files/figure-latex/ex01-1-1.pdf Graphic file (type pdf)
+<use 01-Rmarkdown-1st_files/figure-latex/ex01-1-1.pdf>
+[18] (./cnu-r-programming.bbl [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (336.25pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (336.25pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (336.25pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (336.25pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+ [][][][] 
+ []
+
+[20
+
+]
 Underfull \vbox (badness 10000) detected at line 1
  []
 
@@ -2526,35 +2595,29 @@ Underfull \hbox (badness 10000) detected at line 1
 LaTeX Font Info:    Font shape `TU/NanumMyeongjo(0)/m/it' will be
 (Font)              scaled to size 10.1141pt on input line 39.
 ) (./cnu-r-programming.ind)
-
-Package caption Warning: Unused \captionsetup[table] on input line 169.
-See the caption package documentation for explanation.
-
-
 Underfull \hbox (badness 10000) has occurred while \output is active
  [][][][] 
  []
 
-[17
-
+[21
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1060.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1060.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1173.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1173.
 (./cnu-r-programming.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1060.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1060.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1173.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1173.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 51673 strings out of 492473
- 982981 string characters out of 6132689
- 1337690 words of memory out of 5000000
- 55278 multiletter control sequences out of 15000+600000
- 562924 words of font info for 137 fonts, out of 8000000 for 9000
+ 51697 strings out of 492473
+ 983644 string characters out of 6132689
+ 1337792 words of memory out of 5000000
+ 55296 multiletter control sequences out of 15000+600000
+ 562948 words of font info for 140 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 64i,9n,125p,816b,2559s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,11n,125p,816b,2559s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on cnu-r-programming.pdf (29 pages).
+Output written on cnu-r-programming.pdf (33 pages).

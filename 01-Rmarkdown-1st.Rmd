@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 \mainmatter
 
 ```{r chunk-setup, echo=FALSE, message=FALSE}
@@ -401,12 +406,87 @@ g(X_{n}) &= g(\theta)+g'({\tilde{\theta}})(X_{n}-\theta) \notag \\
 - Code chunk는  ```` ```{r} ````로 시작되며 `r`은 code 언어 이름을 나타냄.
 - Code chunk는 ```` ``` ```` 로 종료
 - R Markdown 문서 작성 시 단축키 `[Ctrl] + [Alt] + [I]`를 입력하면 Chunk 입력창이 자동 생성됨
+- Code chunk의 옵션 조정을 통해 코드의 출력여부, 코드 출력 시 코드의 출력 형태, 코드의 결과물 출력 조정 가능
 
 
-```{r r-code-chunk, fig.align='center', echo=FALSE, fig.show="hold", out.width='100%', fig.cap="Chunk anatomy"}
+```{r r-code-chunk, fig.align='center', echo=FALSE, fig.show="hold", out.width='100%', fig.cap="Chunk anatomy (https://ulyngs.github.io/rmarkdown-workshop-2019 에서 발췌)"}
 knitr::include_graphics('figures/chunk-parts.png', dpi = NA)
 ```
 
+
+**자주 활용하는 chunk 옵션**
+
+- 코드 실행 관련 청크
+
+```{r chunk-tab-01, message=FALSE, echo=FALSE}
+require(tidyverse)
+require(kableExtra)
+
+tab_01 <- tibble(
+   `Chunk 옵션` = c("eval", "include"), 
+   `Default` = c("TRUE", "TRUE"),
+   `설명` = c("R 실행 결과에 대응하는 코드 출력 여부", 
+              "출력 문서에 코드 청크의 내용을 포함할지 여부")
+)
+
+options(kableExtra.html.bsTable = T)
+knitr::opts_knit$set(kable.force.latex = FALSE)
+kable(tab_01,
+      align = "lll",
+      escape = FALSE, 
+      booktabs = T, caption = "코드 실행 관련 청크") %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                position = "center", 
+                full_width = FALSE, 
+                font_size = 11, 
+                latex_options = c("striped", "HOLD_position")) %>% 
+  column_spec(1:2, width = "3cm") %>% 
+  column_spec(3, width = "7cm")
+
+
+```
+
+
+````markdown
+`r ''````{r ex01-1, eval=TRUE}
+summary(iris)
+hist(iris$Sepal.Length)
+```
+
+`r ''````{r ex01-2, eval=FALSE}
+summary(iris)
+hist(iris$Sepal.Length)
+```
+````
+
+```{r ex01-1, eval=TRUE}
+#청크 옵션 eval=TRUE
+summary(iris)
+hist(iris$Sepal.Length)
+```
+
+
+```{r ex01-2, eval=FALSE}
+#청크 옵션 eval=FALSE
+summary(iris)
+hist(iris$Sepal.Length)
+```
+
+
+- 
+
+
+
+
+- `echo`: R 실행 결과에 대응하는 코드 출력 여부 (`TRUE/FALSE`, `default = TRUE`)
+- `eval`: chunk 안에 작성한 스크립트(코드)의 실행 여부(`TRUE/FALSE`, `default = TRUE`)
+- `include`: chunk 출력물을 출력 문서에 포함할지 여부 결정(`TRUE/FALSE`, `default = TRUE`)
+- `results`: 
+- `error`: 
+- `message`: 
+- `warning`: 
+- `fig.cap`: 
+- `dpi`: 출력 
 
 
 

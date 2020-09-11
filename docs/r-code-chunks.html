@@ -53,6 +53,8 @@
 <script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -173,15 +175,110 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Code chunk는 <code>```{r}</code>로 시작되며 <code>r</code>은 code 언어 이름을 나타냄.</li>
 <li>Code chunk는 <code>```</code> 로 종료</li>
 <li>R Markdown 문서 작성 시 단축키 <code>[Ctrl] + [Alt] + [I]</code>를 입력하면 Chunk 입력창이 자동 생성됨</li>
+<li>Code chunk의 옵션 조정을 통해 코드의 출력여부, 코드 출력 시 코드의 출력 형태, 코드의 결과물 출력 조정 가능</li>
 </ul>
 
 <div class="figure" style="text-align: center"><span id="fig:r-code-chunk"></span>
-<img src="figures/chunk-parts.png" alt="Chunk anatomy" width="100%" />
+<img src="figures/chunk-parts.png" alt="Chunk anatomy (https://ulyngs.github.io/rmarkdown-workshop-2019 에서 발췌)" width="100%" />
 <p class="caption">
-Figure 1.5: Chunk anatomy
+Figure 1.5: Chunk anatomy (<a href="https://ulyngs.github.io/rmarkdown-workshop-2019" class="uri">https://ulyngs.github.io/rmarkdown-workshop-2019</a> 에서 발췌)
 </p>
 </div>
 <p></p>
+<p><strong>자주 활용하는 chunk 옵션</strong></p>
+<ul>
+<li>코드 실행 관련 청크</li>
+</ul>
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:chunk-tab-01">Table 1.1: </span>코드 실행 관련 청크
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Chunk 옵션
+</th>
+<th style="text-align:left;">
+Default
+</th>
+<th style="text-align:left;">
+설명
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+eval
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 7cm; ">
+R 실행 결과에 대응하는 코드 출력 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+include
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 7cm; ">
+출력 문서에 코드 청크의 내용을 포함할지 여부
+</td>
+</tr>
+</tbody>
+</table>
+
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="r-code-chunks.html#cb11-1"></a><span class="bn">```{r ex01-1, eval=TRUE}</span></span>
+<span id="cb11-2"><a href="r-code-chunks.html#cb11-2"></a><span class="bn">summary(iris)</span></span>
+<span id="cb11-3"><a href="r-code-chunks.html#cb11-3"></a><span class="bn">hist(iris$Sepal.Length)</span></span>
+<span id="cb11-4"><a href="r-code-chunks.html#cb11-4"></a><span class="bn">```</span></span>
+<span id="cb11-5"><a href="r-code-chunks.html#cb11-5"></a></span>
+<span id="cb11-6"><a href="r-code-chunks.html#cb11-6"></a><span class="bn">```{r ex01-2, eval=FALSE}</span></span>
+<span id="cb11-7"><a href="r-code-chunks.html#cb11-7"></a><span class="bn">summary(iris)</span></span>
+<span id="cb11-8"><a href="r-code-chunks.html#cb11-8"></a><span class="bn">hist(iris$Sepal.Length)</span></span>
+<span id="cb11-9"><a href="r-code-chunks.html#cb11-9"></a><span class="bn">```</span></span></code></pre></div>
+
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="r-code-chunks.html#cb12-1"></a><span class="co">#청크 옵션 eval=TRUE</span></span>
+<span id="cb12-2"><a href="r-code-chunks.html#cb12-2"></a><span class="kw">summary</span>(iris)</span></code></pre></div>
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                </code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="r-code-chunks.html#cb14-1"></a><span class="kw">hist</span>(iris<span class="op">$</span>Sepal.Length)</span></code></pre></div>
+<p><img src="01-Rmarkdown-1st_files/figure-html/ex01-1-1.svg" width="672" /></p>
+
+
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="r-code-chunks.html#cb15-1"></a><span class="co">#청크 옵션 eval=FALSE</span></span>
+<span id="cb15-2"><a href="r-code-chunks.html#cb15-2"></a><span class="kw">summary</span>(iris)</span>
+<span id="cb15-3"><a href="r-code-chunks.html#cb15-3"></a><span class="kw">hist</span>(iris<span class="op">$</span>Sepal.Length)</span></code></pre></div>
+
+<ul>
+<li></li>
+<li><code>echo</code>: R 실행 결과에 대응하는 코드 출력 여부 (<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
+<li><code>eval</code>: chunk 안에 작성한 스크립트(코드)의 실행 여부(<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
+<li><code>include</code>: chunk 출력물을 출력 문서에 포함할지 여부 결정(<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
+<li><code>results</code>:</li>
+<li><code>error</code>:</li>
+<li><code>message</code>:</li>
+<li><code>warning</code>:</li>
+<li><code>fig.cap</code>:</li>
+<li><code>dpi</code>: 출력</li>
+</ul>
 
 </div>
 <!-- </div> -->

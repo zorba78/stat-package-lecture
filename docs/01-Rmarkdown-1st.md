@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 \mainmatter
 
 
@@ -408,17 +413,123 @@ g(X_{n}) &= g(\theta)+g'({\tilde{\theta}})(X_{n}-\theta) \notag \\
 - Code chunk는  ```` ```{r} ````로 시작되며 `r`은 code 언어 이름을 나타냄.
 - Code chunk는 ```` ``` ```` 로 종료
 - R Markdown 문서 작성 시 단축키 `[Ctrl] + [Alt] + [I]`를 입력하면 Chunk 입력창이 자동 생성됨
+- Code chunk의 옵션 조정을 통해 코드의 출력여부, 코드 출력 시 코드의 출력 형태, 코드의 결과물 출력 조정 가능
 
 
 \footnotesize
 
 <div class="figure" style="text-align: center">
-<img src="figures/chunk-parts.png" alt="Chunk anatomy" width="100%" />
-<p class="caption">(\#fig:r-code-chunk)Chunk anatomy</p>
+<img src="figures/chunk-parts.png" alt="Chunk anatomy (https://ulyngs.github.io/rmarkdown-workshop-2019 에서 발췌)" width="100%" />
+<p class="caption">(\#fig:r-code-chunk)Chunk anatomy (https://ulyngs.github.io/rmarkdown-workshop-2019 에서 발췌)</p>
 </div>
 
  \normalsize
 
+
+**자주 활용하는 chunk 옵션**
+
+- 코드 실행 관련 청크
+
+\footnotesize
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">(\#tab:chunk-tab-01)코드 실행 관련 청크</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Chunk 옵션 </th>
+   <th style="text-align:left;"> Default </th>
+   <th style="text-align:left;"> 설명 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> eval </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 7cm; "> R 실행 결과에 대응하는 코드 출력 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> include </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 7cm; "> 출력 문서에 코드 청크의 내용을 포함할지 여부 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+````markdown
+```{r ex01-1, eval=TRUE}
+summary(iris)
+hist(iris$Sepal.Length)
+```
+
+```{r ex01-2, eval=FALSE}
+summary(iris)
+hist(iris$Sepal.Length)
+```
+````
+
+\footnotesize
+
+
+```r
+#청크 옵션 eval=TRUE
+summary(iris)
+```
+
+```
+  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                
+```
+
+```r
+hist(iris$Sepal.Length)
+```
+
+![](01-Rmarkdown-1st_files/figure-epub3/ex01-1-1.svg)<!-- -->
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+#청크 옵션 eval=FALSE
+summary(iris)
+hist(iris$Sepal.Length)
+```
+
+ \normalsize
+
+
+- 
+
+
+
+
+- `echo`: R 실행 결과에 대응하는 코드 출력 여부 (`TRUE/FALSE`, `default = TRUE`)
+- `eval`: chunk 안에 작성한 스크립트(코드)의 실행 여부(`TRUE/FALSE`, `default = TRUE`)
+- `include`: chunk 출력물을 출력 문서에 포함할지 여부 결정(`TRUE/FALSE`, `default = TRUE`)
+- `results`: 
+- `error`: 
+- `message`: 
+- `warning`: 
+- `fig.cap`: 
+- `dpi`: 출력 
 
 
 
