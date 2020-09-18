@@ -414,9 +414,9 @@ knitr::include_graphics('figures/chunk-parts.png', dpi = NA)
 ```
 
 
-**자주 활용하는 chunk 옵션**
+### 자주 활용하는 chunk 옵션 {#code-chunk .unnumbered}
 
-- 코드 실행 관련 청크
+**코드 실행 관련 청크**
 
 ```{r chunk-tab-01, message=FALSE, echo=FALSE}
 require(tidyverse)
@@ -425,7 +425,7 @@ require(kableExtra)
 tab_01 <- tibble(
    `Chunk 옵션` = c("eval", "include"), 
    `Default` = c("TRUE", "TRUE"),
-   `설명` = c("R 실행 결과에 대응하는 코드 출력 여부", 
+   `설명` = c("R 실행(코드 실행 결과)에 대응하는 결과 출력 여부", 
               "출력 문서에 코드 청크의 내용을 포함할지 여부")
 )
 
@@ -441,7 +441,7 @@ kable(tab_01,
                 font_size = 11, 
                 latex_options = c("striped", "HOLD_position")) %>% 
   column_spec(1:2, width = "3cm") %>% 
-  column_spec(3, width = "7cm")
+  column_spec(3, width = "8cm")
 
 
 ```
@@ -459,6 +459,7 @@ hist(iris$Sepal.Length)
 ```
 ````
 
+
 ```{r ex01-1, eval=TRUE}
 #청크 옵션 eval=TRUE
 summary(iris)
@@ -473,20 +474,440 @@ hist(iris$Sepal.Length)
 ```
 
 
-- 
+
+
+**소스 코드 출력(텍스트) 결과 관련 청크**
+
+```{r chunk-tab-02, message=FALSE, echo=FALSE}
+
+tab_02 <- tibble(
+   `Chunk 옵션` = c("echo", "results", "error", "message", "warning"),
+   `Default` = c("TRUE", "markup", "TRUE", "TRUE", "TRUE"),
+   `설명` = c("R 실행 결과에 대응하는 코드 출력 여부",
+              "출력 결과 포맷 지정을 위한 옵션으로 추가적으로 3 가지 옵션 선택 가능: 'hide', 'asis', 'hold', 'markup'",
+              "코드 또는 스크립트에 구문오류 메세지 출력 여부",
+              "코드로부터 생성된 메세지 출력 여부",
+              "경고 메세지 출력 여부")
+)
+
+kable(tab_02,
+      align = "lll",
+      escape = FALSE,
+      booktabs = T, caption = "소스 코드 출력 결과 관련 청크") %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                position = "center",
+                full_width = FALSE,
+                font_size = 11,
+                latex_options = c("striped", "HOLD_position")) %>%
+  column_spec(1:2, width = "3cm") %>%
+  column_spec(3, width = "8cm")
+
+
+```
+
+
+- `echo`: 코드 청크에 작성한 R-script 출력 여부 결정
+   - `echo = FALSE` 이면 소스 코드 출력 없이 그림 결과만 출력
+
+
+````markdown
+`r ''````{r ex01-2, echo=TRUE}
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+
+```
+
+
+`r ''````{r ex01-3, echo=FALSE}
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+
+```
+````
+
+
+```{r, echo = TRUE, message = FALSE}
+# echo = TRUE
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+```
+
+- `results`: 코드의 텍스트 출력 결과 포맷 지정
+   - `markup` (default): 코드 청크 내 스크립트의 출력 형태에 따라 텍스트 출력 결과를 mark-up
+   - `asis`: 변환하지 않은 원래 R 출력 결과 그대로(as is) 출력
+   - `hide`: R 스크립트로 생성된 텍스트 출력을 보여주지 않음(warning, message 출력 예외)
+   - `hold`: 코드 청크로 생성된 모든 소스 및 출력을 단일 블록으로 축소
+
+```{r, results='markup'}
+# results = 'markup'인 경우 아래 텍스트를 mark-up
+# (이 경우 아래 텍스트는 ``` ``` 블럭 처리)한 결과를 md 파일로 전송
+cat("I'm raw **Markdown** content.\n")
+
+```
+
+
+
+```{r code-chunk-markup, fig.align='center', echo=FALSE, fig.show="hold", out.width='100%', fig.cap="청크 옵션 results = 'markup'인 경우 rmd vs. md 파일 비교"}
+knitr::include_graphics('figures/code-chunk-markup.png', dpi = NA)
+```
+
+
+
+```{r, results='asis'}
+
+# results = 'asis' 인 경우 텍스트를 그대로 md 파일에 입력
+cat("I'm raw **Markdown** content.\n")
+
+```
+
+
+```{r code-chunk-asis, fig.align='center', echo=FALSE, fig.show="hold", out.width='100%', fig.cap="청크 옵션 results = 'asis'인 경우 rmd vs. md 파일 비교"}
+knitr::include_graphics('figures/code-chunk-asis.png', dpi = NA)
+```
+
+
+```{r, results='hide'}
+# results = 'hide'
+cat("I'm raw **Markdown** content.\n")
+
+# 텍스트 결과를 출력하지 않음
+
+```
+
+
+```{r}
+# results = 'hold'가 아닌 경우 한 라인 별 출력 결과 생성
+x <- rnorm(10)
+x
+y <- rnorm(10, 1, 2)
+y
+x + y
+```
+
+
+
+```{r, results='hold'}
+# results = 'hold'인 경우 코드 부분과 출력 부분이 따로 블록 처리
+x <- rnorm(10)
+x
+y <- rnorm(10, 1, 2)
+y
+x + y
+```
+
+- `error`: 코드 청크 내 스크립트에 오류에 대한 보존 여부(`stop()`)
+   - 기본적으로 Rmarkdown 컴파일 시 `error`에 대한 옵션이 `FALSE`이기 때문에 스크립트(코드)에 오류가 포함되면 컴파일이 정지됨.
+   - `error = TRUE` 이면 오류 메세지를 포함한 텍스트 결과를 출력
+
+```{r, error = TRUE}
+3x <- 3
+x <- 25 # 위 행이 구문 오류를 포함하고 있기 때문에
+        # 오류 이후의 코드는 실행되지 않음
+x
+```
+
+
+- `message`/`warning`: 텍스트 출력물 중 경고(warning, `warning()` 함수의 출력 결과) 메세지 출력 여부 결정
+
+```{r, message=TRUE}
+# message = TRUE 인 경우 함수 message 출력
+testit <- function() {
+  message("testing package startup messages")
+  packageStartupMessage("initializing ...", appendLF = FALSE)
+  Sys.sleep(1)
+  packageStartupMessage(" done")
+} # help(message) 예시 중 발췌
+
+testit()
+```
+
+
+```{r, message=FALSE}
+# message=FALSE -> 메세지 출력하지 않음
+testit()
+
+```
+
+
+
+```{r, warning=TRUE}
+# 경고 메세지 출력
+x <- c(1, 2, "new", 4:10)
+x <- as.numeric(x)
+
+```
+
+
+
+**코드 서식 관련 청크 옵션**
+
+
+```{r chunk-tab-03, message=FALSE, echo=FALSE}
+tab_03 <- tibble(
+   `Chunk 옵션` = c("comment", "highlight", "prompt", "tidy"),
+   `Default` = c("TRUE", "TRUE", "FALSE", "FALSE"),
+   `설명` = c("소스 코드 실행 출력의 각 줄 앞에 붙는 표시문자 출력 여부: 기본 값은 '\\#\\#' 임",
+              "구문 강조 여부",
+              "R 프롬프트 출력 여부",
+              "R 소스 코드 출력 정리 여부")
+)
+
+kable(tab_03,
+      align = "lll",
+      escape = FALSE,
+      booktabs = T, caption = "코드 서식 관련 청크") %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                position = "center",
+                full_width = FALSE,
+                font_size = 11,
+                latex_options = c("striped", "HOLD_position")) %>%
+  column_spec(1:2, width = "3cm") %>%
+  column_spec(3, width = "8cm")
+
+
+```
+
+
+- `comment`: 텍스트 출력물에 주석 표시(default)를 함으로써 소스 코드와 출력 결과를 동시 선택과 복사를 가능(\##는 주석 표시이기 때문에 실행되지 않음)
+   - 주석 표시를 제거하고 싶다면 `comment = NA` 또는 `comment = ''`
+
+
+
+```{r, comment="##"}
+# 디폴트 comment 사용
+summary(iris)
+```
+
+- `highlight`: 구문 강조 표시 여부
+   - `highlight=FALSE` 일 때 소스 코드 출력 결과
+
+```{r, highlight=FALSE, eval=FALSE}
+# highlight=FALSE
+
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+
+```
+
+
+- `prompt`: R 콘솔 상 프롬프트 `>`, `+` 출력 여부
+
+
+```{r, eval = FALSE, echo = TRUE, message = FALSE, prompt = TRUE}
+# prompt = TRUE 인 경우 코드 출력 결과
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+```
+
+- `tidy`: 코드를 사용자가 지정(혹은 `formatR::tidy_sorce()` 함수에 초기값으로 지정된 코드 정리 값)한 줄 당 문자 길이 등을 반영해 코드를 정리
+   - `tidy=TRUE` 인 경우 자동으로 줄 바꿈
+
+```{r, eval = FALSE, echo = TRUE, message = FALSE, prompt = TRUE, tidy=FALSE}
+# tidy = FALSE 인 경우 코드 출력 결과
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>% ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) + geom_point(size = 5) + theme_pubclean() + theme(axis.line = element_line(size = 0.8), legend.title = element_text(face = "bold", size = 15), legend.text = element_text(face = "bold", size = 12))
+```
+
+
+```{r, eval = FALSE, echo = TRUE, message = FALSE, prompt = TRUE, tidy=TRUE}
+# tidy = TRUE 인 경우 코드 출력 결과
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>% ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) + geom_point(size = 5) + theme_pubclean() + theme(axis.line = element_line(size = 0.8), legend.title = element_text(face = "bold", size = 15), legend.text = element_text(face = "bold", size = 12))
+```
+
+
+**그림(plot) 출력 관련 청크 옵션**
+
+```{r chunk-tab-04, message=FALSE, echo=FALSE}
+tab_04 <- tibble(
+   `Chunk 옵션` = c("fig.align", "fig.height/fig.width", "fig.cap", "dpi"),
+   `Default` = c("default", "7", "NULL", "72"),
+   `설명` = c("최종 문서에 plot 정렬 방식 결정(center/left/right)",
+              "그림 크기(단위: 인치)",
+              "그림 캡션(문자열 입력)",
+              "dot per inche: 출력 그림 해상도")
+)
+
+kable(tab_04,
+      align = "lll",
+      escape = FALSE,
+      booktabs = T, caption = "Plot 출력 관련 청크") %>%
+  kable_styling(bootstrap_options = c("condensed", "striped"),
+                position = "center",
+                full_width = FALSE,
+                font_size = 11,
+                latex_options = c("striped", "HOLD_position")) %>%
+  column_spec(1:2, width = "5cm") %>%
+  column_spec(3, width = "8cm")
+
+
+```
+
+
+### 알아두면 좋은 청크 형태 {#typical-chunk .unnumbered}
+
+**Setup 청크**
+
+- 일반적으로 Rmarkdown 문서는 YAML 해더 뒤에 전역적 청크 옵션 지정과 R 패키지를 불러오는 것으로 시작
+- 청크 옵션은 `knitr::opts_chunk$set(청크 옵션 지정)` 형태로 지정 가능
+- 다음은 RStudio 에서 Rmd 문서 생성 시 맨 처음 나오는 코드 청크 예시임
+
+````markdown
+`r ''````{r ex01-2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+````
+
+- 일반적 활용 예시
+
+````markdown
+`r ''````{r option-init, include=FALSE}
+knitr::opts_chunk$set(root.dir = '../..', # 프로젝트 폴더 지정
+                      eval = TRUE,
+                      echo = FALSE,
+                      cache = FALSE,
+                      include = TRUE,
+                      tidy = TRUE,
+                      tidy.opts = list(blank=FALSE, width.cutoff=120), # 소스 출력길이 지정
+                      message = FALSE,
+                      warning = FALSE,
+                      engine = "R", # Chunks will always have R code, unless noted
+                      error = TRUE,
+                      fig.path="Figures/",  # Set the figure options
+                      fig.align = "center",
+                      fig.width = 7,
+                      fig.height = 7,
+                      fig.keep='all', fig.retina=2)
+```
+
+````
+
+**이미지 불러오기**
+
+
+````markdown
+`r ''````{r, fig.cap = "Taj Mahal"}
+knitr::include_graphics("figures/taj.JPG", dpi = NA)
+```
+````
+
+```{r, fig.cap = "Taj Mahal", echo=FALSE}
+knitr::include_graphics("figures/taj.JPG", dpi = NA)
+```
+
+````markdown
+`r ''````{r, fig.cap = "Taj Mahal"}
+cars %>%
+   ggplot(aes(x = speed, y = dist)) +
+   geom_point(size = 5) +
+   theme_tufte(base_size = 15) # ggtheme::theme_tufte()
+```
+````
+
+
+**R 생성 도표 포함**
+
+```{r plot-example, fig.cap = "Scatterplot of the car dataset", fig.width = 10, fig.height = 7, echo=FALSE}
+cars %>%
+   ggplot(aes(x = speed, y = dist)) +
+   geom_point(size = 5) +
+   theme_tufte(base_size = 15) # ggtheme::theme_tufte()
+
+
+```
+
+
+**테이블 삽입**
+
+- 가장 간단한 테이블은 `knitr::kable()` 함수를 통해 생성 가능
+
+
+````markdown
+`r ''````{r}
+knitr::kable(head(iris))
+```
+````
+
+```{r, echo=FALSE}
+knitr::kable(head(iris))
+```
+
+
+## 인라인(inline) R 코드 {#inline-code}
+
+- 문서의 모든 숫자를 인라인 R 코드를 통해 재현가능하게 생성 가능
+- 인라인 R 코드는 ```` `r ```` 과 ```` ` ```` 사이에 변수 계산 스크립트를 입력해 작성 가능
+- 예를 들어 <span>&#96;</span>r 10 + 4&#96; 는 `r 10 + 4` 출력
+- 활용 예시
+
+
+```{r}
+head(mtcars, 5)
+N <- nrow(mtcars)
+```
+
+
+`mtcars` 데이터셋에 포함된 자동차는 <span>&#96;</span>r N &#96; 개다.
+
+
+$\rightarrow$
+
+
+`mtcars` 데이터셋에 포함된 자동차는  `r N` 개다.
+
+
+
+## YAML {#yaml}
 
 
 
 
-- `echo`: R 실행 결과에 대응하는 코드 출력 여부 (`TRUE/FALSE`, `default = TRUE`)
-- `eval`: chunk 안에 작성한 스크립트(코드)의 실행 여부(`TRUE/FALSE`, `default = TRUE`)
-- `include`: chunk 출력물을 출력 문서에 포함할지 여부 결정(`TRUE/FALSE`, `default = TRUE`)
-- `results`: 
-- `error`: 
-- `message`: 
-- `warning`: 
-- `fig.cap`: 
-- `dpi`: 출력 
+## 테이블 {#rmarkdown-table}
+
+- `kableExtra`: HTML 또는 LaTeX 용 표 생성 및
+- `flextable` + `officer`
+
+
+
+## 참고문헌 {#rmarkdown-reference}
+
+
 
 
 

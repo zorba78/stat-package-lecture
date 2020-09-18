@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.1.2)  12 SEP 2020 05:24
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/W32TeX) (preloaded format=xelatex 2020.1.2)  19 SEP 2020 05:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2494,64 +2494,79 @@ hub.io/rmarkdown-
  []
 
 
-Overfull \hbox (63.3858pt too wide) in paragraph at lines 1073--1081
+Overfull \hbox (91.83856pt too wide) in paragraph at lines 1071--1079
  [][] 
  []
 
 [16]
 
 LaTeX Font Warning: Font shape `TU/NanumGothic(0)/m/it' undefined
-(Font)              using `TU/NanumGothic(0)/m/n' instead on input line 1103.
+(Font)              using `TU/NanumGothic(0)/m/n' instead on input line 1101.
 
 LaTeX Font Info:    Font shape `TU/NanumGothic(0)/m/n' will be
-(Font)              scaled to size 7.758pt on input line 1103.
+(Font)              scaled to size 7.758pt on input line 1101.
 LaTeX Font Info:    Font shape `TU/NanumGothic(0)/m/it' will be
-(Font)              scaled to size 7.758pt on input line 1103.
+(Font)              scaled to size 7.758pt on input line 1101.
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1104.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1102.
 [17]
 File: 01-Rmarkdown-1st_files/figure-latex/ex01-1-1.pdf Graphic file (type pdf)
 <use 01-Rmarkdown-1st_files/figure-latex/ex01-1-1.pdf>
-[18] (./cnu-r-programming.bbl [19]
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
+Overfull \hbox (91.83856pt too wide) in paragraph at lines 1154--1165
+ [][] 
+ []
 
-Overfull \hbox (336.25pt too wide) has occurred while \output is active
-[]
+[18] [19]
+File: 01-Rmarkdown-1st_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (t
+ype pdf)
+<use 01-Rmarkdown-1st_files/figure-latex/unnamed-chunk-5-1.pdf>
+[20]
+File: figures/code-chunk-markup.png Graphic file (type bmp)
+<figures/code-chunk-markup.png>
+File: figures/code-chunk-asis.png Graphic file (type bmp)
+<figures/code-chunk-asis.png>
+[21]
+Overfull \hbox (22.60008pt too wide) in paragraph at lines 1330--1330
+[] \TU/lmtt/m/n/9 [1] -0.35106623 -0.43550868  0.38070659  0.45944764  0.035007
+93  0.74776501[] 
+ []
+
+[22]
+Overfull \hbox (22.60008pt too wide) in paragraph at lines 1342--1342
+[] \TU/lmtt/m/n/9 [1]  1.65361366  1.58239715  0.02412934  2.17073449  0.475989
+03  0.31252303[] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (336.25pt too wide) has occurred while \output is active
-[]
+Overfull \hbox (22.60008pt too wide) in paragraph at lines 1373--1373
+[] \TU/lmtt/m/n/9 [1]  0.80367358  2.21272484  0.83548676 -1.72909193  0.670050
+98  0.04340511[] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (336.25pt too wide) has occurred while \output is active
-[]
+Overfull \hbox (13.15012pt too wide) in paragraph at lines 1377--1377
+[] \TU/lmtt/m/n/9 [1]  5.367704  5.249906  3.597629 -2.320506  1.676448  5.5918
+94  2.395124[] 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (336.25pt too wide) has occurred while \output is active
-[]
+[23]
+Overfull \hbox (91.83856pt too wide) in paragraph at lines 1484--1494
+ [][] 
  []
 
-
-Underfull \hbox (badness 10000) has occurred while \output is active
- [][][][] 
+[24] [25] [26]
+Overfull \hbox (205.6496pt too wide) in paragraph at lines 1640--1650
+ [][] 
  []
 
-[20
-
-]
+[27] [28]
+File: figures/taj.JPG Graphic file (type bmp)
+<figures/taj.JPG>
+File: 01-Rmarkdown-1st_files/figure-latex/plot-example-1.pdf Graphic file (type
+ pdf)
+<use 01-Rmarkdown-1st_files/figure-latex/plot-example-1.pdf>
+[29] [30] [31] (./cnu-r-programming.bbl [32]
 Underfull \vbox (badness 10000) detected at line 1
  []
 
@@ -2599,25 +2614,26 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  [][][][] 
  []
 
-[21
+[33
+
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1173.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1173.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1855.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1855.
 (./cnu-r-programming.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1173.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1173.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1855.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 1855.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 51697 strings out of 492473
- 983644 string characters out of 6132689
- 1337792 words of memory out of 5000000
- 55296 multiletter control sequences out of 15000+600000
- 562948 words of font info for 140 fonts, out of 8000000 for 9000
+ 51759 strings out of 492473
+ 985351 string characters out of 6132689
+ 1338427 words of memory out of 5000000
+ 55350 multiletter control sequences out of 15000+600000
+ 562956 words of font info for 141 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 64i,11n,125p,816b,2559s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 64i,11n,125p,1008b,2559s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on cnu-r-programming.pdf (33 pages).
+Output written on cnu-r-programming.pdf (45 pages).

@@ -426,9 +426,9 @@ g(X_{n}) &= g(\theta)+g'({\tilde{\theta}})(X_{n}-\theta) \notag \\
  \normalsize
 
 
-**자주 활용하는 chunk 옵션**
+### 자주 활용하는 chunk 옵션 {#code-chunk .unnumbered}
 
-- 코드 실행 관련 청크
+**코드 실행 관련 청크**
 
 \footnotesize
 
@@ -445,12 +445,12 @@ g(X_{n}) &= g(\theta)+g'({\tilde{\theta}})(X_{n}-\theta) \notag \\
   <tr>
    <td style="text-align:left;width: 3cm; "> eval </td>
    <td style="text-align:left;width: 3cm; "> TRUE </td>
-   <td style="text-align:left;width: 7cm; "> R 실행 결과에 대응하는 코드 출력 여부 </td>
+   <td style="text-align:left;width: 8cm; "> R 실행(코드 실행 결과)에 대응하는 결과 출력 여부 </td>
   </tr>
   <tr>
    <td style="text-align:left;width: 3cm; "> include </td>
    <td style="text-align:left;width: 3cm; "> TRUE </td>
-   <td style="text-align:left;width: 7cm; "> 출력 문서에 코드 청크의 내용을 포함할지 여부 </td>
+   <td style="text-align:left;width: 8cm; "> 출력 문서에 코드 청크의 내용을 포함할지 여부 </td>
   </tr>
 </tbody>
 </table>
@@ -469,6 +469,7 @@ summary(iris)
 hist(iris$Sepal.Length)
 ```
 ````
+
 
 \footnotesize
 
@@ -516,20 +517,710 @@ hist(iris$Sepal.Length)
  \normalsize
 
 
-- 
+
+
+**소스 코드 출력(텍스트) 결과 관련 청크**
+
+\footnotesize
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">(\#tab:chunk-tab-02)소스 코드 출력 결과 관련 청크</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Chunk 옵션 </th>
+   <th style="text-align:left;"> Default </th>
+   <th style="text-align:left;"> 설명 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> echo </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> R 실행 결과에 대응하는 코드 출력 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> results </td>
+   <td style="text-align:left;width: 3cm; "> markup </td>
+   <td style="text-align:left;width: 8cm; "> 출력 결과 포맷 지정을 위한 옵션으로 추가적으로 3 가지 옵션 선택 가능: 'hide', 'asis', 'hold', 'markup' </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> error </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> 코드 또는 스크립트에 구문오류 메세지 출력 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> message </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> 코드로부터 생성된 메세지 출력 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> warning </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> 경고 메세지 출력 여부 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+- `echo`: 코드 청크에 작성한 R-script 출력 여부 결정
+   - `echo = FALSE` 이면 소스 코드 출력 없이 그림 결과만 출력
+
+
+````markdown
+```{r ex01-2, echo=TRUE}
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+
+```
+
+
+```{r ex01-3, echo=FALSE}
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+
+```
+````
+
+
+\footnotesize
+
+
+```r
+# echo = TRUE
+require(ggthemes) # ggtheme 패키지 불러오기
+require(ggpubr) # ggpubr 패키지 불러오기
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+```
+
+![](01-Rmarkdown-1st_files/figure-epub3/unnamed-chunk-5-1.svg)<!-- -->
+
+ \normalsize
+
+- `results`: 코드의 텍스트 출력 결과 포맷 지정
+   - `markup` (default): 코드 청크 내 스크립트의 출력 형태에 따라 텍스트 출력 결과를 mark-up
+   - `asis`: 변환하지 않은 원래 R 출력 결과 그대로(as is) 출력
+   - `hide`: R 스크립트로 생성된 텍스트 출력을 보여주지 않음(warning, message 출력 예외)
+   - `hold`: 코드 청크로 생성된 모든 소스 및 출력을 단일 블록으로 축소
+
+\footnotesize
+
+
+```r
+# results = 'markup'인 경우 아래 텍스트를 mark-up
+# (이 경우 아래 텍스트는 ``` ``` 블럭 처리)한 결과를 md 파일로 전송
+cat("I'm raw **Markdown** content.\n")
+```
+
+```
+I'm raw **Markdown** content.
+```
+
+ \normalsize
+
+
+
+\footnotesize
+
+<div class="figure" style="text-align: center">
+<img src="figures/code-chunk-markup.png" alt="청크 옵션 results = 'markup'인 경우 rmd vs. md 파일 비교" width="100%" />
+<p class="caption">(\#fig:code-chunk-markup)청크 옵션 results = 'markup'인 경우 rmd vs. md 파일 비교</p>
+</div>
+
+ \normalsize
+
+
+
+\footnotesize
+
+
+```r
+# results = 'asis' 인 경우 텍스트를 그대로 md 파일에 입력
+cat("I'm raw **Markdown** content.\n")
+```
+
+I'm raw **Markdown** content.
+
+ \normalsize
+
+
+\footnotesize
+
+<div class="figure" style="text-align: center">
+<img src="figures/code-chunk-asis.png" alt="청크 옵션 results = 'asis'인 경우 rmd vs. md 파일 비교" width="100%" />
+<p class="caption">(\#fig:code-chunk-asis)청크 옵션 results = 'asis'인 경우 rmd vs. md 파일 비교</p>
+</div>
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# results = 'hide'
+cat("I'm raw **Markdown** content.\n")
+
+# 텍스트 결과를 출력하지 않음
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# results = 'hold'가 아닌 경우 한 라인 별 출력 결과 생성
+x <- rnorm(10)
+x
+```
+
+```
+ [1]  0.2928178 -0.0626677  0.3081323  0.2711108  0.2507827  0.1939373
+ [7] -1.2986295  2.0338740  1.0100731 -1.6595313
+```
+
+```r
+y <- rnorm(10, 1, 2)
+y
+```
+
+```
+ [1]  2.54564406  0.02932483  2.82938107  0.66726008 -1.61633108  0.98346915
+ [7] -0.94528344 -1.20989496  2.34709537 -1.35601178
+```
+
+```r
+x + y
+```
+
+```
+ [1]  2.83846184 -0.03334287  3.13751341  0.93837089 -1.36554839  1.17740644
+ [7] -2.24391298  0.82397901  3.35716845 -3.01554308
+```
+
+ \normalsize
+
+
+
+\footnotesize
+
+
+```r
+# results = 'hold'인 경우 코드 부분과 출력 부분이 따로 블록 처리
+x <- rnorm(10)
+x
+y <- rnorm(10, 1, 2)
+y
+x + y
+```
+
+```
+ [1] -0.9209262 -1.3693395  0.2405220 -1.9342927  0.7014426 -1.2032275
+ [7]  0.6881049  0.1933599 -0.2864669  1.5630263
+ [1]  2.5833065  1.8841095  0.1271324  2.4681327  0.1794068  4.8052395
+ [7] -1.4352585  1.0258264 -1.3160839  1.8498562
+ [1]  1.6623803  0.5147700  0.3676543  0.5338400  0.8808494  3.6020121
+ [7] -0.7471536  1.2191863 -1.6025509  3.4128825
+```
+
+ \normalsize
+
+- `error`: 코드 청크 내 스크립트에 오류에 대한 보존 여부(`stop()`)
+   - 기본적으로 Rmarkdown 컴파일 시 `error`에 대한 옵션이 `FALSE`이기 때문에 스크립트(코드)에 오류가 포함되면 컴파일이 정지됨.
+   - `error = TRUE` 이면 오류 메세지를 포함한 텍스트 결과를 출력
+
+\footnotesize
+
+
+```r
+3x <- 3
+x <- 25 # 위 행이 구문 오류를 포함하고 있기 때문에
+        # 오류 이후의 코드는 실행되지 않음
+x
+```
+
+```
+Error: <text>:1:2: 예상하지 못한 기호(symbol)입니다.
+1: 3x
+     ^
+```
+
+ \normalsize
+
+
+- `message`/`warning`: 텍스트 출력물 중 경고(warning, `warning()` 함수의 출력 결과) 메세지 출력 여부 결정
+
+\footnotesize
+
+
+```r
+# message = TRUE 인 경우 함수 message 출력
+testit <- function() {
+  message("testing package startup messages")
+  packageStartupMessage("initializing ...", appendLF = FALSE)
+  Sys.sleep(1)
+  packageStartupMessage(" done")
+} # help(message) 예시 중 발췌
+
+testit()
+```
+
+```
+testing package startup messages
+```
+
+```
+initializing ... done
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# message=FALSE -> 메세지 출력하지 않음
+testit()
+```
+
+ \normalsize
+
+
+
+\footnotesize
+
+
+```r
+# 경고 메세지 출력
+x <- c(1, 2, "new", 4:10)
+x <- as.numeric(x)
+```
+
+```
+Warning: 강제형변환에 의해 생성된 NA 입니다
+```
+
+ \normalsize
+
+
+
+**코드 서식 관련 청크 옵션**
+
+
+\footnotesize
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">(\#tab:chunk-tab-03)코드 서식 관련 청크</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Chunk 옵션 </th>
+   <th style="text-align:left;"> Default </th>
+   <th style="text-align:left;"> 설명 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> comment </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> 소스 코드 실행 출력의 각 줄 앞에 붙는 표시문자 출력 여부: 기본 값은 '\#\#' 임 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> highlight </td>
+   <td style="text-align:left;width: 3cm; "> TRUE </td>
+   <td style="text-align:left;width: 8cm; "> 구문 강조 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> prompt </td>
+   <td style="text-align:left;width: 3cm; "> FALSE </td>
+   <td style="text-align:left;width: 8cm; "> R 프롬프트 출력 여부 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 3cm; "> tidy </td>
+   <td style="text-align:left;width: 3cm; "> FALSE </td>
+   <td style="text-align:left;width: 8cm; "> R 소스 코드 출력 정리 여부 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+- `comment`: 텍스트 출력물에 주석 표시(default)를 함으로써 소스 코드와 출력 결과를 동시 선택과 복사를 가능(\##는 주석 표시이기 때문에 실행되지 않음)
+   - 주석 표시를 제거하고 싶다면 `comment = NA` 또는 `comment = ''`
+
+
+
+\footnotesize
+
+
+```r
+# 디폴트 comment 사용
+summary(iris)
+```
+
+```
+##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## 
+```
+
+ \normalsize
+
+- `highlight`: 구문 강조 표시 여부
+   - `highlight=FALSE` 일 때 소스 코드 출력 결과
+
+\footnotesize
+
+
+```text
+# highlight=FALSE
+
+iris %>%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = "bold", size = 15),
+         legend.text = element_text(face = "bold", size = 12))
+```
+
+ \normalsize
+
+
+- `prompt`: R 콘솔 상 프롬프트 `>`, `+` 출력 여부
+
+
+\footnotesize
+
+
+```r
+> # prompt = TRUE 인 경우 코드 출력 결과
+> require(ggthemes) # ggtheme 패키지 불러오기
+> require(ggpubr) # ggpubr 패키지 불러오기
+> iris %>%
++    ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
++    geom_point(size = 5) +
++    theme_pubclean() +
++    theme(axis.line = element_line(size = 0.8),
++          legend.title = element_text(face = "bold", size = 15),
++          legend.text = element_text(face = "bold", size = 12))
+```
+
+ \normalsize
+
+- `tidy`: 코드를 사용자가 지정(혹은 `formatR::tidy_sorce()` 함수에 초기값으로 지정된 코드 정리 값)한 줄 당 문자 길이 등을 반영해 코드를 정리
+   - `tidy=TRUE` 인 경우 자동으로 줄 바꿈
+
+\footnotesize
+
+
+```r
+> # tidy = FALSE 인 경우 코드 출력 결과
+> require(ggthemes) # ggtheme 패키지 불러오기
+> require(ggpubr) # ggpubr 패키지 불러오기
+> iris %>% ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) + geom_point(size = 5) + theme_pubclean() + theme(axis.line = element_line(size = 0.8), legend.title = element_text(face = "bold", size = 15), legend.text = element_text(face = "bold", size = 12))
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+> # tidy = TRUE 인 경우 코드 출력 결과
+> require(ggthemes)  # ggtheme 패키지 불러오기
+> require(ggpubr)  # ggpubr 패키지 불러오기
+> iris %>% ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) + geom_point(size = 5) + 
++     theme_pubclean() + theme(axis.line = element_line(size = 0.8), legend.title = element_text(face = "bold", 
++     size = 15), legend.text = element_text(face = "bold", size = 12))
+```
+
+ \normalsize
+
+
+**그림(plot) 출력 관련 청크 옵션**
+
+\footnotesize
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">(\#tab:chunk-tab-04)Plot 출력 관련 청크</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Chunk 옵션 </th>
+   <th style="text-align:left;"> Default </th>
+   <th style="text-align:left;"> 설명 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;width: 5cm; "> fig.align </td>
+   <td style="text-align:left;width: 5cm; "> default </td>
+   <td style="text-align:left;width: 8cm; "> 최종 문서에 plot 정렬 방식 결정(center/left/right) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5cm; "> fig.height/fig.width </td>
+   <td style="text-align:left;width: 5cm; "> 7 </td>
+   <td style="text-align:left;width: 8cm; "> 그림 크기(단위: 인치) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5cm; "> fig.cap </td>
+   <td style="text-align:left;width: 5cm; "> NULL </td>
+   <td style="text-align:left;width: 8cm; "> 그림 캡션(문자열 입력) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;width: 5cm; "> dpi </td>
+   <td style="text-align:left;width: 5cm; "> 72 </td>
+   <td style="text-align:left;width: 8cm; "> dot per inche: 출력 그림 해상도 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+### 알아두면 좋은 청크 형태 {#typical-chunk .unnumbered}
+
+**Setup 청크**
+
+- 일반적으로 Rmarkdown 문서는 YAML 해더 뒤에 전역적 청크 옵션 지정과 R 패키지를 불러오는 것으로 시작
+- 청크 옵션은 `knitr::opts_chunk$set(청크 옵션 지정)` 형태로 지정 가능
+- 다음은 RStudio 에서 Rmd 문서 생성 시 맨 처음 나오는 코드 청크 예시임
+
+````markdown
+```{r ex01-2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+````
+
+- 일반적 활용 예시
+
+````markdown
+```{r option-init, include=FALSE}
+knitr::opts_chunk$set(root.dir = '../..', # 프로젝트 폴더 지정
+                      eval = TRUE,
+                      echo = FALSE,
+                      cache = FALSE,
+                      include = TRUE,
+                      tidy = TRUE,
+                      tidy.opts = list(blank=FALSE, width.cutoff=120), # 소스 출력길이 지정
+                      message = FALSE,
+                      warning = FALSE,
+                      engine = "R", # Chunks will always have R code, unless noted
+                      error = TRUE,
+                      fig.path="Figures/",  # Set the figure options
+                      fig.align = "center",
+                      fig.width = 7,
+                      fig.height = 7,
+                      fig.keep='all', fig.retina=2)
+```
+
+````
+
+**이미지 불러오기**
+
+
+````markdown
+```{r, fig.cap = "Taj Mahal"}
+knitr::include_graphics("figures/taj.JPG", dpi = NA)
+```
+````
+
+\footnotesize
+
+<div class="figure">
+<img src="figures/taj.JPG" alt="Taj Mahal"  />
+<p class="caption">(\#fig:unnamed-chunk-20)Taj Mahal</p>
+</div>
+
+ \normalsize
+
+````markdown
+```{r, fig.cap = "Taj Mahal"}
+cars %>%
+   ggplot(aes(x = speed, y = dist)) +
+   geom_point(size = 5) +
+   theme_tufte(base_size = 15) # ggtheme::theme_tufte()
+```
+````
+
+
+**R 생성 도표 포함**
+
+\footnotesize
+
+<div class="figure">
+<img src="01-Rmarkdown-1st_files/figure-epub3/plot-example-1.svg" alt="Scatterplot of the car dataset"  />
+<p class="caption">(\#fig:plot-example)Scatterplot of the car dataset</p>
+</div>
+
+ \normalsize
+
+
+**테이블 삽입**
+
+- 가장 간단한 테이블은 `knitr::kable()` 함수를 통해 생성 가능
+
+
+````markdown
+```{r}
+knitr::kable(head(iris))
+```
+````
+
+\footnotesize
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> Sepal.Length </th>
+   <th style="text-align:right;"> Sepal.Width </th>
+   <th style="text-align:right;"> Petal.Length </th>
+   <th style="text-align:right;"> Petal.Width </th>
+   <th style="text-align:left;"> Species </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 5.1 </td>
+   <td style="text-align:right;"> 3.5 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4.9 </td>
+   <td style="text-align:right;"> 3.0 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4.7 </td>
+   <td style="text-align:right;"> 3.2 </td>
+   <td style="text-align:right;"> 1.3 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4.6 </td>
+   <td style="text-align:right;"> 3.1 </td>
+   <td style="text-align:right;"> 1.5 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5.0 </td>
+   <td style="text-align:right;"> 3.6 </td>
+   <td style="text-align:right;"> 1.4 </td>
+   <td style="text-align:right;"> 0.2 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5.4 </td>
+   <td style="text-align:right;"> 3.9 </td>
+   <td style="text-align:right;"> 1.7 </td>
+   <td style="text-align:right;"> 0.4 </td>
+   <td style="text-align:left;"> setosa </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+## 인라인(inline) R 코드 {#inline-code}
+
+- 문서의 모든 숫자를 인라인 R 코드를 통해 재현가능하게 생성 가능
+- 인라인 R 코드는 ```` `r ```` 과 ```` ` ```` 사이에 변수 계산 스크립트를 입력해 작성 가능
+- 예를 들어 <span>&#96;</span>r 10 + 4&#96; 는 14 출력
+- 활용 예시
+
+
+\footnotesize
+
+
+```r
+head(mtcars, 5)
+```
+
+```
+                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+```
+
+```r
+N <- nrow(mtcars)
+```
+
+ \normalsize
+
+
+`mtcars` 데이터셋에 포함된 자동차는 <span>&#96;</span>r N &#96; 개다.
+
+
+$\rightarrow$
+
+
+`mtcars` 데이터셋에 포함된 자동차는  32 개다.
+
+
+
+## YAML {#yaml}
 
 
 
 
-- `echo`: R 실행 결과에 대응하는 코드 출력 여부 (`TRUE/FALSE`, `default = TRUE`)
-- `eval`: chunk 안에 작성한 스크립트(코드)의 실행 여부(`TRUE/FALSE`, `default = TRUE`)
-- `include`: chunk 출력물을 출력 문서에 포함할지 여부 결정(`TRUE/FALSE`, `default = TRUE`)
-- `results`: 
-- `error`: 
-- `message`: 
-- `warning`: 
-- `fig.cap`: 
-- `dpi`: 출력 
+## 테이블 {#rmarkdown-table}
+
+- `kableExtra`: HTML 또는 LaTeX 용 표 생성 및
+- `flextable` + `officer`
+
+
+
+## 참고문헌 {#rmarkdown-reference}
+
+
 
 
 

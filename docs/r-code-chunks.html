@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-09-12" />
+<meta name="date" content="2020-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="r-markdown-기본-문법syntax.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="inline-code.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -147,7 +147,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.3.2" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#block-level-elements"><i class="fa fa-check"></i><b>1.3.2</b> Block-level elements</a></li>
 <li class="chapter" data-level="1.3.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#수식표현math-expression"><i class="fa fa-check"></i><b>1.3.3</b> 수식표현(math expression)</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="r-code-chunks.html"><a href="r-code-chunks.html"><i class="fa fa-check"></i><b>1.4</b> R Code Chunks</a></li>
+<li class="chapter" data-level="1.4" data-path="r-code-chunks.html"><a href="r-code-chunks.html"><i class="fa fa-check"></i><b>1.4</b> R Code Chunks</a><ul>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#code-chunk"><i class="fa fa-check"></i>자주 활용하는 chunk 옵션</a></li>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#typical-chunk"><i class="fa fa-check"></i>알아두면 좋은 청크 형태</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="inline-code.html"><a href="inline-code.html"><i class="fa fa-check"></i><b>1.5</b> 인라인(inline) R 코드</a></li>
+<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a></li>
+<li class="chapter" data-level="1.7" data-path="rmarkdown-table.html"><a href="rmarkdown-table.html"><i class="fa fa-check"></i><b>1.7</b> 테이블</a></li>
+<li class="chapter" data-level="1.8" data-path="rmarkdown-reference.html"><a href="rmarkdown-reference.html"><i class="fa fa-check"></i><b>1.8</b> 참고문헌</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -185,10 +192,9 @@ Figure 1.5: Chunk anatomy (<a href="https://ulyngs.github.io/rmarkdown-workshop-
 </p>
 </div>
 <p></p>
-<p><strong>자주 활용하는 chunk 옵션</strong></p>
-<ul>
-<li>코드 실행 관련 청크</li>
-</ul>
+<div id="code-chunk" class="section level3 unnumbered">
+<h3>자주 활용하는 chunk 옵션</h3>
+<p><strong>코드 실행 관련 청크</strong></p>
 
 <table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
 <caption style="font-size: initial !important;">
@@ -215,8 +221,8 @@ eval
 <td style="text-align:left;width: 3cm; ">
 TRUE
 </td>
-<td style="text-align:left;width: 7cm; ">
-R 실행 결과에 대응하는 코드 출력 여부
+<td style="text-align:left;width: 8cm; ">
+R 실행(코드 실행 결과)에 대응하는 결과 출력 여부
 </td>
 </tr>
 <tr>
@@ -226,7 +232,7 @@ include
 <td style="text-align:left;width: 3cm; ">
 TRUE
 </td>
-<td style="text-align:left;width: 7cm; ">
+<td style="text-align:left;width: 8cm; ">
 출력 문서에 코드 청크의 내용을 포함할지 여부
 </td>
 </tr>
@@ -267,28 +273,654 @@ TRUE
 <span id="cb15-2"><a href="r-code-chunks.html#cb15-2"></a><span class="kw">summary</span>(iris)</span>
 <span id="cb15-3"><a href="r-code-chunks.html#cb15-3"></a><span class="kw">hist</span>(iris<span class="op">$</span>Sepal.Length)</span></code></pre></div>
 
+<p><strong>소스 코드 출력(텍스트) 결과 관련 청크</strong></p>
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:chunk-tab-02">Table 1.2: </span>소스 코드 출력 결과 관련 청크
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Chunk 옵션
+</th>
+<th style="text-align:left;">
+Default
+</th>
+<th style="text-align:left;">
+설명
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+echo
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+R 실행 결과에 대응하는 코드 출력 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+results
+</td>
+<td style="text-align:left;width: 3cm; ">
+markup
+</td>
+<td style="text-align:left;width: 8cm; ">
+출력 결과 포맷 지정을 위한 옵션으로 추가적으로 3 가지 옵션 선택 가능: ‘hide’, ‘asis’, ‘hold’, ‘markup’
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+error
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+코드 또는 스크립트에 구문오류 메세지 출력 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+message
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+코드로부터 생성된 메세지 출력 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+warning
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+경고 메세지 출력 여부
+</td>
+</tr>
+</tbody>
+</table>
+
 <ul>
-<li></li>
-<li><code>echo</code>: R 실행 결과에 대응하는 코드 출력 여부 (<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
-<li><code>eval</code>: chunk 안에 작성한 스크립트(코드)의 실행 여부(<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
-<li><code>include</code>: chunk 출력물을 출력 문서에 포함할지 여부 결정(<code>TRUE/FALSE</code>, <code>default = TRUE</code>)</li>
-<li><code>results</code>:</li>
-<li><code>error</code>:</li>
-<li><code>message</code>:</li>
-<li><code>warning</code>:</li>
-<li><code>fig.cap</code>:</li>
-<li><code>dpi</code>: 출력</li>
+<li><code>echo</code>: 코드 청크에 작성한 R-script 출력 여부 결정
+<ul>
+<li><code>echo = FALSE</code> 이면 소스 코드 출력 없이 그림 결과만 출력</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb16-1"><a href="r-code-chunks.html#cb16-1"></a><span class="bn">```{r ex01-2, echo=TRUE}</span></span>
+<span id="cb16-2"><a href="r-code-chunks.html#cb16-2"></a><span class="bn">require(ggthemes) # ggtheme 패키지 불러오기</span></span>
+<span id="cb16-3"><a href="r-code-chunks.html#cb16-3"></a><span class="bn">require(ggpubr) # ggpubr 패키지 불러오기</span></span>
+<span id="cb16-4"><a href="r-code-chunks.html#cb16-4"></a><span class="bn">iris %&gt;%</span></span>
+<span id="cb16-5"><a href="r-code-chunks.html#cb16-5"></a><span class="bn">   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +</span></span>
+<span id="cb16-6"><a href="r-code-chunks.html#cb16-6"></a><span class="bn">   geom_point(size = 5) +</span></span>
+<span id="cb16-7"><a href="r-code-chunks.html#cb16-7"></a><span class="bn">   theme_pubclean() +</span></span>
+<span id="cb16-8"><a href="r-code-chunks.html#cb16-8"></a><span class="bn">   theme(axis.line = element_line(size = 0.8),</span></span>
+<span id="cb16-9"><a href="r-code-chunks.html#cb16-9"></a><span class="bn">         legend.title = element_text(face = &quot;bold&quot;, size = 15),</span></span>
+<span id="cb16-10"><a href="r-code-chunks.html#cb16-10"></a><span class="bn">         legend.text = element_text(face = &quot;bold&quot;, size = 12))</span></span>
+<span id="cb16-11"><a href="r-code-chunks.html#cb16-11"></a></span>
+<span id="cb16-12"><a href="r-code-chunks.html#cb16-12"></a><span class="bn">```</span></span>
+<span id="cb16-13"><a href="r-code-chunks.html#cb16-13"></a></span>
+<span id="cb16-14"><a href="r-code-chunks.html#cb16-14"></a></span>
+<span id="cb16-15"><a href="r-code-chunks.html#cb16-15"></a><span class="bn">```{r ex01-3, echo=FALSE}</span></span>
+<span id="cb16-16"><a href="r-code-chunks.html#cb16-16"></a><span class="bn">require(ggthemes) # ggtheme 패키지 불러오기</span></span>
+<span id="cb16-17"><a href="r-code-chunks.html#cb16-17"></a><span class="bn">require(ggpubr) # ggpubr 패키지 불러오기</span></span>
+<span id="cb16-18"><a href="r-code-chunks.html#cb16-18"></a><span class="bn">iris %&gt;%</span></span>
+<span id="cb16-19"><a href="r-code-chunks.html#cb16-19"></a><span class="bn">   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +</span></span>
+<span id="cb16-20"><a href="r-code-chunks.html#cb16-20"></a><span class="bn">   geom_point(size = 5) +</span></span>
+<span id="cb16-21"><a href="r-code-chunks.html#cb16-21"></a><span class="bn">   theme_pubclean() +</span></span>
+<span id="cb16-22"><a href="r-code-chunks.html#cb16-22"></a><span class="bn">   theme(axis.line = element_line(size = 0.8),</span></span>
+<span id="cb16-23"><a href="r-code-chunks.html#cb16-23"></a><span class="bn">         legend.title = element_text(face = &quot;bold&quot;, size = 15),</span></span>
+<span id="cb16-24"><a href="r-code-chunks.html#cb16-24"></a><span class="bn">         legend.text = element_text(face = &quot;bold&quot;, size = 12))</span></span>
+<span id="cb16-25"><a href="r-code-chunks.html#cb16-25"></a></span>
+<span id="cb16-26"><a href="r-code-chunks.html#cb16-26"></a><span class="bn">```</span></span></code></pre></div>
+
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="r-code-chunks.html#cb17-1"></a><span class="co"># echo = TRUE</span></span>
+<span id="cb17-2"><a href="r-code-chunks.html#cb17-2"></a><span class="kw">require</span>(ggthemes) <span class="co"># ggtheme 패키지 불러오기</span></span>
+<span id="cb17-3"><a href="r-code-chunks.html#cb17-3"></a><span class="kw">require</span>(ggpubr) <span class="co"># ggpubr 패키지 불러오기</span></span>
+<span id="cb17-4"><a href="r-code-chunks.html#cb17-4"></a>iris <span class="op">%&gt;%</span></span>
+<span id="cb17-5"><a href="r-code-chunks.html#cb17-5"></a><span class="st">   </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Petal.Width, <span class="dt">color =</span> Species)) <span class="op">+</span></span>
+<span id="cb17-6"><a href="r-code-chunks.html#cb17-6"></a><span class="st">   </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) <span class="op">+</span></span>
+<span id="cb17-7"><a href="r-code-chunks.html#cb17-7"></a><span class="st">   </span><span class="kw">theme_pubclean</span>() <span class="op">+</span></span>
+<span id="cb17-8"><a href="r-code-chunks.html#cb17-8"></a><span class="st">   </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.8</span>),</span>
+<span id="cb17-9"><a href="r-code-chunks.html#cb17-9"></a>         <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">15</span>),</span>
+<span id="cb17-10"><a href="r-code-chunks.html#cb17-10"></a>         <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>))</span></code></pre></div>
+<p><img src="01-Rmarkdown-1st_files/figure-html/unnamed-chunk-5-1.svg" width="672" /></p>
+
+<ul>
+<li><code>results</code>: 코드의 텍스트 출력 결과 포맷 지정
+<ul>
+<li><code>markup</code> (default): 코드 청크 내 스크립트의 출력 형태에 따라 텍스트 출력 결과를 mark-up</li>
+<li><code>asis</code>: 변환하지 않은 원래 R 출력 결과 그대로(as is) 출력</li>
+<li><code>hide</code>: R 스크립트로 생성된 텍스트 출력을 보여주지 않음(warning, message 출력 예외)</li>
+<li><code>hold</code>: 코드 청크로 생성된 모든 소스 및 출력을 단일 블록으로 축소</li>
+</ul></li>
 </ul>
 
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="r-code-chunks.html#cb18-1"></a><span class="co"># results = &#39;markup&#39;인 경우 아래 텍스트를 mark-up</span></span>
+<span id="cb18-2"><a href="r-code-chunks.html#cb18-2"></a><span class="co"># (이 경우 아래 텍스트는 ``` ``` 블럭 처리)한 결과를 md 파일로 전송</span></span>
+<span id="cb18-3"><a href="r-code-chunks.html#cb18-3"></a><span class="kw">cat</span>(<span class="st">&quot;I&#39;m raw **Markdown** content.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>I&#39;m raw **Markdown** content.</code></pre>
+
+
+<div class="figure" style="text-align: center"><span id="fig:code-chunk-markup"></span>
+<img src="figures/code-chunk-markup.png" alt="청크 옵션 results = 'markup'인 경우 rmd vs. md 파일 비교" width="100%" />
+<p class="caption">
+Figure 1.6: 청크 옵션 results = ’markup’인 경우 rmd vs. md 파일 비교
+</p>
 </div>
-<!-- </div> -->
+
+
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="r-code-chunks.html#cb20-1"></a><span class="co"># results = &#39;asis&#39; 인 경우 텍스트를 그대로 md 파일에 입력</span></span>
+<span id="cb20-2"><a href="r-code-chunks.html#cb20-2"></a><span class="kw">cat</span>(<span class="st">&quot;I&#39;m raw **Markdown** content.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<p>I’m raw <strong>Markdown</strong> content.</p>
+
+
+<div class="figure" style="text-align: center"><span id="fig:code-chunk-asis"></span>
+<img src="figures/code-chunk-asis.png" alt="청크 옵션 results = 'asis'인 경우 rmd vs. md 파일 비교" width="100%" />
+<p class="caption">
+Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비교
+</p>
+</div>
+
+
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r-code-chunks.html#cb21-1"></a><span class="co"># results = &#39;hide&#39;</span></span>
+<span id="cb21-2"><a href="r-code-chunks.html#cb21-2"></a><span class="kw">cat</span>(<span class="st">&quot;I&#39;m raw **Markdown** content.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb21-3"><a href="r-code-chunks.html#cb21-3"></a></span>
+<span id="cb21-4"><a href="r-code-chunks.html#cb21-4"></a><span class="co"># 텍스트 결과를 출력하지 않음</span></span></code></pre></div>
+
+
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-code-chunks.html#cb22-1"></a><span class="co"># results = &#39;hold&#39;가 아닌 경우 한 라인 별 출력 결과 생성</span></span>
+<span id="cb22-2"><a href="r-code-chunks.html#cb22-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb22-3"><a href="r-code-chunks.html#cb22-3"></a>x</span></code></pre></div>
+<pre><code> [1] -1.83270296  1.21270195  1.39821971 -0.58417571  0.35920287 -0.86078495
+ [7] -0.43368350 -0.63938989 -0.08831431 -1.41644478</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-code-chunks.html#cb24-1"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb24-2"><a href="r-code-chunks.html#cb24-2"></a>y</span></code></pre></div>
+<pre><code> [1]  4.0644580  2.8290595  3.8551013 -1.3059997  1.0033984  4.2019714
+ [7]  0.3751241  3.9964810 -1.9058390  5.6962030</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-code-chunks.html#cb26-1"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
+<pre><code> [1]  2.23175504  4.04176148  5.25332097 -1.89017543  1.36260126  3.34118646
+ [7] -0.05855944  3.35709113 -1.99415328  4.27975822</code></pre>
+
+
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-code-chunks.html#cb28-1"></a><span class="co"># results = &#39;hold&#39;인 경우 코드 부분과 출력 부분이 따로 블록 처리</span></span>
+<span id="cb28-2"><a href="r-code-chunks.html#cb28-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
+<span id="cb28-3"><a href="r-code-chunks.html#cb28-3"></a>x</span>
+<span id="cb28-4"><a href="r-code-chunks.html#cb28-4"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb28-5"><a href="r-code-chunks.html#cb28-5"></a>y</span>
+<span id="cb28-6"><a href="r-code-chunks.html#cb28-6"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
+<pre><code> [1]  0.44425993  0.07310356 -0.14712123  0.75357261 -0.38774845  0.89581464
+ [7] -0.08682681  0.09645134 -0.21283043  0.40097245
+ [1]  3.56370082 -0.29482520  2.52799523  1.69805848  5.74227451  0.09402478
+ [7] -0.54300873 -1.30318169  0.46926169  3.16053519
+ [1]  4.0079607 -0.2217216  2.3808740  2.4516311  5.3545261  0.9898394
+ [7] -0.6298355 -1.2067303  0.2564313  3.5615076</code></pre>
+
+<ul>
+<li><code>error</code>: 코드 청크 내 스크립트에 오류에 대한 보존 여부(<code>stop()</code>)
+<ul>
+<li>기본적으로 Rmarkdown 컴파일 시 <code>error</code>에 대한 옵션이 <code>FALSE</code>이기 때문에 스크립트(코드)에 오류가 포함되면 컴파일이 정지됨.</li>
+<li><code>error = TRUE</code> 이면 오류 메세지를 포함한 텍스트 결과를 출력</li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="r-code-chunks.html#cb30-1"></a>3x &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb30-2"><a href="r-code-chunks.html#cb30-2"></a>x &lt;-<span class="st"> </span><span class="dv">25</span> <span class="co"># 위 행이 구문 오류를 포함하고 있기 때문에</span></span>
+<span id="cb30-3"><a href="r-code-chunks.html#cb30-3"></a>        <span class="co"># 오류 이후의 코드는 실행되지 않음</span></span>
+<span id="cb30-4"><a href="r-code-chunks.html#cb30-4"></a>x</span></code></pre></div>
+<pre><code>Error: &lt;text&gt;:1:2: 예상하지 못한 기호(symbol)입니다.
+1: 3x
+     ^</code></pre>
+
+<ul>
+<li><code>message</code>/<code>warning</code>: 텍스트 출력물 중 경고(warning, <code>warning()</code> 함수의 출력 결과) 메세지 출력 여부 결정</li>
+</ul>
+
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="r-code-chunks.html#cb32-1"></a><span class="co"># message = TRUE 인 경우 함수 message 출력</span></span>
+<span id="cb32-2"><a href="r-code-chunks.html#cb32-2"></a>testit &lt;-<span class="st"> </span><span class="cf">function</span>() {</span>
+<span id="cb32-3"><a href="r-code-chunks.html#cb32-3"></a>  <span class="kw">message</span>(<span class="st">&quot;testing package startup messages&quot;</span>)</span>
+<span id="cb32-4"><a href="r-code-chunks.html#cb32-4"></a>  <span class="kw">packageStartupMessage</span>(<span class="st">&quot;initializing ...&quot;</span>, <span class="dt">appendLF =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb32-5"><a href="r-code-chunks.html#cb32-5"></a>  <span class="kw">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb32-6"><a href="r-code-chunks.html#cb32-6"></a>  <span class="kw">packageStartupMessage</span>(<span class="st">&quot; done&quot;</span>)</span>
+<span id="cb32-7"><a href="r-code-chunks.html#cb32-7"></a>} <span class="co"># help(message) 예시 중 발췌</span></span>
+<span id="cb32-8"><a href="r-code-chunks.html#cb32-8"></a></span>
+<span id="cb32-9"><a href="r-code-chunks.html#cb32-9"></a><span class="kw">testit</span>()</span></code></pre></div>
+<pre><code>testing package startup messages</code></pre>
+<pre><code>initializing ... done</code></pre>
+
+
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="r-code-chunks.html#cb35-1"></a><span class="co"># message=FALSE -&gt; 메세지 출력하지 않음</span></span>
+<span id="cb35-2"><a href="r-code-chunks.html#cb35-2"></a><span class="kw">testit</span>()</span></code></pre></div>
+
+
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="r-code-chunks.html#cb36-1"></a><span class="co"># 경고 메세지 출력</span></span>
+<span id="cb36-2"><a href="r-code-chunks.html#cb36-2"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="st">&quot;new&quot;</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">10</span>)</span>
+<span id="cb36-3"><a href="r-code-chunks.html#cb36-3"></a>x &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(x)</span></code></pre></div>
+<pre><code>Warning: 강제형변환에 의해 생성된 NA 입니다</code></pre>
+
+<p><strong>코드 서식 관련 청크 옵션</strong></p>
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:chunk-tab-03">Table 1.3: </span>코드 서식 관련 청크
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Chunk 옵션
+</th>
+<th style="text-align:left;">
+Default
+</th>
+<th style="text-align:left;">
+설명
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+comment
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+소스 코드 실행 출력의 각 줄 앞에 붙는 표시문자 출력 여부: 기본 값은 ‘##’ 임
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+highlight
+</td>
+<td style="text-align:left;width: 3cm; ">
+TRUE
+</td>
+<td style="text-align:left;width: 8cm; ">
+구문 강조 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+prompt
+</td>
+<td style="text-align:left;width: 3cm; ">
+FALSE
+</td>
+<td style="text-align:left;width: 8cm; ">
+R 프롬프트 출력 여부
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 3cm; ">
+tidy
+</td>
+<td style="text-align:left;width: 3cm; ">
+FALSE
+</td>
+<td style="text-align:left;width: 8cm; ">
+R 소스 코드 출력 정리 여부
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li><code>comment</code>: 텍스트 출력물에 주석 표시(default)를 함으로써 소스 코드와 출력 결과를 동시 선택과 복사를 가능(##는 주석 표시이기 때문에 실행되지 않음)
+<ul>
+<li>주석 표시를 제거하고 싶다면 <code>comment = NA</code> 또는 <code>comment = ''</code></li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="r-code-chunks.html#cb38-1"></a><span class="co"># 디폴트 comment 사용</span></span>
+<span id="cb38-2"><a href="r-code-chunks.html#cb38-2"></a><span class="kw">summary</span>(iris)</span></code></pre></div>
+<pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## </code></pre>
+
+<ul>
+<li><code>highlight</code>: 구문 강조 표시 여부
+<ul>
+<li><code>highlight=FALSE</code> 일 때 소스 코드 출력 결과</li>
+</ul></li>
+</ul>
+
+<pre class="text"><code># highlight=FALSE
+
+iris %&gt;%
+   ggplot(aes(x = Sepal.Length, y = Petal.Width, color = Species)) +
+   geom_point(size = 5) +
+   theme_pubclean() +
+   theme(axis.line = element_line(size = 0.8),
+         legend.title = element_text(face = &quot;bold&quot;, size = 15),
+         legend.text = element_text(face = &quot;bold&quot;, size = 12))</code></pre>
+
+<ul>
+<li><code>prompt</code>: R 콘솔 상 프롬프트 <code>&gt;</code>, <code>+</code> 출력 여부</li>
+</ul>
+
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="r-code-chunks.html#cb41-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="co"># prompt = TRUE 인 경우 코드 출력 결과</span></span>
+<span id="cb41-2"><a href="r-code-chunks.html#cb41-2"></a><span class="er">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggthemes) <span class="co"># ggtheme 패키지 불러오기</span></span>
+<span id="cb41-3"><a href="r-code-chunks.html#cb41-3"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggpubr) <span class="co"># ggpubr 패키지 불러오기</span></span>
+<span id="cb41-4"><a href="r-code-chunks.html#cb41-4"></a><span class="op">&gt;</span><span class="st"> </span>iris <span class="op">%&gt;%</span></span>
+<span id="cb41-5"><a href="r-code-chunks.html#cb41-5"></a><span class="op">+</span><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Petal.Width, <span class="dt">color =</span> Species)) <span class="op">+</span></span>
+<span id="cb41-6"><a href="r-code-chunks.html#cb41-6"></a><span class="op">+</span><span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) <span class="op">+</span></span>
+<span id="cb41-7"><a href="r-code-chunks.html#cb41-7"></a><span class="op">+</span><span class="st">    </span><span class="kw">theme_pubclean</span>() <span class="op">+</span></span>
+<span id="cb41-8"><a href="r-code-chunks.html#cb41-8"></a><span class="op">+</span><span class="st">    </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.8</span>),</span>
+<span id="cb41-9"><a href="r-code-chunks.html#cb41-9"></a><span class="op">+</span><span class="st">          </span><span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">15</span>),</span>
+<span id="cb41-10"><a href="r-code-chunks.html#cb41-10"></a><span class="op">+</span><span class="st">          </span><span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>))</span></code></pre></div>
+
+<ul>
+<li><code>tidy</code>: 코드를 사용자가 지정(혹은 <code>formatR::tidy_sorce()</code> 함수에 초기값으로 지정된 코드 정리 값)한 줄 당 문자 길이 등을 반영해 코드를 정리
+<ul>
+<li><code>tidy=TRUE</code> 인 경우 자동으로 줄 바꿈</li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="r-code-chunks.html#cb42-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="co"># tidy = FALSE 인 경우 코드 출력 결과</span></span>
+<span id="cb42-2"><a href="r-code-chunks.html#cb42-2"></a><span class="er">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggthemes) <span class="co"># ggtheme 패키지 불러오기</span></span>
+<span id="cb42-3"><a href="r-code-chunks.html#cb42-3"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggpubr) <span class="co"># ggpubr 패키지 불러오기</span></span>
+<span id="cb42-4"><a href="r-code-chunks.html#cb42-4"></a><span class="op">&gt;</span><span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Petal.Width, <span class="dt">color =</span> Species)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme_pubclean</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.8</span>), <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">15</span>), <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>))</span></code></pre></div>
+
+
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="r-code-chunks.html#cb43-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="co"># tidy = TRUE 인 경우 코드 출력 결과</span></span>
+<span id="cb43-2"><a href="r-code-chunks.html#cb43-2"></a><span class="er">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggthemes)  <span class="co"># ggtheme 패키지 불러오기</span></span>
+<span id="cb43-3"><a href="r-code-chunks.html#cb43-3"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">require</span>(ggpubr)  <span class="co"># ggpubr 패키지 불러오기</span></span>
+<span id="cb43-4"><a href="r-code-chunks.html#cb43-4"></a><span class="op">&gt;</span><span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Petal.Width, <span class="dt">color =</span> Species)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">5</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb43-5"><a href="r-code-chunks.html#cb43-5"></a><span class="op">+</span><span class="st">     </span><span class="kw">theme_pubclean</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">axis.line =</span> <span class="kw">element_line</span>(<span class="dt">size =</span> <span class="fl">0.8</span>), <span class="dt">legend.title =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb43-6"><a href="r-code-chunks.html#cb43-6"></a><span class="op">+</span><span class="st">     </span><span class="dt">size =</span> <span class="dv">15</span>), <span class="dt">legend.text =</span> <span class="kw">element_text</span>(<span class="dt">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="dt">size =</span> <span class="dv">12</span>))</span></code></pre></div>
+
+<p><strong>그림(plot) 출력 관련 청크 옵션</strong></p>
+
+<table class="table table-condensed table-striped" style="font-size: 11px; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption style="font-size: initial !important;">
+<span id="tab:chunk-tab-04">Table 1.4: </span>Plot 출력 관련 청크
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Chunk 옵션
+</th>
+<th style="text-align:left;">
+Default
+</th>
+<th style="text-align:left;">
+설명
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: 5cm; ">
+fig.align
+</td>
+<td style="text-align:left;width: 5cm; ">
+default
+</td>
+<td style="text-align:left;width: 8cm; ">
+최종 문서에 plot 정렬 방식 결정(center/left/right)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 5cm; ">
+fig.height/fig.width
+</td>
+<td style="text-align:left;width: 5cm; ">
+7
+</td>
+<td style="text-align:left;width: 8cm; ">
+그림 크기(단위: 인치)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 5cm; ">
+fig.cap
+</td>
+<td style="text-align:left;width: 5cm; ">
+NULL
+</td>
+<td style="text-align:left;width: 8cm; ">
+그림 캡션(문자열 입력)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: 5cm; ">
+dpi
+</td>
+<td style="text-align:left;width: 5cm; ">
+72
+</td>
+<td style="text-align:left;width: 8cm; ">
+dot per inche: 출력 그림 해상도
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="typical-chunk" class="section level3 unnumbered">
+<h3>알아두면 좋은 청크 형태</h3>
+<p><strong>Setup 청크</strong></p>
+<ul>
+<li>일반적으로 Rmarkdown 문서는 YAML 해더 뒤에 전역적 청크 옵션 지정과 R 패키지를 불러오는 것으로 시작</li>
+<li>청크 옵션은 <code>knitr::opts_chunk$set(청크 옵션 지정)</code> 형태로 지정 가능</li>
+<li>다음은 RStudio 에서 Rmd 문서 생성 시 맨 처음 나오는 코드 청크 예시임</li>
+</ul>
+<div class="sourceCode" id="cb44"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb44-1"><a href="r-code-chunks.html#cb44-1"></a><span class="bn">```{r ex01-2, include=FALSE}</span></span>
+<span id="cb44-2"><a href="r-code-chunks.html#cb44-2"></a><span class="bn">knitr::opts_chunk$set(echo = TRUE)</span></span>
+<span id="cb44-3"><a href="r-code-chunks.html#cb44-3"></a><span class="bn">```</span></span></code></pre></div>
+<ul>
+<li>일반적 활용 예시</li>
+</ul>
+<div class="sourceCode" id="cb45"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb45-1"><a href="r-code-chunks.html#cb45-1"></a><span class="bn">```{r option-init, include=FALSE}</span></span>
+<span id="cb45-2"><a href="r-code-chunks.html#cb45-2"></a><span class="bn">knitr::opts_chunk$set(root.dir = &#39;../..&#39;, # 프로젝트 폴더 지정</span></span>
+<span id="cb45-3"><a href="r-code-chunks.html#cb45-3"></a><span class="bn">                      eval = TRUE,</span></span>
+<span id="cb45-4"><a href="r-code-chunks.html#cb45-4"></a><span class="bn">                      echo = FALSE,</span></span>
+<span id="cb45-5"><a href="r-code-chunks.html#cb45-5"></a><span class="bn">                      cache = FALSE,</span></span>
+<span id="cb45-6"><a href="r-code-chunks.html#cb45-6"></a><span class="bn">                      include = TRUE,</span></span>
+<span id="cb45-7"><a href="r-code-chunks.html#cb45-7"></a><span class="bn">                      tidy = TRUE,</span></span>
+<span id="cb45-8"><a href="r-code-chunks.html#cb45-8"></a><span class="bn">                      tidy.opts = list(blank=FALSE, width.cutoff=120), # 소스 출력길이 지정</span></span>
+<span id="cb45-9"><a href="r-code-chunks.html#cb45-9"></a><span class="bn">                      message = FALSE,</span></span>
+<span id="cb45-10"><a href="r-code-chunks.html#cb45-10"></a><span class="bn">                      warning = FALSE,</span></span>
+<span id="cb45-11"><a href="r-code-chunks.html#cb45-11"></a><span class="bn">                      engine = &quot;R&quot;, # Chunks will always have R code, unless noted</span></span>
+<span id="cb45-12"><a href="r-code-chunks.html#cb45-12"></a><span class="bn">                      error = TRUE,</span></span>
+<span id="cb45-13"><a href="r-code-chunks.html#cb45-13"></a><span class="bn">                      fig.path=&quot;Figures/&quot;,  # Set the figure options</span></span>
+<span id="cb45-14"><a href="r-code-chunks.html#cb45-14"></a><span class="bn">                      fig.align = &quot;center&quot;,</span></span>
+<span id="cb45-15"><a href="r-code-chunks.html#cb45-15"></a><span class="bn">                      fig.width = 7,</span></span>
+<span id="cb45-16"><a href="r-code-chunks.html#cb45-16"></a><span class="bn">                      fig.height = 7,</span></span>
+<span id="cb45-17"><a href="r-code-chunks.html#cb45-17"></a><span class="bn">                      fig.keep=&#39;all&#39;, fig.retina=2)</span></span>
+<span id="cb45-18"><a href="r-code-chunks.html#cb45-18"></a><span class="bn">```</span></span></code></pre></div>
+<p><strong>이미지 불러오기</strong></p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb46-1"><a href="r-code-chunks.html#cb46-1"></a><span class="bn">```{r, fig.cap = &quot;Taj Mahal&quot;}</span></span>
+<span id="cb46-2"><a href="r-code-chunks.html#cb46-2"></a><span class="bn">knitr::include_graphics(&quot;figures/taj.JPG&quot;, dpi = NA)</span></span>
+<span id="cb46-3"><a href="r-code-chunks.html#cb46-3"></a><span class="bn">```</span></span></code></pre></div>
+
+<div class="figure"><span id="fig:unnamed-chunk-20"></span>
+<img src="figures/taj.JPG" alt="Taj Mahal"  />
+<p class="caption">
+Figure 1.8: Taj Mahal
+</p>
+</div>
+
+<div class="sourceCode" id="cb47"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb47-1"><a href="r-code-chunks.html#cb47-1"></a><span class="bn">```{r, fig.cap = &quot;Taj Mahal&quot;}</span></span>
+<span id="cb47-2"><a href="r-code-chunks.html#cb47-2"></a><span class="bn">cars %&gt;%</span></span>
+<span id="cb47-3"><a href="r-code-chunks.html#cb47-3"></a><span class="bn">   ggplot(aes(x = speed, y = dist)) +</span></span>
+<span id="cb47-4"><a href="r-code-chunks.html#cb47-4"></a><span class="bn">   geom_point(size = 5) +</span></span>
+<span id="cb47-5"><a href="r-code-chunks.html#cb47-5"></a><span class="bn">   theme_tufte(base_size = 15) # ggtheme::theme_tufte()</span></span>
+<span id="cb47-6"><a href="r-code-chunks.html#cb47-6"></a><span class="bn">```</span></span></code></pre></div>
+<p><strong>R 생성 도표 포함</strong></p>
+
+<div class="figure"><span id="fig:plot-example"></span>
+<img src="01-Rmarkdown-1st_files/figure-html/plot-example-1.svg" alt="Scatterplot of the car dataset" width="960" />
+<p class="caption">
+Figure 1.9: Scatterplot of the car dataset
+</p>
+</div>
+
+<p><strong>테이블 삽입</strong></p>
+<ul>
+<li>가장 간단한 테이블은 <code>knitr::kable()</code> 함수를 통해 생성 가능</li>
+</ul>
+<div class="sourceCode" id="cb48"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb48-1"><a href="r-code-chunks.html#cb48-1"></a><span class="bn">```{r}</span></span>
+<span id="cb48-2"><a href="r-code-chunks.html#cb48-2"></a><span class="bn">knitr::kable(head(iris))</span></span>
+<span id="cb48-3"><a href="r-code-chunks.html#cb48-3"></a><span class="bn">```</span></span></code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+Sepal.Length
+</th>
+<th style="text-align:right;">
+Sepal.Width
+</th>
+<th style="text-align:right;">
+Petal.Length
+</th>
+<th style="text-align:right;">
+Petal.Width
+</th>
+<th style="text-align:left;">
+Species
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+5.1
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.9
+</td>
+<td style="text-align:right;">
+3.0
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.7
+</td>
+<td style="text-align:right;">
+3.2
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4.6
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5.0
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+1.4
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5.4
+</td>
+<td style="text-align:right;">
+3.9
+</td>
+<td style="text-align:right;">
+1.7
+</td>
+<td style="text-align:right;">
+0.4
+</td>
+<td style="text-align:left;">
+setosa
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
             </section>
 
           </div>
         </div>
       </div>
 <a href="r-markdown-기본-문법syntax.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="inline-code.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

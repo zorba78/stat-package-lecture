@@ -64,8 +64,10 @@ lapply(c('DT', 'citr', 'formatR', 'svglite'), function(pkg) {
   if (system.file(package = pkg) == '') install.packages(pkg)
 })
 
-source("../../Global/global-init.R", encoding = "UTF-8")
+```
 
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+source("../../Global/global-init.R", encoding = "UTF-8")
 ```
 
 
