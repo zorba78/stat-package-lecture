@@ -152,9 +152,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#typical-chunk"><i class="fa fa-check"></i>알아두면 좋은 청크 형태</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="inline-code.html"><a href="inline-code.html"><i class="fa fa-check"></i><b>1.5</b> 인라인(inline) R 코드</a></li>
-<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a></li>
-<li class="chapter" data-level="1.7" data-path="rmarkdown-table.html"><a href="rmarkdown-table.html"><i class="fa fa-check"></i><b>1.7</b> 테이블</a></li>
-<li class="chapter" data-level="1.8" data-path="rmarkdown-reference.html"><a href="rmarkdown-reference.html"><i class="fa fa-check"></i><b>1.8</b> 참고문헌</a></li>
+<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a><ul>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#basic-syntax"><i class="fa fa-check"></i>기본 문법</a></li>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#rmarkdown-yaml-structure"><i class="fa fa-check"></i>R Markdown 기본 YAML 구조</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="rmarkdown-citation.html"><a href="rmarkdown-citation.html"><i class="fa fa-check"></i><b>1.7</b> 참고문헌 인용</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -442,15 +444,15 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-code-chunks.html#cb22-1"></a><span class="co"># results = &#39;hold&#39;가 아닌 경우 한 라인 별 출력 결과 생성</span></span>
 <span id="cb22-2"><a href="r-code-chunks.html#cb22-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb22-3"><a href="r-code-chunks.html#cb22-3"></a>x</span></code></pre></div>
-<pre><code> [1] -1.83270296  1.21270195  1.39821971 -0.58417571  0.35920287 -0.86078495
- [7] -0.43368350 -0.63938989 -0.08831431 -1.41644478</code></pre>
+<pre><code> [1] -0.6942081 -0.5883023 -1.1436364 -1.8327120  0.6828982 -1.0877268
+ [7]  2.4406280 -1.4756757  0.4246340 -0.9837298</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-code-chunks.html#cb24-1"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb24-2"><a href="r-code-chunks.html#cb24-2"></a>y</span></code></pre></div>
-<pre><code> [1]  4.0644580  2.8290595  3.8551013 -1.3059997  1.0033984  4.2019714
- [7]  0.3751241  3.9964810 -1.9058390  5.6962030</code></pre>
+<pre><code> [1] -1.4822165 -0.7471485  0.4422403  1.2035435  2.2371889  3.3418074
+ [7]  4.1838042  0.1455399  1.3646722  1.9933236</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-code-chunks.html#cb26-1"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1]  2.23175504  4.04176148  5.25332097 -1.89017543  1.36260126  3.34118646
- [7] -0.05855944  3.35709113 -1.99415328  4.27975822</code></pre>
+<pre><code> [1] -2.1764246 -1.3354509 -0.7013961 -0.6291685  2.9200871  2.2540806
+ [7]  6.6244322 -1.3301358  1.7893062  1.0095938</code></pre>
 
 
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-code-chunks.html#cb28-1"></a><span class="co"># results = &#39;hold&#39;인 경우 코드 부분과 출력 부분이 따로 블록 처리</span></span>
@@ -459,12 +461,12 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <span id="cb28-4"><a href="r-code-chunks.html#cb28-4"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb28-5"><a href="r-code-chunks.html#cb28-5"></a>y</span>
 <span id="cb28-6"><a href="r-code-chunks.html#cb28-6"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1]  0.44425993  0.07310356 -0.14712123  0.75357261 -0.38774845  0.89581464
- [7] -0.08682681  0.09645134 -0.21283043  0.40097245
- [1]  3.56370082 -0.29482520  2.52799523  1.69805848  5.74227451  0.09402478
- [7] -0.54300873 -1.30318169  0.46926169  3.16053519
- [1]  4.0079607 -0.2217216  2.3808740  2.4516311  5.3545261  0.9898394
- [7] -0.6298355 -1.2067303  0.2564313  3.5615076</code></pre>
+<pre><code> [1]  0.2208936  0.1088669  1.6880709  1.0147121  0.2925020 -1.5130017
+ [7]  1.0462228 -1.5312786 -0.9821198  0.8876668
+ [1]  2.3331160  3.2694359  1.1002262  2.3450091  2.5846362  1.0622394
+ [7] -1.8650656 -0.2039866 -0.7735223 -2.8395716
+ [1]  2.5540096  3.3783028  2.7882971  3.3597212  2.8771382 -0.4507623
+ [7] -0.8188428 -1.7352653 -1.7556421 -1.9519047</code></pre>
 
 <ul>
 <li><code>error</code>: 코드 청크 내 스크립트에 오류에 대한 보존 여부(<code>stop()</code>)
@@ -781,6 +783,19 @@ Figure 1.9: Scatterplot of the car dataset
 <p><strong>테이블 삽입</strong></p>
 <ul>
 <li>가장 간단한 테이블은 <code>knitr::kable()</code> 함수를 통해 생성 가능</li>
+<li><code>kable()</code> 함수는 가장 단순한 형태의 표만 생성하기 때문에 복잡한 표를 만들기에는 한계가 존재함</li>
+<li>이를 보완하기 위해 다음과 같은 패키지 활용
+<ul>
+<li><code>kableExtra</code>: HTML 또는 LaTeX 용 표 생성
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html" class="uri">https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html</a></li>
+<li><a href="https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_pdf.pdf" class="uri">https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_pdf.pdf</a></li>
+</ul></li>
+<li><code>flextable</code> + <code>officer</code>: HTML, 워드 문서 표 작성
+<ul>
+<li><a href="https://davidgohel.github.io/flextable/" class="uri">https://davidgohel.github.io/flextable/</a></li>
+</ul></li>
+</ul></li>
 </ul>
 <div class="sourceCode" id="cb48"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb48-1"><a href="r-code-chunks.html#cb48-1"></a><span class="bn">```{r}</span></span>
 <span id="cb48-2"><a href="r-code-chunks.html#cb48-2"></a><span class="bn">knitr::kable(head(iris))</span></span>

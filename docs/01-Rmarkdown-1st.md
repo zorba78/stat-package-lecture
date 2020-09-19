@@ -698,8 +698,8 @@ x
 ```
 
 ```
- [1]  0.2928178 -0.0626677  0.3081323  0.2711108  0.2507827  0.1939373
- [7] -1.2986295  2.0338740  1.0100731 -1.6595313
+ [1]  0.3415336 -0.8436345  1.7799253  0.3410683 -0.4477830 -1.8498897
+ [7]  1.9060173  0.6540373  0.3241728  0.9012223
 ```
 
 ```r
@@ -708,8 +708,8 @@ y
 ```
 
 ```
- [1]  2.54564406  0.02932483  2.82938107  0.66726008 -1.61633108  0.98346915
- [7] -0.94528344 -1.20989496  2.34709537 -1.35601178
+ [1] -2.59934956  3.11410328 -0.05020796  1.38163742  1.52863016 -0.32790986
+ [7]  4.60506447  2.51468786  1.11092356  1.79312318
 ```
 
 ```r
@@ -717,8 +717,8 @@ x + y
 ```
 
 ```
- [1]  2.83846184 -0.03334287  3.13751341  0.93837089 -1.36554839  1.17740644
- [7] -2.24391298  0.82397901  3.35716845 -3.01554308
+ [1] -2.257816  2.270469  1.729717  1.722706  1.080847 -2.177800  6.511082
+ [8]  3.168725  1.435096  2.694345
 ```
 
  \normalsize
@@ -738,12 +738,12 @@ x + y
 ```
 
 ```
- [1] -0.9209262 -1.3693395  0.2405220 -1.9342927  0.7014426 -1.2032275
- [7]  0.6881049  0.1933599 -0.2864669  1.5630263
- [1]  2.5833065  1.8841095  0.1271324  2.4681327  0.1794068  4.8052395
- [7] -1.4352585  1.0258264 -1.3160839  1.8498562
- [1]  1.6623803  0.5147700  0.3676543  0.5338400  0.8808494  3.6020121
- [7] -0.7471536  1.2191863 -1.6025509  3.4128825
+ [1]  0.7045394  0.5519475  0.1765415 -3.3638296 -0.5613053 -0.0824516
+ [7] -0.4317557 -0.7486724 -0.8091662 -1.2313649
+ [1]  1.24083667  0.03244237  1.32027587  2.23266113 -1.74372456  0.39855074
+ [7]  0.55453976  1.15612613 -0.70052665  0.30475577
+ [1]  1.9453760  0.5843899  1.4968174 -1.1311685 -2.3050299  0.3160991
+ [7]  0.1227841  0.4074537 -1.5096929 -0.9266091
 ```
 
  \normalsize
@@ -1096,6 +1096,13 @@ cars %>%
 **테이블 삽입**
 
 - 가장 간단한 테이블은 `knitr::kable()` 함수를 통해 생성 가능
+- `kable()` 함수는 가장 단순한 형태의 표만 생성하기 때문에 복잡한 표를 만들기에는 한계가 존재함
+- 이를 보완하기 위해 다음과 같은 패키지 활용
+   - `kableExtra`: HTML 또는 LaTeX 용 표 생성
+      - https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+      - https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_pdf.pdf
+   - `flextable` + `officer`: HTML, 워드 문서 표 작성
+      - https://davidgohel.github.io/flextable/
 
 
 ````markdown
@@ -1208,17 +1215,79 @@ $\rightarrow$
 
 ## YAML {#yaml}
 
+- R Markdown 문서의 가장 처음에 정의하는 metadata 
+- `.Rmd` 파일을 `.md` 파일로 변환 후 최종 출력문서 생성 시 필요한 pandoc의 옵션을 설정하는 것과 같은 의미임
+- 일반적으로 문서 형태 및 생성을 위해 사용하는 R package (예: bookdown, officedown, rticles 등)에 따라 YAML 구성요소가 달라짐
+
+### 기본 문법 {#basic-syntax .unnumbered}
+
+- /#: 주석 처리
+- YAML 문서의 시작과 끝은 `---` 로 정의함
+- 기본적으로 콜론(`:`)으로 구분된 태그(키): 값 쌍으로 구성됨 $\rightarrow$ `key: value`
+  - 여기서 콜론 바로 다음에는 반드시 공백문자가 있어야 함
+- 한 `key`의 하위 키는 리스트 형태로 표현하고, 하위 키는 두 개 이상의 스페이스로 공백을 주어 표현
+  
+ ````yaml
+ ---
+ key : value
+    subkey1: value1
+    subkey2: value2
+       subsubkey1: value3
+ ---
+ ````
+
+### R Markdown 기본 YAML 구조 {#rmarkdown-yaml-structure .unnumbered}
+
+````
+---
+title: "문서 제목" # 일반적으로 따옴표 사용
+subtitle: "문서 부제목"
+author: "문서 작성자"
+date: "문서 작성일자" 
+output: 
+   - "html_document"
+   - "word_document"
+   - "pdf_document"
+   - "md_document"
+   - "isoslides_presentation"
+   - "slidy_presentation"
+   - "beamer_presentation"
+bibliography: 참고문헌.bib # bibtex 서식 활용
+.
+.
+.
+---
+
+````
+
+- https://bookdown.org/yihui/rmarkdown/documents.html 에 자세한 예시 참고
 
 
+## 참고문헌 인용 {#rmarkdown-citation}
 
-## 테이블 {#rmarkdown-table}
-
-- `kableExtra`: HTML 또는 LaTeX 용 표 생성 및
-- `flextable` + `officer`
+- 참고문헌 정보가 BibTeX 포맷으로 저장된 `.bib` 파일을 YAML에 선언 후 인용 가능
 
 
+\footnotesize
 
-## 참고문헌 {#rmarkdown-reference}
+![](figures/bibtex-yaml.PNG)<!-- -->
+
+ \normalsize
+
+- 참고문헌 표현: `[@citation-identifier]` 또는 `@citation-identifier`
+
+
+\footnotesize
+
+![](figures/citationPNG.PNG)<!-- -->
+
+ \normalsize
+
+
+- BibTeX 포맷은 Google Scholar 에서 쉽게 획득 가능
+- Citation 스타일은 YAML 헤더에 `cl: style.csl`로 변경 가능하며 [Zotero](https://www.zotero.org) 에서 `.csl` 파일 다운로드 가능
+
+
 
 
 

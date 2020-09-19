@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="inline-code.html"/>
-<link rel="next" href="rmarkdown-table.html"/>
+<link rel="next" href="rmarkdown-citation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -152,9 +152,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#typical-chunk"><i class="fa fa-check"></i>알아두면 좋은 청크 형태</a></li>
 </ul></li>
 <li class="chapter" data-level="1.5" data-path="inline-code.html"><a href="inline-code.html"><i class="fa fa-check"></i><b>1.5</b> 인라인(inline) R 코드</a></li>
-<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a></li>
-<li class="chapter" data-level="1.7" data-path="rmarkdown-table.html"><a href="rmarkdown-table.html"><i class="fa fa-check"></i><b>1.7</b> 테이블</a></li>
-<li class="chapter" data-level="1.8" data-path="rmarkdown-reference.html"><a href="rmarkdown-reference.html"><i class="fa fa-check"></i><b>1.8</b> 참고문헌</a></li>
+<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a><ul>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#basic-syntax"><i class="fa fa-check"></i>기본 문법</a></li>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#rmarkdown-yaml-structure"><i class="fa fa-check"></i>R Markdown 기본 YAML 구조</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="rmarkdown-citation.html"><a href="rmarkdown-citation.html"><i class="fa fa-check"></i><b>1.7</b> 참고문헌 인용</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -176,6 +178,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="yaml" class="section level2">
 <h2><span class="header-section-number">1.6</span> YAML</h2>
+<ul>
+<li>R Markdown 문서의 가장 처음에 정의하는 metadata</li>
+<li><code>.Rmd</code> 파일을 <code>.md</code> 파일로 변환 후 최종 출력문서 생성 시 필요한 pandoc의 옵션을 설정하는 것과 같은 의미임</li>
+<li>일반적으로 문서 형태 및 생성을 위해 사용하는 R package (예: bookdown, officedown, rticles 등)에 따라 YAML 구성요소가 달라짐</li>
+</ul>
+<div id="basic-syntax" class="section level3 unnumbered">
+<h3>기본 문법</h3>
+<ul>
+<li>/#: 주석 처리</li>
+<li>YAML 문서의 시작과 끝은 <code>---</code> 로 정의함</li>
+<li>기본적으로 콜론(<code>:</code>)으로 구분된 태그(키): 값 쌍으로 구성됨 <span class="math inline">\(\rightarrow\)</span> <code>key: value</code>
+<ul>
+<li>여기서 콜론 바로 다음에는 반드시 공백문자가 있어야 함</li>
+</ul></li>
+<li>한 <code>key</code>의 하위 키는 리스트 형태로 표현하고, 하위 키는 두 개 이상의 스페이스로 공백을 주어 표현</li>
+</ul>
+<div class="sourceCode" id="cb51"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb51-1"><a href="yaml.html#cb51-1"></a><span class="at"> ---</span></span>
+<span id="cb51-2"><a href="yaml.html#cb51-2"></a><span class="at"> </span><span class="fu">key </span><span class="kw">:</span><span class="at"> value</span></span>
+<span id="cb51-3"><a href="yaml.html#cb51-3"></a><span class="at">    </span><span class="fu">subkey1</span><span class="kw">:</span><span class="at"> value1</span></span>
+<span id="cb51-4"><a href="yaml.html#cb51-4"></a><span class="at">    </span><span class="fu">subkey2</span><span class="kw">:</span><span class="at"> value2</span></span>
+<span id="cb51-5"><a href="yaml.html#cb51-5"></a><span class="at">       </span><span class="fu">subsubkey1</span><span class="kw">:</span><span class="at"> value3</span></span>
+<span id="cb51-6"><a href="yaml.html#cb51-6"></a><span class="at"> ---</span></span></code></pre></div>
+</div>
+<div id="rmarkdown-yaml-structure" class="section level3 unnumbered">
+<h3>R Markdown 기본 YAML 구조</h3>
+<pre><code>---
+title: &quot;문서 제목&quot; # 일반적으로 따옴표 사용
+subtitle: &quot;문서 부제목&quot;
+author: &quot;문서 작성자&quot;
+date: &quot;문서 작성일자&quot; 
+output: 
+   - &quot;html_document&quot;
+   - &quot;word_document&quot;
+   - &quot;pdf_document&quot;
+   - &quot;md_document&quot;
+   - &quot;isoslides_presentation&quot;
+   - &quot;slidy_presentation&quot;
+   - &quot;beamer_presentation&quot;
+bibliography: 참고문헌.bib # bibtex 서식 활용
+.
+.
+.
+---
+</code></pre>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown/documents.html" class="uri">https://bookdown.org/yihui/rmarkdown/documents.html</a> 에 자세한 예시 참고</li>
+</ul>
+</div>
 </div>
             </section>
 
@@ -183,7 +233,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="inline-code.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="rmarkdown-table.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="rmarkdown-citation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

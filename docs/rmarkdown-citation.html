@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1 R Markdown | 통계 패키지 활용</title>
+  <title>1.7 참고문헌 인용 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1 R Markdown | 통계 패키지 활용" />
+  <meta property="og:title" content="1.7 참고문헌 인용 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1 R Markdown | 통계 패키지 활용" />
+  <meta name="twitter:title" content="1.7 참고문헌 인용 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
-<link rel="next" href="r-markdown의-구성.html"/>
+<link rel="prev" href="yaml.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -176,36 +176,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r-markdown" class="section level1">
-<h1><span class="header-section-number">1</span> R Markdown</h1>
-<blockquote>
-<p><strong>Sketch</strong></p>
+<div id="rmarkdown-citation" class="section level2">
+<h2><span class="header-section-number">1.7</span> 참고문헌 인용</h2>
 <ul>
-<li>동일한 문서에 코드, 결과, 텍스트가 동시에 있을 수 있을까?</li>
-<li>만약 결과와 도표가 자동으로 생성된 경우 데이터가 변경 되더라도 자동으로 문서를 업데이트 할 수 있을까?</li>
-<li>최종 완료한 문서가 미래에도 열 수 있을까?</li>
-<li>이러한 모든 과정이 매우 쉽다면??</li>
+<li>참고문헌 정보가 BibTeX 포맷으로 저장된 <code>.bib</code> 파일을 YAML에 선언 후 인용 가능</li>
 </ul>
-</blockquote>
-<iframe width="800" height="500" src="https://www.youtube.com/embed/s3JldKoA0zw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-</iframe>
-<!-- ![](https://youtube.com/embed/s3JldKoA0zw){width="100%"} -->
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
-<img src="figures/rmarkdown_universe.jpg" alt="R markdown 세계(https://ulyngs.github.io/rmarkdown-workshop-2019 에서 발췌)" width="100%" />
-<p class="caption">
-Figure 1.1: R markdown 세계(<a href="https://ulyngs.github.io/rmarkdown-workshop-2019" class="uri">https://ulyngs.github.io/rmarkdown-workshop-2019</a> 에서 발췌)
-</p>
+<p><img src="figures/bibtex-yaml.png" /><!-- --></p>
+
+<ul>
+<li>참고문헌 표현: <code>[@citation-identifier]</code> 또는 <code>@citation-identifier</code></li>
+</ul>
+
+<p><img src="figures/citationPNG.PNG" /><!-- --></p>
+
+<ul>
+<li>BibTeX 포맷은 Google Scholar 에서 쉽게 획득 가능</li>
+<li>Citation 스타일은 YAML 헤더에 <code>cl: style.csl</code>로 변경 가능하며 <a href="https://www.zotero.org">Zotero</a> 에서 <code>.csl</code> 파일 다운로드 가능</li>
+</ul>
+
 </div>
-<p></p>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="r-markdown의-구성.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="yaml.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

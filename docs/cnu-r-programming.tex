@@ -1327,8 +1327,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1] -0.35106623 -0.43550868  0.38070659  0.45944764  0.03500793  0.74776501
- [7] -1.28300313 -1.36981562 -1.98723178 -0.71995725
+ [1]  0.11397949 -1.11975525 -0.39546848 -1.48319594  0.86714230 -0.65739039
+ [7] -0.94070684 -0.06004431 -0.84747143  0.11357520
 \end{verbatim}
 
 \begin{Shaded}
@@ -1339,8 +1339,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  1.65361366  1.58239715  0.02412934  2.17073449  0.47598903  0.31252303
- [7]  2.03747822 -3.58851926  3.29443898 -1.14385019
+ [1]  2.6074654  2.2176548 -1.4640987  1.3247515  1.2189210 -0.5720802
+ [7] -0.8809272 -1.9154795 -1.5656312  0.8735466
 \end{verbatim}
 
 \begin{Shaded}
@@ -1350,8 +1350,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  1.3025474  1.1468885  0.4048359  2.6301821  0.5109970  1.0602880
- [7]  0.7544751 -4.9583349  1.3072072 -1.8638074
+ [1]  2.7214449  1.0978996 -1.8595671 -0.1584444  2.0860633 -1.2294706
+ [7] -1.8216340 -1.9755238 -2.4131027  0.9871218
 \end{verbatim}
 
 \normalsize
@@ -1370,12 +1370,12 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  0.80367358  2.21272484  0.83548676 -1.72909193  0.67005098  0.04340511
- [7]  1.21803299 -0.56679375  0.91404693  1.52985518
- [1]  4.5640299  3.0371814  2.7621421 -0.5914144  1.0063965  5.5484885
- [7]  1.1770908 -2.5986128  0.1053289  5.5867896
- [1]  5.367704  5.249906  3.597629 -2.320506  1.676448  5.591894  2.395124
- [8] -3.165407  1.019376  7.116645
+ [1] -1.0223661  0.2992861 -1.1081556 -0.0126041 -1.1982391 -1.5091321
+ [7] -0.8100077 -0.9633556  0.6873936  0.1792799
+ [1] -3.37265758  0.97343197 -0.02659187  1.06986991  5.90701592  0.33479442
+ [7]  0.74497495 -1.38770572  2.16830646  2.78405177
+ [1] -4.39502367  1.27271807 -1.13474743  1.05726582  4.70877684 -1.17433764
+ [7] -0.06503275 -2.35106137  2.85570008  2.96333162
 \end{verbatim}
 
 \normalsize
@@ -1753,6 +1753,32 @@ dpi & 72 & dot per inche: 출력 그림 해상도\\
 \tightlist
 \item
   가장 간단한 테이블은 \texttt{knitr::kable()} 함수를 통해 생성 가능
+\item
+  \texttt{kable()} 함수는 가장 단순한 형태의 표만 생성하기 때문에 복잡한 표를 만들기에는 한계가 존재함
+\item
+  이를 보완하기 위해 다음과 같은 패키지 활용
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{kableExtra}: HTML 또는 LaTeX 용 표 생성
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \url{https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html}
+    \item
+      \url{https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_pdf.pdf}
+    \end{itemize}
+  \item
+    \texttt{flextable} + \texttt{officer}: HTML, 워드 문서 표 작성
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \url{https://davidgohel.github.io/flextable/}
+    \end{itemize}
+  \end{itemize}
 \end{itemize}
 
 \begin{Shaded}
@@ -1834,19 +1860,114 @@ Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 \hypertarget{yaml}{%
 \section{YAML}\label{yaml}}
 
-\hypertarget{rmarkdown-table}{%
-\section{테이블}\label{rmarkdown-table}}
+\begin{itemize}
+\tightlist
+\item
+  R Markdown 문서의 가장 처음에 정의하는 metadata
+\item
+  \texttt{.Rmd} 파일을 \texttt{.md} 파일로 변환 후 최종 출력문서 생성 시 필요한 pandoc의 옵션을 설정하는 것과 같은 의미임
+\item
+  일반적으로 문서 형태 및 생성을 위해 사용하는 R package (예: bookdown, officedown, rticles 등)에 따라 YAML 구성요소가 달라짐
+\end{itemize}
+
+\hypertarget{basic-syntax}{%
+\subsection*{기본 문법}\label{basic-syntax}}
+
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{kableExtra}: HTML 또는 LaTeX 용 표 생성 및
+  /\#: 주석 처리
 \item
-  \texttt{flextable} + \texttt{officer}
+  YAML 문서의 시작과 끝은 \texttt{-\/-\/-} 로 정의함
+\item
+  기본적으로 콜론(\texttt{:})으로 구분된 태그(키): 값 쌍으로 구성됨 \(\rightarrow\) \texttt{key:\ value}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    여기서 콜론 바로 다음에는 반드시 공백문자가 있어야 함
+  \end{itemize}
+\item
+  한 \texttt{key}의 하위 키는 리스트 형태로 표현하고, 하위 키는 두 개 이상의 스페이스로 공백을 주어 표현
 \end{itemize}
 
-\hypertarget{rmarkdown-reference}{%
-\section{참고문헌}\label{rmarkdown-reference}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{---}
+\FunctionTok{key }\KeywordTok{:}\AttributeTok{ value}
+\AttributeTok{   }\FunctionTok{subkey1}\KeywordTok{:}\AttributeTok{ value1}
+\AttributeTok{   }\FunctionTok{subkey2}\KeywordTok{:}\AttributeTok{ value2}
+\AttributeTok{      }\FunctionTok{subsubkey1}\KeywordTok{:}\AttributeTok{ value3}
+\PreprocessorTok{---}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{rmarkdown-yaml-structure}{%
+\subsection*{R Markdown 기본 YAML 구조}\label{rmarkdown-yaml-structure}}
+
+
+\begin{verbatim}
+---
+title: "문서 제목" # 일반적으로 따옴표 사용
+subtitle: "문서 부제목"
+author: "문서 작성자"
+date: "문서 작성일자" 
+output: 
+   - "html_document"
+   - "word_document"
+   - "pdf_document"
+   - "md_document"
+   - "isoslides_presentation"
+   - "slidy_presentation"
+   - "beamer_presentation"
+bibliography: 참고문헌.bib # bibtex 서식 활용
+.
+.
+.
+---
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://bookdown.org/yihui/rmarkdown/documents.html} 에 자세한 예시 참고
+\end{itemize}
+
+\hypertarget{rmarkdown-citation}{%
+\section{참고문헌 인용}\label{rmarkdown-citation}}
+
+\begin{itemize}
+\tightlist
+\item
+  참고문헌 정보가 BibTeX 포맷으로 저장된 \texttt{.bib} 파일을 YAML에 선언 후 인용 가능
+\end{itemize}
+
+\footnotesize
+
+\includegraphics{figures/bibtex-yaml.PNG}
+
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  참고문헌 표현: \texttt{{[}@citation-identifier{]}} 또는 \texttt{@citation-identifier}
+\end{itemize}
+
+\footnotesize
+
+\includegraphics{figures/citationPNG.PNG}
+
+\normalsize
+
+\begin{itemize}
+\tightlist
+\item
+  BibTeX 포맷은 Google Scholar 에서 쉽게 획득 가능
+\item
+  Citation 스타일은 YAML 헤더에 \texttt{cl:\ style.csl}로 변경 가능하며 \href{https://www.zotero.org}{Zotero} 에서 \texttt{.csl} 파일 다운로드 가능
+\end{itemize}
 
   \bibliography{book.bib,packages.bib}
 
