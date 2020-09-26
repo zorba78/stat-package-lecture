@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2.4 반복문(Looping) | 통계 패키지 활용</title>
+  <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2.4 반복문(Looping) | 통계 패키지 활용" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2.4 반복문(Looping) | 통계 패키지 활용" />
+  
+  <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  
+
+<meta name="author" content="한국한의학연구원, 구본초" />
+
+
+<meta name="date" content="2020-09-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="condition.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css\style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">통계 패키지 활용</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Overview</a></li>
+<li class="chapter" data-level="1" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>1</b> R Markdown</a><ul>
+<li class="chapter" data-level="1.1" data-path="r-markdown의-구성.html"><a href="r-markdown의-구성.html"><i class="fa fa-check"></i><b>1.1</b> R Markdown의 구성</a></li>
+<li class="chapter" data-level="1.2" data-path="r-markdown-문서-시작하기.html"><a href="r-markdown-문서-시작하기.html"><i class="fa fa-check"></i><b>1.2</b> R Markdown 문서 시작하기</a></li>
+<li class="chapter" data-level="1.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html"><i class="fa fa-check"></i><b>1.3</b> R Markdown 기본 문법(syntax)</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#텍스트-문법"><i class="fa fa-check"></i><b>1.3.1</b> 텍스트 문법</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#block-level-elements"><i class="fa fa-check"></i><b>1.3.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="1.3.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#수식표현math-expression"><i class="fa fa-check"></i><b>1.3.3</b> 수식표현(math expression)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-code-chunks.html"><a href="r-code-chunks.html"><i class="fa fa-check"></i><b>1.4</b> R Code Chunks</a><ul>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#code-chunk"><i class="fa fa-check"></i>자주 활용하는 chunk 옵션</a></li>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#typical-chunk"><i class="fa fa-check"></i>알아두면 좋은 청크 형태</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="inline-code.html"><a href="inline-code.html"><i class="fa fa-check"></i><b>1.5</b> 인라인(inline) R 코드</a></li>
+<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a><ul>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#basic-syntax"><i class="fa fa-check"></i>기본 문법</a></li>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#rmarkdown-yaml-structure"><i class="fa fa-check"></i>R Markdown 기본 YAML 구조</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="rmarkdown-citation.html"><a href="rmarkdown-citation.html"><i class="fa fa-check"></i><b>1.7</b> 참고문헌 인용</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="control-structure.html"><a href="control-structure.html"><i class="fa fa-check"></i><b>2</b> 제어문(Control Structure)</a><ul>
+<li class="chapter" data-level="2.1" data-path="control-prerequisite.html"><a href="control-prerequisite.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisite</a></li>
+<li class="chapter" data-level="2.2" data-path="control-program.html"><a href="control-program.html"><i class="fa fa-check"></i><b>2.2</b> 프로그램</a></li>
+<li class="chapter" data-level="2.3" data-path="condition.html"><a href="condition.html"><i class="fa fa-check"></i><b>2.3</b> 조건문(Conditionals)</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="condition.html"><a href="condition.html#if-basic"><i class="fa fa-check"></i><b>2.3.1</b> <strong>기본 구문</strong></a></li>
+<li><a href="condition.html#if-else"><strong>대안 실행(alternative execution)</strong></a></li>
+<li class="chapter" data-level="2.3.2" data-path="condition.html"><a href="condition.html#chain-cond"><i class="fa fa-check"></i><b>2.3.2</b> <strong>연쇄 조건문(chained condition)</strong></a></li>
+<li class="chapter" data-level="2.3.3" data-path="condition.html"><a href="condition.html#nest-cond"><i class="fa fa-check"></i><b>2.3.3</b> <strong>중첩 조건문(nested contition)</strong></a></li>
+<li class="chapter" data-level="2.3.4" data-path="condition.html"><a href="condition.html#ifelse-fun"><i class="fa fa-check"></i><b>2.3.4</b> <strong><code>ifelse()</code> 함수</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="looping.html"><a href="looping.html"><i class="fa fa-check"></i><b>2.4</b> 반복문(Looping)</a><ul>
+<li class="chapter" data-level="" data-path="looping.html"><a href="looping.html#loop-pre"><i class="fa fa-check"></i>Prerequisite</a></li>
+<li class="chapter" data-level="2.4.1" data-path="looping.html"><a href="looping.html#repeat"><i class="fa fa-check"></i><b>2.4.1</b> <strong><code>repeat</code> 구문</strong></a></li>
+<li class="chapter" data-level="2.4.2" data-path="looping.html"><a href="looping.html#while"><i class="fa fa-check"></i><b>2.4.2</b> <strong><code>while</code> 구문</strong></a></li>
+<li class="chapter" data-level="2.4.3" data-path="looping.html"><a href="looping.html#for-구문"><i class="fa fa-check"></i><b>2.4.3</b> <strong><code>for</code> 구문</strong></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">통계 패키지 활용</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="looping" class="section level2">
+<h2><span class="header-section-number">2.4</span> 반복문(Looping)</h2>
+<div id="loop-pre" class="section level3 unnumbered">
+<h3>Prerequisite</h3>
+<ul>
+<li>프로그램 또는 알고리즘 구현 시 특정 문장 또는 표현을 반복해야만 하는 상황이 발생</li>
+<li>특히 시뮬레이션 시 반복문은 거의 필수적임</li>
+<li>반복문을 통해 코딩의 효율을 극대화 할 수 있음</li>
+<li>반복문은 특정 변수의 값을 갱신(update) 하기 위해 주로 사용</li>
+</ul>
+
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="looping.html#cb88-1"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="co"># 현재 값에 1을 더해서 x를 새로운 값으로 update</span></span></code></pre></div>
+
+<ul>
+<li>통상적으로 특정 변수의 값을 갱신하기 위해 변수 값을 초기화(initialize)</li>
+</ul>
+
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="looping.html#cb89-1"></a>x &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># x 변수 초기화</span></span>
+<span id="cb89-2"><a href="looping.html#cb89-2"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
+
+<ul>
+<li>몇 번 반복이라는 정의가 없는 상태에서 특정 조건이 거짓(FALSE)이 될 때 까지 계속 반복</li>
+</ul>
+</div>
+<div id="repeat" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> <strong><code>repeat</code> 구문</strong></h3>
+
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="looping.html#cb90-1"></a><span class="cf">repeat</span> 표현식</span></code></pre></div>
+
+<ul>
+<li><code>repeat</code> 다음에 오는 표현식을 무한 반복(infinite loop)</li>
+</ul>
+
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="looping.html#cb91-1"></a><span class="cf">repeat</span> <span class="kw">print</span>(<span class="st">&quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;</span>)</span></code></pre></div>
+
+<pre><code>[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
+[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
+[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
+[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
+[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
+...
+...</code></pre>
+<ul>
+<li>특정 작업에 대해 블록을 지정(중괄호)하고 블록 안에 표현 가능</li>
+<li>일반적으로 특정 조건(<code>if (조건) break</code>)을 두어 무한루프에서 탈출</li>
+<li><code>if</code> 문의 조건은 언제 반복이 끝날 지를 제어하는 변수로 반복변수(iteration variable) 이라고도 함</li>
+<li>언제까지(until) 반복(repeat) <span class="math inline">\(\rightarrow\)</span> REPEAT-UNTIL 구문으로 표현</li>
+</ul>
+
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="looping.html#cb93-1"></a><span class="cf">repeat</span> {</span>
+<span id="cb93-2"><a href="looping.html#cb93-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb93-3"><a href="looping.html#cb93-3"></a>  <span class="cf">if</span> (조건) <span class="cf">break</span></span>
+<span id="cb93-4"><a href="looping.html#cb93-4"></a>  반복변수 update</span>
+<span id="cb93-5"><a href="looping.html#cb93-5"></a>}</span></code></pre></div>
+
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
+<img src="figures/repeat-flowchart.png" alt="REPEAT 구문 flow-chart" width="60%" />
+<p class="caption">
+Figure 2.6: REPEAT 구문 flow-chart
+</p>
+</div>
+
+
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="looping.html#cb94-1"></a><span class="co"># REPEAT-UNTIL 예시 1</span></span>
+<span id="cb94-2"><a href="looping.html#cb94-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
+<span id="cb94-3"><a href="looping.html#cb94-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb94-4"><a href="looping.html#cb94-4"></a><span class="cf">repeat</span> {</span>
+<span id="cb94-5"><a href="looping.html#cb94-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb94-6"><a href="looping.html#cb94-6"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span> <span class="co"># i는 반복 변수</span></span>
+<span id="cb94-7"><a href="looping.html#cb94-7"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb94-8"><a href="looping.html#cb94-8"></a>}</span>
+<span id="cb94-9"><a href="looping.html#cb94-9"></a>tot</span>
+<span id="cb94-10"><a href="looping.html#cb94-10"></a><span class="co"># check</span></span>
+<span id="cb94-11"><a href="looping.html#cb94-11"></a><span class="kw">sum</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)</span></code></pre></div>
+<pre><code>[1] 5050
+[1] 5050</code></pre>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><code>tot</code>에 <code>i</code>를 더한 후 <code>i</code> 가 조건을 만족하는지 확인</li>
+<li>조건에 <em>부합하지 않으면</em> 다음 문장 실행(<code>i</code>에 1을 증가 후 업데이트) 1. 의 작업을 반복(loop)</li>
+<li><code>i</code>가 조건에 부합하면 반복 종료</li>
+</ol>
+</blockquote>
+
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="looping.html#cb96-1"></a><span class="co"># REPEAT 예시 2</span></span>
+<span id="cb96-2"><a href="looping.html#cb96-2"></a><span class="co"># 1에서 20 사이 숫자 알아맞추기 게임</span></span>
+<span id="cb96-3"><a href="looping.html#cb96-3"></a>n &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb96-4"><a href="looping.html#cb96-4"></a>number &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dt">size =</span> <span class="dv">1</span>)</span>
+<span id="cb96-5"><a href="looping.html#cb96-5"></a><span class="kw">cat</span>(<span class="st">&quot;1에서 &quot;</span>, n, <span class="st">&quot;까지 숫자 알아 맞추기&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb96-6"><a href="looping.html#cb96-6"></a><span class="cf">repeat</span> {</span>
+<span id="cb96-7"><a href="looping.html#cb96-7"></a>  guess &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;어떤 숫자를 생각하시나요? (종료: q 입력) &quot;</span>)</span>
+<span id="cb96-8"><a href="looping.html#cb96-8"></a>  <span class="cf">if</span> (guess <span class="op">==</span><span class="st"> &quot;q&quot;</span>) {</span>
+<span id="cb96-9"><a href="looping.html#cb96-9"></a>    <span class="kw">cat</span>(<span class="st">&quot;재미가 없나봐요.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb96-10"><a href="looping.html#cb96-10"></a>    <span class="cf">break</span></span>
+<span id="cb96-11"><a href="looping.html#cb96-11"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">as.numeric</span>(guess) <span class="op">==</span><span class="st"> </span>number) {</span>
+<span id="cb96-12"><a href="looping.html#cb96-12"></a>    <span class="kw">cat</span>(<span class="st">&quot;천재인데요?ㅋㅋㅋ&quot;</span>)</span>
+<span id="cb96-13"><a href="looping.html#cb96-13"></a>    <span class="cf">break</span></span>
+<span id="cb96-14"><a href="looping.html#cb96-14"></a>  }</span>
+<span id="cb96-15"><a href="looping.html#cb96-15"></a>  <span class="co"># 틀리면 계속 반복</span></span>
+<span id="cb96-16"><a href="looping.html#cb96-16"></a>}</span></code></pre></div>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><code>guess</code>에 <code>readline()</code> 으로부터 값 입력</li>
+<li><code>guess</code> 값이 <code>q</code> 이면 종료</li>
+<li><code>guess</code> 값이 <code>number</code> 와 일치하면 종료</li>
+<li>2.와 3. 조건에 부합하지 않으면 <code>guess</code> 값을 반복적으로 입력</li>
+</ol>
+</blockquote>
+<pre><code>어떤 숫자를 생각하시나요? (종료: q 입력) 1
+어떤 숫자를 생각하시나요? (종료: q 입력) 2
+어떤 숫자를 생각하시나요? (종료: q 입력) 3
+천재인데요?ㅋㅋㅋ</code></pre>
+</div>
+<div id="while" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> <strong><code>while</code> 구문</strong></h3>
+
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="looping.html#cb98-1"></a><span class="cf">while</span> (조건) 표현식 ...</span></code></pre></div>
+
+<ul>
+<li><code>while</code>에 지정된 조건이 참이면 계속해서 반복</li>
+<li><code>repeat</code>는 반복이 처음부터 시작되는 반면, <code>while</code> 문은 조건을 먼저 평가한 후 반복이 시작됨.</li>
+<li><code>while (FALSE)</code>인 경우 루프 본문 코드가 실행되지 않음</li>
+<li><code>while (TRUE)</code>는 <code>repeat</code> 구문과 동일</li>
+<li><code>while</code>문 의 일반적 형태</li>
+</ul>
+
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="looping.html#cb99-1"></a><span class="cf">while</span> (조건) {</span>
+<span id="cb99-2"><a href="looping.html#cb99-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb99-3"><a href="looping.html#cb99-3"></a>  반복변수 update</span>
+<span id="cb99-4"><a href="looping.html#cb99-4"></a>}</span></code></pre></div>
+
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-39"></span>
+<img src="figures/while-flowchart.png" alt="WHILE 구문 flow-chart" width="80%" />
+<p class="caption">
+Figure 2.7: WHILE 구문 flow-chart
+</p>
+</div>
+
+
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="looping.html#cb100-1"></a><span class="co"># WHILE 구문 예시 1</span></span>
+<span id="cb100-2"><a href="looping.html#cb100-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
+<span id="cb100-3"><a href="looping.html#cb100-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb100-4"><a href="looping.html#cb100-4"></a><span class="cf">while</span> (i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">100</span>) {</span>
+<span id="cb100-5"><a href="looping.html#cb100-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb100-6"><a href="looping.html#cb100-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb100-7"><a href="looping.html#cb100-7"></a>}</span>
+<span id="cb100-8"><a href="looping.html#cb100-8"></a>tot</span></code></pre></div>
+<pre><code>[1] 5050</code></pre>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>초기값 <code>i</code>가 조건 <code>i &lt;= 100</code> 인지 확인</li>
+<li>참인 경우 <code>tot + i</code>를 통해 <code>tot</code>을 업데이트 한 다음 <code>i</code>를 1만큼 증가</li>
+<li>만약 <code>i</code>에 대한 조건 평가 결과가 거짓이면 <code>while</code> 구문을 빠져나감</li>
+</ol>
+</blockquote>
+
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="looping.html#cb102-1"></a><span class="co"># while 문 조건이 TRUE 인 경우</span></span>
+<span id="cb102-2"><a href="looping.html#cb102-2"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb102-3"><a href="looping.html#cb102-3"></a><span class="cf">while</span> (<span class="ot">TRUE</span>) {</span>
+<span id="cb102-4"><a href="looping.html#cb102-4"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb102-5"><a href="looping.html#cb102-5"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span></span>
+<span id="cb102-6"><a href="looping.html#cb102-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb102-7"><a href="looping.html#cb102-7"></a>}</span>
+<span id="cb102-8"><a href="looping.html#cb102-8"></a>tot</span></code></pre></div>
+<pre><code>[1] 5050</code></pre>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><code>while</code> 의 조건이 참이기 때문에 무한 반복</li>
+<li>단 <code>i</code>가 100과 같거나 클 경우 구문 탈출</li>
+<li>그 전 까지는 <code>tot</code>와 <code>i</code>를 갱신</li>
+</ol>
+</blockquote>
+
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="looping.html#cb104-1"></a><span class="co"># WHILE 구문 예시 2</span></span>
+<span id="cb104-2"><a href="looping.html#cb104-2"></a><span class="co"># 문자열 벡터에서 특정 문자열의 인덱스를 반환</span></span>
+<span id="cb104-3"><a href="looping.html#cb104-3"></a>txtvec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;package&quot;</span>, <span class="st">&quot;flow-control&quot;</span>, <span class="st">&quot;while&quot;</span>, <span class="st">&quot;if&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;repeat&quot;</span>)</span>
+<span id="cb104-4"><a href="looping.html#cb104-4"></a>found &lt;-<span class="st"> </span><span class="ot">FALSE</span></span>
+<span id="cb104-5"><a href="looping.html#cb104-5"></a>i &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-6"><a href="looping.html#cb104-6"></a></span>
+<span id="cb104-7"><a href="looping.html#cb104-7"></a>word &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;검색할 텍스트: &quot;</span>)</span>
+<span id="cb104-8"><a href="looping.html#cb104-8"></a><span class="cf">while</span> (<span class="op">!</span>found <span class="op">&amp;</span><span class="st"> </span>i <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(txtvec)) {</span>
+<span id="cb104-9"><a href="looping.html#cb104-9"></a>  <span class="cf">if</span> (txtvec[i] <span class="op">==</span><span class="st"> </span>word) {</span>
+<span id="cb104-10"><a href="looping.html#cb104-10"></a>    found &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb104-11"><a href="looping.html#cb104-11"></a>    <span class="cf">break</span></span>
+<span id="cb104-12"><a href="looping.html#cb104-12"></a>  }</span>
+<span id="cb104-13"><a href="looping.html#cb104-13"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 해당 단어가 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-14"><a href="looping.html#cb104-14"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-15"><a href="looping.html#cb104-15"></a>}</span>
+<span id="cb104-16"><a href="looping.html#cb104-16"></a></span>
+<span id="cb104-17"><a href="looping.html#cb104-17"></a><span class="cf">if</span> (found) {</span>
+<span id="cb104-18"><a href="looping.html#cb104-18"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 &quot;</span>, word, <span class="st">&quot;를 찾았습니다.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-19"><a href="looping.html#cb104-19"></a>} <span class="cf">else</span> {</span>
+<span id="cb104-20"><a href="looping.html#cb104-20"></a>  <span class="kw">cat</span>(word, <span class="st">&quot; 단어는 해당 문자열 벡터에 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-21"><a href="looping.html#cb104-21"></a>}</span></code></pre></div>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li><code>found = FALSE</code>, <code>i = 1</code>을 초기값으로 입력</li>
+<li><code>readline()</code>으로 입력한 텍스트를 <code>word</code>에 저장</li>
+<li><code>found</code> 가 참이고 <code>i</code>가 텍스트 벡터의 길이 값과 같을 때 까지 다음 구문 반복</li>
+<li><code>txtvec</code> 각 원소와 <code>word</code> 값이 같은지 확인</li>
+</ol>
+</blockquote>
+<pre><code>while 입력 결과
+1 번째 위치에 해당 단어가 존재하지 않습니다.
+2 번째 위치에 해당 단어가 존재하지 않습니다.
+3 번째 위치에 해당 단어가 존재하지 않습니다.
+4 번째 위치에  while 를 찾았습니다.
+
+temp 입력 결과
+1 번째 위치에 해당 단어가 존재하지 않습니다.
+2 번째 위치에 해당 단어가 존재하지 않습니다.
+3 번째 위치에 해당 단어가 존재하지 않습니다.
+4 번째 위치에 해당 단어가 존재하지 않습니다.
+5 번째 위치에 해당 단어가 존재하지 않습니다.
+6 번째 위치에 해당 단어가 존재하지 않습니다.
+7 번째 위치에 해당 단어가 존재하지 않습니다.
+temp 단어는 해당 문자열 벡터에 존재하지 않습니다.</code></pre>
+
+
+<div class="rmdnote">
+<ul>
+<li><code>repeat</code>, <code>while</code>과 같이 반복의 횟수가 지정되지 않는 반목구문을 불확정 반복문(indefinite loop)이라고 함.</li>
+<li>다음에 배울 <code>for</code> 구문은 위 두 반복문과는 다르게 반복의 범위를 명확히 지정하기 때문에 확정 반복문(definite loop)라고 함.</li>
+</ul>
+</div>
+
+
+</div>
+<div id="for-구문" class="section level3">
+<h3><span class="header-section-number">2.4.3</span> <strong><code>for</code> 구문</strong></h3>
+<ul>
+<li>가장 많이 사용되는 반복구문으로 일반적인 형태는 아래와 같음</li>
+</ul>
+
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="looping.html#cb106-1"></a><span class="cf">for</span> (반복변수 <span class="cf">in</span> sequence) {</span>
+<span id="cb106-2"><a href="looping.html#cb106-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb106-3"><a href="looping.html#cb106-3"></a>  ...</span>
+<span id="cb106-4"><a href="looping.html#cb106-4"></a>}</span></code></pre></div>
+
+<ul>
+<li>R에서 <code>sequence</code>은 특정 유형의 벡터이며, 반복변수에 <code>sequence</code>의 원소를 순차적으로 할당함</li>
+<li>반복변수는 <code>for</code> 반복문 안의 <code>표현식 1</code>에서 사용됨</li>
+</ul>
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-45"></span>
+<img src="figures/for-flowchart.png" alt="FOR 구문 flow-chart" width="70%" />
+<p class="caption">
+Figure 2.8: FOR 구문 flow-chart
+</p>
+</div>
+
+
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="looping.html#cb107-1"></a><span class="co">#for 문 예시 1</span></span>
+<span id="cb107-2"><a href="looping.html#cb107-2"></a>student &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_excel</span>(<span class="st">&quot;data/stat-students.xlsx&quot;</span>)</span>
+<span id="cb107-3"><a href="looping.html#cb107-3"></a>student_name &lt;-<span class="st"> </span>student<span class="op">$</span>이름</span>
+<span id="cb107-4"><a href="looping.html#cb107-4"></a><span class="cf">for</span> (s <span class="cf">in</span> student_name) {</span>
+<span id="cb107-5"><a href="looping.html#cb107-5"></a>  <span class="kw">cat</span>(s, <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb107-6"><a href="looping.html#cb107-6"></a>}</span></code></pre></div>
+<pre><code>김세민 학생!! 즐거운 명절 보내세요^^
+김기랑 학생!! 즐거운 명절 보내세요^^
+이종영 학생!! 즐거운 명절 보내세요^^
+이원규 학생!! 즐거운 명절 보내세요^^
+황보영 학생!! 즐거운 명절 보내세요^^
+구나현 학생!! 즐거운 명절 보내세요^^
+엄용현 학생!! 즐거운 명절 보내세요^^
+오동원 학생!! 즐거운 명절 보내세요^^
+윤지우 학생!! 즐거운 명절 보내세요^^
+이근범 학생!! 즐거운 명절 보내세요^^
+이승호 학생!! 즐거운 명절 보내세요^^
+이희도 학생!! 즐거운 명절 보내세요^^
+정보경 학생!! 즐거운 명절 보내세요^^
+채시진 학생!! 즐거운 명절 보내세요^^
+최호진 학생!! 즐거운 명절 보내세요^^
+박인혜 학생!! 즐거운 명절 보내세요^^
+박준기 학생!! 즐거운 명절 보내세요^^
+최소미 학생!! 즐거운 명절 보내세요^^
+백승완 학생!! 즐거운 명절 보내세요^^
+김지원 학생!! 즐거운 명절 보내세요^^
+신형원 학생!! 즐거운 명절 보내세요^^
+임현정 학생!! 즐거운 명절 보내세요^^
+정수빈 학생!! 즐거운 명절 보내세요^^
+최예린 학생!! 즐거운 명절 보내세요^^
+황정인 학생!! 즐거운 명절 보내세요^^</code></pre>
+
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>student_name의 첫 번째 원소를 s에 할당</li>
+<li>for 구문 안에 표현 실행</li>
+<li>student_name의 마지막 원소까지 반복</li>
+</ol>
+</blockquote>
+
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="looping.html#cb109-1"></a><span class="co"># 위 예시와 동일한 표현</span></span>
+<span id="cb109-2"><a href="looping.html#cb109-2"></a><span class="co">## 인덱싱을 사용</span></span>
+<span id="cb109-3"><a href="looping.html#cb109-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name)) {</span>
+<span id="cb109-4"><a href="looping.html#cb109-4"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb109-5"><a href="looping.html#cb109-5"></a>}</span>
+<span id="cb109-6"><a href="looping.html#cb109-6"></a></span>
+<span id="cb109-7"><a href="looping.html#cb109-7"></a><span class="co">## sequence를 만드는 함수 seq_along() 사용</span></span>
+<span id="cb109-8"><a href="looping.html#cb109-8"></a></span>
+<span id="cb109-9"><a href="looping.html#cb109-9"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
+<span id="cb109-10"><a href="looping.html#cb109-10"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb109-11"><a href="looping.html#cb109-11"></a>}</span></code></pre></div>
+
+<ul>
+<li><code>for</code> 구문 안에 <code>for</code> 문을 1개 이상 중첩 가능</li>
+</ul>
+
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="looping.html#cb110-1"></a><span class="co">## 2중 for 문 예시</span></span>
+<span id="cb110-2"><a href="looping.html#cb110-2"></a><span class="kw">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb110-3"><a href="looping.html#cb110-3"></a>id &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name), <span class="dv">5</span>)</span>
+<span id="cb110-4"><a href="looping.html#cb110-4"></a>sel_student &lt;-<span class="st"> </span>student_name[id]</span>
+<span id="cb110-5"><a href="looping.html#cb110-5"></a></span>
+<span id="cb110-6"><a href="looping.html#cb110-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
+<span id="cb110-7"><a href="looping.html#cb110-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_along</span>(sel_student)) {</span>
+<span id="cb110-8"><a href="looping.html#cb110-8"></a>    <span class="cf">if</span> (student_name[i] <span class="op">==</span><span class="st"> </span>sel_student[j]) {</span>
+<span id="cb110-9"><a href="looping.html#cb110-9"></a>      <span class="kw">cat</span>(sel_student[j], <span class="st">&quot;님!! 당첨 축하 드립니다!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb110-10"><a href="looping.html#cb110-10"></a>    }</span>
+<span id="cb110-11"><a href="looping.html#cb110-11"></a>  }</span>
+<span id="cb110-12"><a href="looping.html#cb110-12"></a>}</span></code></pre></div>
+<pre><code>김기랑 님!! 당첨 축하 드립니다!!
+이승호 님!! 당첨 축하 드립니다!!
+채시진 님!! 당첨 축하 드립니다!!
+박인혜 님!! 당첨 축하 드립니다!!
+백승완 님!! 당첨 축하 드립니다!!</code></pre>
+
+
+
+<div class="rmdnote">
+<ul>
+<li><p>불확정 반복문 학습 시 무한루프로부터 <code>break</code>를 통해 루프에서 탈출</p></li>
+<li><p>루프를 완전히 탈출하지 않고 현재 반복을 중지하고 그 다음 반복을 진행하고 싶을 경우 <code>next</code> 예약어를 사용</p>
+</div></li>
+</ul>
+<p></p>
+
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="looping.html#cb112-1"></a><span class="co"># 알파벳 e와 일치하는 경우에만 텍스트 메세지 출력</span></span>
+<span id="cb112-2"><a href="looping.html#cb112-2"></a>vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;e&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;o&quot;</span>, <span class="st">&quot;u&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;z&quot;</span>)</span>
+<span id="cb112-3"><a href="looping.html#cb112-3"></a>word &lt;-<span class="st"> &quot;e&quot;</span></span>
+<span id="cb112-4"><a href="looping.html#cb112-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(vec)) {</span>
+<span id="cb112-5"><a href="looping.html#cb112-5"></a>  <span class="cf">if</span> (vec[i] <span class="op">!=</span><span class="st"> </span>word) <span class="cf">next</span></span>
+<span id="cb112-6"><a href="looping.html#cb112-6"></a>  <span class="kw">cat</span>(word, <span class="st">&quot;가&quot;</span>, i, <span class="st">&quot;번 째 인덱스에 있네요!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb112-7"><a href="looping.html#cb112-7"></a>}</span></code></pre></div>
+<pre><code>e 가 2 번 째 인덱스에 있네요!!
+e 가 3 번 째 인덱스에 있네요!!
+e 가 7 번 째 인덱스에 있네요!!</code></pre>
+<p></p>
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="condition.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/02-control-structure.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["cnu-r-programming.pdf", "cnu-r-programming.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
