@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-09-27" />
+<meta name="date" content="2020-10-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -54,7 +54,9 @@
 <link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
 <script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -122,7 +124,7 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<link rel="stylesheet" href="css\style.css" type="text/css" />
+<link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body>
@@ -174,7 +176,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4.2" data-path="looping.html"><a href="looping.html#while"><i class="fa fa-check"></i><b>2.4.2</b> <strong><code>while</code> 구문</strong></a></li>
 <li class="chapter" data-level="2.4.3" data-path="looping.html"><a href="looping.html#for-구문"><i class="fa fa-check"></i><b>2.4.3</b> <strong><code>for</code> 구문</strong></a></li>
 </ul></li>
+<li class="chapter" data-level="2.5" data-path="function.html"><a href="function.html"><i class="fa fa-check"></i><b>2.5</b> 2.5. 함수 (function)</a></li>
+<li class="chapter" data-level="2.6" data-path="제어-구문-이해를-위한-몇-가지-알고리즘.html"><a href="제어-구문-이해를-위한-몇-가지-알고리즘.html"><i class="fa fa-check"></i><b>2.6</b> 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -313,9 +318,9 @@ NA_integer_, NA_real_, NA_complex_, NA_character_
 <span id="cb53-2"><a href="control-prerequisite.html#cb53-2"></a>통계패키지활용 수업에서 R을 배우고 있습니다. </span>
 <span id="cb53-3"><a href="control-prerequisite.html#cb53-3"></a>처음이라 실수가 많습니다.</span>
 <span id="cb53-4"><a href="control-prerequisite.html#cb53-4"></a>앞으로 잘 부탁해요<span class="op">!!</span></span></code></pre></div>
-<pre><code>Error: &lt;text&gt;:1:11: 예기치 않은 &#39;!&#39;입니다
+<pre><code>Error: &lt;text&gt;:1:6: 예기치 않은 &#39;!&#39;입니다
 1: 안녕하세요!
-              ^</code></pre>
+         ^</code></pre>
 
 
 <div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="control-prerequisite.html#cb55-1"></a><span class="kw">print</span>(<span class="st">&quot;안녕하세요!!&quot;</span>)</span>

@@ -3,6 +3,7 @@ output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
 # 제어문(Control Structure) {#control-structure}
 
 ```{r, echo=FALSE, message=FALSE}
@@ -809,8 +810,14 @@ for (i in 1:length(vec)) {
 ```
 
 
+## 2.5. 함수 (function) {#function}
 
 
+- **함수**: 특정한 목적을 위한 연산을 수행하기 위해 명명된 일련의 문장 
+   - 예: `sum(x)` $\rightarrow$ 
+
+
+## 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘
 
 
 

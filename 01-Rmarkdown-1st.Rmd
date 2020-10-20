@@ -956,7 +956,7 @@ bibliography: 참고문헌.bib # bibtex 서식 활용
 
 
 ```{r, echo=FALSE}
-knitr::include_graphics("figures/bibtex-yaml.PNG", dpi = NA)
+knitr::include_graphics("figures/bibtex-yaml.png", dpi = NA)
 ```
 
 - 참고문헌 표현: `[@citation-identifier]` 또는 `@citation-identifier`

@@ -305,7 +305,6 @@
 \usepackage{threeparttablex}
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
-\usepackage{xcolor}
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
@@ -318,7 +317,7 @@
 \makeatother
 \subtitle{2020년도 2학기 충남대학교 정보통계학과 강의 노트}
 \author{한국한의학연구원, 구본초}
-\date{2020-09-27}
+\date{2020-10-20}
 
 \begin{document}
 \maketitle
@@ -1072,7 +1071,7 @@ g(X_{n}) &= g(\theta)+g'({\tilde{\theta}})(X_{n}-\theta) \notag \\
 \toprule
 Chunk 옵션 & Default & 설명\\
 \midrule
-\rowcolor{gray!6}  eval & TRUE & R 실행(코드 실행 결과)에 대응하는 결과 출력 여부\\
+\cellcolor{gray!6}{eval} & \cellcolor{gray!6}{TRUE} & \cellcolor{gray!6}{R 실행(코드 실행 결과)에 대응하는 결과 출력 여부}\\
 include & TRUE & 출력 문서에 코드 청크의 내용을 포함할지 여부\\
 \bottomrule
 \end{tabular}
@@ -1155,11 +1154,11 @@ include & TRUE & 출력 문서에 코드 청크의 내용을 포함할지 여부
 \toprule
 Chunk 옵션 & Default & 설명\\
 \midrule
-\rowcolor{gray!6}  echo & TRUE & R 실행 결과에 대응하는 코드 출력 여부\\
+\cellcolor{gray!6}{echo} & \cellcolor{gray!6}{TRUE} & \cellcolor{gray!6}{R 실행 결과에 대응하는 코드 출력 여부}\\
 results & markup & 출력 결과 포맷 지정을 위한 옵션으로 추가적으로 3 가지 옵션 선택 가능: 'hide', 'asis', 'hold', 'markup'\\
-\rowcolor{gray!6}  error & TRUE & 코드 또는 스크립트에 구문오류 메세지 출력 여부\\
+\cellcolor{gray!6}{error} & \cellcolor{gray!6}{TRUE} & \cellcolor{gray!6}{코드 또는 스크립트에 구문오류 메세지 출력 여부}\\
 message & TRUE & 코드로부터 생성된 메세지 출력 여부\\
-\rowcolor{gray!6}  warning & TRUE & 경고 메세지 출력 여부\\
+\cellcolor{gray!6}{warning} & \cellcolor{gray!6}{TRUE} & \cellcolor{gray!6}{경고 메세지 출력 여부}\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1327,8 +1326,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  0.854459856 -0.627310301  0.002495761  0.876662521 -0.308418803
- [6] -0.156971649 -0.319270040 -0.507485878 -0.250455356 -0.608848465
+ [1] -0.41603691 -0.06844281  0.31028631  1.53300362 -0.76630835  0.61335592
+ [7] -3.31299754  0.07108634 -0.27304067  0.74256290
 \end{verbatim}
 
 \begin{Shaded}
@@ -1339,8 +1338,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  1.52371906 -0.83689829  0.35873201 -2.16126793  2.24342804  2.99354543
- [7]  4.01286043  0.72903770  0.96631516  0.05724965
+ [1] -1.9394158  2.1249310  3.4200572  4.1174784  2.8067859  1.3769160
+ [7]  0.9050209 -0.4775910  3.5285945  0.9991669
 \end{verbatim}
 
 \begin{Shaded}
@@ -1350,8 +1349,8 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1]  2.3781789 -1.4642086  0.3612278 -1.2846054  1.9350092  2.8365738
- [7]  3.6935904  0.2215518  0.7158598 -0.5515988
+ [1] -2.3554527  2.0564882  3.7303435  5.6504820  2.0404776  1.9902719
+ [7] -2.4079767 -0.4065047  3.2555538  1.7417298
 \end{verbatim}
 
 \normalsize
@@ -1370,12 +1369,12 @@ I'm raw \textbf{Markdown} content.
 \end{Shaded}
 
 \begin{verbatim}
- [1] -0.89310254  0.76883254  0.06295177 -0.94578636 -0.02478206  0.56249339
- [7] -1.63724815 -0.22499396  1.54225843 -0.31429577
- [1]  1.7225182193 -0.0009150543  3.2825461480 -0.4878501107  1.8066641760
- [6]  0.2851240031  2.5187450933 -0.1959895649  3.9481299546  1.4555695869
- [1]  0.8294157  0.7679175  3.3454979 -1.4336365  1.7818821  0.8476174
- [7]  0.8814969 -0.4209835  5.4903884  1.1412738
+ [1]  1.3009318 -0.2691309 -0.3103594 -0.1729806  1.2224691 -0.9291561
+ [7]  1.0377210 -0.7003020  0.3886292 -0.3073199
+ [1]  1.6435989  1.6340404  2.9088397  0.6754476  3.2836272 -0.7267385
+ [7]  1.7846750  1.9813299  4.4470268 -0.7369612
+ [1]  2.944531  1.364909  2.598480  0.502467  4.506096 -1.655895  2.822396
+ [8]  1.281028  4.835656 -1.044281
 \end{verbatim}
 
 \normalsize
@@ -1485,9 +1484,9 @@ Warning: 강제형변환에 의해 생성된 NA 입니다
 \toprule
 Chunk 옵션 & Default & 설명\\
 \midrule
-\rowcolor{gray!6}  comment & TRUE & 소스 코드 실행 출력의 각 줄 앞에 붙는 표시문자 출력 여부: 기본 값은 '\#\#' 임\\
+\cellcolor{gray!6}{comment} & \cellcolor{gray!6}{TRUE} & \cellcolor{gray!6}{소스 코드 실행 출력의 각 줄 앞에 붙는 표시문자 출력 여부: 기본 값은 '\#\#' 임}\\
 highlight & TRUE & 구문 강조 여부\\
-\rowcolor{gray!6}  prompt & FALSE & R 프롬프트 출력 여부\\
+\cellcolor{gray!6}{prompt} & \cellcolor{gray!6}{FALSE} & \cellcolor{gray!6}{R 프롬프트 출력 여부}\\
 tidy & FALSE & R 소스 코드 출력 정리 여부\\
 \bottomrule
 \end{tabular}
@@ -1641,9 +1640,9 @@ iris %>%
 \toprule
 Chunk 옵션 & Default & 설명\\
 \midrule
-\rowcolor{gray!6}  fig.align & default & 최종 문서에 plot 정렬 방식 결정(center/left/right)\\
+\cellcolor{gray!6}{fig.align} & \cellcolor{gray!6}{default} & \cellcolor{gray!6}{최종 문서에 plot 정렬 방식 결정(center/left/right)}\\
 fig.height/fig.width & 7 & 그림 크기(단위: 인치)\\
-\rowcolor{gray!6}  fig.cap & NULL & 그림 캡션(문자열 입력)\\
+\cellcolor{gray!6}{fig.cap} & \cellcolor{gray!6}{NULL} & \cellcolor{gray!6}{그림 캡션(문자열 입력)}\\
 dpi & 72 & dot per inche: 출력 그림 해상도\\
 \bottomrule
 \end{tabular}
@@ -1945,7 +1944,7 @@ bibliography: 참고문헌.bib # bibtex 서식 활용
 
 \footnotesize
 
-\includegraphics{figures/bibtex-yaml.PNG}
+\includegraphics{figures/bibtex-yaml.png}
 
 \normalsize
 
@@ -2033,14 +2032,14 @@ bibliography: 참고문헌.bib # bibtex 서식 활용
 \toprule
 R 예약어 & 설명\\
 \midrule
-\rowcolor{gray!6}  \ttfamily{if, else, while, function, in, next, break} & \ttfamily{조건, 함수, 반복문에 사용}\\
+\cellcolor{gray!6}{if, else, while, function, in, next, break} & \cellcolor{gray!6}{조건, 함수, 반복문에 사용}\\
 \ttfamily{TRUE/FALSE} & \ttfamily{논리 상수(logical constants)}\\
-\rowcolor{gray!6}  \ttfamily{NULL} & \ttfamily{정의되지 않은 값 혹은 값이 없음 표현}\\
+\cellcolor{gray!6}{NULL} & \cellcolor{gray!6}{정의되지 않은 값 혹은 값이 없음 표현}\\
 \ttfamily{Inf} & \ttfamily{무한(infinity)}\\
-\rowcolor{gray!6}  \ttfamily{NaN} & \ttfamily{숫자가 아님(not a number)}\\
+\cellcolor{gray!6}{NaN} & \cellcolor{gray!6}{숫자가 아님(not a number)}\\
 \addlinespace
 \ttfamily{NA} & \ttfamily{결측값(not available)}\\
-\rowcolor{gray!6}  \ttfamily{NA\_integer\_, NA\_real\_, NA\_complex\_, NA\_character\_} & \ttfamily{결측값을 처리하는 상수}\\
+\cellcolor{gray!6}{NA\_integer\_, NA\_real\_, NA\_complex\_, NA\_character\_} & \cellcolor{gray!6}{결측값을 처리하는 상수}\\
 \ttfamily{...} & \ttfamily{함수가 다른 함수에 인자를 전달하도록 지원}\\
 \bottomrule
 \end{tabular}
@@ -2108,9 +2107,9 @@ R 예약어 & 설명\\
 \end{Shaded}
 
 \begin{verbatim}
-Error: <text>:1:11: 예기치 않은 '!'입니다
+Error: <text>:1:6: 예기치 않은 '!'입니다
 1: 안녕하세요!
-              ^
+         ^
 \end{verbatim}
 
 \normalsize
@@ -3387,6 +3386,41 @@ e 가 7 번 째 인덱스에 있네요!!
 \end{verbatim}
 
 \normalsize
+
+\hypertarget{function}{%
+\section{2.5. 함수 (function)}\label{function}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{함수}: 특정한 목적을 위한 연산을 수행하기 위해 명명된 일련의 문장
+
+  \begin{itemize}
+  \tightlist
+  \item
+    예: \texttt{sum(x)} \(\rightarrow\)
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{uxc81cuxc5b4-uxad6cuxbb38-uxc774uxd574uxb97c-uxc704uxd55c-uxba87-uxac00uxc9c0-uxc54cuxace0uxb9acuxc998}{%
+\section{2.6. 제어 구문 이해를 위한 몇 가지 알고리즘}\label{uxc81cuxc5b4-uxad6cuxbb38-uxc774uxd574uxb97c-uxc704uxd55c-uxba87-uxac00uxc9c0-uxc54cuxace0uxb9acuxc998}}
+
+\hypertarget{Simulation}{%
+\chapter{시뮬레이션}\label{Simulation}}
+
+\begin{quote}
+\textbf{Sketch}
+
+\begin{itemize}
+\tightlist
+\item
+  시뮬레이션..시뮬레이션??..시뮬레이션!!
+\item
+  통계학에서 시뮬레이션이 왜 필요할까?
+\item
+  중요한 기초통계 이론을 눈으로 확인할 수 있을까?
+\end{itemize}
+\end{quote}
 
   \bibliography{book.bib,packages.bib}
 

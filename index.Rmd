@@ -67,7 +67,7 @@ lapply(c('DT', 'citr', 'formatR', 'svglite'), function(pkg) {
 ```
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
-source("../../Global/global-init.R", encoding = "UTF-8")
+source("../../r-global-function/global-init.R", encoding = "UTF-8")
 ```
 
 
