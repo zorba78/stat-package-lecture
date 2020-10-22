@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2.6 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘 | 통계 패키지 활용</title>
+  <title>2.6 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2.6 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘 | 통계 패키지 활용" />
+  <meta property="og:title" content="2.6 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2.6 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="2.6 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -178,9 +178,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.5" data-path="function.html"><a href="function.html"><i class="fa fa-check"></i><b>2.5</b> 함수 (function)</a><ul>
 <li class="chapter" data-level="2.5.1" data-path="function.html"><a href="function.html#함수의-정의"><i class="fa fa-check"></i><b>2.5.1</b> 함수의 정의</a></li>
-<li class="chapter" data-level="2.5.2" data-path="function.html"><a href="function.html#인수의-전달"><i class="fa fa-check"></i><b>2.5.2</b> 인수의 전달</a></li>
+<li class="chapter" data-level="2.5.2" data-path="function.html"><a href="function.html#함수의-인수-전달-방법"><i class="fa fa-check"></i><b>2.5.2</b> 함수의 인수 전달 방법</a></li>
+<li class="chapter" data-level="2.5.3" data-path="function.html"><a href="function.html#함수의-기본-구성-요소"><i class="fa fa-check"></i><b>2.5.3</b> 함수의 기본 구성 요소</a></li>
+<li class="chapter" data-level="2.5.4" data-path="function.html"><a href="function.html#함수의-적용-범위scoping-rule"><i class="fa fa-check"></i><b>2.5.4</b> 함수의 적용 범위(scoping rule)</a></li>
+<li class="chapter" data-level="2.5.5" data-path="function.html"><a href="function.html#재귀-함수"><i class="fa fa-check"></i><b>2.5.5</b> 재귀 함수</a></li>
 </ul></li>
-<li class="chapter" data-level="2.6" data-path="제어-구문-이해를-위한-몇-가지-알고리즘.html"><a href="제어-구문-이해를-위한-몇-가지-알고리즘.html"><i class="fa fa-check"></i><b>2.6</b> 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘</a></li>
+<li class="chapter" data-level="2.6" data-path="함수-및-제어-구문-이해를-위한-몇-가지-예제.html"><a href="함수-및-제어-구문-이해를-위한-몇-가지-예제.html"><i class="fa fa-check"></i><b>2.6</b> 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제</a><ul>
+<li class="chapter" data-level="2.6.1" data-path="함수-및-제어-구문-이해를-위한-몇-가지-예제.html"><a href="함수-및-제어-구문-이해를-위한-몇-가지-예제.html#fibonacci-수열"><i class="fa fa-check"></i><b>2.6.1</b> Fibonacci 수열</a></li>
+<li class="chapter" data-level="2.6.2" data-path="함수-및-제어-구문-이해를-위한-몇-가지-예제.html"><a href="함수-및-제어-구문-이해를-위한-몇-가지-예제.html#하노이-탑"><i class="fa fa-check"></i><b>2.6.2</b> 하노이 탑</a></li>
+<li class="chapter" data-level="2.6.3" data-path="함수-및-제어-구문-이해를-위한-몇-가지-예제.html"><a href="함수-및-제어-구문-이해를-위한-몇-가지-예제.html#newton-raphson-알고리즘"><i class="fa fa-check"></i><b>2.6.3</b> Newton-Raphson 알고리즘</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -201,9 +208,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="제어-구문-이해를-위한-몇-가지-알고리즘" class="section level2">
-<h2><span class="header-section-number">2.6</span> 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘</h2>
+<div id="함수-및-제어-구문-이해를-위한-몇-가지-예제" class="section level2">
+<h2><span class="header-section-number">2.6</span> 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제</h2>
+<div id="fibonacci-수열" class="section level3">
+<h3><span class="header-section-number">2.6.1</span> Fibonacci 수열</h3>
+</div>
+<div id="하노이-탑" class="section level3">
+<h3><span class="header-section-number">2.6.2</span> 하노이 탑</h3>
+</div>
+<div id="newton-raphson-알고리즘" class="section level3">
+<h3><span class="header-section-number">2.6.3</span> Newton-Raphson 알고리즘</h3>
 
+</div>
 </div>
 <!-- </div> -->
             </section>

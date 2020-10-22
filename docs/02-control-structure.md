@@ -1136,14 +1136,1377 @@ e 가 7 번 째 인덱스에 있네요!!
  \normalsize
 
 
-## 2.5. 함수 (function) {#function}
+## 함수 (function) {#function}
+
+\footnotesize
+
+<div class="figure">
+<img src="figures/function-machine-picture.png" alt="함수" width="32.8%" /><img src="figures/function-machine-03.png" alt="함수" width="32.8%" /><img src="figures/function-machine-04.png" alt="함수" width="32.8%" />
+<p class="caption">(\#fig:function-illust)함수</p>
+</div>
+
+ \normalsize
 
 
-- **함수**: 특정한 목적을 위한 연산을 수행하기 위해 명명된 일련의 문장 
-   - 예: `sum(x)` $\rightarrow$ 
+
+<br/>
 
 
-## 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘
+
+- **함수**: 특정한 목적을 위한 연산을 수행하기 위해 명명된 일련의 문장(추상화) 
+   - 예: `sum(x)` $\rightarrow$ 벡터 `x`의 값을 모두 합산하는 함수로 "sum" 이라고 명명된 내장 함수
+   - R 콘솔에서 함수 명칭(예: `sum`)을 입력 후 실행하면 함수 내부 확인 가능
+
+
+\footnotesize
+
+
+```r
+sum
+```
+
+```
+function (..., na.rm = FALSE)  .Primitive("sum")
+```
+
+ \normalsize
+
+
+
+- 함수의 명칭(위의 예에서 `sum`)으로 특정 합수를 호출(**call**)
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">R의 스크립트는 내장된 혹은 사용자가 정의한 함수들을 호출함으로써 작성됨</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+**함수를 사용해야만 하는 이유**
+
+- 매우 큰 프로그램 작업을 해야할 경우 함수를 통해 작업 단위 별로 분할 가능
+- 한 번 작성한 함수는 재사용 가능
+- 프로그램의 체계적 관리가 가능하기 때문에 유지 및 보수가 용이
+- 프로그램 코드의 간결화
+
+
+### 함수의 정의
+
+
+- `function` 이라는 R의 예약어를 통해 사용자 함수 정의 
+- 함수 정의 시 함수의 명칭을 반드시 부여해야 함 
+
+
+> **`함수 이름 <- function()`**
+
+
+- 함수는 일반적으로 인수(**argument**)로 입력값을 전달 받으면 그 결과값을 반환(**return**) 
+- 함수의 인수와 반환에 따라 다음과 같이 4 가지 유형의 함수 정의 가능
+   - 인수를 갖는 함수
+   - 인수를 갖지 않는 함수
+   - 값을 반환하는 함수
+   - 값을 반환하지 않는 함수
+
+
+\footnotesize
+
+
+```r
+# (1) 인수를 갖는 함수
+## (모)분산을 계산하는 함수
+var_pop <- function(x) {
+  n <- length(x)
+  if (n < 2) {
+    stop("적어도 두 개 이상의 관찰값이 존재해야 합니다")
+  }
+  mx <- mean(x)
+  v <- sum((x - mx)^2)/n
+  return(v) # 결과를 반환하는 함수: v를 함수의 출력값으로 설정
+}
+
+## test
+set.seed(1) # 동일한 난수 생성을 위해 seed 번호 부여
+x <- rnorm(1)
+var_pop(x)
+```
+
+```
+Error in var_pop(x): 적어도 두 개 이상의 관찰값이 존재해야 합니다
+```
+
+```r
+set.seed(1000)
+x <- rnorm(1000, 2, 4) # 평균이 2이고 표준편차가 4인 정규분포로부터 1000개 난수 추출
+var_pop(x)
+```
+
+```
+[1] 15.40581
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# (2) 인수를 갖지 않는 함수
+print_lyrics_let_it_be <- function() {
+  print("When I find myself in times of trouble, ")
+  print("Mother Mary comes to me.")
+  print("Speaking words of wisdom 'let it be'.")
+}
+
+print_lyrics_let_it_be()
+```
+
+```
+[1] "When I find myself in times of trouble, "
+[1] "Mother Mary comes to me."
+[1] "Speaking words of wisdom 'let it be'."
+```
+
+```r
+print_lyrics_let_it_be(beatles)
+```
+
+```
+Error in print_lyrics_let_it_be(beatles): 사용되지 않은 인자 (beatles)
+```
+
+```r
+## 주사위를 돌리는 함수
+rolling_dice <- function() {
+  sample(1:6, 1, replace = TRUE)
+}
+
+rolling_dice(); rolling_dice(); rolling_dice(); 
+```
+
+```
+[1] 4
+```
+
+```
+[1] 4
+```
+
+```
+[1] 4
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# (3) 값을 반환하는 함수
+manual_mean <- function(x) {
+  n <- length(x)
+  sumi <- 0
+  for (i in 1:n) {
+    sumi <- sumi + x[i]
+  }
+  return(sumi/n) 
+}
+
+set.seed(20)
+x <- sample(1:200, 20, replace = FALSE) # 1 ~ 200 중 랜덤하게 20개 추출(비복원)
+manual_mean(x)
+```
+
+```
+[1] 107
+```
+
+```r
+# 미리 정의하지 않은 인수를 입력한 경우
+set.seed(4)
+na_idx <- sample(1:length(x), 4)
+x[na_idx] <- NA
+manual_mean(x, na.rm = TRUE)
+```
+
+```
+Error in manual_mean(x, na.rm = TRUE): 사용되지 않은 인자 (na.rm = TRUE)
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# (4) 값을 반환하지 않는 함수(void function)
+summary_mean <- function(x, ...) {
+  n <- sum(!is.na(x))
+  mx <- sum(x, ...)/n
+  cat("Data: ", sprintf("%.2f", x), "\n") # 소숫점 2째 짜리 까지 출력
+  cat("전체 관찰값 개수(결측 제외) = ", n, "\n")
+  cat("산술평균 = ", mx, "\n")
+}
+
+
+set.seed(20)
+x <- rnorm(20)
+summary_mean(x)
+```
+
+```
+Data:  1.16 -0.59 1.79 -1.33 -0.45 0.57 -2.89 -0.87 -0.46 -0.56 -0.02 -0.15 -0.63 1.32 -1.52 -0.44 0.97 0.03 -0.09 0.39 
+전체 관찰값 개수(결측 제외) =  20 
+산술평균 =  -0.1877639 
+```
+
+```r
+result <- summary_mean(x)
+```
+
+```
+Data:  1.16 -0.59 1.79 -1.33 -0.45 0.57 -2.89 -0.87 -0.46 -0.56 -0.02 -0.15 -0.63 1.32 -1.52 -0.44 0.97 0.03 -0.09 0.39 
+전체 관찰값 개수(결측 제외) =  20 
+산술평균 =  -0.1877639 
+```
+
+```r
+result 
+```
+
+```
+NULL
+```
+
+```r
+x[na_idx] <- NA
+# ...를 통해 미리 정하지 않은 인수를 
+# 함수 내부에서 호출한 다른 함수로 전달 가능
+summary_mean(x, na.rm = TRUE) 
+```
+
+```
+Data:  1.16 -0.59 NA -1.33 -0.45 0.57 NA -0.87 -0.46 -0.56 NA -0.15 -0.63 1.32 -1.52 -0.44 0.97 0.03 NA 0.39 
+전체 관찰값 개수(결측 제외) =  16 
+산술평균 =  -0.1590692 
+```
+
+```r
+x <- summary_mean(x, na.rm = TRUE)
+```
+
+```
+Data:  1.16 -0.59 NA -1.33 -0.45 0.57 NA -0.87 -0.46 -0.56 NA -0.15 -0.63 1.32 -1.52 -0.44 0.97 0.03 NA 0.39 
+전체 관찰값 개수(결측 제외) =  16 
+산술평균 =  -0.1590692 
+```
+
+ \normalsize
+
+
+### 함수의 인수 전달 방법
+
+- 함수는 입력값(**input**) 을 가지며, 이러한 입력값은 함수의 인수(**argument**)에 해당 값을 할당함으로써 입력값이 함수로 전달됨
+- 함수의 인수 정의는 내 마음대로 가능(개수 무관)
+- R에서 함수 호출 시 인수 전달은 "**값**"을 호출 하는 방식(**call by value**)
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">**call by value**와 상반되는 개념으로 참조에 의한 호출(**call by reference**)로 값이 아니라 값이 저장되어 있는 메모리의 주소 값을 전달하는 방식(대표적인 예: `C 언어`의 포인터)임. 계산 효율은 참조에 의한 호출이 월등히 뛰어나지만, 프로그램의 구조가 복잡하다는 단점을 가짐. R은 데이터 분석에 특화된 프로그램이기 때문에 직관적인 **call by value** 방식을 택함. 
+</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+- 예시 
+
+
+\footnotesize
+
+
+```r
+# 두 변수의 값을 바꾸는 함수: swap 
+swap <- function(x, y) {
+  temp <- x
+  x <- y
+  y <- temp
+  cat("두 값이 바뀌었습니다.", sprintf("x = %d, y = %d", x, y)  ,"\n")
+}
+
+x <- 3; y <- 10
+swap(x, y)
+```
+
+```
+두 값이 바뀌었습니다. x = 10, y = 3 
+```
+
+```r
+x; y # x, y 두 값이 바뀌지 않음
+```
+
+```
+[1] 3
+```
+
+```
+[1] 10
+```
+
+ \normalsize
+
+
+- 인수를 전달하는 방법은 다음 두 가지임
+   - 인수의 **위치 순서**에 의한 전달: 정의한 인수의 순서대로 각 인수에 대응하는 값을 전달
+   - 인수의 **이름**에 의한 전달: 위치와 관계 없이 정의한 인수의 이름을 지정하여 값을 전달
+
+
+\footnotesize
+
+
+```r
+# 표준편차 계산 함수: stdev
+stdev <- function(x, na.rm = TRUE) {
+  if (is.matrix(x)) apply(x, 2, sd, na.rm = na.rm)
+  else if (is.vector(x)) sqrt(var(x, na.rm = na.rm))
+  else if (is.data.frame(x)) sapply(x, sd, na.rm = na.rm)
+  else sqrt(var(as.vector(x), na.rm = na.rm))
+}
+
+set.seed(1000)
+X <- matrix(rnorm(1000), 100, 10)
+x <- rpois(50, lambda = 10) # 포아송 분포(lambda = 10)에서 50개 난수 추출
+dat <- mtcars # R 내장 데이터를 dat 에 저장
+
+# (1) 순서에 의한 전달
+stdev(X, T); stdev(X) # 동일한 결과
+```
+
+```
+ [1] 1.0065940 0.9033927 0.9727257 0.9905631 0.8202803 1.0114516 0.9855547
+ [8] 1.0211373 1.0716219 1.0426811
+```
+
+```
+ [1] 1.0065940 0.9033927 0.9727257 0.9905631 0.8202803 1.0114516 0.9855547
+ [8] 1.0211373 1.0716219 1.0426811
+```
+
+```r
+stdev(x)
+```
+
+```
+[1] 3.41569
+```
+
+```r
+stdev(dat)
+```
+
+```
+        mpg         cyl        disp          hp        drat          wt 
+  6.0269481   1.7859216 123.9386938  68.5628685   0.5346787   0.9784574 
+       qsec          vs          am        gear        carb 
+  1.7869432   0.5040161   0.4989909   0.7378041   1.6152000 
+```
+
+```r
+stdev(TRUE, dat) # 오류 why??
+```
+
+```
+Warning in if (na.rm) "na.or.complete" else "everything": length > 1 이라는 조건
+이 있고, 첫번째 요소만이 사용될 것입니다
+```
+
+```
+Error in if (na.rm) "na.or.complete" else "everything": argument is not interpretable as logical
+```
+
+```r
+# (2) 이름에 의한 전달
+set.seed(5)
+na_idx <- sample(1:50, 5)
+x[na_idx] <- NA
+
+stdev(na.rm = T, x = x)
+```
+
+```
+[1] 3.411211
+```
+
+```r
+stdev(dat = dat, na.rm = TRUE) # 오류 why???
+```
+
+```
+Error in stdev(dat = dat, na.rm = TRUE): 사용되지 않은 인자 (dat = dat)
+```
+
+ \normalsize
+
+
+### 함수의 기본 구성 요소
+
+
+\footnotesize
+
+<div class="figure">
+<img src="figures/function-structure.png" alt="함수의 기본 구조" width="100%" />
+<p class="caption">(\#fig:function-structure)함수의 기본 구조</p>
+</div>
+
+ \normalsize
+
+
+- `function()`에서 `()` 안의 부분(일반적으로 첫 번째 줄)을 머리(header) 부분
+   - 함수의 초기 형태(매개변수 또는 인수의 형태)를 지정
+- 연산 또는 명령이 수행되는 부분은 함수의 몸통(body) 부분(`{}` 로 표시)
+   - 함수 내부에서 실행되는 연산 명령어들의 집합으로 구성
+- 인수(argument): 함수의 기능을 선택적으로 조정하는 parameter로 함수 안에서 작동하는 매개변수들을 통칭
+   - 인수는 `argument` 또는 `argument = default value`로 설정
+   - 복수의 인수는 콤마(`,`)로 구분 $\rightarrow$ `fun_name <- function(arg1, arg2, arg3)`
+   - 특수 인수 `...`: 어떠한 개수의 인수를 함수로 전달할 수 있음
+      - 일반적으로 인수의 개수가 불특정하거나 함수 안에서 다른 함수를 호출할 때 특정 인수를 다른 함수로 전달시킬 때 유용(위 예시 참고)
+
+
+\footnotesize
+
+
+```r
+# (1) 인수에 default 값을 주지 않은 함수
+fun_without_arg_default <- function(x, y) {
+  x*y
+}
+
+set.seed(10)
+a <- sample(1:20, 10, replace = TRUE) # 복원 추출
+a[7] <- NA
+b <- 5
+
+fun_without_arg_default(a, b)
+```
+
+```
+ [1] 55 45 50 80 60 40 NA 95 75 75
+```
+
+```r
+# (2) 인수에 default 값을 부여한 함수
+fun_with_arg_default <- function(x = 5, y = 8) {
+  x*y
+}
+
+fun_with_arg_default()
+```
+
+```
+[1] 40
+```
+
+```r
+trim_mean <- function(x, trim = 0, na.rm = F) {
+  mean(x, trim = trim, na.rm = na.rm)
+}
+trim_mean(a)
+```
+
+```
+[1] NA
+```
+
+```r
+trim_mean(x = a, trim = 0.2, na.rm = TRUE) # 인수 이름으로 값 전달
+```
+
+```
+[1] 12.57143
+```
+
+```r
+trim_mean(a, 0.3, TRUE)  # 인수 순서대로 값 전달
+```
+
+```
+[1] 12.6
+```
+
+```r
+# (3) ... 인수 사용 예제
+# list() 함수를 이용해 `...`에 해당하는 인수들을 리스트 객체로 만든 후 
+# 이를 함수에서 사용
+dot_example <- function(x, ...) {
+  # browser()
+  trim <- 0
+  na.rm <- FALSE
+  
+  dots <- list(...) # ...에 해당하는 인수 추출
+  for (arg in names(dots)) {
+    if (arg == "trim") trim <- as.numeric(dots[arg])
+    if (arg == "na.rm") na.rm <- as.logical(dots[arg])
+  } 
+  
+  mean(x, trim = trim, na.rm = na.rm)
+}
+
+dot_example(a)
+```
+
+```
+[1] NA
+```
+
+```r
+set.seed(30)
+a <- sample(1:30, 15, replace = TRUE) # 복원 추출
+dot_example(a)
+```
+
+```
+[1] 17.06667
+```
+
+```r
+a[9] <- NA
+dot_example(a)
+```
+
+```
+[1] NA
+```
+
+```r
+dot_example(a, trim = 0.1, na.rm = TRUE)
+```
+
+```
+[1] 17.75
+```
+
+ \normalsize
+
+
+
+\footnotesize
+
+
+```r
+# (4) `...` 인수가 함수 내 사용(호출)된 
+# 다른 함수의 인수로 전달하는 경우
+# summary_mean() 함수 예제와 유사
+mean_manual <- function(x, ...) {
+  mean(x, ...)
+}
+
+set.seed(30)
+x <- rnorm(30, mean = 10, sd = 5)
+na_idx <- sample(1:30, 3, replace = TRUE)
+xna <- x; xna[na_idx] <- NA
+
+mean_manual(x)
+```
+
+```
+[1] 8.347683
+```
+
+```r
+mean_manual(xna)
+```
+
+```
+[1] NA
+```
+
+```r
+mean_manual(xna, na.rm = TRUE)
+```
+
+```
+[1] 8.127862
+```
+
+```r
+mean_manual(x = xna, trim = 0.2, na.rm = TRUE)
+```
+
+```
+[1] 7.534424
+```
+
+ \normalsize
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdtip}<div class="rmdtip">함수 몸체 안에 `browser()`을 입력하면, `browser()` 전 까지 함수 몸체 안 명령들이 수행되고, 이후 명령들이 어떻게 실행되는지 확인할 수 있음. 함수 작성 시 함수 로직을 세우고 디버깅 할 때 매우 유용하게 사용</div>\EndKnitrBlock{rmdtip}
+
+ \normalsize
+
+
+**인수 관련 몇 가지 유용한 함수들**
+
+
+- `args()`: 특정 함수에서 사용되는 인수 확인
+
+\footnotesize
+
+
+```r
+args(fun_without_arg_default)
+```
+
+```
+function (x, y) 
+NULL
+```
+
+```r
+args(rnorm)
+```
+
+```
+function (n, mean = 0, sd = 1) 
+NULL
+```
+
+ \normalsize
+
+
+- `body()`: 함수의 몸체 조회
+
+\footnotesize
+
+
+```r
+body(var_pop)
+```
+
+```
+{
+    n <- length(x)
+    if (n < 2) {
+        stop("적어도 두 개 이상의 관찰값이 존재해야 합니다")
+    }
+    mx <- mean(x)
+    v <- sum((x - mx)^2)/n
+    return(v)
+}
+```
+
+```r
+body(dot_example)
+```
+
+```
+{
+    trim <- 0
+    na.rm <- FALSE
+    dots <- list(...)
+    for (arg in names(dots)) {
+        if (arg == "trim") 
+            trim <- as.numeric(dots[arg])
+        if (arg == "na.rm") 
+            na.rm <- as.logical(dots[arg])
+    }
+    mean(x, trim = trim, na.rm = na.rm)
+}
+```
+
+ \normalsize
+
+
+- `match.arg()`: 인수를 매치하는 함수로 매치할 대상의 인수를 지정
+   - arg: 매치할 대상 인수 지정
+   - choice: 매치될 인수값 목록
+   - several.ok: 복수 선택 여부(`TRUE/FALSE`)
+   
+\footnotesize
+
+
+```r
+# 인수의 매치
+match.arg(arg = c("med", "max"), 
+          choices = c("mean", "median", "iqr", "minimum", "maximum", "range"), 
+          several.ok = TRUE)
+```
+
+```
+[1] "median"  "maximum"
+```
+
+```r
+match.arg(arg = c("median", "maximuum"), 
+          choices = c("mean", "med", "iqr", "minimum", "max", "range"), 
+          several.ok = TRUE) # 오류 why??
+```
+
+```
+Error in match.arg(arg = c("median", "maximuum"), choices = c("mean", : 'arg'은 반드시 "mean", "med", "iqr", "minimum", "max", "range" 중 하나이어야 합니다
+```
+
+```r
+match.arg(arg = c("med", "max"), 
+          choices = c("mean", "median", "iqr", "minimum", "maximum", "range"), 
+          several.ok = FALSE)
+```
+
+```
+Error in match.arg(arg = c("med", "max"), choices = c("mean", "median", : 'arg'는 반드시 길이가 1이어야 합니다
+```
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# match.arg() 함수 응용
+# 중심값 관련 통계량 계산 함수
+# 평균(mean), 절삭평균(trimmed mean), 중앙값(median), 최빈수(mode) 계산
+
+# pkg_list <- rownames(installed.packages()) # 설치된 패키지 목록
+# if (!("DescTools" %in% pkg_list)) 
+#   install.packages("DescTools") # 최빈수를 구하기 위한 패키지 설치
+
+center <- function(x, 
+                   type = c("mean", "trimmed", "median", "mode"), 
+                   ...
+                   ) 
+{
+  # browser()
+  trim = 0; na.rm = FALSE # dot 인수 초기값
+  type <- match.arg(type)
+  dots <- list(...)
+  for (arg in names(dots)) {
+    if (arg == "trim") trim <- as.numeric(dots[arg])
+    if (arg == "na.rm") na.rm <- as.logical(dots[arg])
+  } 
+  
+  switch(type, 
+         mean = mean(x, na.rm = na.rm),
+         trimmed = mean(x, trim = trim, na.rm = na.rm),
+         median = median(x, na.rm = na.rm),
+         mode = DescTools::Mode(round(x, 1), na.rm = na.rm)
+         # DescTools 패키지 내 Mode 함수를 
+         # workspace에 불러오지 않고 사용
+         )
+}
+
+set.seed(100)
+x <- rchisq(100, df = 3) # 자유도가 3인 카이제곱분포에서 난수 추출
+xna <- x; xna[na_idx] <- NA
+
+
+center(x, "mean"); center(x, "me")
+```
+
+```
+[1] 2.929673
+```
+
+```
+Error in match.arg(type): 'arg'은 반드시 "mean", "trimmed", "median", "mode" 중 하나이어야 합니다
+```
+
+```
+[1] 2.929673
+```
+
+```r
+center(x, "trimmed", trim = 0.1)
+```
+
+```
+[1] 2.565866
+```
+
+```r
+center(x, "median")
+```
+
+```
+[1] 2.45614
+```
+
+```r
+center(x, "mode")
+```
+
+```
+[1] 1.7
+attr(,"freq")
+[1] 6
+```
+
+```r
+center(xna, "median")
+```
+
+```
+[1] NA
+```
+
+```r
+center(xna, "median", na.rm = TRUE)
+```
+
+```
+[1] 2.423723
+```
+
+ \normalsize
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">`switch()` 함수는 `ifelse()` 함수의 확장 버전으로 $n$ 개의 조건에 대한 분기 가능
+</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+
+**함수 제어 관련 주요 함수**
+
+- `return()`: 계산된 결과를 반환하는 함수로 함수의 흐름에서 `return()`이 나타나면 결과값을 반환하고 함수 종료
+   - 강제 종료가 필요한 경우 응용 가능
+
+
+\footnotesize
+
+
+```r
+# (1) 객체 반환
+set.seed(100)
+x <- rnorm(100, mean = 24, sd = 2.2)
+value_return1 <- function(x) {
+  tot <- sum(x)
+  n <- length(x)
+  result <- list(size = n, total = tot, average = mean(x), stdev = sd(x))
+  return(result)
+}
+value_return_exp(x)
+```
+
+```
+Error in value_return_exp(x): 함수 "value_return_exp"를 찾을 수 없습니다
+```
+
+```r
+desc <- value_return_exp(x)
+```
+
+```
+Error in value_return_exp(x): 함수 "value_return_exp"를 찾을 수 없습니다
+```
+
+```r
+desc$stdev
+```
+
+```
+Error in desc$stdev: 객체의 타입 'closure'는 부분대입할 수 없습니다
+```
+
+```r
+value_return2 <- function(x) {
+  return(sum(x)/length(x))
+}
+value_return2(x)
+```
+
+```
+[1] 24.00641
+```
+
+```r
+# (2) 강제 종료 시 활용
+value_return3 <- function(x) {
+  if (anyNA(x)) return
+  return(sum(x)/length(x))
+}
+
+xna <- x; xna[na_idx] <- NA
+value_return3(xna)
+```
+
+```
+[1] NA
+```
+
+```r
+value_return3(x)
+```
+
+```
+[1] 24.00641
+```
+
+ \normalsize
+
+- `stop()`: 예외처리 함수의 일종으로 특정 조건일 경우 (오류) 메세지를 출력하고 함수 종료
+   - 인수로 문자열을 가짐
+
+\footnotesize
+
+
+```r
+# (1) stop() 함수 사용
+# 복소수 값을 실수와 허수로 분할
+split_complex <- function(z) {
+  if(!is.complex(z)) 
+    stop("입력값이 복소수가 아닙니다")
+  re <- Re(z)
+  im <- Im(z)
+  return(list(real = re, imaginary = im))
+}
+
+split_complex(pi)
+```
+
+```
+Error in split_complex(pi): 입력값이 복소수가 아닙니다
+```
+
+```r
+split_complex(23 + 7i)
+```
+
+```
+$real
+[1] 23
+
+$imaginary
+[1] 7
+```
+
+ \normalsize
+
+
+
+### 함수의 적용 범위(scoping rule)
+
+**Scoping rule**: 변수 또는 객체가 어디에서 사용 가능한지를 결정하는 규칙
+
+1. **매개변수(parameter)**: 함수를 적용할 때 사용되는 변수로 인수로부터 발생함
+   - 함수의 인수 리스트에서 인수값이 매개변수로 할당
+2. **지역변수(local variable)**: 함수의 몸체 부분에서 정의된 변수들을 지칭하며 함수의 종료와 동시에 재사용 불가
+3. **전역변수(global variable)**: 함수의 외부(workspace)에서 정의된 변수로 함수 내부에서 값을 할당하지 않더라도 사용 가능
+
+
+\footnotesize
+
+
+```r
+# (1) 매개변수, 지역변수, 전역변수 구분
+x <- 10 # 전역변수
+y <- 5 # 전역변수
+
+scope1 <- function(x) {
+  y <- x^2
+  print(x) # 매개변수
+  print(y) # 지역변수
+}
+
+x; y # 전역변수가 출력
+```
+
+```
+[1] 10
+```
+
+```
+[1] 5
+```
+
+```r
+scope1(x = 10)
+```
+
+```
+[1] 10
+[1] 100
+```
+
+ \normalsize
+
+> - 작업공간에서 `x`와 `y`는 각각 10, 5 값이 할당
+> - 작업공간 상에서 `x` `y` 값은 변하지 않음
+> - 지역변수 `y`의 사용 범위는 함수 몸체이기 때문에 함수 밖에 있는 y는 값이 변하지 않음
+
+
+\footnotesize
+
+
+```r
+x <- 10 # 전역변수
+y <- 5 # 전역변수
+rm(z)
+
+scope2 <- function(x) {
+  y <- x^2
+  print(x) # 매개변수
+  print(y) # 지역변수
+  print(z) 
+}
+scope2(x = 5)
+```
+
+```
+[1] 5
+[1] 25
+```
+
+```
+Error in print(z): 객체 'z'를 찾을 수 없습니다
+```
+
+```r
+z <- 13 # 전역변수로 z 할당
+scope2(x = 5)
+```
+
+```
+[1] 5
+[1] 25
+[1] 13
+```
+
+ \normalsize
+
+
+> - 함수 외부와 내부 모두에서 `z`가 정의되지 않았기 때문에 에러 출력
+> - 작업공간 상에 `z`를 정의한 경우 함수 내부에서 workspace에서 정의한 `z`를 그대로 사용 $\rightarrow$ 함수 외부와 내부 자유로이 사용 가능한 변수를 자유변수(free variable)이라고 지칭함.
+
+
+지역변수의 사용 범위는 함수 몸체 안이지만 그 범위를 밖으로 확장할 수 있음 $\rightarrow$ `<<-` 또는 `->>` 사용
+
+
+\footnotesize
+
+
+```r
+# 지경변수의 확장 예제
+x <- 1; y <- 2; z <- 3; k <- 10
+scope3 <- function(x) {
+  y <<- x + 10
+  y * 3 ->> z
+  
+  print(x) # 매개변수
+  print(y) # 지역변수
+  print(z) # 지역변수
+  print(k) # 자유변수
+}
+
+x;y;z;k
+```
+
+```
+[1] 1
+```
+
+```
+[1] 2
+```
+
+```
+[1] 3
+```
+
+```
+[1] 10
+```
+
+```r
+scope3(x = 2)
+```
+
+```
+[1] 2
+[1] 12
+[1] 36
+[1] 10
+```
+
+```r
+x;y;z;k
+```
+
+```
+[1] 1
+```
+
+```
+[1] 12
+```
+
+```
+[1] 36
+```
+
+```
+[1] 10
+```
+
+ \normalsize
+
+하나의 함수 내부에 또 다른 함수 생성 가능
+
+\footnotesize
+
+
+```r
+mean_manual2 <- function(x) {
+  tot <- sum(x)
+  size <- function(x) {
+    return(length(x))
+  }
+  return(tot/size(x))
+}
+
+mean_manual2(1:10)
+```
+
+```
+[1] 5.5
+```
+
+ \normalsize
+
+
+<!-- ### 함수의 결과 반환 -->
+
+
+<!-- ### 함수 작성을 위해 필요한 연산자 -->
+
+
+### 재귀 호출 함수(recursive call function)
+
+
+함수 자신을 다시 호출하는 함수로 직관적으로 이해하기 쉽고 간결함
+  
+  - 재귀함수 작성 시 재귀호출을 탈출하는 조건을 명확히 하는 것이 관건
+  
+
+**예제1: 계승(factorial) 계산하기**
+
+
+$$
+ n! = \begin{cases}
+ n \times (n - 1)!, & n=1, \cdots \\
+ 1, & n = 0
+ \end{cases}
+$$
+
+$f(n) = n!$ 이라고 하면 $f(n)$은 아래와 같이 나타낼 수 있음. 
+
+
+$$
+ n! = \begin{cases}
+ n \times f(n-1), & n=1, \cdots \\
+ 1, & n = 0
+ \end{cases}
+$$
+
+위 식을 이용해 $3!$을 구하는 과정: 
+   - $f(3) = 3\times f(2) = 3\times 2 \times f(1) = 3 \times 2\times 1\times f(0) = 3\times 2\times 1\times 1\times = 6$
+
+
+\footnotesize
+
+
+```r
+f(3) = 3*f(2)
+         f(2) = 2 * f(1)
+                    f(1) = 1
+```
+
+ \normalsize
+
+
+위 과정을 함수로 구현
+
+\footnotesize
+
+
+```r
+factorial_manual <- function(n) {
+  if (n == 0) return(1)
+  return(n * factorial_manual(n-1))
+}
+
+# test
+factorial_manual(3)
+```
+
+```
+[1] 6
+```
+
+```r
+factorial_manual(10)
+```
+
+```
+[1] 3628800
+```
+
+```r
+# R 내장함수로 검증
+factorial(10)
+```
+
+```
+[1] 3628800
+```
+
+ \normalsize
+
+
+**예제: 하노이 탑(tower of Hanoi)**
+
+> "인도 베나레스에 있는 한 사원에는 세상의 중심을 나타내는 큰 돔이 있고 그 안에 세 개의 다이아몬드 바늘이 동판 위에 세워져 있습니다. 바늘의 높이는 1 큐빗이고 굵기는 벌의 몸통만 합니다. 바늘 가운데 하나에는 신이 64개의 순금 원판을 끼워 놓았습니다. 가장 큰 원판이 바닥에 놓여 있고, 나머지 원판들이 점점 작아지며 꼭대기까지 쌓아 있습니다. 이것은 신성한 브라흐마의 탑입니다. 브라흐마의 지시에 따라 승려들은 모든 원판을 다른 바늘로 옮기기 위해 밤낮 없이 차례로 제단에 올라 규칙에 따라 원판을 하나씩 옮깁니다. 이 일이 끝날 때, 탑은 무너지고 세상은 종말을 맞이하게 됩니다." [Wikipedia]
+
+
+**문제**: 3개의 기둥 A, B, C가 있고, 기둥 A에 $N$ 개의 원판이 크기 순서대로 쌓여져 있을 때(제일 밑에 원판이 가장 큼), 모든 원판을 기둥 C로 옮기기
+
+**조건**
+
+   - 한 번에 하나의 원판만 옮길 수 있음
+   - 큰 원판이 작은 원판 위에 있으면 안됨
+   
+
+\footnotesize
+
+<div class="figure">
+<img src="figures/hanoi-problem.gif" alt="하노이 탑 문제 " width="100%" />
+<p class="caption">(\#fig:hanoi-problem)하노이 탑 문제 </p>
+</div>
+
+ \normalsize
+
+
+**Solution**
+
+
+원판의 크기가 제일 작은 것 부터 큰 것 까지 각각 1, 2, 3 번을 부여 했을 때
+
+
+   - 1 번 원판을 봉 A에서 C로 옮김 (A $\rightarrow$ C)
+   - 2 번 원판을 봉 A에서 B로 옮김 (A $\rightarrow$ B)
+   - 1 번 원판을 봉 C에서 B로 옮김 (C $\rightarrow$ B)
+   - 3 번 원판을 봉 A에서 C로 옮김 (A $\rightarrow$ C)
+   - 1 번 원판을 봉 B에서 A로 옮김 (B $\rightarrow$ A)
+   - 2 번 원판을 봉 B에서 C로 옮김 (B $\rightarrow$ C)
+   - 1 번 원판을 봉 A에서 C로 옮김 (A $\rightarrow$ C)
+
+   
+> 원판이 3개인 경우 총 7번의 이동이 필요 $\rightarrow$ $n$개의 원판이 있을 경우 $2^n - 1$ 번의 이동이 필요
+
+
+
+\footnotesize
+
+<div class="figure">
+<img src="figures/hanoi-solution.gif" alt="하노이 탑 문제 " width="100%" />
+<p class="caption">(\#fig:hanoi-solution)하노이 탑 문제 </p>
+</div>
+
+ \normalsize
+
+
+**알고리즘 구현**
+
+
+\footnotesize
+
+
+```r
+move <- function(n, from, to) print(sprintf("%d 번 원판을 %s 에서 %s 로 이동", n, from, to))
+move_hanoi <- function(n, from, to, via) {
+  
+ if (n == 1) {
+   move(1, from, to)
+ } else {
+   move_hanoi(n - 1, from, via, to)
+   move(n, from, to)
+   move_hanoi(n - 1, via, to, from)
+ }
+}
+
+
+move_hanoi(3, "A", "C", "B")
+```
+
+```
+[1] "1 번 원판을 A 에서 C 로 이동"
+[1] "2 번 원판을 A 에서 B 로 이동"
+[1] "1 번 원판을 C 에서 B 로 이동"
+[1] "3 번 원판을 A 에서 C 로 이동"
+[1] "1 번 원판을 B 에서 A 로 이동"
+[1] "2 번 원판을 B 에서 C 로 이동"
+[1] "1 번 원판을 A 에서 C 로 이동"
+```
+
+```r
+move_hanoi(4, "A", "C", "B")
+```
+
+```
+[1] "1 번 원판을 A 에서 B 로 이동"
+[1] "2 번 원판을 A 에서 C 로 이동"
+[1] "1 번 원판을 B 에서 C 로 이동"
+[1] "3 번 원판을 A 에서 B 로 이동"
+[1] "1 번 원판을 C 에서 A 로 이동"
+[1] "2 번 원판을 C 에서 B 로 이동"
+[1] "1 번 원판을 A 에서 B 로 이동"
+[1] "4 번 원판을 A 에서 C 로 이동"
+[1] "1 번 원판을 B 에서 C 로 이동"
+[1] "2 번 원판을 B 에서 A 로 이동"
+[1] "1 번 원판을 C 에서 A 로 이동"
+[1] "3 번 원판을 B 에서 C 로 이동"
+[1] "1 번 원판을 A 에서 B 로 이동"
+[1] "2 번 원판을 A 에서 C 로 이동"
+[1] "1 번 원판을 B 에서 C 로 이동"
+```
+
+ \normalsize
+
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">**숙제2**: 하노이 탑 문제의 어느 부분을 재귀함수로 나타낼 수 있는지를 명확히 기술하고, 위 함수의 실행 원리를 설명 또는 도식화 하시오. 
+
+- 제출일: 2020년 11월 6일 금요일 23:59분 까지
+- 제출방법: R markdown으로 작성한 문서와 Rmd 파일을 '학번-이름.zip'으로 압축 후 제출
+</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+
+
+<!-- ## 2.6. 함수 및 제어 구문 이해를 위한 몇 가지 예제 -->
+
+
+<!-- ### Fibonacci 수열 -->
+
+
+<!-- ### 하노이 탑 -->
+
+
+<!-- ### Newton-Raphson 알고리즘 -->
+
+
+
 
 
 

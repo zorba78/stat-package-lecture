@@ -176,8 +176,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4.2" data-path="looping.html"><a href="looping.html#while"><i class="fa fa-check"></i><b>2.4.2</b> <strong><code>while</code> 구문</strong></a></li>
 <li class="chapter" data-level="2.4.3" data-path="looping.html"><a href="looping.html#for-구문"><i class="fa fa-check"></i><b>2.4.3</b> <strong><code>for</code> 구문</strong></a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="function.html"><a href="function.html"><i class="fa fa-check"></i><b>2.5</b> 2.5. 함수 (function)</a></li>
-<li class="chapter" data-level="2.6" data-path="제어-구문-이해를-위한-몇-가지-알고리즘.html"><a href="제어-구문-이해를-위한-몇-가지-알고리즘.html"><i class="fa fa-check"></i><b>2.6</b> 2.6. 제어 구문 이해를 위한 몇 가지 알고리즘</a></li>
+<li class="chapter" data-level="2.5" data-path="function.html"><a href="function.html"><i class="fa fa-check"></i><b>2.5</b> 함수 (function)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="function.html"><a href="function.html#함수의-정의"><i class="fa fa-check"></i><b>2.5.1</b> 함수의 정의</a></li>
+<li class="chapter" data-level="2.5.2" data-path="function.html"><a href="function.html#함수의-인수-전달-방법"><i class="fa fa-check"></i><b>2.5.2</b> 함수의 인수 전달 방법</a></li>
+<li class="chapter" data-level="2.5.3" data-path="function.html"><a href="function.html#함수의-기본-구성-요소"><i class="fa fa-check"></i><b>2.5.3</b> 함수의 기본 구성 요소</a></li>
+<li class="chapter" data-level="2.5.4" data-path="function.html"><a href="function.html#함수의-적용-범위scoping-rule"><i class="fa fa-check"></i><b>2.5.4</b> 함수의 적용 범위(scoping rule)</a></li>
+<li class="chapter" data-level="2.5.5" data-path="function.html"><a href="function.html#재귀-호출-함수recursive-call-function"><i class="fa fa-check"></i><b>2.5.5</b> 재귀 호출 함수(recursive call function)</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -314,19 +319,19 @@ NA_integer_, NA_real_, NA_complex_, NA_character_
 </ul></li>
 </ul>
 
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="control-prerequisite.html#cb53-1"></a>안녕하세요<span class="op">!!</span></span>
-<span id="cb53-2"><a href="control-prerequisite.html#cb53-2"></a>통계패키지활용 수업에서 R을 배우고 있습니다. </span>
-<span id="cb53-3"><a href="control-prerequisite.html#cb53-3"></a>처음이라 실수가 많습니다.</span>
-<span id="cb53-4"><a href="control-prerequisite.html#cb53-4"></a>앞으로 잘 부탁해요<span class="op">!!</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="control-prerequisite.html#cb1-1"></a>안녕하세요<span class="op">!!</span></span>
+<span id="cb1-2"><a href="control-prerequisite.html#cb1-2"></a>통계패키지활용 수업에서 R을 배우고 있습니다. </span>
+<span id="cb1-3"><a href="control-prerequisite.html#cb1-3"></a>처음이라 실수가 많습니다.</span>
+<span id="cb1-4"><a href="control-prerequisite.html#cb1-4"></a>앞으로 잘 부탁해요<span class="op">!!</span></span></code></pre></div>
 <pre><code>Error: &lt;text&gt;:1:6: 예기치 않은 &#39;!&#39;입니다
 1: 안녕하세요!
          ^</code></pre>
 
 
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="control-prerequisite.html#cb55-1"></a><span class="kw">print</span>(<span class="st">&quot;안녕하세요!!&quot;</span>)</span>
-<span id="cb55-2"><a href="control-prerequisite.html#cb55-2"></a><span class="kw">print</span>(<span class="st">&quot;통계패키지활용 수업을 위해 R을 배우고 있습니다.&quot;</span>)</span>
-<span id="cb55-3"><a href="control-prerequisite.html#cb55-3"></a><span class="kw">print</span>(<span class="st">&quot;처음이라 실수가 많습니다.&quot;</span>)</span>
-<span id="cb55-4"><a href="control-prerequisite.html#cb55-4"></a><span class="kw">print</span>(<span class="st">&quot;앞으로 잘 부탁해요!!&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="control-prerequisite.html#cb3-1"></a><span class="kw">print</span>(<span class="st">&quot;안녕하세요!!&quot;</span>)</span>
+<span id="cb3-2"><a href="control-prerequisite.html#cb3-2"></a><span class="kw">print</span>(<span class="st">&quot;통계패키지활용 수업을 위해 R을 배우고 있습니다.&quot;</span>)</span>
+<span id="cb3-3"><a href="control-prerequisite.html#cb3-3"></a><span class="kw">print</span>(<span class="st">&quot;처음이라 실수가 많습니다.&quot;</span>)</span>
+<span id="cb3-4"><a href="control-prerequisite.html#cb3-4"></a><span class="kw">print</span>(<span class="st">&quot;앞으로 잘 부탁해요!!&quot;</span>)</span></code></pre></div>
 <pre><code>[1] &quot;안녕하세요!!&quot;
 [1] &quot;통계패키지활용 수업을 위해 R을 배우고 있습니다.&quot;
 [1] &quot;처음이라 실수가 많습니다.&quot;
