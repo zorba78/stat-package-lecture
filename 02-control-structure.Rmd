@@ -1261,8 +1261,8 @@ value_return1 <- function(x) {
   result <- list(size = n, total = tot, average = mean(x), stdev = sd(x))
   return(result)
 }
-value_return_exp(x)
-desc <- value_return_exp(x)
+value_return1(x)
+desc <- value_return1(x)
 desc$stdev
 
 value_return2 <- function(x) {

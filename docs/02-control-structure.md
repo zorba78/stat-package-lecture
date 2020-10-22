@@ -1992,27 +1992,30 @@ value_return1 <- function(x) {
   result <- list(size = n, total = tot, average = mean(x), stdev = sd(x))
   return(result)
 }
-value_return_exp(x)
+value_return1(x)
 ```
 
 ```
-Error in value_return_exp(x): 함수 "value_return_exp"를 찾을 수 없습니다
+$size
+[1] 100
+
+$total
+[1] 2400.641
+
+$average
+[1] 24.00641
+
+$stdev
+[1] 2.245563
 ```
 
 ```r
-desc <- value_return_exp(x)
-```
-
-```
-Error in value_return_exp(x): 함수 "value_return_exp"를 찾을 수 없습니다
-```
-
-```r
+desc <- value_return1(x)
 desc$stdev
 ```
 
 ```
-Error in desc$stdev: 객체의 타입 'closure'는 부분대입할 수 없습니다
+[1] 2.245563
 ```
 
 ```r
