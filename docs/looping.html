@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-10-20" />
+<meta name="date" content="2020-10-23" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -214,14 +214,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>반복문은 특정 변수의 값을 갱신(update) 하기 위해 주로 사용</li>
 </ul>
 
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="looping.html#cb36-1"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="co"># 현재 값에 1을 더해서 x를 새로운 값으로 update</span></span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="looping.html#cb88-1"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="co"># 현재 값에 1을 더해서 x를 새로운 값으로 update</span></span></code></pre></div>
 
 <ul>
 <li>통상적으로 특정 변수의 값을 갱신하기 위해 변수 값을 초기화(initialize)</li>
 </ul>
 
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="looping.html#cb37-1"></a>x &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># x 변수 초기화</span></span>
-<span id="cb37-2"><a href="looping.html#cb37-2"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="looping.html#cb89-1"></a>x &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># x 변수 초기화</span></span>
+<span id="cb89-2"><a href="looping.html#cb89-2"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
 
 <ul>
 <li>몇 번 반복이라는 정의가 없는 상태에서 특정 조건이 거짓(FALSE)이 될 때 까지 계속 반복</li>
@@ -230,13 +230,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="repeat" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> <strong><code>repeat</code> 구문</strong></h3>
 
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="looping.html#cb38-1"></a><span class="cf">repeat</span> 표현식</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="looping.html#cb90-1"></a><span class="cf">repeat</span> 표현식</span></code></pre></div>
 
 <ul>
 <li><code>repeat</code> 다음에 오는 표현식을 무한 반복(infinite loop)</li>
 </ul>
 
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="looping.html#cb39-1"></a><span class="cf">repeat</span> <span class="kw">print</span>(<span class="st">&quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="looping.html#cb91-1"></a><span class="cf">repeat</span> <span class="kw">print</span>(<span class="st">&quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;</span>)</span></code></pre></div>
 
 <pre><code>[1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
 [1] &quot;무한 루프에 걸림...ESC 키 누르시오!!&quot;
@@ -252,11 +252,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>언제까지(until) 반복(repeat) <span class="math inline">\(\rightarrow\)</span> REPEAT-UNTIL 구문으로 표현</li>
 </ul>
 
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="looping.html#cb41-1"></a><span class="cf">repeat</span> {</span>
-<span id="cb41-2"><a href="looping.html#cb41-2"></a>  표현식 <span class="dv">1</span></span>
-<span id="cb41-3"><a href="looping.html#cb41-3"></a>  <span class="cf">if</span> (조건) <span class="cf">break</span></span>
-<span id="cb41-4"><a href="looping.html#cb41-4"></a>  반복변수 update</span>
-<span id="cb41-5"><a href="looping.html#cb41-5"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="looping.html#cb93-1"></a><span class="cf">repeat</span> {</span>
+<span id="cb93-2"><a href="looping.html#cb93-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb93-3"><a href="looping.html#cb93-3"></a>  <span class="cf">if</span> (조건) <span class="cf">break</span></span>
+<span id="cb93-4"><a href="looping.html#cb93-4"></a>  반복변수 update</span>
+<span id="cb93-5"><a href="looping.html#cb93-5"></a>}</span></code></pre></div>
 
 
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-34"></span>
@@ -267,17 +267,17 @@ Figure 2.6: REPEAT 구문 flow-chart
 </div>
 
 
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="looping.html#cb42-1"></a><span class="co"># REPEAT-UNTIL 예시 1</span></span>
-<span id="cb42-2"><a href="looping.html#cb42-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
-<span id="cb42-3"><a href="looping.html#cb42-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
-<span id="cb42-4"><a href="looping.html#cb42-4"></a><span class="cf">repeat</span> {</span>
-<span id="cb42-5"><a href="looping.html#cb42-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
-<span id="cb42-6"><a href="looping.html#cb42-6"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span> <span class="co"># i는 반복 변수</span></span>
-<span id="cb42-7"><a href="looping.html#cb42-7"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb42-8"><a href="looping.html#cb42-8"></a>}</span>
-<span id="cb42-9"><a href="looping.html#cb42-9"></a>tot</span>
-<span id="cb42-10"><a href="looping.html#cb42-10"></a><span class="co"># check</span></span>
-<span id="cb42-11"><a href="looping.html#cb42-11"></a><span class="kw">sum</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="looping.html#cb94-1"></a><span class="co"># REPEAT-UNTIL 예시 1</span></span>
+<span id="cb94-2"><a href="looping.html#cb94-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
+<span id="cb94-3"><a href="looping.html#cb94-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb94-4"><a href="looping.html#cb94-4"></a><span class="cf">repeat</span> {</span>
+<span id="cb94-5"><a href="looping.html#cb94-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb94-6"><a href="looping.html#cb94-6"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span> <span class="co"># i는 반복 변수</span></span>
+<span id="cb94-7"><a href="looping.html#cb94-7"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb94-8"><a href="looping.html#cb94-8"></a>}</span>
+<span id="cb94-9"><a href="looping.html#cb94-9"></a>tot</span>
+<span id="cb94-10"><a href="looping.html#cb94-10"></a><span class="co"># check</span></span>
+<span id="cb94-11"><a href="looping.html#cb94-11"></a><span class="kw">sum</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>)</span></code></pre></div>
 <pre><code>[1] 5050
 [1] 5050</code></pre>
 
@@ -289,22 +289,22 @@ Figure 2.6: REPEAT 구문 flow-chart
 </ol>
 </blockquote>
 
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="looping.html#cb44-1"></a><span class="co"># REPEAT 예시 2</span></span>
-<span id="cb44-2"><a href="looping.html#cb44-2"></a><span class="co"># 1에서 20 사이 숫자 알아맞추기 게임</span></span>
-<span id="cb44-3"><a href="looping.html#cb44-3"></a>n &lt;-<span class="st"> </span><span class="dv">20</span></span>
-<span id="cb44-4"><a href="looping.html#cb44-4"></a>number &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dt">size =</span> <span class="dv">1</span>)</span>
-<span id="cb44-5"><a href="looping.html#cb44-5"></a><span class="kw">cat</span>(<span class="st">&quot;1에서 &quot;</span>, n, <span class="st">&quot;까지 숫자 알아 맞추기&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb44-6"><a href="looping.html#cb44-6"></a><span class="cf">repeat</span> {</span>
-<span id="cb44-7"><a href="looping.html#cb44-7"></a>  guess &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;어떤 숫자를 생각하시나요? (종료: q 입력) &quot;</span>)</span>
-<span id="cb44-8"><a href="looping.html#cb44-8"></a>  <span class="cf">if</span> (guess <span class="op">==</span><span class="st"> &quot;q&quot;</span>) {</span>
-<span id="cb44-9"><a href="looping.html#cb44-9"></a>    <span class="kw">cat</span>(<span class="st">&quot;재미가 없나봐요.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb44-10"><a href="looping.html#cb44-10"></a>    <span class="cf">break</span></span>
-<span id="cb44-11"><a href="looping.html#cb44-11"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">as.numeric</span>(guess) <span class="op">==</span><span class="st"> </span>number) {</span>
-<span id="cb44-12"><a href="looping.html#cb44-12"></a>    <span class="kw">cat</span>(<span class="st">&quot;천재인데요?ㅋㅋㅋ&quot;</span>)</span>
-<span id="cb44-13"><a href="looping.html#cb44-13"></a>    <span class="cf">break</span></span>
-<span id="cb44-14"><a href="looping.html#cb44-14"></a>  }</span>
-<span id="cb44-15"><a href="looping.html#cb44-15"></a>  <span class="co"># 틀리면 계속 반복</span></span>
-<span id="cb44-16"><a href="looping.html#cb44-16"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="looping.html#cb96-1"></a><span class="co"># REPEAT 예시 2</span></span>
+<span id="cb96-2"><a href="looping.html#cb96-2"></a><span class="co"># 1에서 20 사이 숫자 알아맞추기 게임</span></span>
+<span id="cb96-3"><a href="looping.html#cb96-3"></a>n &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb96-4"><a href="looping.html#cb96-4"></a>number &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span>n, <span class="dt">size =</span> <span class="dv">1</span>)</span>
+<span id="cb96-5"><a href="looping.html#cb96-5"></a><span class="kw">cat</span>(<span class="st">&quot;1에서 &quot;</span>, n, <span class="st">&quot;까지 숫자 알아 맞추기&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb96-6"><a href="looping.html#cb96-6"></a><span class="cf">repeat</span> {</span>
+<span id="cb96-7"><a href="looping.html#cb96-7"></a>  guess &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;어떤 숫자를 생각하시나요? (종료: q 입력) &quot;</span>)</span>
+<span id="cb96-8"><a href="looping.html#cb96-8"></a>  <span class="cf">if</span> (guess <span class="op">==</span><span class="st"> &quot;q&quot;</span>) {</span>
+<span id="cb96-9"><a href="looping.html#cb96-9"></a>    <span class="kw">cat</span>(<span class="st">&quot;재미가 없나봐요.</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb96-10"><a href="looping.html#cb96-10"></a>    <span class="cf">break</span></span>
+<span id="cb96-11"><a href="looping.html#cb96-11"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">as.numeric</span>(guess) <span class="op">==</span><span class="st"> </span>number) {</span>
+<span id="cb96-12"><a href="looping.html#cb96-12"></a>    <span class="kw">cat</span>(<span class="st">&quot;천재인데요?ㅋㅋㅋ&quot;</span>)</span>
+<span id="cb96-13"><a href="looping.html#cb96-13"></a>    <span class="cf">break</span></span>
+<span id="cb96-14"><a href="looping.html#cb96-14"></a>  }</span>
+<span id="cb96-15"><a href="looping.html#cb96-15"></a>  <span class="co"># 틀리면 계속 반복</span></span>
+<span id="cb96-16"><a href="looping.html#cb96-16"></a>}</span></code></pre></div>
 
 <blockquote>
 <ol style="list-style-type: decimal">
@@ -322,7 +322,7 @@ Figure 2.6: REPEAT 구문 flow-chart
 <div id="while" class="section level3">
 <h3><span class="header-section-number">2.4.2</span> <strong><code>while</code> 구문</strong></h3>
 
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="looping.html#cb46-1"></a><span class="cf">while</span> (조건) 표현식 ...</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="looping.html#cb98-1"></a><span class="cf">while</span> (조건) 표현식 ...</span></code></pre></div>
 
 <ul>
 <li><code>while</code>에 지정된 조건이 참이면 계속해서 반복</li>
@@ -332,10 +332,10 @@ Figure 2.6: REPEAT 구문 flow-chart
 <li><code>while</code>문 의 일반적 형태</li>
 </ul>
 
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="looping.html#cb47-1"></a><span class="cf">while</span> (조건) {</span>
-<span id="cb47-2"><a href="looping.html#cb47-2"></a>  표현식 <span class="dv">1</span></span>
-<span id="cb47-3"><a href="looping.html#cb47-3"></a>  반복변수 update</span>
-<span id="cb47-4"><a href="looping.html#cb47-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="looping.html#cb99-1"></a><span class="cf">while</span> (조건) {</span>
+<span id="cb99-2"><a href="looping.html#cb99-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb99-3"><a href="looping.html#cb99-3"></a>  반복변수 update</span>
+<span id="cb99-4"><a href="looping.html#cb99-4"></a>}</span></code></pre></div>
 
 
 <div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-39"></span>
@@ -346,14 +346,14 @@ Figure 2.7: WHILE 구문 flow-chart
 </div>
 
 
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="looping.html#cb48-1"></a><span class="co"># WHILE 구문 예시 1</span></span>
-<span id="cb48-2"><a href="looping.html#cb48-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
-<span id="cb48-3"><a href="looping.html#cb48-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
-<span id="cb48-4"><a href="looping.html#cb48-4"></a><span class="cf">while</span> (i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">100</span>) {</span>
-<span id="cb48-5"><a href="looping.html#cb48-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
-<span id="cb48-6"><a href="looping.html#cb48-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb48-7"><a href="looping.html#cb48-7"></a>}</span>
-<span id="cb48-8"><a href="looping.html#cb48-8"></a>tot</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="looping.html#cb100-1"></a><span class="co"># WHILE 구문 예시 1</span></span>
+<span id="cb100-2"><a href="looping.html#cb100-2"></a><span class="co"># 1:100 까지 합 계산 함수</span></span>
+<span id="cb100-3"><a href="looping.html#cb100-3"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb100-4"><a href="looping.html#cb100-4"></a><span class="cf">while</span> (i <span class="op">&lt;=</span><span class="st"> </span><span class="dv">100</span>) {</span>
+<span id="cb100-5"><a href="looping.html#cb100-5"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb100-6"><a href="looping.html#cb100-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb100-7"><a href="looping.html#cb100-7"></a>}</span>
+<span id="cb100-8"><a href="looping.html#cb100-8"></a>tot</span></code></pre></div>
 <pre><code>[1] 5050</code></pre>
 
 <blockquote>
@@ -364,14 +364,14 @@ Figure 2.7: WHILE 구문 flow-chart
 </ol>
 </blockquote>
 
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="looping.html#cb50-1"></a><span class="co"># while 문 조건이 TRUE 인 경우</span></span>
-<span id="cb50-2"><a href="looping.html#cb50-2"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
-<span id="cb50-3"><a href="looping.html#cb50-3"></a><span class="cf">while</span> (<span class="ot">TRUE</span>) {</span>
-<span id="cb50-4"><a href="looping.html#cb50-4"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
-<span id="cb50-5"><a href="looping.html#cb50-5"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span></span>
-<span id="cb50-6"><a href="looping.html#cb50-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb50-7"><a href="looping.html#cb50-7"></a>}</span>
-<span id="cb50-8"><a href="looping.html#cb50-8"></a>tot</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="looping.html#cb102-1"></a><span class="co"># while 문 조건이 TRUE 인 경우</span></span>
+<span id="cb102-2"><a href="looping.html#cb102-2"></a>tot &lt;-<span class="st"> </span><span class="dv">0</span>; i &lt;-<span class="st"> </span><span class="dv">1</span> <span class="co"># 사용 변수 초기화 (update 변수)</span></span>
+<span id="cb102-3"><a href="looping.html#cb102-3"></a><span class="cf">while</span> (<span class="ot">TRUE</span>) {</span>
+<span id="cb102-4"><a href="looping.html#cb102-4"></a>  tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>i</span>
+<span id="cb102-5"><a href="looping.html#cb102-5"></a>  <span class="cf">if</span> (i <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) <span class="cf">break</span></span>
+<span id="cb102-6"><a href="looping.html#cb102-6"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb102-7"><a href="looping.html#cb102-7"></a>}</span>
+<span id="cb102-8"><a href="looping.html#cb102-8"></a>tot</span></code></pre></div>
 <pre><code>[1] 5050</code></pre>
 
 <blockquote>
@@ -382,27 +382,27 @@ Figure 2.7: WHILE 구문 flow-chart
 </ol>
 </blockquote>
 
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="looping.html#cb52-1"></a><span class="co"># WHILE 구문 예시 2</span></span>
-<span id="cb52-2"><a href="looping.html#cb52-2"></a><span class="co"># 문자열 벡터에서 특정 문자열의 인덱스를 반환</span></span>
-<span id="cb52-3"><a href="looping.html#cb52-3"></a>txtvec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;package&quot;</span>, <span class="st">&quot;flow-control&quot;</span>, <span class="st">&quot;while&quot;</span>, <span class="st">&quot;if&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;repeat&quot;</span>)</span>
-<span id="cb52-4"><a href="looping.html#cb52-4"></a>found &lt;-<span class="st"> </span><span class="ot">FALSE</span></span>
-<span id="cb52-5"><a href="looping.html#cb52-5"></a>i &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb52-6"><a href="looping.html#cb52-6"></a></span>
-<span id="cb52-7"><a href="looping.html#cb52-7"></a>word &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;검색할 텍스트: &quot;</span>)</span>
-<span id="cb52-8"><a href="looping.html#cb52-8"></a><span class="cf">while</span> (<span class="op">!</span>found <span class="op">&amp;</span><span class="st"> </span>i <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(txtvec)) {</span>
-<span id="cb52-9"><a href="looping.html#cb52-9"></a>  <span class="cf">if</span> (txtvec[i] <span class="op">==</span><span class="st"> </span>word) {</span>
-<span id="cb52-10"><a href="looping.html#cb52-10"></a>    found &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
-<span id="cb52-11"><a href="looping.html#cb52-11"></a>    <span class="cf">break</span></span>
-<span id="cb52-12"><a href="looping.html#cb52-12"></a>  }</span>
-<span id="cb52-13"><a href="looping.html#cb52-13"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 해당 단어가 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
-<span id="cb52-14"><a href="looping.html#cb52-14"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb52-15"><a href="looping.html#cb52-15"></a>}</span>
-<span id="cb52-16"><a href="looping.html#cb52-16"></a></span>
-<span id="cb52-17"><a href="looping.html#cb52-17"></a><span class="cf">if</span> (found) {</span>
-<span id="cb52-18"><a href="looping.html#cb52-18"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 &quot;</span>, word, <span class="st">&quot;를 찾았습니다.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb52-19"><a href="looping.html#cb52-19"></a>} <span class="cf">else</span> {</span>
-<span id="cb52-20"><a href="looping.html#cb52-20"></a>  <span class="kw">cat</span>(word, <span class="st">&quot; 단어는 해당 문자열 벡터에 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb52-21"><a href="looping.html#cb52-21"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="looping.html#cb104-1"></a><span class="co"># WHILE 구문 예시 2</span></span>
+<span id="cb104-2"><a href="looping.html#cb104-2"></a><span class="co"># 문자열 벡터에서 특정 문자열의 인덱스를 반환</span></span>
+<span id="cb104-3"><a href="looping.html#cb104-3"></a>txtvec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;R&quot;</span>, <span class="st">&quot;package&quot;</span>, <span class="st">&quot;flow-control&quot;</span>, <span class="st">&quot;while&quot;</span>, <span class="st">&quot;if&quot;</span>, <span class="st">&quot;for&quot;</span>, <span class="st">&quot;repeat&quot;</span>)</span>
+<span id="cb104-4"><a href="looping.html#cb104-4"></a>found &lt;-<span class="st"> </span><span class="ot">FALSE</span></span>
+<span id="cb104-5"><a href="looping.html#cb104-5"></a>i &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-6"><a href="looping.html#cb104-6"></a></span>
+<span id="cb104-7"><a href="looping.html#cb104-7"></a>word &lt;-<span class="st"> </span><span class="kw">readline</span>(<span class="st">&quot;검색할 텍스트: &quot;</span>)</span>
+<span id="cb104-8"><a href="looping.html#cb104-8"></a><span class="cf">while</span> (<span class="op">!</span>found <span class="op">&amp;</span><span class="st"> </span>i <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(txtvec)) {</span>
+<span id="cb104-9"><a href="looping.html#cb104-9"></a>  <span class="cf">if</span> (txtvec[i] <span class="op">==</span><span class="st"> </span>word) {</span>
+<span id="cb104-10"><a href="looping.html#cb104-10"></a>    found &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
+<span id="cb104-11"><a href="looping.html#cb104-11"></a>    <span class="cf">break</span></span>
+<span id="cb104-12"><a href="looping.html#cb104-12"></a>  }</span>
+<span id="cb104-13"><a href="looping.html#cb104-13"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 해당 단어가 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-14"><a href="looping.html#cb104-14"></a>  i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb104-15"><a href="looping.html#cb104-15"></a>}</span>
+<span id="cb104-16"><a href="looping.html#cb104-16"></a></span>
+<span id="cb104-17"><a href="looping.html#cb104-17"></a><span class="cf">if</span> (found) {</span>
+<span id="cb104-18"><a href="looping.html#cb104-18"></a>  <span class="kw">cat</span>(i, <span class="st">&quot; 번째 위치에 &quot;</span>, word, <span class="st">&quot;를 찾았습니다.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-19"><a href="looping.html#cb104-19"></a>} <span class="cf">else</span> {</span>
+<span id="cb104-20"><a href="looping.html#cb104-20"></a>  <span class="kw">cat</span>(word, <span class="st">&quot; 단어는 해당 문자열 벡터에 존재하지 않습니다.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb104-21"><a href="looping.html#cb104-21"></a>}</span></code></pre></div>
 
 <blockquote>
 <ol style="list-style-type: decimal">
@@ -444,10 +444,10 @@ temp 단어는 해당 문자열 벡터에 존재하지 않습니다.</code></pre
 <li>가장 많이 사용되는 반복구문으로 일반적인 형태는 아래와 같음</li>
 </ul>
 
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="looping.html#cb54-1"></a><span class="cf">for</span> (반복변수 <span class="cf">in</span> sequence) {</span>
-<span id="cb54-2"><a href="looping.html#cb54-2"></a>  표현식 <span class="dv">1</span></span>
-<span id="cb54-3"><a href="looping.html#cb54-3"></a>  ...</span>
-<span id="cb54-4"><a href="looping.html#cb54-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="looping.html#cb106-1"></a><span class="cf">for</span> (반복변수 <span class="cf">in</span> sequence) {</span>
+<span id="cb106-2"><a href="looping.html#cb106-2"></a>  표현식 <span class="dv">1</span></span>
+<span id="cb106-3"><a href="looping.html#cb106-3"></a>  ...</span>
+<span id="cb106-4"><a href="looping.html#cb106-4"></a>}</span></code></pre></div>
 
 <ul>
 <li>R에서 <code>sequence</code>은 특정 유형의 벡터이며, 반복변수에 <code>sequence</code>의 원소를 순차적으로 할당함</li>
@@ -462,12 +462,12 @@ Figure 2.8: FOR 구문 flow-chart
 </div>
 
 
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="looping.html#cb55-1"></a><span class="co">#for 문 예시 1</span></span>
-<span id="cb55-2"><a href="looping.html#cb55-2"></a>student &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_excel</span>(<span class="st">&quot;data/stat-students.xlsx&quot;</span>)</span>
-<span id="cb55-3"><a href="looping.html#cb55-3"></a>student_name &lt;-<span class="st"> </span>student<span class="op">$</span>이름</span>
-<span id="cb55-4"><a href="looping.html#cb55-4"></a><span class="cf">for</span> (s <span class="cf">in</span> student_name) {</span>
-<span id="cb55-5"><a href="looping.html#cb55-5"></a>  <span class="kw">cat</span>(s, <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb55-6"><a href="looping.html#cb55-6"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="looping.html#cb107-1"></a><span class="co">#for 문 예시 1</span></span>
+<span id="cb107-2"><a href="looping.html#cb107-2"></a>student &lt;-<span class="st"> </span>readxl<span class="op">::</span><span class="kw">read_excel</span>(<span class="st">&quot;data/stat-students.xlsx&quot;</span>)</span>
+<span id="cb107-3"><a href="looping.html#cb107-3"></a>student_name &lt;-<span class="st"> </span>student<span class="op">$</span>이름</span>
+<span id="cb107-4"><a href="looping.html#cb107-4"></a><span class="cf">for</span> (s <span class="cf">in</span> student_name) {</span>
+<span id="cb107-5"><a href="looping.html#cb107-5"></a>  <span class="kw">cat</span>(s, <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb107-6"><a href="looping.html#cb107-6"></a>}</span></code></pre></div>
 <pre><code>김세민 학생!! 즐거운 명절 보내세요^^
 김기랑 학생!! 즐거운 명절 보내세요^^
 이종영 학생!! 즐거운 명절 보내세요^^
@@ -502,34 +502,34 @@ Figure 2.8: FOR 구문 flow-chart
 </ol>
 </blockquote>
 
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="looping.html#cb57-1"></a><span class="co"># 위 예시와 동일한 표현</span></span>
-<span id="cb57-2"><a href="looping.html#cb57-2"></a><span class="co">## 인덱싱을 사용</span></span>
-<span id="cb57-3"><a href="looping.html#cb57-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name)) {</span>
-<span id="cb57-4"><a href="looping.html#cb57-4"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb57-5"><a href="looping.html#cb57-5"></a>}</span>
-<span id="cb57-6"><a href="looping.html#cb57-6"></a></span>
-<span id="cb57-7"><a href="looping.html#cb57-7"></a><span class="co">## sequence를 만드는 함수 seq_along() 사용</span></span>
-<span id="cb57-8"><a href="looping.html#cb57-8"></a></span>
-<span id="cb57-9"><a href="looping.html#cb57-9"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
-<span id="cb57-10"><a href="looping.html#cb57-10"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb57-11"><a href="looping.html#cb57-11"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="looping.html#cb109-1"></a><span class="co"># 위 예시와 동일한 표현</span></span>
+<span id="cb109-2"><a href="looping.html#cb109-2"></a><span class="co">## 인덱싱을 사용</span></span>
+<span id="cb109-3"><a href="looping.html#cb109-3"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name)) {</span>
+<span id="cb109-4"><a href="looping.html#cb109-4"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb109-5"><a href="looping.html#cb109-5"></a>}</span>
+<span id="cb109-6"><a href="looping.html#cb109-6"></a></span>
+<span id="cb109-7"><a href="looping.html#cb109-7"></a><span class="co">## sequence를 만드는 함수 seq_along() 사용</span></span>
+<span id="cb109-8"><a href="looping.html#cb109-8"></a></span>
+<span id="cb109-9"><a href="looping.html#cb109-9"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
+<span id="cb109-10"><a href="looping.html#cb109-10"></a>  <span class="kw">cat</span>(student_name[i], <span class="st">&quot;학생!! 즐거운 명절 보내세요^^</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb109-11"><a href="looping.html#cb109-11"></a>}</span></code></pre></div>
 
 <ul>
 <li><code>for</code> 구문 안에 <code>for</code> 문을 1개 이상 중첩 가능</li>
 </ul>
 
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="looping.html#cb58-1"></a><span class="co">## 2중 for 문 예시</span></span>
-<span id="cb58-2"><a href="looping.html#cb58-2"></a><span class="kw">set.seed</span>(<span class="dv">12345</span>)</span>
-<span id="cb58-3"><a href="looping.html#cb58-3"></a>id &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name), <span class="dv">5</span>)</span>
-<span id="cb58-4"><a href="looping.html#cb58-4"></a>sel_student &lt;-<span class="st"> </span>student_name[id]</span>
-<span id="cb58-5"><a href="looping.html#cb58-5"></a></span>
-<span id="cb58-6"><a href="looping.html#cb58-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
-<span id="cb58-7"><a href="looping.html#cb58-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_along</span>(sel_student)) {</span>
-<span id="cb58-8"><a href="looping.html#cb58-8"></a>    <span class="cf">if</span> (student_name[i] <span class="op">==</span><span class="st"> </span>sel_student[j]) {</span>
-<span id="cb58-9"><a href="looping.html#cb58-9"></a>      <span class="kw">cat</span>(sel_student[j], <span class="st">&quot;님!! 당첨 축하 드립니다!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb58-10"><a href="looping.html#cb58-10"></a>    }</span>
-<span id="cb58-11"><a href="looping.html#cb58-11"></a>  }</span>
-<span id="cb58-12"><a href="looping.html#cb58-12"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="looping.html#cb110-1"></a><span class="co">## 2중 for 문 예시</span></span>
+<span id="cb110-2"><a href="looping.html#cb110-2"></a><span class="kw">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb110-3"><a href="looping.html#cb110-3"></a>id &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(student_name), <span class="dv">5</span>)</span>
+<span id="cb110-4"><a href="looping.html#cb110-4"></a>sel_student &lt;-<span class="st"> </span>student_name[id]</span>
+<span id="cb110-5"><a href="looping.html#cb110-5"></a></span>
+<span id="cb110-6"><a href="looping.html#cb110-6"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(student_name)) {</span>
+<span id="cb110-7"><a href="looping.html#cb110-7"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="kw">seq_along</span>(sel_student)) {</span>
+<span id="cb110-8"><a href="looping.html#cb110-8"></a>    <span class="cf">if</span> (student_name[i] <span class="op">==</span><span class="st"> </span>sel_student[j]) {</span>
+<span id="cb110-9"><a href="looping.html#cb110-9"></a>      <span class="kw">cat</span>(sel_student[j], <span class="st">&quot;님!! 당첨 축하 드립니다!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb110-10"><a href="looping.html#cb110-10"></a>    }</span>
+<span id="cb110-11"><a href="looping.html#cb110-11"></a>  }</span>
+<span id="cb110-12"><a href="looping.html#cb110-12"></a>}</span></code></pre></div>
 <pre><code>김기랑 님!! 당첨 축하 드립니다!!
 이승호 님!! 당첨 축하 드립니다!!
 채시진 님!! 당첨 축하 드립니다!!
@@ -546,13 +546,13 @@ Figure 2.8: FOR 구문 flow-chart
 </ul>
 <p></p>
 
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="looping.html#cb60-1"></a><span class="co"># 알파벳 e와 일치하는 경우에만 텍스트 메세지 출력</span></span>
-<span id="cb60-2"><a href="looping.html#cb60-2"></a>vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;e&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;o&quot;</span>, <span class="st">&quot;u&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;z&quot;</span>)</span>
-<span id="cb60-3"><a href="looping.html#cb60-3"></a>word &lt;-<span class="st"> &quot;e&quot;</span></span>
-<span id="cb60-4"><a href="looping.html#cb60-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(vec)) {</span>
-<span id="cb60-5"><a href="looping.html#cb60-5"></a>  <span class="cf">if</span> (vec[i] <span class="op">!=</span><span class="st"> </span>word) <span class="cf">next</span></span>
-<span id="cb60-6"><a href="looping.html#cb60-6"></a>  <span class="kw">cat</span>(word, <span class="st">&quot;가&quot;</span>, i, <span class="st">&quot;번 째 인덱스에 있네요!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb60-7"><a href="looping.html#cb60-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="looping.html#cb112-1"></a><span class="co"># 알파벳 e와 일치하는 경우에만 텍스트 메세지 출력</span></span>
+<span id="cb112-2"><a href="looping.html#cb112-2"></a>vec &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;e&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;i&quot;</span>, <span class="st">&quot;o&quot;</span>, <span class="st">&quot;u&quot;</span>, <span class="st">&quot;e&quot;</span>, <span class="st">&quot;z&quot;</span>)</span>
+<span id="cb112-3"><a href="looping.html#cb112-3"></a>word &lt;-<span class="st"> &quot;e&quot;</span></span>
+<span id="cb112-4"><a href="looping.html#cb112-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(vec)) {</span>
+<span id="cb112-5"><a href="looping.html#cb112-5"></a>  <span class="cf">if</span> (vec[i] <span class="op">!=</span><span class="st"> </span>word) <span class="cf">next</span></span>
+<span id="cb112-6"><a href="looping.html#cb112-6"></a>  <span class="kw">cat</span>(word, <span class="st">&quot;가&quot;</span>, i, <span class="st">&quot;번 째 인덱스에 있네요!!</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb112-7"><a href="looping.html#cb112-7"></a>}</span></code></pre></div>
 <pre><code>e 가 2 번 째 인덱스에 있네요!!
 e 가 3 번 째 인덱스에 있네요!!
 e 가 7 번 째 인덱스에 있네요!!</code></pre>
