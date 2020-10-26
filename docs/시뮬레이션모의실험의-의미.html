@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 시뮬레이션 | 통계 패키지 활용</title>
+  <title>3.1 시뮬레이션(모의실험)의 의미 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 시뮬레이션 | 통계 패키지 활용" />
+  <meta property="og:title" content="3.1 시뮬레이션(모의실험)의 의미 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 시뮬레이션 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="3.1 시뮬레이션(모의실험)의 의미 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="function.html"/>
-<link rel="next" href="시뮬레이션모의실험의-의미.html"/>
+<link rel="prev" href="Simulation.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -141,25 +141,45 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Simulation" class="section level1">
-<h1><span class="header-section-number">3</span> 시뮬레이션</h1>
-<blockquote>
-<p><strong>Sketch</strong></p>
+<div id="시뮬레이션모의실험의-의미" class="section level2">
+<h2><span class="header-section-number">3.1</span> 시뮬레이션(모의실험)의 의미</h2>
+<p><strong>알반적 의미</strong></p>
+<p>현실세계에서는 시간 및 비용 등의 문제로 실현하기 어렵거나 불가능한 시스템을 모형을 통해 실제 시스템을 모사함으로써 현상에 대한 문제를 이해하고자 하는 목적으로 고안한 일련의 방법</p>
+<p><strong>시뮬레이션의 활용 사례</strong></p>
 <ul>
-<li>시뮬레이션..시뮬레이션??..시뮬레이션!!</li>
-<li>통계학에서 시뮬레이션이 왜 필요할까?</li>
-<li>중요한 기초통계 이론을 눈으로 확인할 수 있을까?</li>
+<li>군사 모의실험</li>
+<li>비행 모의실험</li>
+<li>선거 모의실험</li>
+<li>민방위 훈련</li>
+<li>…</li>
 </ul>
+<p><strong>통계적 모의실험(statistical or stochastic simulation)</strong></p>
+<p>통계학의 표본이론과 확률론에 근간을 두고 난수(random number)와 임의표본(random sample)을 이용해 어떤 결과나 문제의 해를 근사해 실제 이론으로 도출한 해와 비교함. 이러한 형태의 모의실험 방법을 몬테칼로 시뮬레이션(Monte Carlo simulation)이라고 함.</p>
+<blockquote>
+<p>통계적 모의실험에 Monte carlo 라는 명칭이 붙게된 계기는 2차 세계대전 당시 미국의 원자폭탄 계발계획인 Manhattan 프로젝트에서 중성자의 특성을 연구하기 위한 모의실험의 명칭에 모나코의 유명한 도박 도시 Monte Carlo 이름을 붙힌 것에서 유래함.</p>
 </blockquote>
-<p><img src="figures/ch3-uni-clt.gif" width="100%" style="display: block; margin: auto;" /></p>
+<p><strong>통계적 모의실험의 특징</strong></p>
+<ul>
+<li>특정 분포를 따르는 확률변수의 관찰값이 필요</li>
+<li>반복적으로 수많은 난수를 생성해야 하기 때문에 컴퓨터의 사용이 필수적</li>
+<li>기본적으로 통계학의 가장 기본적 개념인 <strong>대수의 법칙(law of the large number)</strong>을 활용</li>
+</ul>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
+<img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
+<p class="caption">
+Figure 3.1: 모집단, 표본, 통계량, 표본분포 관계
+</p>
 </div>
+
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="function.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="시뮬레이션모의실험의-의미.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="Simulation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
