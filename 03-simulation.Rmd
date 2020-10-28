@@ -5,6 +5,44 @@ editor_options:
 ---
 
 
+```{r, include=FALSE, echo=FALSE, message=FALSE}
+require(knitr)
+opts_chunk$set(size="footnotesize",
+                      comment = NA,
+                      highlight = TRUE)
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knit_hooks$set(chunk = function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size != "normalsize", paste0("\\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+
+hook_output = knit_hooks$get('output')
+knit_hooks$set(output = function(x, options) {
+  # this hook is used only when the linewidth option is not NULL
+  if (!is.null(n <- options$linewidth)) {
+    x = knitr:::split_lines(x)
+    # any lines wider than n should be wrapped
+    if (any(nchar(x) > n)) x = strwrap(x, width = n)
+    x = paste(x, collapse = '\n')
+  }
+  hook_output(x, options)
+})
+opts_chunk$set(tidy.opts=list(blank=FALSE, width.cutoff=80))
+options(linewidth = 60)
+
+```
+
+
+```{r}
+require(tidyverse)
+require(rmarkdown)
+require(knitr)
+require(kableExtra)
+
+```
+
+
+
 # 시뮬레이션 {#Simulation}
 
 > **Sketch**
@@ -17,6 +55,7 @@ editor_options:
 ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap=""}
 options(knitr.graphics.auto_pdf = TRUE)
 knitr::include_graphics('figures/ch3-uni-clt.gif', dpi = NA)
+
 ```
 
 
@@ -54,10 +93,105 @@ knitr::include_graphics('figures/ch3-uni-clt.gif', dpi = NA)
 - 기본적으로 통계학의 가장 기본적 개념인 **대수의 법칙(law of the large number)**을 활용
 
 
+**통계적 모의실험을 하는 방법**
 
+- 통계적(확률) 모형은 보통 한 변수($X$)가 주어졌을 때 다른 변수($Y$)에 대한 조건부 분포임. 
+- 대표적인 예: 단순선형회귀모형(simple linear regression model)
+
+$$
+\begin{eqnarray}
+X   & \sim & \mathcal{N}(\mu_x, \sigma_1^2) \\
+Y|X & \sim & \mathcal{N}(\beta_0 + \beta_1X, \sigma_2^2)
+\end{eqnarray}
+$$
+- 위 식에서 우변에 주어진 확률변수를 생성하는 방법을 알고 있다면 위 회귀모형에 대한 시뮬레이션 가능 $\rightarrow$ 모든 종류의 확률 모형에 대한 시뮬레이션의 일반적 전략임(통계 프로그래밍 언어 기말고사 마지막 문제 상기!!)
+
+
+```{block2, type="rmdimportant"}
+**통계적 모의실험(시뮬레이션) = 확률변수 생성문제**
+```
+
+
+**난수 생성의 방법**
+
+
+
+
+
+
+- 난수(random number): 어떤 방법으로도 예측될 수 없는 일련의 수열(숫자)
+- 통계적 의미로 난수는 특정 범위(보통 0에서 1 사이)의 균일분포(uniform distribution)에서 추출된 표본들의 관찰값으로 , 임의의 확률분포(예: 정규분포, 지수분포 등)를 따르는 확률변수와는 구별됨.
+   - 보통 확률 변수는 균일분포를 따르는 확률변수로부터 적절한 변환을 통해 얻을 수 있음. 
+
+
+
+## 통계 시뮬레이션에 필요한 몇 가지 함수들
+
+
+### 수학함수
+
+
+### 통계 분포 함수
+
+
+```{r, echo=FALSE, message=FALSE}
+Distribution <- c("균일분포", "지수분포", "정규분포", "$\\chi^2$ 분포", "$t$ 분포", "이항분포", "포아송 분포")
+`Density/Mass function` <- c("$\\frac{1}{b -a},~\\mathrm{for}~x \\in [a, b]$", 
+                             "$\\lambda \\exp{(-\\lambda x)}$", 
+                             "$\\frac{1}{\\sqrt{2\\pi}\\sigma}\\exp \\left\\{-\\frac{(x - \\mu)^2}{2\\sigma^2} \\right \\}$", 
+                             "$\\frac{1}{\\Gamma(\\nu/2)2^{\\nu/2}}x^{(\\nu/2) - 1}e^{(-x/2)}$", 
+                             "$\\frac{\\Gamma(\\frac{\\nu + 1}{2})}{\\Gamma{(\\frac{\\nu}{2}})}\\frac{1}{\\sqrt{\\nu\\pi}}\\frac{1}{(1 + x^2/\\nu)^{(\\nu + 1)/2}}$", 
+                             "${n \\choose x} p^x (1 - p)^{n - x}$", 
+                             "$\\frac{e^{-\\lambda}\\lambda^x}{x!}$")
+`R pdf`         <- c("dunif", "dexp", "dnorm", "dchisq", "dt", "dbinom", "dpois")
+`R cdf`         <- c("punif", "pexp", "pnorm", "pchisq", "pt", "pbinom", "ppois")
+`R quantile`    <- c("qunif", "qexp", "qnorm", "qchisq", "qt", "qbinom", "qpois")
+`RV generation` <- c("runif", "rexp", "rnorm", "rchisq", "rt", "rbinom", "rpois")
+Parameter       <- c("min (a), max (b)", 
+                     "rate ($\\lambda$)", 
+                     "mean ($\\mu$), sd ($\\sigma$)", 
+                     "df ($\\nu$)", 
+                     "df ($\\nu$)", 
+                     "size ($n$), prob ($p$)", 
+                     "lambda ($\\lambda$)")
+
+
+tab_dist <- tibble(Distribution, 
+                   `Density/Mass function`, 
+                   `R pdf`, 
+                   `R cdf`, 
+                   `R quantile`, 
+                   `RV generation`, 
+                   Parameter)
+tab_dist %>% 
+  kbl(ecno = FALSE) %>% 
+  kable_paper("striped", full_width = TRUE, font_size = 12)
+
+
+```
+
+
+<!-- $$\frac{1}{\sqrt{2\pi}\sigma}\exp \left\{-\frac{(x - \mu)^2}{2\sigma^2} \right \}$$ -->
+
+
+```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="확률분포의 관계도(http://www.math.wm.edu/~leemis/chart/UDR/UDR.html)"}
+options(knitr.graphics.auto_pdf = TRUE)
+knitr::include_graphics('figures/distribution-relationship.png', dpi = NA)
+
+```
+
+
+
+## 기초 통계학(review) 
 
 ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"}
 options(knitr.graphics.auto_pdf = TRUE)
 knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA)
 ```
+
+
+
+
+
+
 

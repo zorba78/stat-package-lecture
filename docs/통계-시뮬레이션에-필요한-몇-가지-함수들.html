@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>3 시뮬레이션 | 통계 패키지 활용</title>
+  <title>3.2 통계 시뮬레이션에 필요한 몇 가지 함수들 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="3 시뮬레이션 | 통계 패키지 활용" />
+  <meta property="og:title" content="3.2 통계 시뮬레이션에 필요한 몇 가지 함수들 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="3 시뮬레이션 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="3.2 통계 시뮬레이션에 필요한 몇 가지 함수들 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="function.html"/>
-<link rel="next" href="시뮬레이션모의실험의-의미.html"/>
+<link rel="prev" href="시뮬레이션모의실험의-의미.html"/>
+<link rel="next" href="기초-통계학review.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -210,27 +210,223 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="Simulation" class="section level1">
-<h1><span class="header-section-number">3</span> 시뮬레이션</h1>
-<blockquote>
-<p><strong>Sketch</strong></p>
-<ul>
-<li>시뮬레이션..시뮬레이션??..시뮬레이션!!</li>
-<li>통계학에서 시뮬레이션이 왜 필요할까?</li>
-<li>중요한 기초통계 이론을 눈으로 확인할 수 있을까?</li>
-</ul>
-</blockquote>
+<div id="통계-시뮬레이션에-필요한-몇-가지-함수들" class="section level2">
+<h2><span class="header-section-number">3.2</span> 통계 시뮬레이션에 필요한 몇 가지 함수들</h2>
+<div id="수학함수" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> 수학함수</h3>
+</div>
+<div id="통계-분포-함수" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> 통계 분포 함수</h3>
 
-<p><img src="figures/ch3-uni-clt.gif" width="100%" style="display: block; margin: auto;" /></p>
-<p></p>
+<table class=" lightable-paper lightable-striped" style='font-size: 12px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+Distribution
+</th>
+<th style="text-align:left;">
+Density/Mass function
+</th>
+<th style="text-align:left;">
+R pdf
+</th>
+<th style="text-align:left;">
+R cdf
+</th>
+<th style="text-align:left;">
+R quantile
+</th>
+<th style="text-align:left;">
+RV generation
+</th>
+<th style="text-align:left;">
+Parameter
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+균일분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\frac{1}{b -a},~\mathrm{for}~x \in [a, b]\)</span>
+</td>
+<td style="text-align:left;">
+dunif
+</td>
+<td style="text-align:left;">
+punif
+</td>
+<td style="text-align:left;">
+qunif
+</td>
+<td style="text-align:left;">
+runif
+</td>
+<td style="text-align:left;">
+min (a), max (b)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+지수분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\lambda \exp{(-\lambda x)}\)</span>
+</td>
+<td style="text-align:left;">
+dexp
+</td>
+<td style="text-align:left;">
+pexp
+</td>
+<td style="text-align:left;">
+qexp
+</td>
+<td style="text-align:left;">
+rexp
+</td>
+<td style="text-align:left;">
+rate (<span class="math inline">\(\lambda\)</span>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+정규분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\frac{1}{\sqrt{2\pi}\sigma}\exp \left\{-\frac{(x - \mu)^2}{2\sigma^2} \right \}\)</span>
+</td>
+<td style="text-align:left;">
+dnorm
+</td>
+<td style="text-align:left;">
+pnorm
+</td>
+<td style="text-align:left;">
+qnorm
+</td>
+<td style="text-align:left;">
+rnorm
+</td>
+<td style="text-align:left;">
+mean (<span class="math inline">\(\mu\)</span>), sd (<span class="math inline">\(\sigma\)</span>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(\chi^2\)</span> 분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\frac{1}{\Gamma(\nu/2)2^{\nu/2}}x^{(\nu/2) - 1}e^{(-x/2)}\)</span>
+</td>
+<td style="text-align:left;">
+dchisq
+</td>
+<td style="text-align:left;">
+pchisq
+</td>
+<td style="text-align:left;">
+qchisq
+</td>
+<td style="text-align:left;">
+rchisq
+</td>
+<td style="text-align:left;">
+df (<span class="math inline">\(\nu\)</span>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<span class="math inline">\(t\)</span> 분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\frac{\Gamma(\frac{\nu + 1}{2})}{\Gamma{(\frac{\nu}{2}})}\frac{1}{\sqrt{\nu\pi}}\frac{1}{(1 + x^2/\nu)^{(\nu + 1)/2}}\)</span>
+</td>
+<td style="text-align:left;">
+dt
+</td>
+<td style="text-align:left;">
+pt
+</td>
+<td style="text-align:left;">
+qt
+</td>
+<td style="text-align:left;">
+rt
+</td>
+<td style="text-align:left;">
+df (<span class="math inline">\(\nu\)</span>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+이항분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\({n \choose x} p^x (1 - p)^{n - x}\)</span>
+</td>
+<td style="text-align:left;">
+dbinom
+</td>
+<td style="text-align:left;">
+pbinom
+</td>
+<td style="text-align:left;">
+qbinom
+</td>
+<td style="text-align:left;">
+rbinom
+</td>
+<td style="text-align:left;">
+size (<span class="math inline">\(n\)</span>), prob (<span class="math inline">\(p\)</span>)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+포아송 분포
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(\frac{e^{-\lambda}\lambda^x}{x!}\)</span>
+</td>
+<td style="text-align:left;">
+dpois
+</td>
+<td style="text-align:left;">
+ppois
+</td>
+<td style="text-align:left;">
+qpois
+</td>
+<td style="text-align:left;">
+rpois
+</td>
+<td style="text-align:left;">
+lambda (<span class="math inline">\(\lambda\)</span>)
+</td>
+</tr>
+</tbody>
+</table>
+
+<!-- $$\frac{1}{\sqrt{2\pi}\sigma}\exp \left\{-\frac{(x - \mu)^2}{2\sigma^2} \right \}$$ -->
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="figures/distribution-relationship.png" alt="확률분포의 관계도(http://www.math.wm.edu/~leemis/chart/UDR/UDR.html)" width="100%" />
+<p class="caption">
+Figure 3.1: 확률분포의 관계도(<a href="http://www.math.wm.edu/~leemis/chart/UDR/UDR.html" class="uri">http://www.math.wm.edu/~leemis/chart/UDR/UDR.html</a>)
+</p>
+</div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="function.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="시뮬레이션모의실험의-의미.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="시뮬레이션모의실험의-의미.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="기초-통계학review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

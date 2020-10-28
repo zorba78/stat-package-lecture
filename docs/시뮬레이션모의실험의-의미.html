@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="Simulation.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -59,6 +59,70 @@
 <script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
@@ -122,6 +186,11 @@
 </ul></li>
 <li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a><ul>
 <li class="chapter" data-level="3.1" data-path="시뮬레이션모의실험의-의미.html"><a href="시뮬레이션모의실험의-의미.html"><i class="fa fa-check"></i><b>3.1</b> 시뮬레이션(모의실험)의 의미</a></li>
+<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 필요한 몇 가지 함수들</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
+<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="기초-통계학review.html"><a href="기초-통계학review.html"><i class="fa fa-check"></i><b>3.3</b> 기초 통계학(review)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -164,22 +233,41 @@
 <li>반복적으로 수많은 난수를 생성해야 하기 때문에 컴퓨터의 사용이 필수적</li>
 <li>기본적으로 통계학의 가장 기본적 개념인 <strong>대수의 법칙(law of the large number)</strong>을 활용</li>
 </ul>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-2"></span>
-<img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
-<p class="caption">
-Figure 3.1: 모집단, 표본, 통계량, 표본분포 관계
-</p>
+<p><strong>통계적 모의실험을 하는 방법</strong></p>
+<ul>
+<li>통계적(확률) 모형은 보통 한 변수(<span class="math inline">\(X\)</span>)가 주어졌을 때 다른 변수(<span class="math inline">\(Y\)</span>)에 대한 조건부 분포임.</li>
+<li>대표적인 예: 단순선형회귀모형(simple linear regression model)</li>
+</ul>
+<p><span class="math display">\[
+\begin{eqnarray}
+X   &amp; \sim &amp; \mathcal{N}(\mu_x, \sigma_1^2) \\
+Y|X &amp; \sim &amp; \mathcal{N}(\beta_0 + \beta_1X, \sigma_2^2)
+\end{eqnarray}
+\]</span>
+- 위 식에서 우변에 주어진 확률변수를 생성하는 방법을 알고 있다면 위 회귀모형에 대한 시뮬레이션 가능 <span class="math inline">\(\rightarrow\)</span> 모든 종류의 확률 모형에 대한 시뮬레이션의 일반적 전략임(통계 프로그래밍 언어 기말고사 마지막 문제 상기!!)</p>
+
+
+<div class="rmdimportant">
+<strong>통계적 모의실험(시뮬레이션) = 확률변수 생성문제</strong>
 </div>
 
+<p></p>
+<p><strong>난수 생성의 방법</strong></p>
+<ul>
+<li>난수(random number): 어떤 방법으로도 예측될 수 없는 일련의 수열(숫자)</li>
+<li>통계적 의미로 난수는 특정 범위(보통 0에서 1 사이)의 균일분포(uniform distribution)에서 추출된 표본들의 관찰값으로 , 임의의 확률분포(예: 정규분포, 지수분포 등)를 따르는 확률변수와는 구별됨.
+<ul>
+<li>보통 확률 변수는 균일분포를 따르는 확률변수로부터 적절한 변환을 통해 얻을 수 있음.</li>
+</ul></li>
+</ul>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="Simulation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -229,6 +317,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
