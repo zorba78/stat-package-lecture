@@ -33,7 +33,7 @@ options(linewidth = 60)
 ```
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE}
 require(tidyverse)
 require(rmarkdown)
 require(knitr)

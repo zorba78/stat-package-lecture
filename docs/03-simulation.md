@@ -11,58 +11,6 @@ editor_options:
 \footnotesize
 
 
-```r
-require(tidyverse)
-```
-
-```
-필요한 패키지를 로딩중입니다: tidyverse
-```
-
-```
-─ Attaching packages ────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ─
-```
-
-```
-✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-✓ tibble  3.0.3     ✓ dplyr   1.0.2
-✓ tidyr   1.1.2     ✓ stringr 1.4.0
-✓ readr   1.3.1     ✓ forcats 0.5.0
-```
-
-```
-─ Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ─
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()
-```
-
-```r
-require(rmarkdown)
-```
-
-```
-필요한 패키지를 로딩중입니다: rmarkdown
-```
-
-```r
-require(knitr)
-require(kableExtra)
-```
-
-```
-필요한 패키지를 로딩중입니다: kableExtra
-```
-
-```
-
-다음의 패키지를 부착합니다: 'kableExtra'
-```
-
-```
-The following object is masked from 'package:dplyr':
-
-    group_rows
-```
 
  \normalsize
 

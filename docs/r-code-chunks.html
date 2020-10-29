@@ -477,15 +477,15 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-code-chunks.html#cb22-1"></a><span class="co"># results = &#39;hold&#39;가 아닌 경우 한 라인 별 출력 결과 생성</span></span>
 <span id="cb22-2"><a href="r-code-chunks.html#cb22-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb22-3"><a href="r-code-chunks.html#cb22-3"></a>x</span></code></pre></div>
-<pre><code> [1] -0.07879262  0.14699158 -0.18431624 -0.25728048  0.39879188  1.01563728
- [7] -1.07255232 -0.14281421  0.64089492  0.69654981</code></pre>
+<pre><code> [1] -0.3511108325 -0.0002684261 -0.1753683371 -0.6228810481  0.0013627284
+ [6] -0.0280161327 -0.7798342738 -1.8466630468  0.0177557431 -0.9458054823</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-code-chunks.html#cb24-1"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb24-2"><a href="r-code-chunks.html#cb24-2"></a>y</span></code></pre></div>
-<pre><code> [1] -1.776165  4.543679  1.623774  1.310266  3.133467  3.675333  3.238662
- [8]  1.468086  2.649254  3.893005</code></pre>
+<pre><code> [1]  1.56812522  1.90365735  3.60437081  2.18261516 -0.23593182  3.59878093
+ [7]  0.05533190 -1.63399924 -0.38308245  0.08814993</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-code-chunks.html#cb26-1"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1] -1.854957  4.690670  1.439457  1.052985  3.532259  4.690970  2.166110
- [8]  1.325272  3.290149  4.589555</code></pre>
+<pre><code> [1]  1.2170144  1.9033889  3.4290025  1.5597341 -0.2345691  3.5707648
+ [7] -0.7245024 -3.4806623 -0.3653267 -0.8576556</code></pre>
 
 
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-code-chunks.html#cb28-1"></a><span class="co"># results = &#39;hold&#39;인 경우 코드 부분과 출력 부분이 따로 블록 처리</span></span>
@@ -494,12 +494,12 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <span id="cb28-4"><a href="r-code-chunks.html#cb28-4"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb28-5"><a href="r-code-chunks.html#cb28-5"></a>y</span>
 <span id="cb28-6"><a href="r-code-chunks.html#cb28-6"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1] -1.96502181  0.09435073 -0.91491060  1.05251099  1.00847181  0.12293950
- [7]  1.55949234 -0.34620539  0.28384834  0.36329503
- [1]  0.1325477  2.6008909 -2.9793244 -0.6506413 -0.6220979  2.9950247
- [7] -3.7471768  0.7168678  3.7863866 -0.3679497
- [1] -1.832474075  2.695241631 -3.894234975  0.401869716  0.386373886
- [6]  3.117964224 -2.187684417  0.370662399  4.070234939 -0.004654703</code></pre>
+<pre><code> [1] -0.17693369  1.16262229 -0.16107736  0.29189649  1.16534931 -0.57698724
+ [7] -1.51149702  1.00427570 -0.92551577  0.07122251
+ [1]  2.031579686  1.085656789  1.224249692  5.110128692  0.002955198
+ [6]  1.082779369  0.303931455  0.949308000 -6.028318318 -4.280061183
+ [1]  1.8546460  2.2482791  1.0631723  5.4020252  1.1683045  0.5057921
+ [7] -1.2075656  1.9535837 -6.9538341 -4.2088387</code></pre>
 
 <ul>
 <li><code>error</code>: 코드 청크 내 스크립트에 오류에 대한 보존 여부(<code>stop()</code>)
