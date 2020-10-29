@@ -20,7 +20,7 @@ require(tidyverse)
 ```
 
 ```
-─ Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ─
+─ Attaching packages ────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ─
 ```
 
 ```
@@ -31,7 +31,7 @@ require(tidyverse)
 ```
 
 ```
-─ Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ─
+─ Conflicts ─────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ─
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()
 ```
@@ -72,7 +72,7 @@ The following object is masked from 'package:dplyr':
 
 > **Sketch**
 >
-> - 시뮬레이션..시뮬레이션??..시뮬레이션!!
+> - 시뮬레이션이 뭐지?
 > - 통계학에서 시뮬레이션이 왜 필요할까? 
 > - 중요한 기초통계 이론을 눈으로 확인할 수 있을까?
 
@@ -108,7 +108,35 @@ The following object is masked from 'package:dplyr':
 통계학의 표본이론과 확률론에 근간을 두고 난수(random number)와 임의표본(random sample)을 이용해 어떤 결과나 문제의 해를 근사해 실제 이론으로 도출한 해와 비교함. 이러한 형태의 모의실험 방법을 몬테칼로 시뮬레이션(Monte Carlo simulation)이라고 함. 
 
 
-> 통계적 모의실험에 Monte carlo 라는 명칭이 붙게된 계기는 2차 세계대전 당시 미국의 원자폭탄 계발계획인 Manhattan 프로젝트에서 중성자의 특성을 연구하기 위한 모의실험의 명칭에 모나코의 유명한 도박 도시 Monte Carlo 이름을 붙힌 것에서 유래함. 
+> 통계적 모의실험에 Monte carlo 라는 명칭이 붙게된 계기는 2차 세계대전 당시 미국의 원자폭탄 개발계획인 Manhattan 프로젝트에서 중성자의 특성을 연구하기 위한 모의실험의 명칭에 모나코의 유명한 도박 도시 Monte Carlo 이름을 붙힌 것에서 유래함. 
+
+- 통계적 모형은 결국 수학적으로 데이터가 어떻게 생성되었는가를 의미함. 
+- "모형을 시뮬레이션 한다" = 단계적으로 "데이터 처럼 보이는 것"을 생성하기 위해 모형을 적용
+- 통계적 시뮬레이션 결과는 동일한 초기값에서 시작하더라도 동일한 결과를 보장하지 않음
+- 예시: $X_1 \sim \mathcal{N}(3, 2^2)$, $X_2 \sim \mathcal{N}(5, 3^2)$ 이고, $X \perp \!\!\! \perp Y$ 일때 $X_3 = X_1 + 2X_2$ 의 분포는? 
+   - $X3 \sim \mathcal{N}(3 + 5, 2^2 + 4\times 3^2) = \mathcal{N}(8, 40)$
+
+\footnotesize
+
+
+```r
+set.seed(10000)
+x1 <- rnorm(10000, 3, 2)
+x2 <- rnorm(10000, 5, 3)
+x3 <- x1 + 2*x2
+mean(x3); var(x3)
+```
+
+```
+[1] 13.0817
+```
+
+```
+[1] 39.87758
+```
+
+ \normalsize
+
 
 
 **통계적 모의실험의 특징**
@@ -134,36 +162,430 @@ $$
 
 \footnotesize
 
-\BeginKnitrBlock{rmdimportant}<div class="rmdimportant">**통계적 모의실험(시뮬레이션) = 확률변수 생성문제**</div>\EndKnitrBlock{rmdimportant}
+\BeginKnitrBlock{rmdimportant}<div class="rmdimportant">**통계적 모의실험(시뮬레이션) = 확률변수의 생성문제**</div>\EndKnitrBlock{rmdimportant}
 
  \normalsize
 
 
-**난수 생성의 방법**
 
-
-
-
-
-
-- 난수(random number): 어떤 방법으로도 예측될 수 없는 일련의 수열(숫자)
-- 통계적 의미로 난수는 특정 범위(보통 0에서 1 사이)의 균일분포(uniform distribution)에서 추출된 표본들의 관찰값으로 , 임의의 확률분포(예: 정규분포, 지수분포 등)를 따르는 확률변수와는 구별됨.
-   - 보통 확률 변수는 균일분포를 따르는 확률변수로부터 적절한 변환을 통해 얻을 수 있음. 
-
-
-
-## 통계 시뮬레이션에 필요한 몇 가지 함수들
-
+## 통계 시뮬레이션에 활용되는 수학 함수 및 분포 함수
 
 ### 수학함수
 
+R은 광범위한 수학 함수를 내장하고 있고 다음 열거한 함수 목록은 그 일부임
+
+- `exp()`: 지수(`e`)를 밑으로 하는 지수 함수
+- `log()`: 자연 로그 함수
+- `log10()`: 10을 밑으로 하는 로그
+- `sqrt()`: 제곱근
+- `abs()`: 절대값
+- `sin()`, `cos()`, `tan()` ... : 삼각함수
+- `min()`, `max()`: 벡터 내 최솟값과 최댓값 반환
+- `which.min()`, `which.max()`: 벡터 내 최댓값과 최솟값에 대한 인덱스 반환
+- `sum()`, `prod()`: 벡터 원소들의 합과 곱 결과 반환
+- `cumsum()`, `cumprod()`: 백터 원소들의 누적합과 누적곱
+- `round()`, `floor()`, `ceiling()`: 수치형 값의 반올림, 내림, 올림
+- `factorial()`: 팩토리얼 함수 $n!$
+- `choose()`: 조합 함수 ($_n C_r = \frac{n!}{r!(n-r)!}$)
+
+**확장예제1: 확률계산**
+
+- $P_i$: $n$ 개의 독립적인 사건이 있고 $i$ 번째 사건이 발생할 확률
+- $n = 3$ 일 때, 각 사건의 이름을 각각 A, B, C 라고 할 때 이 중 사건 하나가 발생할 확률
+
+\footnotesize
+
+
+```r
+P(사건 하나가 발생할 확률) = 
+P(A가 일어나고 B와 C가 일어나지 않을 확률) + 
+  P(A가 일어나지 않고 B가 일어나고 C가 일어나지 않을 확률) + 
+  P(A, B가 일어나지 않고 C만 일어날 확률)
+```
+
+ \normalsize
+
+- 여기서 P(A가 일어나고 B와 C가 일어나지 않을 확률) = $P_A(1-P_B)(1-P_C)$ $\rightarrow$ 나머지도 마찬가지임
+- 일반화 하면
+
+$$
+\sum_{i=1}^{n} P_i(1-P_1)(1-P_2)\cdots (1-P_{i-1})(1-P_{i+1})\cdots (1-P_{n})
+$$
+
+- 구현 함수
+
+
+\footnotesize
+
+
+```r
+# 벡터 p에서 p_i 계산 함수
+
+probability_i <- function(p) {
+  notp <- 1 - p
+  tot <- 0
+  for (i in 1:length(p)) 
+    tot <- tot + p[i] * prod(notp[-i])
+  return(tot)
+}
+
+# test
+set.seed(3)
+p <- runif(3, 0, 1) # 0-1 사이 값 3개를 균일분포로부터 추출
+probability_i(p)
+```
+
+```
+[1] 0.4947463
+```
+
+ \normalsize
+
+
+**확장예제2: 누적합, 누적곱**
+
+\footnotesize
+
+
+```r
+# cumsum, cumprod 함수 사용 예시
+x <- c(2, 4, 1, 3, 7, 8)
+cumsum(x); cumprod(x)
+```
+
+```
+[1]  2  6  7 10 17 25
+```
+
+```
+[1]    2    8    8   24  168 1344
+```
+
+ \normalsize
+
+
+**확장예제3: 최솟값, 최댓값**
+
+\footnotesize
+
+
+```r
+# which.min, which.max 사용 예시
+set.seed(100)
+x <- sample(1:100, 100)
+idx_min <- which.min(x)
+x[idx_min]
+```
+
+```
+[1] 1
+```
+
+```r
+idx_max <- which.max(x)
+x[idx_max]
+```
+
+```
+[1] 100
+```
+
+```r
+# min(), max(), pmin(), pmax() 비교
+set.seed(5)
+x <- runif(5, 2, 4)
+y <- runif(5, 2, 4)
+z <- cbind(x, y)
+
+min(z); max(z) # z의 전체 값 중 최솟값과 최댓값 반환
+```
+
+```
+[1] 2.2093
+```
+
+```
+[1] 3.913
+```
+
+```r
+pmin(z); pmax(z) # 아무 값을 반환하지 않음
+```
+
+```
+            x        y
+[1,] 2.400429 3.402115
+[2,] 3.370437 3.055920
+[3,] 3.833752 3.615870
+[4,] 2.568799 3.913000
+[5,] 2.209300 2.220906
+```
+
+```
+            x        y
+[1,] 2.400429 3.402115
+[2,] 3.370437 3.055920
+[3,] 3.833752 3.615870
+[4,] 2.568799 3.913000
+[5,] 2.209300 2.220906
+```
+
+```r
+# 두 열을 비교해 각 행에서 최솟값, 최댓값을 반환
+pmin(z[, 1], z[, 2]) 
+```
+
+```
+[1] 2.400429 3.055920 3.615870 2.568799 2.209300
+```
+
+```r
+pmax(z[, 1], z[, 2])
+```
+
+```
+[1] 3.402115 3.370437 3.833752 3.913000 2.220906
+```
+
+ \normalsize
+
+
+**확장예제4: 미분/적분**
+
+- 문자의 미분 및 수치 적분 가능
+
+\footnotesize
+
+
+```r
+# 도함수 구하기
+## D() 함수 사용
+dx <- D(expression(exp(x^2)), "x") # exp(x^2)을 x에 대해서 1차 미분한 도함수
+set.seed(3)
+x <- runif(3, 1, 2)
+eval(dx) # 위 입력한 x에 대한 도함수 값 출력
+```
+
+```
+[1]  9.141245 94.842390 18.856751
+```
+
+```r
+## deriv() 함수 사용
+grad <- D(expression(x*sin(x)), "x")
+# 도함수를 R의 function으로 바로 반환 가능
+dx2 <- deriv(expression(x*sin(x)), "x", function.arg = TRUE) 
+dx2(x)
+```
+
+```
+[1] 1.074580 1.757109 1.361092
+attr(,"gradient")
+             x
+[1,] 1.3778035
+[2,] 0.5482219
+[3,] 1.2386966
+```
+
+```r
+# 수치 적분
+## integrate() 함수 사용
+## 주어진 함수의 적분식을 구한 후, 입력 구간에 대한 적분값 계산
+integrate(f = function(x) x^2, lower = 0, upper = 1)
+```
+
+```
+0.3333333 with absolute error < 3.7e-15
+```
+
+ \normalsize
+
+
+
+**확장예제 응용: Newton-Raphson method**
+
+임의의 함수 $f(x)$가 주어졌을 때 $f(x) = 0$ ($f(x)$의 해)를 만족하는 $x$를 반복적인 수치계산을 통해 찾는 방법
+
+- Newton-Raphson (N-R) 방법 적용 시 $f(x)$의 만족 조건
+  - $x$의 특정 범위 내에서 $f(x) = 0$를 만족하는 유일한 실수값 존재
+  - $f(x)$는 미분 가능한 함수
+  
+
+
+
+
+![Newton-Raphson 알고리즘 예시](video/newton-raphson-ex.mp4){width="100%"}
+
+
+**N-R 알고리즘(스케치)**
+
+- step 1: 초기치 $x_{old}$를 설정
+
+- step 2: $x_{old}$에서 $f(x_{old})$ 값 계산
+
+- step 3: $x_{old}$에서 접선의 기울기(미분계수) $f'(x_{old})$ 계산
+
+- step 4: $f'(x_{old})$의 접선이 $x$축과 만나는 점을 새로운 값 $x_{new}$로 업데이트
+   
+
+$$
+ x_{new} = x_{old} - \frac{f(x_{old})}{f'(x_{old})}
+$$
+
+
+- step 5: 일정 조건을 만족할 때 까지 step 1 ~ step 4 반복
+   
+
+- **step 4**에서 초기값 $x_0$이 주어졌을 때 $f(x_0)$의 접선은 $f'(x_0)$ 이고 $(x_0, f(x_0))$를 통과하므로 접선의 식은 아래와 같음
+
+$$
+f(x) = f'(x_0)(x - x_0) + f(x_0)
+$$
+
+- $f(x) = 0$ 일때 $x$의 값은 
+
+$$
+ x = x_0 -\frac{f(x_0)}{f'(x_0)}
+$$
+- 따라서 다음 단계에서 해의 근사치 $x_{1} = x_0 - f(x_0)/f'(x_0)$ 이고, 이를 조금 더 일반화 하면, 
+
+$$
+ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}
+$$
+
+- 위 식은 **테일러 전개(Taylor expansion)**를 통해 도출 가능(한 번 생각해 볼 것!!)
+
+
+**N-R 알고리즘의 특징**
+
+1. 현재 $x_{old}$ 또는 $x_{n}$이 0을 만족할 경우, 더 이상 다음 단계로 가지 않음. 
+2. 현재 함수값이 0에서 멀리 떨어져 있을수록 다음 스텝이 커지고, 미분계수의 절대값이 클수록 다음 스텝이 작아짐
+   - 미분계수의 절대값이 크다 $\rightarrow$ $x_n$을 조금만 움직여도 함수값이 크게 변한다는 의미 
+   - 따라서 미분계수의 값을 다음 스텝에 반영해야 함. 
+3. 다음 $x_{new}$의 방향은 $f(x_{old})/f'(x_{old})$ 부호와 반대방향으로 결정
+4. 수렴속도가 빠르지만 초기값에 따라 알고리즘의 성능이 달라짐
+5. $f'(x)$를 반복적으로 계산해야 하고, 경우에 따라 $f'(x) = 0$이면 반복식 계산이 불가
+
+
+**반복 종료 조건**
+
+- 처음 설정한 최대 반복 횟수를 넘었을 때
+- 더 이상 $x$의 값이 움직이지 않는다고 판단되었을 경우
+- 함수의 값이 충분히 0에 가까워 졌을 경우
+
+
+**N-R 알고리즘 구현**
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">- 알고리즘에 입력되어야 할 변수
+  - 초기값과 해를 찾을 범위 지정 $\rightarrow$ 만약 초기값이 해당 범위를 벗어난 값이 입력되었다면 함수 종료
+  - 함수
+  - 반복횟수
+  - 0과 충분히 가까운 상수(종료 시 필요) $\rightarrow$ `tol`
+- 함수 내부 또는 함수 외부에서 1차 미분 함수가 요구
+  - 함수 인수로 입력 vs. 함수 내부에서 도함수 계산?
+  - 도함수 계산 시 위 예제에서 사용한 R 내장 함수 사용 vs. 미분식 사용? 
+  
+$$
+\lim_{d \rightarrow 0} \frac{f(x + d) - f(x)}{d}
+$$
+
+- 반복 종료조건에 도달할 때 까지 반복이 필요 $\rightarrow$ `while` 문 사용
+- 반복 조건: 반복이 최대 반복수보다 작고 $|f(x_{new})|$ 값이 `tol` 값보다 클 때 까지
+</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+
+\footnotesize
+
+
+```r
+newton_raphson <- function(FUN, # 함수
+                           x0 = 1, # 초기값
+                           max_iters = 5000, # 최대 반복 횟수
+                           tol = 1.0e-9, 
+                           range = c(-Inf, Inf), 
+                           ...) 
+{
+ iters <- 1;
+ grads <- deriv(as.expression(body(FUN)), "x", function.arg = TRUE)
+ # grads 반환값 중 "gradient" 값 = f'(x0)
+ gap <- x0 - FUN(x0)/attr(grads(x0), "gradient") 
+ 
+ while(iters < max_iters & abs(gap) > tol) {
+   # x_new 계산 
+   x_new <- x0 - FUN(x0)/attr(grads(x0), "gradient")
+   gap <- FUN(x_new) 
+   # x_new 가 범위를 벗어난 경우 처리
+   if (x_new <= range[1]) x_new <- range[1] 
+   if (x_new >= range[2]) x_new <- range[2]
+   iters <- iters + 1
+   x0 <- x_new # 초기값 업데이트
+ }
+ 
+ if (x_new == range[1] | x_new == range[2]) 
+   warning("마지막 점이 x 범위의 경계선 상에 있습니다.")
+ if (iters > max_iters) 
+   warning("최대 반복 때 까지 해를 찾지 못했습니다.")
+ cat("x 가", x_new, "일 때 함수값:", FUN(x_new), "\n")
+ return(list(solution = x_new, iteration = iters))
+ 
+}
+
+## test: 위 동영상과 동일한 해를 갖는지 확인
+f <- function(x) 5 * x^3 - 7 * x^2 - 40 * x + 100 
+newton_raphson(FUN = f, 
+               x0 = 1,
+               range = c(-10, 10)) -> sols
+```
+
+```
+x 가 -3.151719 일 때 함수값: -3.547029e-11 
+```
+
+ \normalsize
+
+
+
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdcaution}<div class="rmdcaution">**Quiz**: `newton_raphson()` 함수에서 1차 미분 도함수를 구하는 스크립트를 아래 일반 미분공식으로 변환한 함수 `newton_raphson_gen()`를 작성하고, 해당 함수가 정상적으로 작동하는지 확인하시오. 
+
+$$
+\lim_{d \rightarrow 0} \frac{f(x + d) - f(x)}{d}
+$$
+
+
+- 문제 제출이 필수는 아니지만 제출 시 가산점이 있음. 
+- 제출기간: 2020년 11월 4일
+- 제출방법: 작성 스크립트를 `학번-이름.R`로 저장 후 E-mail로 제출
+</div>\EndKnitrBlock{rmdcaution}
+
+ \normalsize
+
 
 ### 통계 분포 함수
+
+R은 현존하는 대부분의 통계 확률 분포 함수를 제공하고 `접두사 + 분포이름` 형태의 함수명을 갖고 있으며, 보통 다음과 같은 접두사를 통해 분포 함수 생성
+
+- `d`: 밀도(density)의 약어로 확률 밀도함수(probability density function, pdf) 또는 이산형 분포의 확률 질량 함수(probability mass function, pmf)
+- `q`: 분위수(quantile)의 약어로 상위 %에 해당하는 $x$ 값을 반환
+- `p`: 누적분포함수(cumulative density function, cdf)
+- `r`: 특정 분포로부터 난수(확률변수) 생성
+
+
+> 예: `dnorm()`, `qnorm()`, `pnorm()`, `rnorm()` 은 정규분포 관련 함수임
 
 
 \footnotesize
 
 <table class=" lightable-paper lightable-striped" style='font-size: 12px; font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption style="font-size: initial !important;">(\#tab:unnamed-chunk-15)일반적인 R 통계 분포함수(일부 제시)</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> Distribution </th>
@@ -245,33 +667,300 @@ $$
  \normalsize
 
 
+**예제: 확률 분포 함수**
+
+
+\footnotesize
+
+
+```r
+## 카이제곱분포 
+x <- seq(0, 30, by = 0.1)
+y <- dchisq(x, df = 3) # 자유도가 3인 카이제곱분포 밀도 함수
+plot(x, y, type = "l",
+     bty = "n", 
+     xlab = "", ylab = "", 
+     main = expression(paste("PDF of ", ~chi^2, " distribution")), 
+     lwd = 2, 
+     cex.main = 2)
+
+# P(5 < V < 10)
+pchisq(10, df = 3) - pchisq(5, df = 3)
+```
+
+```
+[1] 0.153231
+```
+
+```r
+## 그림에 표현
+idx <- x >= 5 & x <= 10
+polygon(c(5, x[idx], 10), 
+        c(0, y[idx], 0), 
+        col = "blue", 
+        border = "blue")
+abline(h = 0, col = "darkgray")
+text(x = 10, y = 0.05, cex = 2, 
+     bquote(P({5 <= V} <= 10 ) ==
+              .(sprintf("%.3f", pchisq(10, df = 3) - pchisq(5, df = 3)))),
+     adj = 0)
+```
+
+<img src="03-simulation_files/figure-html/unnamed-chunk-16-1.svg" width="672" />
+
+```r
+# 분위수
+qchisq(pchisq(10, df = 3), df = 3) 
+```
+
+```
+[1] 10
+```
+
+```r
+# 난수 생성
+v <- rchisq(1000, df = 3)
+mean(v) # 카이제곱분포의 평균은 이론적으로 자유도 값과 같음 
+```
+
+```
+[1] 2.994
+```
+
+ \normalsize
+
+
+
 <!-- $$\frac{1}{\sqrt{2\pi}\sigma}\exp \left\{-\frac{(x - \mu)^2}{2\sigma^2} \right \}$$ -->
+
+
+**난수 생성의 방법**
+
+- 난수(random number): 어떤 방법으로도 예측될 수 없는 일련의 수열(숫자)
+- 통계적 의미로 난수는 특정 범위(보통 0에서 1 사이)의 균일분포(uniform distribution)에서 추출된 표본들의 관찰값으로, 임의의 확률분포(예: 정규분포, 지수분포 등)를 따르는 확률변수와는 구별됨.
+   - 보통 확률 변수는 균일분포를 따르는 확률변수로부터 적절한 변환을 통해 얻을 수 있음. 
+- 난수를 발생하려면 어떤 알고리즘이 필요하고 알고리즘은 일정한 규칙에 의해 구현되기 때문에 컴퓨터로 발생한 난수는 엄밀한 의미에서 난수가 아님. 
+- 이를 구별하기 위해 보통 컴퓨터로 생성한 난수를 유사난수(pseudo-random number)라 칭함
+- 난수 생성을 위한 알고리즘으로 합동법(congruential method), 역변환법(inversion method) 등이 널리 사용됨
+- 통계 시뮬레이션에서는 특히 변수변환방법(transformation)을 통해 확률변수 생성
+   - $Z \sim \mathcal{N}(0, 1)$일 때 $\sigma Z + \mu \sim \mathcal{N}(\mu, \sigma^2)$
+   - $Z^2 \sim \chi^2(1)$
+
 
 
 \footnotesize
 
 <div class="figure" style="text-align: center">
 <img src="figures/distribution-relationship.png" alt="확률분포의 관계도(http://www.math.wm.edu/~leemis/chart/UDR/UDR.html)" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-6)확률분포의 관계도(http://www.math.wm.edu/~leemis/chart/UDR/UDR.html)</p>
+<p class="caption">(\#fig:unnamed-chunk-17)확률분포의 관계도(http://www.math.wm.edu/~leemis/chart/UDR/UDR.html)</p>
 </div>
 
  \normalsize
 
 
 
-## 기초 통계학(review) 
+<!-- ```{r} -->
+<!-- newton_raphson_test <- function(FUN, # 함수 -->
+<!--                            x0 = 1, # 초기값 -->
+<!--                            max_iters = 5000, # 최대 반복 횟수 -->
+<!--                            tol = 1.0e-7,  -->
+<!--                            range = c(-Inf, Inf),  -->
+<!--                            ...)  -->
+<!-- { -->
+<!--  iters <- 1; d <- tol; -->
+<!--  grads <- (FUN(x0 + d) - FUN(x0))/d -->
+<!--  x <- c(x0, x0 - FUN(x0)/grads) -->
+<!--  gap <- x[2] -->
 
-\footnotesize
+<!--  while(iters < max_iters & abs(gap) > tol) { -->
+<!--    # browser() -->
+<!--    grads <- (FUN(x0 + d) - FUN(x0))/d -->
+<!--    x_new <- x0 - FUN(x0)/grads -->
+<!--    gap <- FUN(x_new) -->
+<!--    # x_new 가 범위를 벗어난 경우 처리 -->
+<!--    if (x_new <= range[1]) x_new <- range[1]  -->
+<!--    if (x_new >= range[2]) x_new <- range[2] -->
+<!--    iters <- iters + 1 -->
+<!--    x0 <- x_new -->
+<!--  } -->
 
-<div class="figure" style="text-align: center">
-<img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
-<p class="caption">(\#fig:unnamed-chunk-7)모집단, 표본, 통계량, 표본분포 관계</p>
-</div>
+<!--  if (x_new == range[1] | x_new == range[2])  -->
+<!--    warning("마지막 점이 x 범위의 경계선 상에 있습니다.") -->
+<!--  if (iters > max_iters)  -->
+<!--    warning("최대 반복 때 까지 해를 찾지 못했습니다.") -->
+<!--  cat("x 가", x_new, "일 때 함수값:", FUN(x_new), "\n") -->
+<!--  return(list(solution = x_new, iteration = iters)) -->
 
- \normalsize
+<!-- } -->
+
+
+<!-- f <- function(x) x^2 - 3 -->
+<!-- newton_raphson_test(FUN = f,  -->
+<!--                x0 = 1, -->
+<!--                range = c(-10, 10)) -->
+
+<!-- ``` -->
 
 
 
+<!-- ## 통계 시뮬레이션의 고전 예제 -->
+
+<!-- ### 동전 던지기 -->
+
+<!-- ### 적중법 -->
+
+<!-- ### 몬테칼로 적분법(sample-mean Monte-carlo integration) -->
+
+<!-- ### Buffon의 바늘 실험 -->
+
+<!-- 간격이 $d$인 평행선들이 그려져 있는 책상 위에 길이가 $l$ 인 바늘을 던졌을 때, 이 바늘이 책상 위에 그려진 선에 걸쳐질 확률 -->
+
+<!-- > 원문: 떨어진 거리가 같은 평행선들이 그어진 마룻바닥에 바늘을 떨어뜨렸다. 바늘이 금에 닿을 확률은 얼마인가?  -->
+<!-- > -->
+<!-- > Georges-Louis Leclerc, Comte de Buffon (1777) -->
+
+
+<!-- **조건** -->
+
+<!-- - 바늘의 길이는 선 사이 간격보다 작다($l < d$) -->
+
+
+<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='80%', fig.cap="Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우"} -->
+<!-- options(knitr.graphics.auto_pdf = TRUE) -->
+<!-- knitr::include_graphics('figures/buffon-scheme.png', dpi = NA) -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='80%', fig.cap="Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우"} -->
+<!-- options(knitr.graphics.auto_pdf = TRUE) -->
+<!-- knitr::include_graphics('figures/buffon-scheme-02.png', dpi = NA) -->
+
+<!-- ``` -->
+
+
+<!-- - $m$: 바늘의 중앙점 -->
+<!-- - $a$: 두 평행선 중 $m$과 가까운 평행선에서 $m$ 까지의 직선거리 -->
+<!-- - $\theta$: 바늘과 평행선이 이루는 각도 -->
+
+
+<!-- **Fact** -->
+
+<!-- $d > l$ 조건 하에서  -->
+
+<!-- - $a$는 가장 가까운 선과의 직선거리이기 때문에 $d/2$보다 클 수 없음 $\rightarrow$ $0 \leq a \leq d/2$ $\rightarrow$ $a \sim \mathrm{Uniform}(0, d/2)$ -->
+<!-- - 선을 벗어난 바늘 끝을 지나는 가상의 평행선과 $m$ 사이의 수직 거리는 $l/2\sin \theta$ -->
+<!-- - 바늘이 선에 걸치는 경우는 $l/2\sin \theta$ 가 $a$ 보다 긴 경우임 $\rightarrow$ $0 \leq a \leq l/2\sin \theta$ $\rightarrow$ $\theta \sim \mathrm{Uniform}(0, \pi)$ -->
+<!-- - $\therefore$ 바늘이 선에 걸쳐질 확률은  -->
+
+<!-- $$ -->
+<!--  P(바늘이~걸쳐질 ~확률) = P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) -->
+<!-- $$ -->
+
+<!-- ```{block2, type="rmdnote"} -->
+<!-- 두 확률변수의 결합분포를 구한 후 결합밀도함수에 대한 적분값(확률)을 구하는 문제!! -->
+
+<!-- ``` -->
+
+
+<!-- **수학적 표현** -->
+
+<!-- $a$ 에 대한 확률분포 -->
+
+<!-- $$ -->
+<!-- a \sim \mathrm{Uniform}(0, d/2) = \begin{cases} -->
+<!-- \frac{2}{d}, & 0 \leq a \leq d/2 \\ -->
+<!-- 0, & \mathrm{otherwise} -->
+<!-- \end{cases} -->
+<!-- $$ -->
+
+
+<!-- $\theta$ 에 대한 확률분포 -->
+
+
+<!-- $$ -->
+<!-- \theta \sim \mathrm{Uniform}(0, \pi) = \begin{cases} -->
+<!-- \frac{1}{\pi}, & 0 \leq \theta \leq \pi \\ -->
+<!-- 0, & \mathrm{otherwise} -->
+<!-- \end{cases} -->
+<!-- $$ -->
+
+<!-- 두 확률변수가 독립이기 때문에 $a$와 $\theta$의 결합분포는 아래와 같음 -->
+
+<!-- $$ -->
+<!-- f(a, \theta) = \begin{cases} -->
+<!--  \frac{2}{d\pi}, & 0 \leq a \leq d/2;~ 0 \leq \theta \leq \pi \\ -->
+<!--  0, & \mathrm{otherwise} -->
+<!-- \end{cases} -->
+<!-- $$ -->
+
+
+<!-- 따라서 바늘이 평행선에 걸쳐질 확률은 -->
+
+
+<!-- $$ -->
+<!-- \begin{align} P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) &=  \int_{\theta = 0}^{\pi}\int_{a = 0}^{(l/2)\sin \theta} \frac{2}{d\pi} \,da\,d\theta\\  -->
+<!-- &= \int_{\theta = 0}^\pi \frac{l\sin\theta}{d\pi}\,d\theta \\ -->
+<!-- &= \frac{l\cos\theta}{d\pi} \Big|_{0}^\pi = \frac{2l}{d\pi} -->
+<!-- \end{align} -->
+<!-- $$ -->
+
+
+<!-- ```{r} -->
+
+
+
+
+<!-- ``` -->
+
+
+
+<!-- ## 기초 통계학(review)  -->
+
+<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"} -->
+<!-- options(knitr.graphics.auto_pdf = TRUE) -->
+<!-- knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA) -->
+<!-- ``` -->
+
+
+<!-- **p-value와 "통계적 유의성"에 대한 미국 통계학회 성명** -->
+
+<!-- > - P-values can indicate how incompatible the data are with a specified statistical model. -->
+<!-- > - P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. -->
+<!-- > - Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold. -->
+<!-- > - Proper inference requires full reporting and transparency. -->
+<!-- > - A p-value, or statistical significance, does not measure the size of an effect or the importance of a result. -->
+<!-- > - By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis. -->
+
+<!-- ```{r} -->
+<!-- x <- seq(-1, 1, by = 0.01) -->
+<!-- y <- sqrt((1 - x^2)) -->
+<!-- plot(x, y, type = "l") -->
+
+
+<!-- ani.options(nmax = 400, interval = 0.05) -->
+<!-- buffon.needle() -->
+
+<!-- ``` -->
+
+
+
+<!-- ```{r, animation.hook="gifski", dev="png"} -->
+<!-- # for (i in 1:2) { -->
+<!-- #   pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA) -->
+<!-- # } -->
+
+<!-- require(animation) -->
+<!-- # # saveVideo({ -->
+<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
+<!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
+<!-- #   ani.options(interval = 0.05, nmax = 400) -->
+<!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
+<!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
+
+
+<!-- ``` -->
 
 
 

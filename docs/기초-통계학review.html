@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"/>
+<link rel="prev" href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"/>
 <link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -186,9 +186,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a><ul>
 <li class="chapter" data-level="3.1" data-path="시뮬레이션모의실험의-의미.html"><a href="시뮬레이션모의실험의-의미.html"><i class="fa fa-check"></i><b>3.1</b> 시뮬레이션(모의실험)의 의미</a></li>
-<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 필요한 몇 가지 함수들</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
-<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
+<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 활용되는 수학 함수 및 분포 함수</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
+<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="기초-통계학review.html"><a href="기초-통계학review.html"><i class="fa fa-check"></i><b>3.3</b> 기초 통계학(review)</a></li>
 </ul></li>
@@ -213,13 +213,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="기초-통계학review" class="section level2">
 <h2><span class="header-section-number">3.3</span> 기초 통계학(review)</h2>
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-7"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
 <img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
 <p class="caption">
 Figure 3.2: 모집단, 표본, 통계량, 표본분포 관계
 </p>
 </div>
 
+<p><strong>p-value와 “통계적 유의성”에 대한 미국 통계학회 성명</strong></p>
+<blockquote>
+<ul>
+<li>P-values can indicate how incompatible the data are with a specified statistical model.</li>
+<li>P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone.</li>
+<li>Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold.</li>
+<li>Proper inference requires full reporting and transparency.</li>
+<li>A p-value, or statistical significance, does not measure the size of an effect or the importance of a result.</li>
+<li>By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis.</li>
+</ul>
+</blockquote>
+<!-- ```{r} -->
+<!-- x <- seq(-1, 1, by = 0.01) -->
+<!-- y <- sqrt((1 - x^2)) -->
+<!-- plot(x, y, type = "l") -->
+<!-- ani.options(nmax = 400, interval = 0.05) -->
+<!-- buffon.needle() -->
+<!-- ``` -->
+<!-- ```{r, animation.hook="gifski", dev="png"} -->
+<!-- # for (i in 1:2) { -->
+<!-- #   pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA) -->
+<!-- # } -->
+<!-- require(animation) -->
+<!-- # # saveVideo({ -->
+<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
+<!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
+<!-- #   ani.options(interval = 0.05, nmax = 400) -->
+<!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
+<!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
+<!-- ``` -->
 
 </div>
 <!-- </div> -->
@@ -228,7 +258,7 @@ Figure 3.2: 모집단, 표본, 통계량, 표본분포 관계
           </div>
         </div>
       </div>
-<a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-10-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="Simulation.html"/>
-<link rel="next" href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"/>
+<link rel="next" href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -186,11 +186,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a><ul>
 <li class="chapter" data-level="3.1" data-path="시뮬레이션모의실험의-의미.html"><a href="시뮬레이션모의실험의-의미.html"><i class="fa fa-check"></i><b>3.1</b> 시뮬레이션(모의실험)의 의미</a></li>
-<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 필요한 몇 가지 함수들</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
-<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-필요한-몇-가지-함수들.html"><a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
+<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 활용되는 수학 함수 및 분포 함수</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
+<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="기초-통계학review.html"><a href="기초-통계학review.html"><i class="fa fa-check"></i><b>3.3</b> 기초 통계학(review)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -225,8 +224,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>통계적 모의실험(statistical or stochastic simulation)</strong></p>
 <p>통계학의 표본이론과 확률론에 근간을 두고 난수(random number)와 임의표본(random sample)을 이용해 어떤 결과나 문제의 해를 근사해 실제 이론으로 도출한 해와 비교함. 이러한 형태의 모의실험 방법을 몬테칼로 시뮬레이션(Monte Carlo simulation)이라고 함.</p>
 <blockquote>
-<p>통계적 모의실험에 Monte carlo 라는 명칭이 붙게된 계기는 2차 세계대전 당시 미국의 원자폭탄 계발계획인 Manhattan 프로젝트에서 중성자의 특성을 연구하기 위한 모의실험의 명칭에 모나코의 유명한 도박 도시 Monte Carlo 이름을 붙힌 것에서 유래함.</p>
+<p>통계적 모의실험에 Monte carlo 라는 명칭이 붙게된 계기는 2차 세계대전 당시 미국의 원자폭탄 개발계획인 Manhattan 프로젝트에서 중성자의 특성을 연구하기 위한 모의실험의 명칭에 모나코의 유명한 도박 도시 Monte Carlo 이름을 붙힌 것에서 유래함.</p>
 </blockquote>
+<ul>
+<li>통계적 모형은 결국 수학적으로 데이터가 어떻게 생성되었는가를 의미함.</li>
+<li>“모형을 시뮬레이션 한다” = 단계적으로 “데이터 처럼 보이는 것”을 생성하기 위해 모형을 적용</li>
+<li>통계적 시뮬레이션 결과는 동일한 초기값에서 시작하더라도 동일한 결과를 보장하지 않음</li>
+<li>예시: <span class="math inline">\(X_1 \sim \mathcal{N}(3, 2^2)\)</span>, <span class="math inline">\(X_2 \sim \mathcal{N}(5, 3^2)\)</span> 이고, <span class="math inline">\(X \perp \!\!\! \perp Y\)</span> 일때 <span class="math inline">\(X_3 = X_1 + 2X_2\)</span> 의 분포는?
+<ul>
+<li><span class="math inline">\(X3 \sim \mathcal{N}(3 + 5, 2^2 + 4\times 3^2) = \mathcal{N}(8, 40)\)</span></li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="시뮬레이션모의실험의-의미.html#cb275-1"></a><span class="kw">set.seed</span>(<span class="dv">10000</span>)</span>
+<span id="cb275-2"><a href="시뮬레이션모의실험의-의미.html#cb275-2"></a>x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb275-3"><a href="시뮬레이션모의실험의-의미.html#cb275-3"></a>x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10000</span>, <span class="dv">5</span>, <span class="dv">3</span>)</span>
+<span id="cb275-4"><a href="시뮬레이션모의실험의-의미.html#cb275-4"></a>x3 &lt;-<span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>x2</span>
+<span id="cb275-5"><a href="시뮬레이션모의실험의-의미.html#cb275-5"></a><span class="kw">mean</span>(x3); <span class="kw">var</span>(x3)</span></code></pre></div>
+<pre><code>[1] 13.0817</code></pre>
+<pre><code>[1] 39.87758</code></pre>
+<p></p>
 <p><strong>통계적 모의실험의 특징</strong></p>
 <ul>
 <li>특정 분포를 따르는 확률변수의 관찰값이 필요</li>
@@ -248,18 +265,10 @@ Y|X &amp; \sim &amp; \mathcal{N}(\beta_0 + \beta_1X, \sigma_2^2)
 
 
 <div class="rmdimportant">
-<strong>통계적 모의실험(시뮬레이션) = 확률변수 생성문제</strong>
+<strong>통계적 모의실험(시뮬레이션) = 확률변수의 생성문제</strong>
 </div>
 
 <p></p>
-<p><strong>난수 생성의 방법</strong></p>
-<ul>
-<li>난수(random number): 어떤 방법으로도 예측될 수 없는 일련의 수열(숫자)</li>
-<li>통계적 의미로 난수는 특정 범위(보통 0에서 1 사이)의 균일분포(uniform distribution)에서 추출된 표본들의 관찰값으로 , 임의의 확률분포(예: 정규분포, 지수분포 등)를 따르는 확률변수와는 구별됨.
-<ul>
-<li>보통 확률 변수는 균일분포를 따르는 확률변수로부터 적절한 변환을 통해 얻을 수 있음.</li>
-</ul></li>
-</ul>
 </div>
             </section>
 
@@ -267,7 +276,7 @@ Y|X &amp; \sim &amp; \mathcal{N}(\beta_0 + \beta_1X, \sigma_2^2)
         </div>
       </div>
 <a href="Simulation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="통계-시뮬레이션에-필요한-몇-가지-함수들.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
