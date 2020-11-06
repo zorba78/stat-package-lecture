@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3.4 몬테칼로 시뮬레이션 | 통계 패키지 활용</title>
+  <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3.4 몬테칼로 시뮬레이션 | 통계 패키지 활용" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3.4 몬테칼로 시뮬레이션 | 통계 패키지 활용" />
+  
+  <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
+  
+
+<meta name="author" content="한국한의학연구원, 구본초" />
+
+
+<meta name="date" content="2020-11-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="확률과-확률변수.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">통계 패키지 활용</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Overview</a></li>
+<li class="chapter" data-level="1" data-path="r-markdown.html"><a href="r-markdown.html"><i class="fa fa-check"></i><b>1</b> R Markdown</a><ul>
+<li class="chapter" data-level="1.1" data-path="r-markdown의-구성.html"><a href="r-markdown의-구성.html"><i class="fa fa-check"></i><b>1.1</b> R Markdown의 구성</a></li>
+<li class="chapter" data-level="1.2" data-path="r-markdown-문서-시작하기.html"><a href="r-markdown-문서-시작하기.html"><i class="fa fa-check"></i><b>1.2</b> R Markdown 문서 시작하기</a></li>
+<li class="chapter" data-level="1.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html"><i class="fa fa-check"></i><b>1.3</b> R Markdown 기본 문법(syntax)</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#텍스트-문법"><i class="fa fa-check"></i><b>1.3.1</b> 텍스트 문법</a></li>
+<li class="chapter" data-level="1.3.2" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#block-level-elements"><i class="fa fa-check"></i><b>1.3.2</b> Block-level elements</a></li>
+<li class="chapter" data-level="1.3.3" data-path="r-markdown-기본-문법syntax.html"><a href="r-markdown-기본-문법syntax.html#수식표현math-expression"><i class="fa fa-check"></i><b>1.3.3</b> 수식표현(math expression)</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="r-code-chunks.html"><a href="r-code-chunks.html"><i class="fa fa-check"></i><b>1.4</b> R Code Chunks</a><ul>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#code-chunk"><i class="fa fa-check"></i>자주 활용하는 chunk 옵션</a></li>
+<li class="chapter" data-level="" data-path="r-code-chunks.html"><a href="r-code-chunks.html#typical-chunk"><i class="fa fa-check"></i>알아두면 좋은 청크 형태</a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="inline-code.html"><a href="inline-code.html"><i class="fa fa-check"></i><b>1.5</b> 인라인(inline) R 코드</a></li>
+<li class="chapter" data-level="1.6" data-path="yaml.html"><a href="yaml.html"><i class="fa fa-check"></i><b>1.6</b> YAML</a><ul>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#basic-syntax"><i class="fa fa-check"></i>기본 문법</a></li>
+<li class="chapter" data-level="" data-path="yaml.html"><a href="yaml.html#rmarkdown-yaml-structure"><i class="fa fa-check"></i>R Markdown 기본 YAML 구조</a></li>
+</ul></li>
+<li class="chapter" data-level="1.7" data-path="rmarkdown-citation.html"><a href="rmarkdown-citation.html"><i class="fa fa-check"></i><b>1.7</b> 참고문헌 인용</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="control-structure.html"><a href="control-structure.html"><i class="fa fa-check"></i><b>2</b> 제어문(Control Structure)</a><ul>
+<li class="chapter" data-level="2.1" data-path="control-prerequisite.html"><a href="control-prerequisite.html"><i class="fa fa-check"></i><b>2.1</b> Prerequisite</a></li>
+<li class="chapter" data-level="2.2" data-path="control-program.html"><a href="control-program.html"><i class="fa fa-check"></i><b>2.2</b> 프로그램</a></li>
+<li class="chapter" data-level="2.3" data-path="condition.html"><a href="condition.html"><i class="fa fa-check"></i><b>2.3</b> 조건문(Conditionals)</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="condition.html"><a href="condition.html#if-basic"><i class="fa fa-check"></i><b>2.3.1</b> <strong>기본 구문</strong></a></li>
+<li><a href="condition.html#if-else"><strong>대안 실행(alternative execution)</strong></a></li>
+<li class="chapter" data-level="2.3.2" data-path="condition.html"><a href="condition.html#chain-cond"><i class="fa fa-check"></i><b>2.3.2</b> <strong>연쇄 조건문(chained condition)</strong></a></li>
+<li class="chapter" data-level="2.3.3" data-path="condition.html"><a href="condition.html#nest-cond"><i class="fa fa-check"></i><b>2.3.3</b> <strong>중첩 조건문(nested contition)</strong></a></li>
+<li class="chapter" data-level="2.3.4" data-path="condition.html"><a href="condition.html#ifelse-fun"><i class="fa fa-check"></i><b>2.3.4</b> <strong><code>ifelse()</code> 함수</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="looping.html"><a href="looping.html"><i class="fa fa-check"></i><b>2.4</b> 반복문(Looping)</a><ul>
+<li class="chapter" data-level="" data-path="looping.html"><a href="looping.html#loop-pre"><i class="fa fa-check"></i>Prerequisite</a></li>
+<li class="chapter" data-level="2.4.1" data-path="looping.html"><a href="looping.html#repeat"><i class="fa fa-check"></i><b>2.4.1</b> <strong><code>repeat</code> 구문</strong></a></li>
+<li class="chapter" data-level="2.4.2" data-path="looping.html"><a href="looping.html#while"><i class="fa fa-check"></i><b>2.4.2</b> <strong><code>while</code> 구문</strong></a></li>
+<li class="chapter" data-level="2.4.3" data-path="looping.html"><a href="looping.html#for-구문"><i class="fa fa-check"></i><b>2.4.3</b> <strong><code>for</code> 구문</strong></a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="function.html"><a href="function.html"><i class="fa fa-check"></i><b>2.5</b> 함수 (function)</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="function.html"><a href="function.html#함수의-정의"><i class="fa fa-check"></i><b>2.5.1</b> 함수의 정의</a></li>
+<li class="chapter" data-level="2.5.2" data-path="function.html"><a href="function.html#함수의-인수-전달-방법"><i class="fa fa-check"></i><b>2.5.2</b> 함수의 인수 전달 방법</a></li>
+<li class="chapter" data-level="2.5.3" data-path="function.html"><a href="function.html#함수의-기본-구성-요소"><i class="fa fa-check"></i><b>2.5.3</b> 함수의 기본 구성 요소</a></li>
+<li class="chapter" data-level="2.5.4" data-path="function.html"><a href="function.html#함수의-적용-범위scoping-rule"><i class="fa fa-check"></i><b>2.5.4</b> 함수의 적용 범위(scoping rule)</a></li>
+<li class="chapter" data-level="2.5.5" data-path="function.html"><a href="function.html#재귀-호출-함수recursive-call-function"><i class="fa fa-check"></i><b>2.5.5</b> 재귀 호출 함수(recursive call function)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="Simulation.html"><a href="Simulation.html"><i class="fa fa-check"></i><b>3</b> 시뮬레이션</a><ul>
+<li class="chapter" data-level="3.1" data-path="시뮬레이션모의실험의-의미.html"><a href="시뮬레이션모의실험의-의미.html"><i class="fa fa-check"></i><b>3.1</b> 시뮬레이션(모의실험)의 의미</a></li>
+<li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 활용되는 수학 함수 및 분포 함수</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
+<li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="확률과-확률변수.html"><a href="확률과-확률변수.html"><i class="fa fa-check"></i><b>3.3</b> 확률과 확률변수</a></li>
+<li class="chapter" data-level="3.4" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html"><i class="fa fa-check"></i><b>3.4</b> 몬테칼로 시뮬레이션</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#동전-던지기"><i class="fa fa-check"></i><b>3.4.1</b> 동전 던지기</a></li>
+<li class="chapter" data-level="3.4.2" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#기댓값-추정"><i class="fa fa-check"></i><b>3.4.2</b> 기댓값 추정</a></li>
+<li class="chapter" data-level="3.4.3" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#몬테칼로-적분법sample-mean-monte-carlo-integration"><i class="fa fa-check"></i><b>3.4.3</b> 몬테칼로 적분법(sample-mean Monte-carlo integration)</a></li>
+<li class="chapter" data-level="3.4.4" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#buffon의-바늘-실험"><i class="fa fa-check"></i><b>3.4.4</b> Buffon의 바늘 실험</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">통계 패키지 활용</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="몬테칼로-시뮬레이션" class="section level2">
+<h2><span class="header-section-number">3.4</span> 몬테칼로 시뮬레이션</h2>
+
+
+<div class="rmdnote">
+본 절에서 사용한 동영상 및 모의실험 코드는 Yihui Xie와 Lijia Yu가 배포한 animation 패키지의 내용을 기반으로 재구성함.
+</div>
+
+
+<ul>
+<li>우리가 알고 있는 확률과 기댓값의 정의는 모두 반복 횟수에 제한없이 무한대로 확률실험(무작위 과정)을 반복 했을 때의 상황을 설정한 것임</li>
+<li>즉 컴퓨터를 통해 수학적 확률 또는 기댓값을 정확히 계산할 수 없어도 무작위 실험을 매우 많이 반복해 특정 사건이 일어날 확률이나 기댓값 추정이 가능 <span class="math inline">\(\rightarrow\)</span> 몬테칼로 시뮬레이션의 기본 idea</li>
+</ul>
+<div id="동전-던지기" class="section level3">
+<h3><span class="header-section-number">3.4.1</span> 동전 던지기</h3>
+<blockquote>
+<p>실제 정상적인 동전을 던졌을 때 앞/뒷면이 나올 확률이 1/2 일까?</p>
+</blockquote>
+
+
+<div class="figure">
+<video src="video/flip-coin-normal.mp4" style="width:80.0%" controls=""><a href="video/flip-coin-normal.mp4"></a></video>
+<p class="caption">정상적인 동전 던지기 실험</p>
+</div>
+<p><strong>구현</strong></p>
+<ul>
+<li><code>sample()</code> 함수를 통해 매우 간단히 구현 가능</li>
+<li>함수 적용 시 가장 중요한 부분은 <strong>복원 추출</strong>을 한다는 점임
+<ul>
+<li>매번 시행이 독립시행이고 매회 시행 시 앞면과 뒷면이 나올 확률이 같도록 유지해야 함</li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="몬테칼로-시뮬레이션.html#cb302-1"></a><span class="co"># 동전 실험</span></span>
+<span id="cb302-2"><a href="몬테칼로-시뮬레이션.html#cb302-2"></a>coin_flip &lt;-<span class="st"> </span><span class="cf">function</span>(faces, <span class="dt">ntry =</span> <span class="dv">100</span>) {</span>
+<span id="cb302-3"><a href="몬테칼로-시뮬레이션.html#cb302-3"></a>  record &lt;-<span class="st"> </span><span class="kw">sample</span>(faces, <span class="dt">size =</span> ntry, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb302-4"><a href="몬테칼로-시뮬레이션.html#cb302-4"></a>  prob1 &lt;-<span class="st"> </span><span class="kw">sum</span>(record <span class="op">==</span><span class="st"> </span>faces[<span class="dv">1</span>])<span class="op">/</span>ntry</span>
+<span id="cb302-5"><a href="몬테칼로-시뮬레이션.html#cb302-5"></a>  prob2 &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>prob1</span>
+<span id="cb302-6"><a href="몬테칼로-시뮬레이션.html#cb302-6"></a>  p &lt;-<span class="st"> </span><span class="kw">list</span>(prob1, prob2)</span>
+<span id="cb302-7"><a href="몬테칼로-시뮬레이션.html#cb302-7"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(faces)) </span>
+<span id="cb302-8"><a href="몬테칼로-시뮬레이션.html#cb302-8"></a>    <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;Proprotion &quot;</span>, faces[i], <span class="st">&quot;:&quot;</span>), p[[i]], <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb302-9"><a href="몬테칼로-시뮬레이션.html#cb302-9"></a></span>
+<span id="cb302-10"><a href="몬테칼로-시뮬레이션.html#cb302-10"></a>  </span>
+<span id="cb302-11"><a href="몬테칼로-시뮬레이션.html#cb302-11"></a>}</span>
+<span id="cb302-12"><a href="몬테칼로-시뮬레이션.html#cb302-12"></a></span>
+<span id="cb302-13"><a href="몬테칼로-시뮬레이션.html#cb302-13"></a>coin &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;H&quot;</span>, <span class="st">&quot;T&quot;</span>)</span>
+<span id="cb302-14"><a href="몬테칼로-시뮬레이션.html#cb302-14"></a><span class="kw">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb302-15"><a href="몬테칼로-시뮬레이션.html#cb302-15"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">10</span>) <span class="co"># 10회</span></span></code></pre></div>
+<pre><code>Proprotion H: 0.5 
+Proprotion T: 0.5 </code></pre>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="몬테칼로-시뮬레이션.html#cb304-1"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">20</span>) <span class="co"># 20회 </span></span></code></pre></div>
+<pre><code>Proprotion H: 0.4 
+Proprotion T: 0.6 </code></pre>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="몬테칼로-시뮬레이션.html#cb306-1"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">100</span>) <span class="co"># 100회 </span></span></code></pre></div>
+<pre><code>Proprotion H: 0.53 
+Proprotion T: 0.47 </code></pre>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="몬테칼로-시뮬레이션.html#cb308-1"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">1000</span>) <span class="co"># 1000회 </span></span></code></pre></div>
+<pre><code>Proprotion H: 0.516 
+Proprotion T: 0.484 </code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="몬테칼로-시뮬레이션.html#cb310-1"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">10000</span>) <span class="co"># 10000회 </span></span></code></pre></div>
+<pre><code>Proprotion H: 0.4988 
+Proprotion T: 0.5012 </code></pre>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="몬테칼로-시뮬레이션.html#cb312-1"></a><span class="kw">coin_flip</span>(coin, <span class="dt">ntry =</span> <span class="dv">100000</span>) <span class="co"># 100000회 </span></span></code></pre></div>
+<pre><code>Proprotion H: 0.49925 
+Proprotion T: 0.50075 </code></pre>
+
+</div>
+<div id="기댓값-추정" class="section level3">
+<h3><span class="header-section-number">3.4.2</span> 기댓값 추정</h3>
+<p>정상적인 동전 두 번을 던졌을 때,</p>
+<ul>
+<li>모두 뒷면이 나온 경우 1000 원을 잃음</li>
+<li>둘 중 하나가 앞면이 나온 경우 비김</li>
+<li>모두 앞면이 나온 경우 2000 원을 가짐</li>
+</ul>
+<p>동전을 던져서 내가 딴 돈의 금액을 <span class="math inline">\(X\)</span> 라고 하면 <span class="math inline">\(X\)</span>는 -1000, 0, 2000 의 값을 갖는 확률변수이고 다음과 같은 표본공간을 가짐</p>
+<p><span class="math display">\[
+S = \{HH,~HT,~TH,~TT \}
+\]</span></p>
+<p>위의 사건들은 다음과 같이 처음 정한 금액에 대응됨.</p>
+<ul>
+<li>HH <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(X = 2000\)</span></li>
+<li>HT <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(X = 0\)</span></li>
+<li>TH <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(X = 0\)</span></li>
+<li>TT <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(X = -1000\)</span></li>
+</ul>
+<p>따라서, 각 금액에 대응한 확률은</p>
+
+<table class=" lightable-paper lightable-striped" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>
+<tbody>
+<tr>
+<td style="text-align:left;">
+x
+</td>
+<td style="text-align:left;">
+-1000
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+2000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p
+</td>
+<td style="text-align:left;">
+1/4
+</td>
+<td style="text-align:left;">
+2/4
+</td>
+<td style="text-align:left;">
+1/4
+</td>
+</tr>
+</tbody>
+</table>
+
+<p>게임에서 내가 얻을 금액에 대한 기댓값</p>
+<p><span class="math display">\[
+E(X) = -0.25 \times 1000 + 0 \times 0.5 + 2000 \times 0.25 = 250
+\]</span></p>
+<p><strong>구현</strong></p>
+<ul>
+<li>동전 던지기 시뮬레이션 코드에서 사용한 <code>sample()</code> 함수 사용</li>
+<li>금액과 각 금액에 대응하는 확률값, 시행 횟수를 함수의 인수로 입력</li>
+</ul>
+
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="몬테칼로-시뮬레이션.html#cb314-1"></a>simple_game &lt;-<span class="st"> </span><span class="cf">function</span>(x, p, <span class="dt">ntry =</span> <span class="dv">10</span>) {</span>
+<span id="cb314-2"><a href="몬테칼로-시뮬레이션.html#cb314-2"></a>  record &lt;-<span class="st"> </span><span class="kw">sample</span>(x, <span class="dt">size =</span> ntry, <span class="dt">replace =</span> <span class="ot">TRUE</span>, <span class="dt">prob =</span> p)</span>
+<span id="cb314-3"><a href="몬테칼로-시뮬레이션.html#cb314-3"></a>  expect &lt;-<span class="st"> </span><span class="kw">mean</span>(record)</span>
+<span id="cb314-4"><a href="몬테칼로-시뮬레이션.html#cb314-4"></a>  <span class="kw">cat</span>(<span class="st">&quot;당신이 이 게임을 무한히 반복한다면 평균적으로 &quot;</span>, expect, </span>
+<span id="cb314-5"><a href="몬테칼로-시뮬레이션.html#cb314-5"></a>      <span class="st">&quot;원을 가져갈 것입니다.&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb314-6"><a href="몬테칼로-시뮬레이션.html#cb314-6"></a>}</span>
+<span id="cb314-7"><a href="몬테칼로-시뮬레이션.html#cb314-7"></a></span>
+<span id="cb314-8"><a href="몬테칼로-시뮬레이션.html#cb314-8"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">2000</span>)</span>
+<span id="cb314-9"><a href="몬테칼로-시뮬레이션.html#cb314-9"></a>p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)</span>
+<span id="cb314-10"><a href="몬테칼로-시뮬레이션.html#cb314-10"></a></span>
+<span id="cb314-11"><a href="몬테칼로-시뮬레이션.html#cb314-11"></a><span class="kw">set.seed</span>(<span class="dv">2371</span>)</span>
+<span id="cb314-12"><a href="몬테칼로-시뮬레이션.html#cb314-12"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">10</span>) <span class="co"># 10회 실행</span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  900 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="몬테칼로-시뮬레이션.html#cb316-1"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">50</span>) <span class="co"># 50회 실행  </span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  40 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="몬테칼로-시뮬레이션.html#cb318-1"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">100</span>) <span class="co"># 100회 실행  </span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  170 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb320-1"><a href="몬테칼로-시뮬레이션.html#cb320-1"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">1000</span>) <span class="co"># 1000회 실행  </span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  234 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="몬테칼로-시뮬레이션.html#cb322-1"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">10000</span>) <span class="co"># 10000회 실행  </span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  241.2 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="몬테칼로-시뮬레이션.html#cb324-1"></a><span class="kw">simple_game</span>(<span class="dt">x =</span> x, <span class="dt">p =</span> p, <span class="dt">ntry =</span> <span class="dv">100000</span>) <span class="co"># 100000회 실행  </span></span></code></pre></div>
+<pre><code>당신이 이 게임을 무한히 반복한다면 평균적으로  247.64 원을 가져갈 것입니다. </code></pre>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="몬테칼로-시뮬레이션.html#cb326-1"></a><span class="kw">sum</span>(x<span class="op">*</span>p) <span class="co"># 실제값</span></span></code></pre></div>
+<pre><code>[1] 250</code></pre>
+
+
+
+<div class="rmdimportant">
+<p>확률 및 기대값 추정 모두 시행횟수가 증가할 수록 실제 이론적 값에 근사하는 것을 눈으로 확인 가능함. 즉, 통계학의 근간이 되는 <strong>대수의 법칙(law of large number)</strong>
+에 따른 자연스러운 결과임.</p>
+</div>
+
+
+</div>
+<div id="몬테칼로-적분법sample-mean-monte-carlo-integration" class="section level3">
+<h3><span class="header-section-number">3.4.3</span> 몬테칼로 적분법(sample-mean Monte-carlo integration)</h3>
+<p>컴퓨터를 이용해 적분값 계산 시, 적분하고자 하는 적절한 차수의 도함수가 존재하는 경우 일반적으로 수치적분법(직사각형, 사다리꼴, simpson 적분법 등)을 사용할 수 있으나,
+도함수가 존재하지 않을 경우 또는 다중 적분을 해야하는 경우 수치적분법 적용이 어려움. 몬테칼로 적분법은 복잡한 적분식에 대한 해를 구하기(추정하기) 위해 고안되었으며
+매우 간단하게 적분식의 해를 찾을 수 있는 장점이 있음. 대략적 원리는 다음과 같음.</p>
+<ul>
+<li>함수의 적분값을 하나의 모수로 보고 임의표본추출을 통해 해당 모수를 추정</li>
+</ul>
+<p><span class="math display">\[
+E[f(x)] = \int f(x) p(x) dx \approx \frac{1}{N}\sum_{i=1}^{N}f(x_i)
+\]</span></p>
+<p><strong>적중법(Hit or miss)</strong></p>
+<ul>
+<li><span class="math inline">\(f(x) = 2 + \cos(x + \sin(\arctan(x) + 3)\)</span> 일 때, <span class="math inline">\(a = 1\)</span> 에서 <span class="math inline">\(b = 3\)</span> 아래 면적은 다음과 같음</li>
+</ul>
+<p><span class="math display">\[
+ I = \int_{a = 1}^{b = 3} f(x)~dx
+\]</span></p>
+
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="몬테칼로-시뮬레이션.html#cb328-1"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, pi, <span class="dt">length =</span> <span class="dv">500</span>)</span>
+<span id="cb328-2"><a href="몬테칼로-시뮬레이션.html#cb328-2"></a>y &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">cos</span>(x <span class="op">+</span><span class="st"> </span><span class="kw">sin</span>(<span class="kw">atan</span>(x)) <span class="op">+</span><span class="st"> </span><span class="dv">3</span>)</span>
+<span id="cb328-3"><a href="몬테칼로-시뮬레이션.html#cb328-3"></a><span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb328-4"><a href="몬테칼로-시뮬레이션.html#cb328-4"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">3.5</span>))</span>
+<span id="cb328-5"><a href="몬테칼로-시뮬레이션.html#cb328-5"></a>idx &lt;-<span class="st"> </span>x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">3</span></span>
+<span id="cb328-6"><a href="몬테칼로-시뮬레이션.html#cb328-6"></a><span class="kw">polygon</span>(<span class="kw">c</span>(<span class="dv">1</span>, x[idx], <span class="dv">3</span>), </span>
+<span id="cb328-7"><a href="몬테칼로-시뮬레이션.html#cb328-7"></a>        <span class="kw">c</span>(<span class="dv">0</span>, y[idx], <span class="dv">0</span>), </span>
+<span id="cb328-8"><a href="몬테칼로-시뮬레이션.html#cb328-8"></a>        <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>, </span>
+<span id="cb328-9"><a href="몬테칼로-시뮬레이션.html#cb328-9"></a>        <span class="dt">border =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb328-10"><a href="몬테칼로-시뮬레이션.html#cb328-10"></a><span class="kw">lines</span>(x, y, <span class="dt">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb328-11"><a href="몬테칼로-시뮬레이션.html#cb328-11"></a><span class="kw">rect</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dt">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb328-12"><a href="몬테칼로-시뮬레이션.html#cb328-12"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb328-13"><a href="몬테칼로-시뮬레이션.html#cb328-13"></a><span class="kw">text</span>(<span class="dv">3</span>, <span class="fl">0.1</span>, <span class="st">&quot;Hit&quot;</span>, <span class="dt">cex =</span> <span class="fl">2.5</span>, <span class="dt">adj =</span> <span class="dv">1</span>, <span class="dt">pos =</span> <span class="dv">2</span>)</span>
+<span id="cb328-14"><a href="몬테칼로-시뮬레이션.html#cb328-14"></a><span class="kw">text</span>(<span class="dv">1</span>, <span class="fl">3.9</span>, <span class="st">&quot;Miss&quot;</span>, <span class="dt">cex =</span> <span class="fl">2.5</span>, <span class="dt">adj =</span> <span class="dv">0</span>)</span>
+<span id="cb328-15"><a href="몬테칼로-시뮬레이션.html#cb328-15"></a><span class="kw">text</span>(<span class="fl">2.2</span>, <span class="fl">2.8</span>, <span class="st">&quot;f(x)&quot;</span>, <span class="dt">cex =</span> <span class="fl">2.5</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-25-1.svg" width="960" /></p>
+
+<ul>
+<li>위 그림에서 <span class="math inline">\(x\)</span> 축과 평행한 <span class="math inline">\(y = c\)</span>의 선을 그었을 때 <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> 구간 상에 사각형 면적은 <span class="math inline">\(c(b-a)\)</span> 임.</li>
+<li>사각형에서 <span class="math inline">\(I\)</span>가 차지하는 비율을 <span class="math inline">\(p\)</span> 라고 할 때, <span class="math inline">\(I = c(b - a)p\)</span> 임.</li>
+<li>위 사각형 안에 랜덤하게 N개의 점을 x-y 좌표 상에 찍었을 때, <span class="math inline">\(f(x)\)</span> 아래 놓인 점의 개수를 <span class="math inline">\(X\)</span>라고 하면 <span class="math inline">\(X\)</span>은 모수가 <span class="math inline">\(N\)</span>, <span class="math inline">\(p\)</span>인 이앙분포를 따름.</li>
+<li>따라서 <span class="math inline">\(\hat{p} = X/N\)</span>이고 <span class="math inline">\(f(x)\)</span> 아래 면적 <span class="math inline">\(I\)</span>의 추정값은 아래와 같음.</li>
+</ul>
+<p><span class="math display">\[
+\hat{I} = c(b - a)\frac{X}{N}
+\]</span></p>
+<p><strong>구현: <span class="math inline">\(\pi\)</span> 값 계산</strong></p>
+<ul>
+<li>Idea: 원의 면적은 <span class="math inline">\(\pi r^2\)</span>이므로 반지름이 1인 경우 <span class="math inline">\(\pi\)</span>랑 동일 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(x^2 + y^2 = 1\)</span>인 원을 고려</li>
+<li>1사분면에 해당하는 영역에서 랜덤하게 점을 찍은 후 4분원의 면적을 추정한 다음 4를 곱하면 <span class="math inline">\(\pi\)</span> 값 추정 가능</li>
+</ul>
+
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="몬테칼로-시뮬레이션.html#cb329-1"></a>hit_pi &lt;-<span class="st"> </span><span class="cf">function</span>(ntry) {</span>
+<span id="cb329-2"><a href="몬테칼로-시뮬레이션.html#cb329-2"></a>  X &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb329-3"><a href="몬테칼로-시뮬레이션.html#cb329-3"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ntry) {</span>
+<span id="cb329-4"><a href="몬테칼로-시뮬레이션.html#cb329-4"></a>    xy &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span>  </span>
+<span id="cb329-5"><a href="몬테칼로-시뮬레이션.html#cb329-5"></a>    <span class="cf">if</span> (<span class="kw">sum</span>(xy) <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) X &lt;-<span class="st"> </span>X <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb329-6"><a href="몬테칼로-시뮬레이션.html#cb329-6"></a>  }</span>
+<span id="cb329-7"><a href="몬테칼로-시뮬레이션.html#cb329-7"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated pi: &quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.6f&quot;</span>, <span class="dv">4</span> <span class="op">*</span><span class="st"> </span>X<span class="op">/</span>ntry, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))</span>
+<span id="cb329-8"><a href="몬테칼로-시뮬레이션.html#cb329-8"></a>  </span>
+<span id="cb329-9"><a href="몬테칼로-시뮬레이션.html#cb329-9"></a>}</span>
+<span id="cb329-10"><a href="몬테칼로-시뮬레이션.html#cb329-10"></a></span>
+<span id="cb329-11"><a href="몬테칼로-시뮬레이션.html#cb329-11"></a><span class="kw">set.seed</span>(<span class="dv">314</span>)</span>
+<span id="cb329-12"><a href="몬테칼로-시뮬레이션.html#cb329-12"></a><span class="kw">hit_pi</span>(<span class="dv">100</span>) <span class="co"># 100</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.000000</code></pre>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="몬테칼로-시뮬레이션.html#cb331-1"></a><span class="kw">hit_pi</span>(<span class="dv">1000</span>) <span class="co"># 1,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.184000</code></pre>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="몬테칼로-시뮬레이션.html#cb333-1"></a><span class="kw">hit_pi</span>(<span class="dv">10000</span>) <span class="co"># 10,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.148000</code></pre>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="몬테칼로-시뮬레이션.html#cb335-1"></a><span class="kw">hit_pi</span>(<span class="dv">100000</span>) <span class="co"># 100,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.140080</code></pre>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="몬테칼로-시뮬레이션.html#cb337-1"></a><span class="kw">hit_pi</span>(<span class="dv">1000000</span>) <span class="co"># 1,000,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.137764</code></pre>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="몬테칼로-시뮬레이션.html#cb339-1"></a><span class="kw">system.time</span>(<span class="kw">hit_pi</span>(<span class="dv">5000000</span>)) <span class="co"># 5,000,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.141950</code></pre>
+<pre><code> 사용자  시스템 elapsed 
+ 10.296   0.000  10.303 </code></pre>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="몬테칼로-시뮬레이션.html#cb342-1"></a>pi</span></code></pre></div>
+<pre><code>[1] 3.141593</code></pre>
+
+<p><strong>표본평균을 활용한 몬테칼로 적분</strong></p>
+<ul>
+<li>적중법의 비효율성 개선</li>
+<li>적분을 어떤 확률변수의 기댓값으로 표현하여 적분값을 추정</li>
+<li>확률변수 <span class="math inline">\(X \sim \mathrm{Uniform(a, b)}\)</span> 일 때,</li>
+</ul>
+<p><span class="math display">\[
+E[f(x)] = \int_a^{b} f(x)p(x)~dx = \frac{1}{b - a}\int_a^b f(x)~dx
+\]</span>
+- 적분값은</p>
+<p><span class="math display">\[
+\begin{aligned}
+I &amp;= \int_a^b f(x)~d(x) = (b-a)E[f(x)] \\
+E[f(x)] &amp;= \frac{1}{N}\sum_{i = 1}^N f(x_i),~~ x_i \stackrel{iid}{\sim} \mathrm{Uniform}(a, b)
+\end{aligned}
+\]</span></p>
+<p><strong>구현: <span class="math inline">\(\pi\)</span> 계산시간 비교</strong></p>
+
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="몬테칼로-시뮬레이션.html#cb344-1"></a>mean_pi &lt;-<span class="st"> </span><span class="cf">function</span>(ntry) {</span>
+<span id="cb344-2"><a href="몬테칼로-시뮬레이션.html#cb344-2"></a>  x &lt;-<span class="st"> </span><span class="kw">runif</span>(ntry, <span class="dv">-1</span>, <span class="dv">1</span>)</span>
+<span id="cb344-3"><a href="몬테칼로-시뮬레이션.html#cb344-3"></a>  I =<span class="st"> </span><span class="dv">4</span><span class="op">*</span><span class="kw">mean</span>(<span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span>))</span>
+<span id="cb344-4"><a href="몬테칼로-시뮬레이션.html#cb344-4"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated pi: &quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.6f&quot;</span>, I), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb344-5"><a href="몬테칼로-시뮬레이션.html#cb344-5"></a>}</span>
+<span id="cb344-6"><a href="몬테칼로-시뮬레이션.html#cb344-6"></a></span>
+<span id="cb344-7"><a href="몬테칼로-시뮬레이션.html#cb344-7"></a></span>
+<span id="cb344-8"><a href="몬테칼로-시뮬레이션.html#cb344-8"></a><span class="kw">set.seed</span>(<span class="dv">314</span>)</span>
+<span id="cb344-9"><a href="몬테칼로-시뮬레이션.html#cb344-9"></a><span class="kw">mean_pi</span>(<span class="dv">100</span>) <span class="co"># 100</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.251687 </code></pre>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="몬테칼로-시뮬레이션.html#cb346-1"></a><span class="kw">mean_pi</span>(<span class="dv">1000</span>) <span class="co"># 1,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.155947 </code></pre>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="몬테칼로-시뮬레이션.html#cb348-1"></a><span class="kw">mean_pi</span>(<span class="dv">10000</span>) <span class="co"># 10,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.140608 </code></pre>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="몬테칼로-시뮬레이션.html#cb350-1"></a><span class="kw">mean_pi</span>(<span class="dv">100000</span>) <span class="co"># 100,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.143188 </code></pre>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="몬테칼로-시뮬레이션.html#cb352-1"></a><span class="kw">mean_pi</span>(<span class="dv">1000000</span>) <span class="co"># 1,000,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.140865 </code></pre>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="몬테칼로-시뮬레이션.html#cb354-1"></a><span class="kw">system.time</span>(<span class="kw">mean_pi</span>(<span class="dv">5000000</span>)) <span class="co"># 5,000,000</span></span></code></pre></div>
+<pre><code>Estimated pi:  3.141221 </code></pre>
+<pre><code> 사용자  시스템 elapsed 
+  0.161   0.010   0.171 </code></pre>
+
+</div>
+<div id="buffon의-바늘-실험" class="section level3">
+<h3><span class="header-section-number">3.4.4</span> Buffon의 바늘 실험</h3>
+<p>간격이 <span class="math inline">\(d\)</span>인 평행선들이 그려져 있는 책상 위에 길이가 <span class="math inline">\(l\)</span> 인 바늘을 던졌을 때, 이 바늘이 책상 위에 그려진 선에 걸쳐질 확률</p>
+<blockquote>
+<p>원문: 떨어진 거리가 같은 평행선들이 그어진 마룻바닥에 바늘을 떨어뜨렸다. 바늘이 금에 닿을 확률은 얼마인가?</p>
+<p>Georges-Louis Leclerc, Comte de Buffon (1777)</p>
+</blockquote>
+<p><strong>조건</strong></p>
+<ul>
+<li>바늘의 길이는 선 사이 간격보다 작다(<span class="math inline">\(l &lt; d\)</span>)</li>
+</ul>
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-28"></span>
+<img src="figures/buffon-scheme.png" alt="Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우" width="80%" />
+<p class="caption">
+Figure 3.2: Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우
+</p>
+</div>
+
+
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-29"></span>
+<img src="figures/buffon-scheme-02.png" alt="Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우" width="80%" />
+<p class="caption">
+Figure 3.3: Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우
+</p>
+</div>
+
+<ul>
+<li><span class="math inline">\(m\)</span>: 바늘의 중앙점</li>
+<li><span class="math inline">\(a\)</span>: 두 평행선 중 <span class="math inline">\(m\)</span>과 가까운 평행선에서 <span class="math inline">\(m\)</span> 까지의 직선거리</li>
+<li><span class="math inline">\(\theta\)</span>: 바늘과 평행선이 이루는 각도</li>
+</ul>
+<p><strong>Fact</strong></p>
+<p><span class="math inline">\(d &gt; l\)</span> 조건 하에서</p>
+<ul>
+<li><span class="math inline">\(a\)</span>는 가장 가까운 선과의 직선거리이기 때문에 <span class="math inline">\(d/2\)</span>보다 클 수 없음 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(0 \leq a \leq d/2\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(a \sim \mathrm{Uniform}(0, d/2)\)</span></li>
+<li>선을 벗어난 바늘 끝을 지나는 가상의 평행선과 <span class="math inline">\(m\)</span> 사이의 수직 거리는 <span class="math inline">\(l/2\sin \theta\)</span></li>
+<li>바늘이 선에 걸치는 경우는 <span class="math inline">\(l/2\sin \theta\)</span> 가 <span class="math inline">\(a\)</span> 보다 긴 경우임 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(0 \leq a \leq l/2\sin \theta\)</span> <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\theta \sim \mathrm{Uniform}(0, \pi)\)</span></li>
+<li><span class="math inline">\(\therefore\)</span> 바늘이 선에 걸쳐질 확률은</li>
+</ul>
+<p><span class="math display">\[
+ P(바늘이~걸쳐질 ~확률) = P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right )
+\]</span></p>
+
+
+<div class="rmdnote">
+<p>두 확률변수의 결합분포를 구한 후 결합밀도함수에 대한 적분값(확률)을 구하는 문제!!</p>
+</div>
+
+
+<p><strong>수학적 표현</strong></p>
+<p><span class="math inline">\(a\)</span> 에 대한 확률분포</p>
+<p><span class="math display">\[
+a \sim \mathrm{Uniform}(0, d/2) = \begin{cases}
+\frac{2}{d}, &amp; 0 \leq a \leq d/2 \\
+0, &amp; \mathrm{otherwise}
+\end{cases}
+\]</span></p>
+<p><span class="math inline">\(\theta\)</span> 에 대한 확률분포</p>
+<p><span class="math display">\[
+\theta \sim \mathrm{Uniform}(0, \pi) = \begin{cases}
+\frac{1}{\pi}, &amp; 0 \leq \theta \leq \pi \\
+0, &amp; \mathrm{otherwise}
+\end{cases}
+\]</span></p>
+<p>두 확률변수가 독립이기 때문에 <span class="math inline">\(a\)</span>와 <span class="math inline">\(\theta\)</span>의 결합분포는 아래와 같음</p>
+<p><span class="math display">\[
+f(a, \theta) = \begin{cases}
+ \frac{2}{d\pi}, &amp; 0 \leq a \leq d/2;~ 0 \leq \theta \leq \pi \\
+ 0, &amp; \mathrm{otherwise}
+\end{cases}
+\]</span></p>
+<p>따라서 바늘이 평행선에 걸쳐질 확률은</p>
+<p><span class="math display">\[
+\begin{align} P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) &amp;=  \int_{\theta = 0}^{\pi}\int_{a = 0}^{(l/2)\sin \theta} \frac{2}{d\pi} \,da\,d\theta\\
+&amp;= \int_{\theta = 0}^\pi \frac{l\sin\theta}{d\pi}\,d\theta \\
+&amp;= \frac{l\cos\theta}{d\pi} \Big|_{0}^\pi = \frac{2l}{d\pi}
+\end{align}
+\]</span></p>
+
+
+<div class="rmdnote">
+<p>위 식을 이용해 모의실험을 통해 <span class="math inline">\(\pi\)</span> 값 추정이 가능.</p>
+<p><span class="math display">\[
+  \hat{\pi} = \frac{2l}{d\hat{P}}
+\]</span></p>
+</div>
+
+
+<p><strong>실제 모의실험 시 확률 계산 방법</strong></p>
+<ul>
+<li>바늘의 중점에서 가장 가까운 평행선 까지 수평 거리는 <span class="math inline">\(d/2\)</span> 안에 있기 때문에 표본공간(<span class="math inline">\(S\)</span>)은 다음과 같이 정의할 수 있음.</li>
+</ul>
+<p><span class="math display">\[
+S = \{(a, \theta)|0 \leq a \leq \frac{d}{2}, ~ 0 \leq \theta \leq \pi \}
+\]</span></p>
+<ul>
+<li>표본공간 <span class="math inline">\(S\)</span>에서 <span class="math inline">\(\frac{l}{2} \sin \theta\)</span>의 함수 아래 면적(<span class="math inline">\(A\)</span>)이 결국 바늘이 평행선 상에 걸칠 확률임. 따라서</li>
+</ul>
+<p><span class="math display">\[
+P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) = \frac{\mathrm{A}의~넓이}{\mathrm{S}의~넓이} = \frac{\int_0^{\pi} 0.5l\sin{\theta}~d\theta}{0.5d\pi} = \frac{2l}{d\pi}
+\]</span></p>
+<ul>
+<li>기하학적 표현</li>
+</ul>
+
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="몬테칼로-시뮬레이션.html#cb357-1"></a><span class="co"># l = 1, d = 2</span></span>
+<span id="cb357-2"><a href="몬테칼로-시뮬레이션.html#cb357-2"></a>l &lt;-<span class="st"> </span><span class="dv">1</span>; d &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb357-3"><a href="몬테칼로-시뮬레이션.html#cb357-3"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, pi, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb357-4"><a href="몬테칼로-시뮬레이션.html#cb357-4"></a>y &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(x)</span>
+<span id="cb357-5"><a href="몬테칼로-시뮬레이션.html#cb357-5"></a></span>
+<span id="cb357-6"><a href="몬테칼로-시뮬레이션.html#cb357-6"></a><span class="kw">plot</span>(<span class="dv">1</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, pi), </span>
+<span id="cb357-7"><a href="몬테칼로-시뮬레이션.html#cb357-7"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, d<span class="op">/</span><span class="dv">2</span>), </span>
+<span id="cb357-8"><a href="몬테칼로-시뮬레이션.html#cb357-8"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb357-9"><a href="몬테칼로-시뮬레이션.html#cb357-9"></a>     <span class="dt">xlab =</span> <span class="kw">expression</span>(theta),</span>
+<span id="cb357-10"><a href="몬테칼로-시뮬레이션.html#cb357-10"></a>     <span class="dt">ylab =</span> <span class="st">&quot;d/2&quot;</span>, </span>
+<span id="cb357-11"><a href="몬테칼로-시뮬레이션.html#cb357-11"></a>     <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</span>
+<span id="cb357-12"><a href="몬테칼로-시뮬레이션.html#cb357-12"></a><span class="kw">polygon</span>(x, y, <span class="dt">col =</span> <span class="st">&quot;yellow&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;yellow&quot;</span>)</span>
+<span id="cb357-13"><a href="몬테칼로-시뮬레이션.html#cb357-13"></a><span class="kw">lines</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb357-14"><a href="몬테칼로-시뮬레이션.html#cb357-14"></a><span class="kw">rect</span>(<span class="dv">0</span>, <span class="dv">0</span>, pi, <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb357-15"><a href="몬테칼로-시뮬레이션.html#cb357-15"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="fl">1.5</span>, <span class="dt">y =</span> <span class="fl">0.6</span>, </span>
+<span id="cb357-16"><a href="몬테칼로-시뮬레이션.html#cb357-16"></a>     <span class="kw">expression</span>(<span class="kw">paste</span>(f, <span class="st">&quot;(&quot;</span>, theta, <span class="st">&quot;)&quot;</span> <span class="op">==</span><span class="st"> </span><span class="kw">frac</span>(l, <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>sin <span class="op">*</span><span class="st"> </span>theta)), </span>
+<span id="cb357-17"><a href="몬테칼로-시뮬레이션.html#cb357-17"></a>     <span class="dt">adj =</span> <span class="dv">0</span>, </span>
+<span id="cb357-18"><a href="몬테칼로-시뮬레이션.html#cb357-18"></a>     <span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb357-19"><a href="몬테칼로-시뮬레이션.html#cb357-19"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="fl">0.05</span>, <span class="dt">y =</span> <span class="fl">0.95</span>, <span class="st">&quot;S&quot;</span>, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb357-20"><a href="몬테칼로-시뮬레이션.html#cb357-20"></a><span class="kw">text</span>(<span class="dt">x =</span> pi<span class="op">/</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="fl">0.2</span>, <span class="st">&quot;A&quot;</span>, <span class="dt">adj =</span> <span class="dv">0</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-32"></span>
+<img src="03-simulation_files/figure-html/unnamed-chunk-32-1.svg" alt="Buffon 바늘 실험의 표본 공간과 확률 영역" width="960" />
+<p class="caption">
+Figure 3.4: Buffon 바늘 실험의 표본 공간과 확률 영역
+</p>
+</div>
+
+<p><strong>Implementation</strong></p>
+<ol style="list-style-type: decimal">
+<li>실제 바늘이 던져지는 상황 시각화</li>
+</ol>
+
+
+<div class="figure">
+<video src="video/buffon-needle-draw.mp4" style="width:80.0%" controls=""><a href="video/buffon-needle-draw.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(30회 실행), 그림은 buffon_needle_draw.R 함수 참고</p>
+</div>
+
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="몬테칼로-시뮬레이션.html#cb358-1"></a>buffon_needle_draw &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">nmax =</span> <span class="dv">20</span>, </span>
+<span id="cb358-2"><a href="몬테칼로-시뮬레이션.html#cb358-2"></a>                               <span class="dt">l =</span> <span class="fl">0.8</span>, <span class="co"># 바늘의 길이</span></span>
+<span id="cb358-3"><a href="몬테칼로-시뮬레이션.html#cb358-3"></a>                               <span class="dt">d =</span> <span class="dv">1</span>,   <span class="co"># 두 평생선 간 간격</span></span>
+<span id="cb358-4"><a href="몬테칼로-시뮬레이션.html#cb358-4"></a>                               <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;lightgray&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb358-5"><a href="몬테칼로-시뮬레이션.html#cb358-5"></a>                               <span class="dt">plot =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb358-6"><a href="몬테칼로-시뮬레이션.html#cb358-6"></a>                               <span class="dt">return.value =</span> <span class="ot">FALSE</span>) {</span>
+<span id="cb358-7"><a href="몬테칼로-시뮬레이션.html#cb358-7"></a>  <span class="co"># 반복 초기화</span></span>
+<span id="cb358-8"><a href="몬테칼로-시뮬레이션.html#cb358-8"></a>  j &lt;-<span class="st"> </span><span class="dv">1</span>; n &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb358-9"><a href="몬테칼로-시뮬레이션.html#cb358-9"></a>  <span class="co"># x &lt;- y &lt;- x0 &lt;- y0 &lt;- theta &lt;- a &lt;- rep(NA, ani.options(&quot;nmax&quot;))</span></span>
+<span id="cb358-10"><a href="몬테칼로-시뮬레이션.html#cb358-10"></a>  x &lt;-<span class="st"> </span>y &lt;-<span class="st"> </span>x0 &lt;-<span class="st"> </span>y0 &lt;-<span class="st"> </span>theta &lt;-<span class="st"> </span>a &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, nmax)</span>
+<span id="cb358-11"><a href="몬테칼로-시뮬레이션.html#cb358-11"></a></span>
+<span id="cb358-12"><a href="몬테칼로-시뮬레이션.html#cb358-12"></a>  <span class="cf">while</span> (j <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(x)) {</span>
+<span id="cb358-13"><a href="몬테칼로-시뮬레이션.html#cb358-13"></a>    theta[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, pi)</span>
+<span id="cb358-14"><a href="몬테칼로-시뮬레이션.html#cb358-14"></a>    a[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, d<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb358-15"><a href="몬테칼로-시뮬레이션.html#cb358-15"></a>    y[j] &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span>a[j], <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d <span class="op">-</span><span class="st"> </span>a[j]), <span class="dv">1</span>)</span>
+<span id="cb358-16"><a href="몬테칼로-시뮬레이션.html#cb358-16"></a>    x[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, l)</span>
+<span id="cb358-17"><a href="몬테칼로-시뮬레이션.html#cb358-17"></a>    <span class="co"># 바늘이 떨어졌을 때 수평선과 이루는 각도 반영</span></span>
+<span id="cb358-18"><a href="몬테칼로-시뮬레이션.html#cb358-18"></a>    x0[j] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(theta[j])</span>
+<span id="cb358-19"><a href="몬테칼로-시뮬레이션.html#cb358-19"></a>    y0[j] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta[j])</span>
+<span id="cb358-20"><a href="몬테칼로-시뮬레이션.html#cb358-20"></a>    j &lt;-<span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb358-21"><a href="몬테칼로-시뮬레이션.html#cb358-21"></a>    </span>
+<span id="cb358-22"><a href="몬테칼로-시뮬레이션.html#cb358-22"></a>    <span class="cf">if</span> (plot) {</span>
+<span id="cb358-23"><a href="몬테칼로-시뮬레이션.html#cb358-23"></a>    <span class="kw">dev.hold</span>()</span>
+<span id="cb358-24"><a href="몬테칼로-시뮬레이션.html#cb358-24"></a>    <span class="kw">plot</span>(<span class="dv">1</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>l, <span class="fl">1.5</span><span class="op">*</span>l), </span>
+<span id="cb358-25"><a href="몬테칼로-시뮬레이션.html#cb358-25"></a>         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>d), </span>
+<span id="cb358-26"><a href="몬테칼로-시뮬레이션.html#cb358-26"></a>         <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb358-27"><a href="몬테칼로-시뮬레이션.html#cb358-27"></a>         <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb358-28"><a href="몬테칼로-시뮬레이션.html#cb358-28"></a>    <span class="kw">axis</span>(<span class="dv">1</span>, <span class="kw">c</span>(<span class="dv">0</span>, l), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">tcl =</span> <span class="dv">-1</span>)</span>
+<span id="cb358-29"><a href="몬테칼로-시뮬레이션.html#cb358-29"></a>    <span class="kw">axis</span>(<span class="dv">1</span>, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l, <span class="st">&quot;L&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">tcl =</span> <span class="dv">0</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, </span>
+<span id="cb358-30"><a href="몬테칼로-시뮬레이션.html#cb358-30"></a>         <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>))</span>
+<span id="cb358-31"><a href="몬테칼로-시뮬레이션.html#cb358-31"></a>    <span class="kw">axis</span>(<span class="dv">2</span>, <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>) <span class="op">*</span><span class="st"> </span>d, <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">tcl =</span> <span class="dv">-1</span>)</span>
+<span id="cb358-32"><a href="몬테칼로-시뮬레이션.html#cb358-32"></a>    <span class="kw">axis</span>(<span class="dv">2</span>, d, <span class="st">&quot;D&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">tcl =</span> <span class="dv">0</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>))</span>
+<span id="cb358-33"><a href="몬테칼로-시뮬레이션.html#cb358-33"></a>    <span class="kw">box</span>()</span>
+<span id="cb358-34"><a href="몬테칼로-시뮬레이션.html#cb358-34"></a>    bd &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>) <span class="co"># 실제 device plot 영역 상 x-y 좌표 시작 끝 점 정보 반환</span></span>
+<span id="cb358-35"><a href="몬테칼로-시뮬레이션.html#cb358-35"></a>    <span class="kw">rect</span>(bd[<span class="dv">1</span>], <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d, bd[<span class="dv">2</span>], <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d, <span class="dt">col =</span> col[<span class="dv">1</span>])</span>
+<span id="cb358-36"><a href="몬테칼로-시뮬레이션.html#cb358-36"></a>    <span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">c</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d, <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d), <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb358-37"><a href="몬테칼로-시뮬레이션.html#cb358-37"></a>    </span>
+<span id="cb358-38"><a href="몬테칼로-시뮬레이션.html#cb358-38"></a>    <span class="co"># 그림 1: 부폰의 바늘 실험: 바늘과 평행선</span></span>
+<span id="cb358-39"><a href="몬테칼로-시뮬레이션.html#cb358-39"></a>    <span class="co"># 실제 바늘이 평행선 안에 떨어지는 모습 모사</span></span>
+<span id="cb358-40"><a href="몬테칼로-시뮬레이션.html#cb358-40"></a>    <span class="kw">segments</span>(x <span class="op">-</span><span class="st"> </span>x0, y <span class="op">-</span><span class="st"> </span>y0, </span>
+<span id="cb358-41"><a href="몬테칼로-시뮬레이션.html#cb358-41"></a>             x <span class="op">+</span><span class="st"> </span>x0, y <span class="op">+</span><span class="st"> </span>y0, </span>
+<span id="cb358-42"><a href="몬테칼로-시뮬레이션.html#cb358-42"></a>             <span class="dt">col =</span> col[<span class="dv">2</span>])</span>
+<span id="cb358-43"><a href="몬테칼로-시뮬레이션.html#cb358-43"></a>    <span class="kw">dev.flush</span>() <span class="co"># </span></span>
+<span id="cb358-44"><a href="몬테칼로-시뮬레이션.html#cb358-44"></a>    <span class="kw">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb358-45"><a href="몬테칼로-시뮬레이션.html#cb358-45"></a>    }</span>
+<span id="cb358-46"><a href="몬테칼로-시뮬레이션.html#cb358-46"></a>  }</span>
+<span id="cb358-47"><a href="몬테칼로-시뮬레이션.html#cb358-47"></a>  <span class="cf">if</span>(return.value) {</span>
+<span id="cb358-48"><a href="몬테칼로-시뮬레이션.html#cb358-48"></a>    result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">nmax =</span>nmax, <span class="dt">l =</span> l, <span class="dt">d =</span> d, <span class="dt">a =</span> a, <span class="dt">theta =</span> theta)</span>
+<span id="cb358-49"><a href="몬테칼로-시뮬레이션.html#cb358-49"></a>    <span class="kw">return</span>(result)</span>
+<span id="cb358-50"><a href="몬테칼로-시뮬레이션.html#cb358-50"></a>  }</span>
+<span id="cb358-51"><a href="몬테칼로-시뮬레이션.html#cb358-51"></a>}</span>
+<span id="cb358-52"><a href="몬테칼로-시뮬레이션.html#cb358-52"></a></span>
+<span id="cb358-53"><a href="몬테칼로-시뮬레이션.html#cb358-53"></a><span class="co"># buffon_needle_draw(nmax = 20, l = 0.8, d = 1, plot = TRUE, return.value = FALSE)</span></span>
+<span id="cb358-54"><a href="몬테칼로-시뮬레이션.html#cb358-54"></a><span class="kw">set.seed</span>(<span class="dv">5000</span>)</span>
+<span id="cb358-55"><a href="몬테칼로-시뮬레이션.html#cb358-55"></a><span class="co"># 바늘의 길이가 15이고 평행선 간격이 20일 때 바늘이 평행선에 걸칠 확률</span></span>
+<span id="cb358-56"><a href="몬테칼로-시뮬레이션.html#cb358-56"></a>param &lt;-<span class="st"> </span><span class="kw">buffon_needle_draw</span>(<span class="dt">nmax =</span> <span class="dv">5000</span>, </span>
+<span id="cb358-57"><a href="몬테칼로-시뮬레이션.html#cb358-57"></a>                            <span class="dt">l =</span> <span class="dv">15</span>, </span>
+<span id="cb358-58"><a href="몬테칼로-시뮬레이션.html#cb358-58"></a>                            <span class="dt">d =</span> <span class="dv">20</span>, </span>
+<span id="cb358-59"><a href="몬테칼로-시뮬레이션.html#cb358-59"></a>                            <span class="dt">plot =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb358-60"><a href="몬테칼로-시뮬레이션.html#cb358-60"></a>                            <span class="dt">return.value =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+
+<ol start="2" style="list-style-type: decimal">
+<li><span class="math inline">\(P(A)\)</span> 계산: 표본공간 및 바늘을 던졌을 때 표본공간 안에 바늘이 들어와 있는지 확인 <span class="math inline">\(\rightarrow\)</span> 바늘이 금에 걸쳐질 확률 계산</li>
+</ol>
+<ul>
+<li><strong>step 0</strong>: 바늘의 길이(<span class="math inline">\(l\)</span>)과 수평선 사이 거리(<span class="math inline">\(d\)</span>) 설정</li>
+<li><strong>step 1</strong>: <span class="math inline">\(a ~ \mathrm{Uniform}(0, d/2)\)</span>에서 난수 한개 발생</li>
+<li><strong>step 2</strong>: <span class="math inline">\(\theta ~ \mathrm{Uniform}(0, \pi)\)</span>에서 난수 한개 발생</li>
+<li><strong>step 3</strong>: 바늘이 선에 걸치는 경우(<span class="math inline">\(a \leq 0.5l\sin{\theta}\)</span>) 카운트한 후 확률 계산</li>
+</ul>
+
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="몬테칼로-시뮬레이션.html#cb359-1"></a>buffon_prob &lt;-<span class="st"> </span><span class="cf">function</span>(param, </span>
+<span id="cb359-2"><a href="몬테칼로-시뮬레이션.html#cb359-2"></a>                        <span class="dt">plot =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb359-3"><a href="몬테칼로-시뮬레이션.html#cb359-3"></a>                        <span class="dt">ndraw =</span> <span class="dv">20</span>) {</span>
+<span id="cb359-4"><a href="몬테칼로-시뮬레이션.html#cb359-4"></a>  <span class="co"># browser()</span></span>
+<span id="cb359-5"><a href="몬테칼로-시뮬레이션.html#cb359-5"></a>  l &lt;-<span class="st"> </span>param<span class="op">$</span>l</span>
+<span id="cb359-6"><a href="몬테칼로-시뮬레이션.html#cb359-6"></a>  d &lt;-<span class="st"> </span>param<span class="op">$</span>d</span>
+<span id="cb359-7"><a href="몬테칼로-시뮬레이션.html#cb359-7"></a>  a &lt;-<span class="st"> </span>param<span class="op">$</span>a</span>
+<span id="cb359-8"><a href="몬테칼로-시뮬레이션.html#cb359-8"></a>  theta &lt;-<span class="st"> </span>param<span class="op">$</span>theta</span>
+<span id="cb359-9"><a href="몬테칼로-시뮬레이션.html#cb359-9"></a>  ntry &lt;-<span class="st"> </span><span class="kw">length</span>(a)</span>
+<span id="cb359-10"><a href="몬테칼로-시뮬레이션.html#cb359-10"></a>  A &lt;-<span class="st"> </span>a <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)</span>
+<span id="cb359-11"><a href="몬테칼로-시뮬레이션.html#cb359-11"></a>  phati &lt;-<span class="st"> </span><span class="kw">cumsum</span>(A)<span class="op">/</span>(<span class="dv">1</span><span class="op">:</span>ntry)</span>
+<span id="cb359-12"><a href="몬테칼로-시뮬레이션.html#cb359-12"></a>  phat &lt;-<span class="st"> </span><span class="kw">sum</span>(A)<span class="op">/</span>ntry <span class="co"># 시뮬레이션 추정 확률</span></span>
+<span id="cb359-13"><a href="몬테칼로-시뮬레이션.html#cb359-13"></a>  ptrue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>l<span class="op">/</span>(pi<span class="op">*</span>d) <span class="co"># 이론적 확률</span></span>
+<span id="cb359-14"><a href="몬테칼로-시뮬레이션.html#cb359-14"></a>  idx &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb359-15"><a href="몬테칼로-시뮬레이션.html#cb359-15"></a>  </span>
+<span id="cb359-16"><a href="몬테칼로-시뮬레이션.html#cb359-16"></a>  <span class="cf">if</span> (plot) {</span>
+<span id="cb359-17"><a href="몬테칼로-시뮬레이션.html#cb359-17"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ndraw) {</span>
+<span id="cb359-18"><a href="몬테칼로-시뮬레이션.html#cb359-18"></a>      <span class="kw">dev.hold</span>()</span>
+<span id="cb359-19"><a href="몬테칼로-시뮬레이션.html#cb359-19"></a>      x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, pi, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb359-20"><a href="몬테칼로-시뮬레이션.html#cb359-20"></a>      <span class="kw">plot</span>(x, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(x), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d), </span>
+<span id="cb359-21"><a href="몬테칼로-시뮬레이션.html#cb359-21"></a>      <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb359-22"><a href="몬테칼로-시뮬레이션.html#cb359-22"></a>      <span class="co"># rect(0, 0, pi, d/2, lty = 2, lwd = 1.5)</span></span>
+<span id="cb359-23"><a href="몬테칼로-시뮬레이션.html#cb359-23"></a>      <span class="kw">text</span>(pi<span class="op">/</span><span class="dv">2</span>, <span class="fl">0.4</span> <span class="op">*</span><span class="st"> </span>l, <span class="kw">expression</span>(y <span class="op">==</span><span class="st"> </span><span class="kw">frac</span>(L, <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)), <span class="dt">cex =</span> <span class="fl">1.5</span>)</span>
+<span id="cb359-24"><a href="몬테칼로-시뮬레이션.html#cb359-24"></a>      idx =<span class="st"> </span><span class="kw">c</span>(idx, <span class="kw">as.numeric</span>(a[i] <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta[i])) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb359-25"><a href="몬테칼로-시뮬레이션.html#cb359-25"></a>      <span class="kw">points</span>(theta[<span class="dv">1</span><span class="op">:</span>i], a[<span class="dv">1</span><span class="op">:</span>i], <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)[idx])</span>
+<span id="cb359-26"><a href="몬테칼로-시뮬레이션.html#cb359-26"></a>      phatii &lt;-<span class="st"> </span><span class="kw">format</span>(phati[i], <span class="dt">nsmall =</span> <span class="dv">6</span>, <span class="dt">digits =</span> <span class="dv">6</span>)</span>
+<span id="cb359-27"><a href="몬테칼로-시뮬레이션.html#cb359-27"></a>      <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">substitute</span>(<span class="kw">hat</span>(P) <span class="op">==</span><span class="st"> </span>phatii, </span>
+<span id="cb359-28"><a href="몬테칼로-시뮬레이션.html#cb359-28"></a>              <span class="kw">list</span>(<span class="dt">phatii =</span> phatii)), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.3</span>)</span>
+<span id="cb359-29"><a href="몬테칼로-시뮬레이션.html#cb359-29"></a>      <span class="kw">dev.flush</span>() <span class="co">#</span></span>
+<span id="cb359-30"><a href="몬테칼로-시뮬레이션.html#cb359-30"></a>      <span class="kw">Sys.sleep</span>(<span class="fl">0.05</span>)</span>
+<span id="cb359-31"><a href="몬테칼로-시뮬레이션.html#cb359-31"></a>    }</span>
+<span id="cb359-32"><a href="몬테칼로-시뮬레이션.html#cb359-32"></a>  }    </span>
+<span id="cb359-33"><a href="몬테칼로-시뮬레이션.html#cb359-33"></a>  </span>
+<span id="cb359-34"><a href="몬테칼로-시뮬레이션.html#cb359-34"></a>  <span class="kw">cat</span>(<span class="st">&quot;True Probability:&quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, ptrue), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb359-35"><a href="몬테칼로-시뮬레이션.html#cb359-35"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated Probability:&quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.3f (total %d dropping)&quot;</span>, phat, ndraw), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb359-36"><a href="몬테칼로-시뮬레이션.html#cb359-36"></a></span>
+<span id="cb359-37"><a href="몬테칼로-시뮬레이션.html#cb359-37"></a>}</span>
+<span id="cb359-38"><a href="몬테칼로-시뮬레이션.html#cb359-38"></a></span>
+<span id="cb359-39"><a href="몬테칼로-시뮬레이션.html#cb359-39"></a><span class="kw">buffon_prob</span>(param, <span class="dt">plot =</span> <span class="ot">FALSE</span>, <span class="dt">ndraw =</span> <span class="dv">5000</span>)</span></code></pre></div>
+<pre><code>True Probability: 0.477 
+Estimated Probability: 0.478 (total 5000 dropping) </code></pre>
+
+
+
+<div class="figure">
+<video src="video/buffon-sample-space.mp4" style="width:80.0%" controls=""><a href="video/buffon-sample-space.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(500 회 실행): 표본공간 상 바늘을 던졌을 때 사건 A 집계 과정</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>추정한 <span class="math inline">\(\hat{\pi}\)</span> 값이 횟수가 증가할수록 실제 <span class="math inline">\(\pi\)</span> 값에 수렴하는지 확인 <code>buffon_pi_estimate()</code></li>
+</ol>
+
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="몬테칼로-시뮬레이션.html#cb361-1"></a>buffon_pi_estimate &lt;-<span class="st"> </span><span class="cf">function</span>(param, <span class="dt">plot =</span> <span class="ot">TRUE</span>, <span class="dt">ndraw =</span> <span class="dv">20</span>) {</span>
+<span id="cb361-2"><a href="몬테칼로-시뮬레이션.html#cb361-2"></a>  <span class="co"># browser()</span></span>
+<span id="cb361-3"><a href="몬테칼로-시뮬레이션.html#cb361-3"></a>  l &lt;-<span class="st"> </span>param<span class="op">$</span>l</span>
+<span id="cb361-4"><a href="몬테칼로-시뮬레이션.html#cb361-4"></a>  d &lt;-<span class="st"> </span>param<span class="op">$</span>d</span>
+<span id="cb361-5"><a href="몬테칼로-시뮬레이션.html#cb361-5"></a>  a &lt;-<span class="st"> </span>param<span class="op">$</span>a</span>
+<span id="cb361-6"><a href="몬테칼로-시뮬레이션.html#cb361-6"></a>  theta &lt;-<span class="st"> </span>param<span class="op">$</span>theta</span>
+<span id="cb361-7"><a href="몬테칼로-시뮬레이션.html#cb361-7"></a>  ntry &lt;-<span class="st"> </span><span class="kw">length</span>(a)</span>
+<span id="cb361-8"><a href="몬테칼로-시뮬레이션.html#cb361-8"></a>  A &lt;-<span class="st"> </span>a <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)</span>
+<span id="cb361-9"><a href="몬테칼로-시뮬레이션.html#cb361-9"></a>  csum_A &lt;-<span class="st"> </span><span class="kw">cumsum</span>(A)</span>
+<span id="cb361-10"><a href="몬테칼로-시뮬레이션.html#cb361-10"></a>  phat &lt;-<span class="st"> </span>csum_A<span class="op">/</span>(<span class="dv">1</span><span class="op">:</span>ntry) <span class="co"># i 번째 시행 때 까지 바늘이 선에 걸쳐질 확률</span></span>
+<span id="cb361-11"><a href="몬테칼로-시뮬레이션.html#cb361-11"></a>  pihat &lt;-<span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>l)<span class="op">/</span>(d <span class="op">*</span><span class="st"> </span>phat) <span class="co"># pi 계산</span></span>
+<span id="cb361-12"><a href="몬테칼로-시뮬레이션.html#cb361-12"></a>  </span>
+<span id="cb361-13"><a href="몬테칼로-시뮬레이션.html#cb361-13"></a>  <span class="cf">if</span> (plot) {</span>
+<span id="cb361-14"><a href="몬테칼로-시뮬레이션.html#cb361-14"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ndraw) {</span>
+<span id="cb361-15"><a href="몬테칼로-시뮬레이션.html#cb361-15"></a>      <span class="kw">dev.hold</span>()</span>
+<span id="cb361-16"><a href="몬테칼로-시뮬레이션.html#cb361-16"></a>      <span class="kw">plot</span>(pihat[<span class="dv">1</span><span class="op">:</span>i], <span class="dt">ylim =</span> <span class="kw">c</span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">*</span><span class="st"> </span>pi, (<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">*</span><span class="st"> </span>pi), </span>
+<span id="cb361-17"><a href="몬테칼로-시뮬레이션.html#cb361-17"></a>           <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ndraw), </span>
+<span id="cb361-18"><a href="몬테칼로-시뮬레이션.html#cb361-18"></a>           <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="st">&quot;바늘 던진 횟수:&quot;</span>, i), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(pi)), </span>
+<span id="cb361-19"><a href="몬테칼로-시뮬레이션.html#cb361-19"></a>           <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb361-20"><a href="몬테칼로-시뮬레이션.html#cb361-20"></a>           <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</span>
+<span id="cb361-21"><a href="몬테칼로-시뮬레이션.html#cb361-21"></a>      <span class="kw">abline</span>(<span class="dt">h =</span> pi, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb361-22"><a href="몬테칼로-시뮬레이션.html#cb361-22"></a>      <span class="co"># phati &lt;- sprintf(&quot;%.6f&quot;, pihat[i])</span></span>
+<span id="cb361-23"><a href="몬테칼로-시뮬레이션.html#cb361-23"></a>      pihati &lt;-<span class="st"> </span><span class="kw">format</span>(pihat[i], <span class="dt">nsmall =</span> <span class="dv">7</span>, <span class="dt">digits =</span> <span class="dv">7</span>)</span>
+<span id="cb361-24"><a href="몬테칼로-시뮬레이션.html#cb361-24"></a>      <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">substitute</span>(<span class="kw">hat</span>(pi) <span class="op">==</span><span class="st"> </span>pihati, </span>
+<span id="cb361-25"><a href="몬테칼로-시뮬레이션.html#cb361-25"></a>              <span class="kw">list</span>(<span class="dt">pihati =</span> pihati)), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.3</span>)</span>
+<span id="cb361-26"><a href="몬테칼로-시뮬레이션.html#cb361-26"></a>      <span class="kw">dev.flush</span>() <span class="co">#</span></span>
+<span id="cb361-27"><a href="몬테칼로-시뮬레이션.html#cb361-27"></a>      <span class="kw">Sys.sleep</span>(<span class="fl">0.05</span>)</span>
+<span id="cb361-28"><a href="몬테칼로-시뮬레이션.html#cb361-28"></a>    }</span>
+<span id="cb361-29"><a href="몬테칼로-시뮬레이션.html#cb361-29"></a>  }</span>
+<span id="cb361-30"><a href="몬테칼로-시뮬레이션.html#cb361-30"></a>  </span>
+<span id="cb361-31"><a href="몬테칼로-시뮬레이션.html#cb361-31"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated pi: &quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.6f (%d dropping)&quot;</span>, pihat[ndraw], ndraw))</span>
+<span id="cb361-32"><a href="몬테칼로-시뮬레이션.html#cb361-32"></a>  </span>
+<span id="cb361-33"><a href="몬테칼로-시뮬레이션.html#cb361-33"></a>}</span>
+<span id="cb361-34"><a href="몬테칼로-시뮬레이션.html#cb361-34"></a></span>
+<span id="cb361-35"><a href="몬테칼로-시뮬레이션.html#cb361-35"></a><span class="kw">buffon_pi_estimate</span>(param, <span class="dt">plot =</span> <span class="ot">FALSE</span>, <span class="dt">ndraw =</span> <span class="dv">5000</span>)</span></code></pre></div>
+<pre><code>Estimated pi:  3.139389 (5000 dropping)</code></pre>
+
+
+
+<div class="figure">
+<video src="video/buffon-pi-estimate.mp4" style="width:80.0%" controls=""><a href="video/buffon-pi-estimate.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(500 회 실행): PI 추정 과정</p>
+</div>
+<!-- ## 기초 통계학(review)  -->
+<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"} -->
+<!-- options(knitr.graphics.auto_pdf = TRUE) -->
+<!-- knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA) -->
+<!-- ``` -->
+<!-- **p-value와 "통계적 유의성"에 대한 미국 통계학회 성명** -->
+<!-- > - P-values can indicate how incompatible the data are with a specified statistical model. -->
+<!-- > - P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. -->
+<!-- > - Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold. -->
+<!-- > - Proper inference requires full reporting and transparency. -->
+<!-- > - A p-value, or statistical significance, does not measure the size of an effect or the importance of a result. -->
+<!-- > - By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis. -->
+<!-- ```{r} -->
+<!-- x <- seq(-1, 1, by = 0.01) -->
+<!-- y <- sqrt((1 - x^2)) -->
+<!-- plot(x, y, type = "l") -->
+<!-- ani.options(nmax = 400, interval = 0.05) -->
+<!-- buffon.needle() -->
+<!-- ``` -->
+<!-- ```{r, animation.hook="gifski", dev="png"} -->
+<!-- # for (i in 1:2) { -->
+<!-- #   pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA) -->
+<!-- # } -->
+<!-- require(animation) -->
+<!-- # # saveVideo({ -->
+<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
+<!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
+<!-- #   ani.options(interval = 0.05, nmax = 400) -->
+<!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
+<!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
+<!-- ``` -->
+
+</div>
+</div>
+<!-- </div> -->
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="확률과-확률변수.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/03-simulation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["cnu-r-programming.pdf", "cnu-r-programming.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

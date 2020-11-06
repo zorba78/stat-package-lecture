@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.7 참고문헌 인용 | 통계 패키지 활용</title>
+  <title>3.3 확률과 확률변수 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.7 참고문헌 인용 | 통계 패키지 활용" />
+  <meta property="og:title" content="3.3 확률과 확률변수 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.7 참고문헌 인용 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="3.3 확률과 확률변수 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="yaml.html"/>
-<link rel="next" href="control-structure.html"/>
+<link rel="prev" href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"/>
+<link rel="next" href="몬테칼로-시뮬레이션.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -216,34 +216,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="rmarkdown-citation" class="section level2">
-<h2><span class="header-section-number">1.7</span> 참고문헌 인용</h2>
-<ul>
-<li>참고문헌 정보가 BibTeX 포맷으로 저장된 <code>.bib</code> 파일을 YAML에 선언 후 인용 가능</li>
-</ul>
+<div id="확률과-확률변수" class="section level2">
+<h2><span class="header-section-number">3.3</span> 확률과 확률변수</h2>
 
-<p><img src="figures/bibtex-yaml.png" /><!-- --></p>
 
-<ul>
-<li>참고문헌 표현: <code>[@citation-identifier]</code> 또는 <code>@citation-identifier</code></li>
-</ul>
-
-<p><img src="figures/citationPNG.PNG" /><!-- --></p>
-
-<ul>
-<li>BibTeX 포맷은 Google Scholar 에서 쉽게 획득 가능</li>
-<li>Citation 스타일은 YAML 헤더에 <code>cl: style.csl</code>로 변경 가능하며 <a href="https://www.zotero.org">Zotero</a> 에서 <code>.csl</code> 파일 다운로드 가능</li>
-</ul>
-
+<div class="rmdimportant">
+<p><strong>필수 개념</strong></p>
+<ol style="list-style-type: decimal">
+<li>확률(probability)</li>
+<li>확률변수(random variable)</li>
+<li>기댓값(expectation)</li>
+</ol>
 </div>
-<!-- </div> -->
+
+
+<ul>
+<li>확률(probability): 어떤 사건을 <span class="math inline">\(E\)</span> 라고 명명할 때, <span class="math inline">\(E\)</span>가 발생할 확률은 만약 무작위적 과정을 매우 많이 반복 했을 때 사건 <span class="math inline">\(E\)</span>가 발생한 비율을 의미함
+<ul>
+<li>예1: 한화 이글스가 플레이오프에서 승리 후 리그 1위 팀과 한국 시리즈에서 경기를 할 확률?</li>
+<li>예2: 동전/주사위 던지기</li>
+</ul></li>
+<li>확률변수(random variable): 우연한 사건의 결과에 값을 핟당
+<ul>
+<li>예: 카지노 게임의 배당금</li>
+</ul></li>
+<li>기댓값(expectation): 사건이 벌어졌을 때의 이득과 그 사건이 벌어질 확률을 곱한 것을 전체 사건에 대해 합한 값
+<ul>
+<li>확률변수의 기댓값은 평균으로 수렴</li>
+<li>확률변수의 기댓값은 무작위 과정을 여러 번 반복했을 때 장기적인 측면에서 평균적으로 얻어질 것으로 기대되는 값</li>
+</ul></li>
+</ul>
+</div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="yaml.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="control-structure.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="몬테칼로-시뮬레이션.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -274,7 +284,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/zorba78/cnu-stat-package-lecture/01-Rmarkdown-1st.Rmd",
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/03-simulation.Rmd",
 "text": "Edit"
 },
 "history": {

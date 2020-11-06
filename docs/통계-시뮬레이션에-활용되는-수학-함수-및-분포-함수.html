@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-02" />
+<meta name="date" content="2020-11-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="시뮬레이션모의실험의-의미.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="확률과-확률변수.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -189,6 +189,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><i class="fa fa-check"></i><b>3.2</b> 통계 시뮬레이션에 활용되는 수학 함수 및 분포 함수</a><ul>
 <li class="chapter" data-level="3.2.1" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#수학함수"><i class="fa fa-check"></i><b>3.2.1</b> 수학함수</a></li>
 <li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="확률과-확률변수.html"><a href="확률과-확률변수.html"><i class="fa fa-check"></i><b>3.3</b> 확률과 확률변수</a></li>
+<li class="chapter" data-level="3.4" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html"><i class="fa fa-check"></i><b>3.4</b> 몬테칼로 시뮬레이션</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#동전-던지기"><i class="fa fa-check"></i><b>3.4.1</b> 동전 던지기</a></li>
+<li class="chapter" data-level="3.4.2" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#기댓값-추정"><i class="fa fa-check"></i><b>3.4.2</b> 기댓값 추정</a></li>
+<li class="chapter" data-level="3.4.3" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#몬테칼로-적분법sample-mean-monte-carlo-integration"><i class="fa fa-check"></i><b>3.4.3</b> 몬테칼로 적분법(sample-mean Monte-carlo integration)</a></li>
+<li class="chapter" data-level="3.4.4" data-path="몬테칼로-시뮬레이션.html"><a href="몬테칼로-시뮬레이션.html#buffon의-바늘-실험"><i class="fa fa-check"></i><b>3.4.4</b> Buffon의 바늘 실험</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -790,113 +797,15 @@ Figure 3.1: 확률분포의 관계도(<a href="http://www.math.wm.edu/~leemis/ch
 <!--                x0 = 1, -->
 <!--                range = c(-10, 10)) -->
 <!-- ``` -->
-<!-- ## 통계 시뮬레이션의 고전 예제 -->
-<!-- ### 동전 던지기 -->
-<!-- ### 적중법 -->
-<!-- ### 몬테칼로 적분법(sample-mean Monte-carlo integration) -->
-<!-- ### Buffon의 바늘 실험 -->
-<!-- 간격이 $d$인 평행선들이 그려져 있는 책상 위에 길이가 $l$ 인 바늘을 던졌을 때, 이 바늘이 책상 위에 그려진 선에 걸쳐질 확률 -->
-<!-- > 원문: 떨어진 거리가 같은 평행선들이 그어진 마룻바닥에 바늘을 떨어뜨렸다. 바늘이 금에 닿을 확률은 얼마인가?  -->
-<!-- > -->
-<!-- > Georges-Louis Leclerc, Comte de Buffon (1777) -->
-<!-- **조건** -->
-<!-- - 바늘의 길이는 선 사이 간격보다 작다($l < d$) -->
-<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='80%', fig.cap="Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우"} -->
-<!-- options(knitr.graphics.auto_pdf = TRUE) -->
-<!-- knitr::include_graphics('figures/buffon-scheme.png', dpi = NA) -->
-<!-- ``` -->
-<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='80%', fig.cap="Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우"} -->
-<!-- options(knitr.graphics.auto_pdf = TRUE) -->
-<!-- knitr::include_graphics('figures/buffon-scheme-02.png', dpi = NA) -->
-<!-- ``` -->
-<!-- - $m$: 바늘의 중앙점 -->
-<!-- - $a$: 두 평행선 중 $m$과 가까운 평행선에서 $m$ 까지의 직선거리 -->
-<!-- - $\theta$: 바늘과 평행선이 이루는 각도 -->
-<!-- **Fact** -->
-<!-- $d > l$ 조건 하에서  -->
-<!-- - $a$는 가장 가까운 선과의 직선거리이기 때문에 $d/2$보다 클 수 없음 $\rightarrow$ $0 \leq a \leq d/2$ $\rightarrow$ $a \sim \mathrm{Uniform}(0, d/2)$ -->
-<!-- - 선을 벗어난 바늘 끝을 지나는 가상의 평행선과 $m$ 사이의 수직 거리는 $l/2\sin \theta$ -->
-<!-- - 바늘이 선에 걸치는 경우는 $l/2\sin \theta$ 가 $a$ 보다 긴 경우임 $\rightarrow$ $0 \leq a \leq l/2\sin \theta$ $\rightarrow$ $\theta \sim \mathrm{Uniform}(0, \pi)$ -->
-<!-- - $\therefore$ 바늘이 선에 걸쳐질 확률은  -->
-<!-- $$ -->
-<!--  P(바늘이~걸쳐질 ~확률) = P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) -->
-<!-- $$ -->
-<!-- ```{block2, type="rmdnote"} -->
-<!-- 두 확률변수의 결합분포를 구한 후 결합밀도함수에 대한 적분값(확률)을 구하는 문제!! -->
-<!-- ``` -->
-<!-- **수학적 표현** -->
-<!-- $a$ 에 대한 확률분포 -->
-<!-- $$ -->
-<!-- a \sim \mathrm{Uniform}(0, d/2) = \begin{cases} -->
-<!-- \frac{2}{d}, & 0 \leq a \leq d/2 \\ -->
-<!-- 0, & \mathrm{otherwise} -->
-<!-- \end{cases} -->
-<!-- $$ -->
-<!-- $\theta$ 에 대한 확률분포 -->
-<!-- $$ -->
-<!-- \theta \sim \mathrm{Uniform}(0, \pi) = \begin{cases} -->
-<!-- \frac{1}{\pi}, & 0 \leq \theta \leq \pi \\ -->
-<!-- 0, & \mathrm{otherwise} -->
-<!-- \end{cases} -->
-<!-- $$ -->
-<!-- 두 확률변수가 독립이기 때문에 $a$와 $\theta$의 결합분포는 아래와 같음 -->
-<!-- $$ -->
-<!-- f(a, \theta) = \begin{cases} -->
-<!--  \frac{2}{d\pi}, & 0 \leq a \leq d/2;~ 0 \leq \theta \leq \pi \\ -->
-<!--  0, & \mathrm{otherwise} -->
-<!-- \end{cases} -->
-<!-- $$ -->
-<!-- 따라서 바늘이 평행선에 걸쳐질 확률은 -->
-<!-- $$ -->
-<!-- \begin{align} P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) &=  \int_{\theta = 0}^{\pi}\int_{a = 0}^{(l/2)\sin \theta} \frac{2}{d\pi} \,da\,d\theta\\  -->
-<!-- &= \int_{\theta = 0}^\pi \frac{l\sin\theta}{d\pi}\,d\theta \\ -->
-<!-- &= \frac{l\cos\theta}{d\pi} \Big|_{0}^\pi = \frac{2l}{d\pi} -->
-<!-- \end{align} -->
-<!-- $$ -->
-<!-- ```{r} -->
-<!-- ``` -->
-<!-- ## 기초 통계학(review)  -->
-<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"} -->
-<!-- options(knitr.graphics.auto_pdf = TRUE) -->
-<!-- knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA) -->
-<!-- ``` -->
-<!-- **p-value와 "통계적 유의성"에 대한 미국 통계학회 성명** -->
-<!-- > - P-values can indicate how incompatible the data are with a specified statistical model. -->
-<!-- > - P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. -->
-<!-- > - Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold. -->
-<!-- > - Proper inference requires full reporting and transparency. -->
-<!-- > - A p-value, or statistical significance, does not measure the size of an effect or the importance of a result. -->
-<!-- > - By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis. -->
-<!-- ```{r} -->
-<!-- x <- seq(-1, 1, by = 0.01) -->
-<!-- y <- sqrt((1 - x^2)) -->
-<!-- plot(x, y, type = "l") -->
-<!-- ani.options(nmax = 400, interval = 0.05) -->
-<!-- buffon.needle() -->
-<!-- ``` -->
-<!-- ```{r, animation.hook="gifski", dev="png"} -->
-<!-- # for (i in 1:2) { -->
-<!-- #   pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA) -->
-<!-- # } -->
-<!-- require(animation) -->
-<!-- # # saveVideo({ -->
-<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
-<!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
-<!-- #   ani.options(interval = 0.05, nmax = 400) -->
-<!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
-<!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
-<!-- ``` -->
-
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="시뮬레이션모의실험의-의미.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="확률과-확률변수.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

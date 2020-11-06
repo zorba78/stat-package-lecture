@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-10-23" />
+<meta name="date" content="2020-11-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"/>
-<link rel="next" href="기초-통계학review.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -191,12 +191,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#통계-분포-함수"><i class="fa fa-check"></i><b>3.2.2</b> 통계 분포 함수</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html"><i class="fa fa-check"></i><b>3.3</b> 통계 시뮬레이션의 고전 예제</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#동전-던지기"><i class="fa fa-check"></i><b>3.3.1</b> 동전 던지기</a></li>
-<li class="chapter" data-level="3.3.2" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#적중법"><i class="fa fa-check"></i><b>3.3.2</b> 적중법</a></li>
-<li class="chapter" data-level="3.3.3" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#몬테칼로-적분법sample-mean-monte-carlo-integration"><i class="fa fa-check"></i><b>3.3.3</b> 몬테칼로 적분법(sample-mean Monte-carlo integration)</a></li>
-<li class="chapter" data-level="3.3.4" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#buffon의-바늘-실험"><i class="fa fa-check"></i><b>3.3.4</b> Buffon의 바늘 실험</a></li>
+<li class="chapter" data-level="3.3.1" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#몬테칼로-시뮬레이션"><i class="fa fa-check"></i><b>3.3.1</b> 몬테칼로 시뮬레이션</a></li>
+<li class="chapter" data-level="3.3.2" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#몬테칼로-적분법sample-mean-monte-carlo-integration"><i class="fa fa-check"></i><b>3.3.2</b> 몬테칼로 적분법(sample-mean Monte-carlo integration)</a></li>
+<li class="chapter" data-level="3.3.3" data-path="통계-시뮬레이션의-고전-예제.html"><a href="통계-시뮬레이션의-고전-예제.html#buffon의-바늘-실험"><i class="fa fa-check"></i><b>3.3.3</b> Buffon의 바늘 실험</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="기초-통계학review.html"><a href="기초-통계학review.html"><i class="fa fa-check"></i><b>3.4</b> 기초 통계학(review)</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -218,17 +216,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="통계-시뮬레이션의-고전-예제" class="section level2">
 <h2><span class="header-section-number">3.3</span> 통계 시뮬레이션의 고전 예제</h2>
-<div id="동전-던지기" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> 동전 던지기</h3>
+
+
+<div class="rmdnote">
+본 절에서 사용한 동영상 및 모의실험 코드는 Yihui Xie와 Lijia Yu가 배포한 animation 패키지의 내용을 기반으로 재구성함.
 </div>
-<div id="적중법" class="section level3">
-<h3><span class="header-section-number">3.3.2</span> 적중법</h3>
+
+
+<div id="몬테칼로-시뮬레이션" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> 몬테칼로 시뮬레이션</h3>
+
+
+<div class="rmdnote">
+<p><strong>필수 개념</strong></p>
+<ol style="list-style-type: decimal">
+<li>확률(probability)</li>
+<li>확률변수(random variable)</li>
+<li>기댓값(expectation)</li>
+</ol>
+</div>
+
+
+<ul>
+<li>보통 우리가 말하는 확률의 일반적 정의</li>
+</ul>
+<blockquote>
+<p>어떤 사건을 <span class="math inline">\(E\)</span> 라고 명명할 때, <span class="math inline">\(E\)</span>가 발생할 확률은 만약 무작위적 과정을 매우 많이 반복 했을 때 사건 <span class="math inline">\(E\)</span>가 발생한 비율을 의미함</p>
+</blockquote>
+<ul>
+<li>예: 한화 이글스가 플레이오프에서 승리 후 리그 1위 팀과 한국 시리즈에서 경기를 할 확률?</li>
+</ul>
 </div>
 <div id="몬테칼로-적분법sample-mean-monte-carlo-integration" class="section level3">
-<h3><span class="header-section-number">3.3.3</span> 몬테칼로 적분법(sample-mean Monte-carlo integration)</h3>
+<h3><span class="header-section-number">3.3.2</span> 몬테칼로 적분법(sample-mean Monte-carlo integration)</h3>
 </div>
 <div id="buffon의-바늘-실험" class="section level3">
-<h3><span class="header-section-number">3.3.4</span> Buffon의 바늘 실험</h3>
+<h3><span class="header-section-number">3.3.3</span> Buffon의 바늘 실험</h3>
 <p>간격이 <span class="math inline">\(d\)</span>인 평행선들이 그려져 있는 책상 위에 길이가 <span class="math inline">\(l\)</span> 인 바늘을 던졌을 때, 이 바늘이 책상 위에 그려진 선에 걸쳐질 확률</p>
 <blockquote>
 <p>원문: 떨어진 거리가 같은 평행선들이 그어진 마룻바닥에 바늘을 떨어뜨렸다. 바늘이 금에 닿을 확률은 얼마인가?</p>
@@ -239,7 +262,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>바늘의 길이는 선 사이 간격보다 작다(<span class="math inline">\(l &lt; d\)</span>)</li>
 </ul>
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-12"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-20"></span>
 <img src="figures/buffon-scheme.png" alt="Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우" width="80%" />
 <p class="caption">
 Figure 3.2: Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우
@@ -247,7 +270,7 @@ Figure 3.2: Buffon의 바늘실험: 바늘이 선에 걸쳐진 경우
 </div>
 
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-13"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
 <img src="figures/buffon-scheme-02.png" alt="Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우" width="80%" />
 <p class="caption">
 Figure 3.3: Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우
@@ -273,7 +296,7 @@ Figure 3.3: Buffon의 바늘실험: 바늘이 선에 걸쳐지지 않은 경우
 
 
 <div class="rmdnote">
-<p>두 확률변수의 결합분포를 구한 후 결합밀도함수에 대한 적분값을 구하는 문제!!</p>
+<p>두 확률변수의 결합분포를 구한 후 결합밀도함수에 대한 적분값(확률)을 구하는 문제!!</p>
 </div>
 
 
@@ -301,22 +324,284 @@ f(a, \theta) = \begin{cases}
 \]</span></p>
 <p>따라서 바늘이 평행선에 걸쳐질 확률은</p>
 <p><span class="math display">\[
-\begin{align} P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) &amp;=  \int_{\theta = 0}^{\pi}\int_{a = 0}^{(l/2)\sin \theta} \frac{2}{d\pi} \,da\,d\theta\\ 
+\begin{align} P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) &amp;=  \int_{\theta = 0}^{\pi}\int_{a = 0}^{(l/2)\sin \theta} \frac{2}{d\pi} \,da\,d\theta\\
 &amp;= \int_{\theta = 0}^\pi \frac{l\sin\theta}{d\pi}\,d\theta \\
 &amp;= \frac{l\cos\theta}{d\pi} \Big|_{0}^\pi = \frac{2l}{d\pi}
 \end{align}
 \]</span></p>
-<!-- ```{r} -->
+
+
+<div class="rmdnote">
+<p>위 식을 이용해 모의실험을 통해 <span class="math inline">\(\pi\)</span> 값 추정이 가능.</p>
+<p><span class="math display">\[
+  \hat{\pi} = \frac{2l}{d\hat{P}}
+\]</span></p>
+</div>
+
+
+<p><strong>실제 모의실험 시 확률 계산 방법</strong></p>
+<ul>
+<li>바늘의 중점에서 가장 가까운 평행선 까지 수평 거리는 <span class="math inline">\(d/2\)</span> 안에 있기 때문에 표본공간(<span class="math inline">\(S\)</span>)은 다음과 같이 정의할 수 있음.</li>
+</ul>
+<p><span class="math display">\[
+S = \{(a, \theta)|0 \leq a \leq \frac{d}{2}, ~ 0 \leq \theta \leq \pi \}
+\]</span></p>
+<ul>
+<li>표본공간 <span class="math inline">\(S\)</span>에서 <span class="math inline">\(\frac{l}{2} \sin \theta\)</span>의 함수 아래 면적(<span class="math inline">\(A\)</span>)이 결국 바늘이 평행선 상에 걸칠 확률임. 따라서</li>
+</ul>
+<p><span class="math display">\[
+P\left (0 \leq a \leq \frac{l}{2} \sin \theta \right ) = \frac{\mathrm{A}의~넓이}{\mathrm{S}의~넓이} = \frac{\int_0^{\pi} 0.5l\sin{\theta}~d\theta}{0.5d\pi} = \frac{2l}{d\pi}
+\]</span></p>
+<ul>
+<li>기하학적 표현</li>
+</ul>
+
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="통계-시뮬레이션의-고전-예제.html#cb39-1"></a><span class="co"># l = 1, d = 2</span></span>
+<span id="cb39-2"><a href="통계-시뮬레이션의-고전-예제.html#cb39-2"></a>l &lt;-<span class="st"> </span><span class="dv">1</span>; d &lt;-<span class="st"> </span><span class="dv">2</span></span>
+<span id="cb39-3"><a href="통계-시뮬레이션의-고전-예제.html#cb39-3"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, pi, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb39-4"><a href="통계-시뮬레이션의-고전-예제.html#cb39-4"></a>y &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(x)</span>
+<span id="cb39-5"><a href="통계-시뮬레이션의-고전-예제.html#cb39-5"></a></span>
+<span id="cb39-6"><a href="통계-시뮬레이션의-고전-예제.html#cb39-6"></a><span class="kw">plot</span>(<span class="dv">1</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, pi), </span>
+<span id="cb39-7"><a href="통계-시뮬레이션의-고전-예제.html#cb39-7"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, d<span class="op">/</span><span class="dv">2</span>), </span>
+<span id="cb39-8"><a href="통계-시뮬레이션의-고전-예제.html#cb39-8"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb39-9"><a href="통계-시뮬레이션의-고전-예제.html#cb39-9"></a>     <span class="dt">xlab =</span> <span class="kw">expression</span>(theta),</span>
+<span id="cb39-10"><a href="통계-시뮬레이션의-고전-예제.html#cb39-10"></a>     <span class="dt">ylab =</span> <span class="st">&quot;d/2&quot;</span>, </span>
+<span id="cb39-11"><a href="통계-시뮬레이션의-고전-예제.html#cb39-11"></a>     <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</span>
+<span id="cb39-12"><a href="통계-시뮬레이션의-고전-예제.html#cb39-12"></a><span class="kw">polygon</span>(x, y, <span class="dt">col =</span> <span class="st">&quot;yellow&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;yellow&quot;</span>)</span>
+<span id="cb39-13"><a href="통계-시뮬레이션의-고전-예제.html#cb39-13"></a><span class="kw">lines</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb39-14"><a href="통계-시뮬레이션의-고전-예제.html#cb39-14"></a><span class="kw">rect</span>(<span class="dv">0</span>, <span class="dv">0</span>, pi, <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb39-15"><a href="통계-시뮬레이션의-고전-예제.html#cb39-15"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="fl">1.5</span>, <span class="dt">y =</span> <span class="fl">0.6</span>, </span>
+<span id="cb39-16"><a href="통계-시뮬레이션의-고전-예제.html#cb39-16"></a>     <span class="kw">expression</span>(<span class="kw">paste</span>(f, <span class="st">&quot;(&quot;</span>, theta, <span class="st">&quot;)&quot;</span> <span class="op">==</span><span class="st"> </span><span class="kw">frac</span>(l, <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span>sin <span class="op">*</span><span class="st"> </span>theta)), </span>
+<span id="cb39-17"><a href="통계-시뮬레이션의-고전-예제.html#cb39-17"></a>     <span class="dt">adj =</span> <span class="dv">0</span>, </span>
+<span id="cb39-18"><a href="통계-시뮬레이션의-고전-예제.html#cb39-18"></a>     <span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb39-19"><a href="통계-시뮬레이션의-고전-예제.html#cb39-19"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="fl">0.05</span>, <span class="dt">y =</span> <span class="fl">0.95</span>, <span class="st">&quot;S&quot;</span>, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="dt">cex =</span> <span class="dv">2</span>)</span>
+<span id="cb39-20"><a href="통계-시뮬레이션의-고전-예제.html#cb39-20"></a><span class="kw">text</span>(<span class="dt">x =</span> pi<span class="op">/</span><span class="dv">2</span>, <span class="dt">y =</span> <span class="fl">0.2</span>, <span class="st">&quot;A&quot;</span>, <span class="dt">adj =</span> <span class="dv">0</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-24"></span>
+<img src="03-simulation_files/figure-html/unnamed-chunk-24-1.svg" alt="Buffon 바늘 실험의 표본 공간과 확률 영역" width="960" />
+<p class="caption">
+Figure 3.4: Buffon 바늘 실험의 표본 공간과 확률 영역
+</p>
+</div>
+
+<p><strong>Implementation</strong></p>
+<ol style="list-style-type: decimal">
+<li>실제 바늘이 던져지는 상황 시각화</li>
+</ol>
+
+
+<div class="figure">
+<video src="video/buffon-needle-draw.mp4" style="width:80.0%" controls=""><a href="video/buffon-needle-draw.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(30회 실행), 그림은 buffon_needle_draw.R 함수 참고</p>
+</div>
+
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="통계-시뮬레이션의-고전-예제.html#cb40-1"></a>buffon_needle_draw &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">nmax =</span> <span class="dv">20</span>, </span>
+<span id="cb40-2"><a href="통계-시뮬레이션의-고전-예제.html#cb40-2"></a>                               <span class="dt">l =</span> <span class="fl">0.8</span>, <span class="co"># 바늘의 길이</span></span>
+<span id="cb40-3"><a href="통계-시뮬레이션의-고전-예제.html#cb40-3"></a>                               <span class="dt">d =</span> <span class="dv">1</span>,   <span class="co"># 두 평생선 간 간격</span></span>
+<span id="cb40-4"><a href="통계-시뮬레이션의-고전-예제.html#cb40-4"></a>                               <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;lightgray&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb40-5"><a href="통계-시뮬레이션의-고전-예제.html#cb40-5"></a>                               <span class="dt">plot =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb40-6"><a href="통계-시뮬레이션의-고전-예제.html#cb40-6"></a>                               <span class="dt">return.value =</span> <span class="ot">FALSE</span>) {</span>
+<span id="cb40-7"><a href="통계-시뮬레이션의-고전-예제.html#cb40-7"></a>  <span class="co"># 반복 초기화</span></span>
+<span id="cb40-8"><a href="통계-시뮬레이션의-고전-예제.html#cb40-8"></a>  j &lt;-<span class="st"> </span><span class="dv">1</span>; n &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb40-9"><a href="통계-시뮬레이션의-고전-예제.html#cb40-9"></a>  <span class="co"># x &lt;- y &lt;- x0 &lt;- y0 &lt;- theta &lt;- a &lt;- rep(NA, ani.options(&quot;nmax&quot;))</span></span>
+<span id="cb40-10"><a href="통계-시뮬레이션의-고전-예제.html#cb40-10"></a>  x &lt;-<span class="st"> </span>y &lt;-<span class="st"> </span>x0 &lt;-<span class="st"> </span>y0 &lt;-<span class="st"> </span>theta &lt;-<span class="st"> </span>a &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, nmax)</span>
+<span id="cb40-11"><a href="통계-시뮬레이션의-고전-예제.html#cb40-11"></a></span>
+<span id="cb40-12"><a href="통계-시뮬레이션의-고전-예제.html#cb40-12"></a>  <span class="cf">while</span> (j <span class="op">&lt;=</span><span class="st"> </span><span class="kw">length</span>(x)) {</span>
+<span id="cb40-13"><a href="통계-시뮬레이션의-고전-예제.html#cb40-13"></a>    theta[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, pi)</span>
+<span id="cb40-14"><a href="통계-시뮬레이션의-고전-예제.html#cb40-14"></a>    a[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, d<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb40-15"><a href="통계-시뮬레이션의-고전-예제.html#cb40-15"></a>    y[j] &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">c</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d <span class="op">+</span><span class="st"> </span>a[j], <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d <span class="op">-</span><span class="st"> </span>a[j]), <span class="dv">1</span>)</span>
+<span id="cb40-16"><a href="통계-시뮬레이션의-고전-예제.html#cb40-16"></a>    x[j] &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">1</span>, <span class="dv">0</span>, l)</span>
+<span id="cb40-17"><a href="통계-시뮬레이션의-고전-예제.html#cb40-17"></a>    <span class="co"># 바늘이 떨어졌을 때 수평선과 이루는 각도 반영</span></span>
+<span id="cb40-18"><a href="통계-시뮬레이션의-고전-예제.html#cb40-18"></a>    x0[j] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">cos</span>(theta[j])</span>
+<span id="cb40-19"><a href="통계-시뮬레이션의-고전-예제.html#cb40-19"></a>    y0[j] &lt;-<span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta[j])</span>
+<span id="cb40-20"><a href="통계-시뮬레이션의-고전-예제.html#cb40-20"></a>    j &lt;-<span class="st"> </span>j <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb40-21"><a href="통계-시뮬레이션의-고전-예제.html#cb40-21"></a>    </span>
+<span id="cb40-22"><a href="통계-시뮬레이션의-고전-예제.html#cb40-22"></a>    <span class="cf">if</span> (plot) {</span>
+<span id="cb40-23"><a href="통계-시뮬레이션의-고전-예제.html#cb40-23"></a>    <span class="kw">dev.hold</span>()</span>
+<span id="cb40-24"><a href="통계-시뮬레이션의-고전-예제.html#cb40-24"></a>    <span class="kw">plot</span>(<span class="dv">1</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">*</span>l, <span class="fl">1.5</span><span class="op">*</span>l), </span>
+<span id="cb40-25"><a href="통계-시뮬레이션의-고전-예제.html#cb40-25"></a>         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>d), </span>
+<span id="cb40-26"><a href="통계-시뮬레이션의-고전-예제.html#cb40-26"></a>         <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb40-27"><a href="통계-시뮬레이션의-고전-예제.html#cb40-27"></a>         <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb40-28"><a href="통계-시뮬레이션의-고전-예제.html#cb40-28"></a>    <span class="kw">axis</span>(<span class="dv">1</span>, <span class="kw">c</span>(<span class="dv">0</span>, l), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">tcl =</span> <span class="dv">-1</span>)</span>
+<span id="cb40-29"><a href="통계-시뮬레이션의-고전-예제.html#cb40-29"></a>    <span class="kw">axis</span>(<span class="dv">1</span>, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l, <span class="st">&quot;L&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">tcl =</span> <span class="dv">0</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, </span>
+<span id="cb40-30"><a href="통계-시뮬레이션의-고전-예제.html#cb40-30"></a>         <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>))</span>
+<span id="cb40-31"><a href="통계-시뮬레이션의-고전-예제.html#cb40-31"></a>    <span class="kw">axis</span>(<span class="dv">2</span>, <span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">1.5</span>) <span class="op">*</span><span class="st"> </span>d, <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>), <span class="dt">tcl =</span> <span class="dv">-1</span>)</span>
+<span id="cb40-32"><a href="통계-시뮬레이션의-고전-예제.html#cb40-32"></a>    <span class="kw">axis</span>(<span class="dv">2</span>, d, <span class="st">&quot;D&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">tcl =</span> <span class="dv">0</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>))</span>
+<span id="cb40-33"><a href="통계-시뮬레이션의-고전-예제.html#cb40-33"></a>    <span class="kw">box</span>()</span>
+<span id="cb40-34"><a href="통계-시뮬레이션의-고전-예제.html#cb40-34"></a>    bd &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;usr&quot;</span>) <span class="co"># 실제 device plot 영역 상 x-y 좌표 시작 끝 점 정보 반환</span></span>
+<span id="cb40-35"><a href="통계-시뮬레이션의-고전-예제.html#cb40-35"></a>    <span class="kw">rect</span>(bd[<span class="dv">1</span>], <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d, bd[<span class="dv">2</span>], <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d, <span class="dt">col =</span> col[<span class="dv">1</span>])</span>
+<span id="cb40-36"><a href="통계-시뮬레이션의-고전-예제.html#cb40-36"></a>    <span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">c</span>(<span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d, <span class="fl">1.5</span> <span class="op">*</span><span class="st"> </span>d), <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb40-37"><a href="통계-시뮬레이션의-고전-예제.html#cb40-37"></a>    </span>
+<span id="cb40-38"><a href="통계-시뮬레이션의-고전-예제.html#cb40-38"></a>    <span class="co"># 그림 1: 부폰의 바늘 실험: 바늘과 평행선</span></span>
+<span id="cb40-39"><a href="통계-시뮬레이션의-고전-예제.html#cb40-39"></a>    <span class="co"># 실제 바늘이 평행선 안에 떨어지는 모습 모사</span></span>
+<span id="cb40-40"><a href="통계-시뮬레이션의-고전-예제.html#cb40-40"></a>    <span class="kw">segments</span>(x <span class="op">-</span><span class="st"> </span>x0, y <span class="op">-</span><span class="st"> </span>y0, </span>
+<span id="cb40-41"><a href="통계-시뮬레이션의-고전-예제.html#cb40-41"></a>             x <span class="op">+</span><span class="st"> </span>x0, y <span class="op">+</span><span class="st"> </span>y0, </span>
+<span id="cb40-42"><a href="통계-시뮬레이션의-고전-예제.html#cb40-42"></a>             <span class="dt">col =</span> col[<span class="dv">2</span>])</span>
+<span id="cb40-43"><a href="통계-시뮬레이션의-고전-예제.html#cb40-43"></a>    <span class="kw">dev.flush</span>() <span class="co"># </span></span>
+<span id="cb40-44"><a href="통계-시뮬레이션의-고전-예제.html#cb40-44"></a>    <span class="kw">Sys.sleep</span>(<span class="dv">1</span>)</span>
+<span id="cb40-45"><a href="통계-시뮬레이션의-고전-예제.html#cb40-45"></a>    }</span>
+<span id="cb40-46"><a href="통계-시뮬레이션의-고전-예제.html#cb40-46"></a>  }</span>
+<span id="cb40-47"><a href="통계-시뮬레이션의-고전-예제.html#cb40-47"></a>  <span class="cf">if</span>(return.value) {</span>
+<span id="cb40-48"><a href="통계-시뮬레이션의-고전-예제.html#cb40-48"></a>    result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">nmax =</span>nmax, <span class="dt">l =</span> l, <span class="dt">d =</span> d, <span class="dt">a =</span> a, <span class="dt">theta =</span> theta)</span>
+<span id="cb40-49"><a href="통계-시뮬레이션의-고전-예제.html#cb40-49"></a>    <span class="kw">return</span>(result)</span>
+<span id="cb40-50"><a href="통계-시뮬레이션의-고전-예제.html#cb40-50"></a>  }</span>
+<span id="cb40-51"><a href="통계-시뮬레이션의-고전-예제.html#cb40-51"></a>}</span>
+<span id="cb40-52"><a href="통계-시뮬레이션의-고전-예제.html#cb40-52"></a></span>
+<span id="cb40-53"><a href="통계-시뮬레이션의-고전-예제.html#cb40-53"></a><span class="co"># buffon_needle_draw(nmax = 20, l = 0.8, d = 1, plot = TRUE, return.value = FALSE)</span></span>
+<span id="cb40-54"><a href="통계-시뮬레이션의-고전-예제.html#cb40-54"></a><span class="kw">set.seed</span>(<span class="dv">5000</span>)</span>
+<span id="cb40-55"><a href="통계-시뮬레이션의-고전-예제.html#cb40-55"></a><span class="co"># 바늘의 길이가 15이고 평행선 간격이 20일 때 바늘이 평행선에 걸칠 확률</span></span>
+<span id="cb40-56"><a href="통계-시뮬레이션의-고전-예제.html#cb40-56"></a>param &lt;-<span class="st"> </span><span class="kw">buffon_needle_draw</span>(<span class="dt">nmax =</span> <span class="dv">5000</span>, </span>
+<span id="cb40-57"><a href="통계-시뮬레이션의-고전-예제.html#cb40-57"></a>                            <span class="dt">l =</span> <span class="dv">15</span>, </span>
+<span id="cb40-58"><a href="통계-시뮬레이션의-고전-예제.html#cb40-58"></a>                            <span class="dt">d =</span> <span class="dv">20</span>, </span>
+<span id="cb40-59"><a href="통계-시뮬레이션의-고전-예제.html#cb40-59"></a>                            <span class="dt">plot =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb40-60"><a href="통계-시뮬레이션의-고전-예제.html#cb40-60"></a>                            <span class="dt">return.value =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+
+<ol start="2" style="list-style-type: decimal">
+<li><span class="math inline">\(P(A)\)</span> 계산: 표본공간 및 바늘을 던졌을 때 표본공간 안에 바늘이 들어와 있는지 확인 <span class="math inline">\(\rightarrow\)</span> 바늘이 금에 걸쳐질 확률 계산</li>
+</ol>
+<ul>
+<li><strong>step 0</strong>: 바늘의 길이(<span class="math inline">\(l\)</span>)과 수평선 사이 거리(<span class="math inline">\(d\)</span>) 설정</li>
+<li><strong>step 1</strong>: <span class="math inline">\(a ~ \mathrm{Uniform}(0, d/2)\)</span>에서 난수 한개 발생</li>
+<li><strong>step 2</strong>: <span class="math inline">\(\theta ~ \mathrm{Uniform}(0, \pi)\)</span>에서 난수 한개 발생</li>
+<li><strong>step 3</strong>: 바늘이 선에 걸치는 경우(<span class="math inline">\(a \leq 0.5l\sin{\theta}\)</span>) 카운트한 후 확률 계산</li>
+</ul>
+
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="통계-시뮬레이션의-고전-예제.html#cb41-1"></a>buffon_prob &lt;-<span class="st"> </span><span class="cf">function</span>(param, </span>
+<span id="cb41-2"><a href="통계-시뮬레이션의-고전-예제.html#cb41-2"></a>                        <span class="dt">plot =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb41-3"><a href="통계-시뮬레이션의-고전-예제.html#cb41-3"></a>                        <span class="dt">ndraw =</span> <span class="dv">20</span>) {</span>
+<span id="cb41-4"><a href="통계-시뮬레이션의-고전-예제.html#cb41-4"></a>  <span class="co"># browser()</span></span>
+<span id="cb41-5"><a href="통계-시뮬레이션의-고전-예제.html#cb41-5"></a>  l &lt;-<span class="st"> </span>param<span class="op">$</span>l</span>
+<span id="cb41-6"><a href="통계-시뮬레이션의-고전-예제.html#cb41-6"></a>  d &lt;-<span class="st"> </span>param<span class="op">$</span>d</span>
+<span id="cb41-7"><a href="통계-시뮬레이션의-고전-예제.html#cb41-7"></a>  a &lt;-<span class="st"> </span>param<span class="op">$</span>a</span>
+<span id="cb41-8"><a href="통계-시뮬레이션의-고전-예제.html#cb41-8"></a>  theta &lt;-<span class="st"> </span>param<span class="op">$</span>theta</span>
+<span id="cb41-9"><a href="통계-시뮬레이션의-고전-예제.html#cb41-9"></a>  ntry &lt;-<span class="st"> </span><span class="kw">length</span>(a)</span>
+<span id="cb41-10"><a href="통계-시뮬레이션의-고전-예제.html#cb41-10"></a>  A &lt;-<span class="st"> </span>a <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)</span>
+<span id="cb41-11"><a href="통계-시뮬레이션의-고전-예제.html#cb41-11"></a>  phati &lt;-<span class="st"> </span><span class="kw">cumsum</span>(A)<span class="op">/</span>(<span class="dv">1</span><span class="op">:</span>ntry)</span>
+<span id="cb41-12"><a href="통계-시뮬레이션의-고전-예제.html#cb41-12"></a>  phat &lt;-<span class="st"> </span><span class="kw">sum</span>(A)<span class="op">/</span>ntry <span class="co"># 시뮬레이션 추정 확률</span></span>
+<span id="cb41-13"><a href="통계-시뮬레이션의-고전-예제.html#cb41-13"></a>  ptrue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>l<span class="op">/</span>(pi<span class="op">*</span>d) <span class="co"># 이론적 확률</span></span>
+<span id="cb41-14"><a href="통계-시뮬레이션의-고전-예제.html#cb41-14"></a>  idx &lt;-<span class="st"> </span><span class="ot">NULL</span></span>
+<span id="cb41-15"><a href="통계-시뮬레이션의-고전-예제.html#cb41-15"></a>  </span>
+<span id="cb41-16"><a href="통계-시뮬레이션의-고전-예제.html#cb41-16"></a>  <span class="cf">if</span> (plot) {</span>
+<span id="cb41-17"><a href="통계-시뮬레이션의-고전-예제.html#cb41-17"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ndraw) {</span>
+<span id="cb41-18"><a href="통계-시뮬레이션의-고전-예제.html#cb41-18"></a>      <span class="kw">dev.hold</span>()</span>
+<span id="cb41-19"><a href="통계-시뮬레이션의-고전-예제.html#cb41-19"></a>      x =<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, pi, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb41-20"><a href="통계-시뮬레이션의-고전-예제.html#cb41-20"></a>      <span class="kw">plot</span>(x, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(x), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>d), </span>
+<span id="cb41-21"><a href="통계-시뮬레이션의-고전-예제.html#cb41-21"></a>      <span class="dt">bty =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb41-22"><a href="통계-시뮬레이션의-고전-예제.html#cb41-22"></a>      <span class="co"># rect(0, 0, pi, d/2, lty = 2, lwd = 1.5)</span></span>
+<span id="cb41-23"><a href="통계-시뮬레이션의-고전-예제.html#cb41-23"></a>      <span class="kw">text</span>(pi<span class="op">/</span><span class="dv">2</span>, <span class="fl">0.4</span> <span class="op">*</span><span class="st"> </span>l, <span class="kw">expression</span>(y <span class="op">==</span><span class="st"> </span><span class="kw">frac</span>(L, <span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)), <span class="dt">cex =</span> <span class="fl">1.5</span>)</span>
+<span id="cb41-24"><a href="통계-시뮬레이션의-고전-예제.html#cb41-24"></a>      idx =<span class="st"> </span><span class="kw">c</span>(idx, <span class="kw">as.numeric</span>(a[i] <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta[i])) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb41-25"><a href="통계-시뮬레이션의-고전-예제.html#cb41-25"></a>      <span class="kw">points</span>(theta[<span class="dv">1</span><span class="op">:</span>i], a[<span class="dv">1</span><span class="op">:</span>i], <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)[idx])</span>
+<span id="cb41-26"><a href="통계-시뮬레이션의-고전-예제.html#cb41-26"></a>      phatii &lt;-<span class="st"> </span><span class="kw">format</span>(phati[i], <span class="dt">nsmall =</span> <span class="dv">6</span>, <span class="dt">digits =</span> <span class="dv">6</span>)</span>
+<span id="cb41-27"><a href="통계-시뮬레이션의-고전-예제.html#cb41-27"></a>      <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">substitute</span>(<span class="kw">hat</span>(P) <span class="op">==</span><span class="st"> </span>phatii, </span>
+<span id="cb41-28"><a href="통계-시뮬레이션의-고전-예제.html#cb41-28"></a>              <span class="kw">list</span>(<span class="dt">phatii =</span> phatii)), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.3</span>)</span>
+<span id="cb41-29"><a href="통계-시뮬레이션의-고전-예제.html#cb41-29"></a>      <span class="kw">dev.flush</span>() <span class="co">#</span></span>
+<span id="cb41-30"><a href="통계-시뮬레이션의-고전-예제.html#cb41-30"></a>      <span class="kw">Sys.sleep</span>(<span class="fl">0.05</span>)</span>
+<span id="cb41-31"><a href="통계-시뮬레이션의-고전-예제.html#cb41-31"></a>    }</span>
+<span id="cb41-32"><a href="통계-시뮬레이션의-고전-예제.html#cb41-32"></a>  }    </span>
+<span id="cb41-33"><a href="통계-시뮬레이션의-고전-예제.html#cb41-33"></a>  </span>
+<span id="cb41-34"><a href="통계-시뮬레이션의-고전-예제.html#cb41-34"></a>  <span class="kw">cat</span>(<span class="st">&quot;True Probability:&quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, ptrue), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb41-35"><a href="통계-시뮬레이션의-고전-예제.html#cb41-35"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated Probability:&quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.3f (total %d dropping)&quot;</span>, phat, ndraw), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb41-36"><a href="통계-시뮬레이션의-고전-예제.html#cb41-36"></a></span>
+<span id="cb41-37"><a href="통계-시뮬레이션의-고전-예제.html#cb41-37"></a>}</span>
+<span id="cb41-38"><a href="통계-시뮬레이션의-고전-예제.html#cb41-38"></a></span>
+<span id="cb41-39"><a href="통계-시뮬레이션의-고전-예제.html#cb41-39"></a><span class="kw">buffon_prob</span>(param, <span class="dt">plot =</span> <span class="ot">FALSE</span>, <span class="dt">ndraw =</span> <span class="dv">5000</span>)</span></code></pre></div>
+<pre><code>True Probability: 0.477 
+Estimated Probability: 0.478 (total 5000 dropping) </code></pre>
+
+
+
+<div class="figure">
+<video src="video/buffon-sample-space.mp4" style="width:80.0%" controls=""><a href="video/buffon-sample-space.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(500 회 실행): 표본공간 상 바늘을 던졌을 때 사건 A 집계 과정</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>추정한 <span class="math inline">\(\hat{\pi}\)</span> 값이 횟수가 증가할수록 실제 <span class="math inline">\(\pi\)</span> 값에 수렴하는지 확인 <code>buffon_pi_estimate()</code></li>
+</ol>
+
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="통계-시뮬레이션의-고전-예제.html#cb43-1"></a>buffon_pi_estimate &lt;-<span class="st"> </span><span class="cf">function</span>(param, <span class="dt">plot =</span> <span class="ot">TRUE</span>, <span class="dt">ndraw =</span> <span class="dv">20</span>) {</span>
+<span id="cb43-2"><a href="통계-시뮬레이션의-고전-예제.html#cb43-2"></a>  <span class="co"># browser()</span></span>
+<span id="cb43-3"><a href="통계-시뮬레이션의-고전-예제.html#cb43-3"></a>  l &lt;-<span class="st"> </span>param<span class="op">$</span>l</span>
+<span id="cb43-4"><a href="통계-시뮬레이션의-고전-예제.html#cb43-4"></a>  d &lt;-<span class="st"> </span>param<span class="op">$</span>d</span>
+<span id="cb43-5"><a href="통계-시뮬레이션의-고전-예제.html#cb43-5"></a>  a &lt;-<span class="st"> </span>param<span class="op">$</span>a</span>
+<span id="cb43-6"><a href="통계-시뮬레이션의-고전-예제.html#cb43-6"></a>  theta &lt;-<span class="st"> </span>param<span class="op">$</span>theta</span>
+<span id="cb43-7"><a href="통계-시뮬레이션의-고전-예제.html#cb43-7"></a>  ntry &lt;-<span class="st"> </span><span class="kw">length</span>(a)</span>
+<span id="cb43-8"><a href="통계-시뮬레이션의-고전-예제.html#cb43-8"></a>  A &lt;-<span class="st"> </span>a <span class="op">&lt;=</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>l <span class="op">*</span><span class="st"> </span><span class="kw">sin</span>(theta)</span>
+<span id="cb43-9"><a href="통계-시뮬레이션의-고전-예제.html#cb43-9"></a>  csum_A &lt;-<span class="st"> </span><span class="kw">cumsum</span>(A)</span>
+<span id="cb43-10"><a href="통계-시뮬레이션의-고전-예제.html#cb43-10"></a>  phat &lt;-<span class="st"> </span>csum_A<span class="op">/</span>(<span class="dv">1</span><span class="op">:</span>ntry) <span class="co"># i 번째 시행 때 까지 바늘이 선에 걸쳐질 확률</span></span>
+<span id="cb43-11"><a href="통계-시뮬레이션의-고전-예제.html#cb43-11"></a>  pihat &lt;-<span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span>l)<span class="op">/</span>(d <span class="op">*</span><span class="st"> </span>phat) <span class="co"># pi 계산</span></span>
+<span id="cb43-12"><a href="통계-시뮬레이션의-고전-예제.html#cb43-12"></a>  </span>
+<span id="cb43-13"><a href="통계-시뮬레이션의-고전-예제.html#cb43-13"></a>  <span class="cf">if</span> (plot) {</span>
+<span id="cb43-14"><a href="통계-시뮬레이션의-고전-예제.html#cb43-14"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>ndraw) {</span>
+<span id="cb43-15"><a href="통계-시뮬레이션의-고전-예제.html#cb43-15"></a>      <span class="kw">dev.hold</span>()</span>
+<span id="cb43-16"><a href="통계-시뮬레이션의-고전-예제.html#cb43-16"></a>      <span class="kw">plot</span>(pihat[<span class="dv">1</span><span class="op">:</span>i], <span class="dt">ylim =</span> <span class="kw">c</span>((<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">*</span><span class="st"> </span>pi, (<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">*</span><span class="st"> </span>pi), </span>
+<span id="cb43-17"><a href="통계-시뮬레이션의-고전-예제.html#cb43-17"></a>           <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, ndraw), </span>
+<span id="cb43-18"><a href="통계-시뮬레이션의-고전-예제.html#cb43-18"></a>           <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="st">&quot;바늘 던진 횟수:&quot;</span>, i), <span class="dt">ylab =</span> <span class="kw">expression</span>(<span class="kw">hat</span>(pi)), </span>
+<span id="cb43-19"><a href="통계-시뮬레이션의-고전-예제.html#cb43-19"></a>           <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb43-20"><a href="통계-시뮬레이션의-고전-예제.html#cb43-20"></a>           <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)</span>
+<span id="cb43-21"><a href="통계-시뮬레이션의-고전-예제.html#cb43-21"></a>      <span class="kw">abline</span>(<span class="dt">h =</span> pi, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb43-22"><a href="통계-시뮬레이션의-고전-예제.html#cb43-22"></a>      <span class="co"># phati &lt;- sprintf(&quot;%.6f&quot;, pihat[i])</span></span>
+<span id="cb43-23"><a href="통계-시뮬레이션의-고전-예제.html#cb43-23"></a>      pihati &lt;-<span class="st"> </span><span class="kw">format</span>(pihat[i], <span class="dt">nsmall =</span> <span class="dv">7</span>, <span class="dt">digits =</span> <span class="dv">7</span>)</span>
+<span id="cb43-24"><a href="통계-시뮬레이션의-고전-예제.html#cb43-24"></a>      <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">substitute</span>(<span class="kw">hat</span>(pi) <span class="op">==</span><span class="st"> </span>pihati, </span>
+<span id="cb43-25"><a href="통계-시뮬레이션의-고전-예제.html#cb43-25"></a>              <span class="kw">list</span>(<span class="dt">pihati =</span> pihati)), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.3</span>)</span>
+<span id="cb43-26"><a href="통계-시뮬레이션의-고전-예제.html#cb43-26"></a>      <span class="kw">dev.flush</span>() <span class="co">#</span></span>
+<span id="cb43-27"><a href="통계-시뮬레이션의-고전-예제.html#cb43-27"></a>      <span class="kw">Sys.sleep</span>(<span class="fl">0.05</span>)</span>
+<span id="cb43-28"><a href="통계-시뮬레이션의-고전-예제.html#cb43-28"></a>    }</span>
+<span id="cb43-29"><a href="통계-시뮬레이션의-고전-예제.html#cb43-29"></a>  }</span>
+<span id="cb43-30"><a href="통계-시뮬레이션의-고전-예제.html#cb43-30"></a>  </span>
+<span id="cb43-31"><a href="통계-시뮬레이션의-고전-예제.html#cb43-31"></a>  <span class="kw">cat</span>(<span class="st">&quot;Estimated pi: &quot;</span>, <span class="kw">sprintf</span>(<span class="st">&quot;%.6f (%d dropping)&quot;</span>, pihat[ndraw], ndraw))</span>
+<span id="cb43-32"><a href="통계-시뮬레이션의-고전-예제.html#cb43-32"></a>  </span>
+<span id="cb43-33"><a href="통계-시뮬레이션의-고전-예제.html#cb43-33"></a>}</span>
+<span id="cb43-34"><a href="통계-시뮬레이션의-고전-예제.html#cb43-34"></a></span>
+<span id="cb43-35"><a href="통계-시뮬레이션의-고전-예제.html#cb43-35"></a><span class="kw">buffon_pi_estimate</span>(param, <span class="dt">plot =</span> <span class="ot">FALSE</span>, <span class="dt">ndraw =</span> <span class="dv">5000</span>)</span></code></pre></div>
+<pre><code>Estimated pi:  3.139389 (5000 dropping)</code></pre>
+
+
+
+<div class="figure">
+<video src="video/buffon-pi-estimate.mp4" style="width:80.0%" controls=""><a href="video/buffon-pi-estimate.mp4"></a></video>
+<p class="caption">Buffon의 바늘실험(500 회 실행): PI 추정 과정</p>
+</div>
+<!-- ## 기초 통계학(review)  -->
+<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"} -->
+<!-- options(knitr.graphics.auto_pdf = TRUE) -->
+<!-- knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA) -->
 <!-- ``` -->
+<!-- **p-value와 "통계적 유의성"에 대한 미국 통계학회 성명** -->
+<!-- > - P-values can indicate how incompatible the data are with a specified statistical model. -->
+<!-- > - P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. -->
+<!-- > - Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold. -->
+<!-- > - Proper inference requires full reporting and transparency. -->
+<!-- > - A p-value, or statistical significance, does not measure the size of an effect or the importance of a result. -->
+<!-- > - By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis. -->
+<!-- ```{r} -->
+<!-- x <- seq(-1, 1, by = 0.01) -->
+<!-- y <- sqrt((1 - x^2)) -->
+<!-- plot(x, y, type = "l") -->
+<!-- ani.options(nmax = 400, interval = 0.05) -->
+<!-- buffon.needle() -->
+<!-- ``` -->
+<!-- ```{r, animation.hook="gifski", dev="png"} -->
+<!-- # for (i in 1:2) { -->
+<!-- #   pie(c(i %% 2, 6), col = c('red', 'yellow'), labels = NA) -->
+<!-- # } -->
+<!-- require(animation) -->
+<!-- # # saveVideo({ -->
+<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
+<!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
+<!-- #   ani.options(interval = 0.05, nmax = 400) -->
+<!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
+<!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
+<!-- ``` -->
+
 </div>
 </div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="기초-통계학review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
