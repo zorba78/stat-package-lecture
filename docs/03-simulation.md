@@ -1150,7 +1150,7 @@ Estimated pi:  3.141950
 
 ```
  사용자  시스템 elapsed 
- 10.296   0.000  10.303 
+ 10.403   0.001  10.414 
 ```
 
 ```r
@@ -1245,7 +1245,7 @@ Estimated pi:  3.141221
 
 ```
  사용자  시스템 elapsed 
-  0.161   0.010   0.171 
+  0.154   0.016   0.170 
 ```
 
  \normalsize
@@ -1640,23 +1640,69 @@ Estimated pi:  3.139389 (5000 dropping)
 ![Buffon의 바늘실험(500 회 실행): PI 추정 과정](video/buffon-pi-estimate.mp4){width="80%"}
 
 
+## 시뮬레이션과 통계학
 
-<!-- ## 기초 통계학(review)  -->
+\footnotesize
 
-<!-- ```{r fig.align='center', echo=FALSE, fig.show='hold', out.width='100%', fig.cap="모집단, 표본, 통계량, 표본분포 관계"} -->
-<!-- options(knitr.graphics.auto_pdf = TRUE) -->
-<!-- knitr::include_graphics('figures/scheme-stat.jpg', dpi = NA) -->
-<!-- ``` -->
+\BeginKnitrBlock{rmdimportant}<div class="rmdimportant">통계학에서 다루는 많은 이론들은 모의실험을 통해 그 이론의 의미를 더욱 명확하게 확인 가능하다. 특히 본 절에서는 데이터 분석 실무에서 꼭 알아두어야 할 중요 개념에 대해 간단히 review를 하고, 중심극한정리(central limit theorem, CLT), 신뢰구간(confidence interval), p-value 등에 대한 모의실험을 통해 이해를 증진</div>\EndKnitrBlock{rmdimportant}
+
+ \normalsize
 
 
-<!-- **p-value와 "통계적 유의성"에 대한 미국 통계학회 성명** -->
+### 기초 통계학(review)
 
-<!-- > - P-values can indicate how incompatible the data are with a specified statistical model. -->
-<!-- > - P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone. -->
-<!-- > - Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold. -->
-<!-- > - Proper inference requires full reporting and transparency. -->
-<!-- > - A p-value, or statistical significance, does not measure the size of an effect or the importance of a result. -->
-<!-- > - By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis. -->
+**중요 용어**
+
+- **모집단(population)**: 조사/실험/연구 등에서 관심의 대상이 되는 모든 개체의 관측값, 사건, 항목, 측정단위의 집합 $\rightarrow$ 획득한 데이터가 랜덤하게 표집되었다고 가정하는 분포 또는 집단 
+   - 대한민국 20대 남녀을 대상으로 측정한 관찰값(예: 키, 몸무게, 설문지, 혈액검사, ECG, EEG 등)
+
+- **모수(parameter)**: 모집단의 특성 또는 분포를 정의하는 알려지지 않은 상수(수식 표현 시 일반적으로 greek 문자로 표시) 
+   - 이항분포(binomial distribution): 성공 또는 실패 중 하나가 결과로 나오는 실험을 $n$ 번 시행했을 때 성공이 나올 확률 $\theta$
+   - 정규분포(normal distribution): 평균 $\mu$, 표준편차 $\sigma$
+
+- **표본(sample)**: 통계적 처리를 위해 임의의 모집단으로부터 관찰된 일부 관찰값 또는 측정값의 집합
+
+- **데이터(data)**: 표본을 구성하는 관찰/측정 대상에 대응하는 측정값들의 집합(보통은 2차원 테이블 형태의 행렬)
+
+- **통계량(statistics)**: 모수를 추정하기 위해 표본(데이터)로부터 계산된 값(일반적으로 알파벳으로 표시)
+   - 표본평균 $\bar{X}$, 표본분산 $s^2$
+   - 통계량은 **확률변수(random variable)**
+
+- **표본푼포(sampling distribution)**: 통계량의 분포
+
+- **가설검정(hypothesis testing)**: 표본으로부터 얻은 정보를 토대로 모집단에 대한 특정 가설을 받아들이거나(accept) 혹은 기각(reject)을 위한 통계적 절차
+
+- **귀무가설(null hypothesis)**: 모수에 대한 기존의 사실 또는 디폴트 값
+   - 두 측정 변수 간 연관성이 존재하지 않음/ 두 집단 간 평균의 차이가 없음 ...
+   - $H_0: \mu_X = \mu_Y$, $\rho_X = 0$, ...
+
+- **대립가설(alternative hypothesis)**: 모수에 대해 귀무가설과 대립해 증명하고 싶은 사실   
+
+
+
+
+
+
+
+\footnotesize
+
+<div class="figure" style="text-align: center">
+<img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
+<p class="caption">(\#fig:unnamed-chunk-40)모집단, 표본, 통계량, 표본분포 관계</p>
+</div>
+
+ \normalsize
+
+
+**p-value와 "통계적 유의성"에 대한 미국 통계학회 성명**
+
+> - P-value는 가정한 통계 모형이 데이터와 호환되지 않음을 나타낸다(P-values can indicate how incompatible the data are with a specified statistical model)
+> - P-value는 연구 가설이 참인 확률이나 데이터가 랜덤하게 생성된 확률을 측정하지 않는다(P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone)
+> - 과학적 연구 결론 도출이나 비지니스 및 정책 결정 과정에서 p-value가 어떤 경계값(임계점)보다 크거나 작다는 것에 근거해서는 안된다(Scientific conclusions and business or policy decisions should not be based only on whether a p-value passes a specific threshold)
+> - 제대로된 추론을 위해서는 연구과정 전반에 대한 보고서와 투명성이 필요하다(Proper inference requires full reporting and transparency)
+> - P-value나 통계적 유의성은 효과의 크기나 결과의 중요성을 나타내지 않는다(A p-value, or statistical significance, does not measure the size of an effect or the importance of a result)
+> - P-value 자체만으로는 모형이나 가설에 대한 증거가 될 수 없다(By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis)
+
 
 <!-- ```{r} -->
 <!-- x <- seq(-1, 1, by = 0.01) -->
@@ -1678,7 +1724,7 @@ Estimated pi:  3.139389 (5000 dropping)
 
 <!-- require(animation) -->
 <!-- # # saveVideo({ -->
-<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3,  -->
+<!-- #   par(mar = c(3, 3, 1, 0.5), mgp = c(2, 0.5, 0), tcl = -0.3, -->
 <!-- #     cex.axis = 0.8, cex.lab = 0.8, cex.main = 1) -->
 <!-- #   ani.options(interval = 0.05, nmax = 400) -->
 <!-- #   brownian.motion(pch = 21, cex = 5, col = "red", bg = "yellow") -->
