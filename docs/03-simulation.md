@@ -1245,7 +1245,7 @@ Estimated pi:  3.141221
 
 ```
  사용자  시스템 elapsed 
-  0.168   0.003   0.171 
+  0.212   0.005   0.217 
 ```
 
  \normalsize
@@ -1657,7 +1657,7 @@ Estimated pi:  3.139389 (5000 dropping)
 
 \footnotesize
 
-\BeginKnitrBlock{rmdnote}<div class="rmdnote">**DBP.txt**: 통계패키지활용 [Github 저장소](https://github.com/zorba78/stat-package-lecture/data/DBP.txt)에서 데이터 확인 가능
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">**DBP.txt**: 통계패키지활용 [Github 저장소](https://github.com/zorba78/stat-package-lecture/blob/master/data/DBP.txt)에서 데이터 확인 가능
 
   
 - 1960년대 중반 미국에서 실시한 고혈압 치료제 유효성 확인을 위한 임상시험 결과 데이터
