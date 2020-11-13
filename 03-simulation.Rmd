@@ -1254,7 +1254,7 @@ saveVideo(
 ```
 
 
-### 기초 통계학(review)
+<!-- ### 기초 통계학(review) -->
 
 
 #### **혈압강하제 임상시험** {#stat-review-ex .unnumbered}

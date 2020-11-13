@@ -1245,7 +1245,7 @@ Estimated pi:  3.141221
 
 ```
  사용자  시스템 elapsed 
-  0.212   0.005   0.217 
+  0.163   0.015   0.177 
 ```
 
  \normalsize
@@ -1649,7 +1649,7 @@ Estimated pi:  3.139389 (5000 dropping)
  \normalsize
 
 
-### 기초 통계학(review)
+<!-- ### 기초 통계학(review) -->
 
 
 #### **혈압강하제 임상시험** {#stat-review-ex .unnumbered}
