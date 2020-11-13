@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-07" />
+<meta name="date" content="2020-11-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,10 +245,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><span class="math inline">\(n = 3\)</span> 일 때, 각 사건의 이름을 각각 A, B, C 라고 할 때 이 중 사건 하나가 발생할 확률</li>
 </ul>
 
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb4-1"></a><span class="kw">P</span>(사건 하나가 발생할 확률) =<span class="st"> </span></span>
-<span id="cb4-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb4-2"></a><span class="kw">P</span>(A가 일어나고 B와 C가 일어나지 않을 확률) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb4-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb4-3"></a><span class="st">  </span><span class="kw">P</span>(A가 일어나지 않고 B가 일어나고 C가 일어나지 않을 확률) <span class="op">+</span><span class="st"> </span></span>
-<span id="cb4-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb4-4"></a><span class="st">  </span><span class="kw">P</span>(A, B가 일어나지 않고 C만 일어날 확률)</span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb267-1"></a><span class="kw">P</span>(사건 하나가 발생할 확률) =<span class="st"> </span></span>
+<span id="cb267-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb267-2"></a><span class="kw">P</span>(A가 일어나고 B와 C가 일어나지 않을 확률) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb267-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb267-3"></a><span class="st">  </span><span class="kw">P</span>(A가 일어나지 않고 B가 일어나고 C가 일어나지 않을 확률) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb267-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb267-4"></a><span class="st">  </span><span class="kw">P</span>(A, B가 일어나지 않고 C만 일어날 확률)</span></code></pre></div>
 <p></p>
 <ul>
 <li>여기서 P(A가 일어나고 B와 C가 일어나지 않을 확률) = <span class="math inline">\(P_A(1-P_B)(1-P_C)\)</span> <span class="math inline">\(\rightarrow\)</span> 나머지도 마찬가지임</li>
@@ -261,51 +261,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>구현 함수</li>
 </ul>
 
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-1"></a><span class="co"># 벡터 p에서 p_i 계산 함수</span></span>
-<span id="cb5-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-2"></a></span>
-<span id="cb5-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-3"></a>probability_i &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</span>
-<span id="cb5-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-4"></a>  notp &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p</span>
-<span id="cb5-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-5"></a>  tot &lt;-<span class="st"> </span><span class="dv">0</span></span>
-<span id="cb5-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-6"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(p)) </span>
-<span id="cb5-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-7"></a>    tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>p[i] <span class="op">*</span><span class="st"> </span><span class="kw">prod</span>(notp[<span class="op">-</span>i])</span>
-<span id="cb5-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-8"></a>  <span class="kw">return</span>(tot)</span>
-<span id="cb5-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-9"></a>}</span>
-<span id="cb5-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-10"></a></span>
-<span id="cb5-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-11"></a><span class="co"># test</span></span>
-<span id="cb5-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-12"></a><span class="kw">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb5-13"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-13"></a>p &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># 0-1 사이 값 3개를 균일분포로부터 추출</span></span>
-<span id="cb5-14"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb5-14"></a><span class="kw">probability_i</span>(p)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-1"></a><span class="co"># 벡터 p에서 p_i 계산 함수</span></span>
+<span id="cb268-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-2"></a></span>
+<span id="cb268-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-3"></a>probability_i &lt;-<span class="st"> </span><span class="cf">function</span>(p) {</span>
+<span id="cb268-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-4"></a>  notp &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p</span>
+<span id="cb268-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-5"></a>  tot &lt;-<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb268-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-6"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(p)) </span>
+<span id="cb268-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-7"></a>    tot &lt;-<span class="st"> </span>tot <span class="op">+</span><span class="st"> </span>p[i] <span class="op">*</span><span class="st"> </span><span class="kw">prod</span>(notp[<span class="op">-</span>i])</span>
+<span id="cb268-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-8"></a>  <span class="kw">return</span>(tot)</span>
+<span id="cb268-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-9"></a>}</span>
+<span id="cb268-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-10"></a></span>
+<span id="cb268-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-11"></a><span class="co"># test</span></span>
+<span id="cb268-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-12"></a><span class="kw">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb268-13"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-13"></a>p &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>) <span class="co"># 0-1 사이 값 3개를 균일분포로부터 추출</span></span>
+<span id="cb268-14"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb268-14"></a><span class="kw">probability_i</span>(p)</span></code></pre></div>
 <pre><code>[1] 0.4947463</code></pre>
 <p></p>
 <p><strong>확장예제2: 누적합, 누적곱</strong></p>
 
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb7-1"></a><span class="co"># cumsum, cumprod 함수 사용 예시</span></span>
-<span id="cb7-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb7-2"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>)</span>
-<span id="cb7-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb7-3"></a><span class="kw">cumsum</span>(x); <span class="kw">cumprod</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb270-1"></a><span class="co"># cumsum, cumprod 함수 사용 예시</span></span>
+<span id="cb270-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb270-2"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>)</span>
+<span id="cb270-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb270-3"></a><span class="kw">cumsum</span>(x); <span class="kw">cumprod</span>(x)</span></code></pre></div>
 <pre><code>[1]  2  6  7 10 17 25</code></pre>
 <pre><code>[1]    2    8    8   24  168 1344</code></pre>
 <p></p>
 <p><strong>확장예제3: 최솟값, 최댓값</strong></p>
 
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb10-1"></a><span class="co"># which.min, which.max 사용 예시</span></span>
-<span id="cb10-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb10-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
-<span id="cb10-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb10-3"></a>x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">100</span>)</span>
-<span id="cb10-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb10-4"></a>idx_min &lt;-<span class="st"> </span><span class="kw">which.min</span>(x)</span>
-<span id="cb10-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb10-5"></a>x[idx_min]</span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb273-1"></a><span class="co"># which.min, which.max 사용 예시</span></span>
+<span id="cb273-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb273-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb273-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb273-3"></a>x &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">100</span>)</span>
+<span id="cb273-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb273-4"></a>idx_min &lt;-<span class="st"> </span><span class="kw">which.min</span>(x)</span>
+<span id="cb273-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb273-5"></a>x[idx_min]</span></code></pre></div>
 <pre><code>[1] 1</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb12-1"></a>idx_max &lt;-<span class="st"> </span><span class="kw">which.max</span>(x)</span>
-<span id="cb12-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb12-2"></a>x[idx_max]</span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb275-1"></a>idx_max &lt;-<span class="st"> </span><span class="kw">which.max</span>(x)</span>
+<span id="cb275-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb275-2"></a>x[idx_max]</span></code></pre></div>
 <pre><code>[1] 100</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-1"></a><span class="co"># min(), max(), pmin(), pmax() 비교</span></span>
-<span id="cb14-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-2"></a><span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb14-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-3"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
-<span id="cb14-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-4"></a>y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
-<span id="cb14-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-5"></a>z &lt;-<span class="st"> </span><span class="kw">cbind</span>(x, y)</span>
-<span id="cb14-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-6"></a></span>
-<span id="cb14-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb14-7"></a><span class="kw">min</span>(z); <span class="kw">max</span>(z) <span class="co"># z의 전체 값 중 최솟값과 최댓값 반환</span></span></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-1"></a><span class="co"># min(), max(), pmin(), pmax() 비교</span></span>
+<span id="cb277-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-2"></a><span class="kw">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb277-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-3"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb277-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-4"></a>y &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb277-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-5"></a>z &lt;-<span class="st"> </span><span class="kw">cbind</span>(x, y)</span>
+<span id="cb277-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-6"></a></span>
+<span id="cb277-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb277-7"></a><span class="kw">min</span>(z); <span class="kw">max</span>(z) <span class="co"># z의 전체 값 중 최솟값과 최댓값 반환</span></span></code></pre></div>
 <pre><code>[1] 2.2093</code></pre>
 <pre><code>[1] 3.913</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb17-1"></a><span class="kw">pmin</span>(z); <span class="kw">pmax</span>(z) <span class="co"># 아무 값을 반환하지 않음</span></span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb280-1"></a><span class="kw">pmin</span>(z); <span class="kw">pmax</span>(z) <span class="co"># 아무 값을 반환하지 않음</span></span></code></pre></div>
 <pre><code>            x        y
 [1,] 2.400429 3.402115
 [2,] 3.370437 3.055920
@@ -318,10 +318,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 [3,] 3.833752 3.615870
 [4,] 2.568799 3.913000
 [5,] 2.209300 2.220906</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb20-1"></a><span class="co"># 두 열을 비교해 각 행에서 최솟값, 최댓값을 반환</span></span>
-<span id="cb20-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb20-2"></a><span class="kw">pmin</span>(z[, <span class="dv">1</span>], z[, <span class="dv">2</span>]) </span></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb283-1"></a><span class="co"># 두 열을 비교해 각 행에서 최솟값, 최댓값을 반환</span></span>
+<span id="cb283-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb283-2"></a><span class="kw">pmin</span>(z[, <span class="dv">1</span>], z[, <span class="dv">2</span>]) </span></code></pre></div>
 <pre><code>[1] 2.400429 3.055920 3.615870 2.568799 2.209300</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb22-1"></a><span class="kw">pmax</span>(z[, <span class="dv">1</span>], z[, <span class="dv">2</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb285-1"></a><span class="kw">pmax</span>(z[, <span class="dv">1</span>], z[, <span class="dv">2</span>])</span></code></pre></div>
 <pre><code>[1] 3.402115 3.370437 3.833752 3.913000 2.220906</code></pre>
 <p></p>
 <p><strong>확장예제4: 미분/적분</strong></p>
@@ -329,28 +329,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>문자의 미분 및 수치 적분 가능</li>
 </ul>
 
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-1"></a><span class="co"># 도함수 구하기</span></span>
-<span id="cb24-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-2"></a><span class="co">## D() 함수 사용</span></span>
-<span id="cb24-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-3"></a>dx &lt;-<span class="st"> </span><span class="kw">D</span>(<span class="kw">expression</span>(<span class="kw">exp</span>(x<span class="op">^</span><span class="dv">2</span>)), <span class="st">&quot;x&quot;</span>) <span class="co"># exp(x^2)을 x에 대해서 1차 미분한 도함수</span></span>
-<span id="cb24-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-4"></a><span class="kw">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb24-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-5"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb24-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb24-6"></a><span class="kw">eval</span>(dx) <span class="co"># 위 입력한 x에 대한 도함수 값 출력</span></span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-1"></a><span class="co"># 도함수 구하기</span></span>
+<span id="cb287-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-2"></a><span class="co">## D() 함수 사용</span></span>
+<span id="cb287-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-3"></a>dx &lt;-<span class="st"> </span><span class="kw">D</span>(<span class="kw">expression</span>(<span class="kw">exp</span>(x<span class="op">^</span><span class="dv">2</span>)), <span class="st">&quot;x&quot;</span>) <span class="co"># exp(x^2)을 x에 대해서 1차 미분한 도함수</span></span>
+<span id="cb287-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-4"></a><span class="kw">set.seed</span>(<span class="dv">3</span>)</span>
+<span id="cb287-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-5"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb287-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb287-6"></a><span class="kw">eval</span>(dx) <span class="co"># 위 입력한 x에 대한 도함수 값 출력</span></span></code></pre></div>
 <pre><code>[1]  9.141245 94.842390 18.856751</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb26-1"></a><span class="co">## deriv() 함수 사용</span></span>
-<span id="cb26-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb26-2"></a>grad &lt;-<span class="st"> </span><span class="kw">D</span>(<span class="kw">expression</span>(x<span class="op">*</span><span class="kw">sin</span>(x)), <span class="st">&quot;x&quot;</span>)</span>
-<span id="cb26-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb26-3"></a><span class="co"># 도함수를 R의 function으로 바로 반환 가능</span></span>
-<span id="cb26-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb26-4"></a>dx2 &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="kw">expression</span>(x<span class="op">*</span><span class="kw">sin</span>(x)), <span class="st">&quot;x&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>) </span>
-<span id="cb26-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb26-5"></a><span class="kw">dx2</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb289-1"></a><span class="co">## deriv() 함수 사용</span></span>
+<span id="cb289-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb289-2"></a>grad &lt;-<span class="st"> </span><span class="kw">D</span>(<span class="kw">expression</span>(x<span class="op">*</span><span class="kw">sin</span>(x)), <span class="st">&quot;x&quot;</span>)</span>
+<span id="cb289-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb289-3"></a><span class="co"># 도함수를 R의 function으로 바로 반환 가능</span></span>
+<span id="cb289-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb289-4"></a>dx2 &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="kw">expression</span>(x<span class="op">*</span><span class="kw">sin</span>(x)), <span class="st">&quot;x&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>) </span>
+<span id="cb289-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb289-5"></a><span class="kw">dx2</span>(x)</span></code></pre></div>
 <pre><code>[1] 1.074580 1.757109 1.361092
 attr(,&quot;gradient&quot;)
              x
 [1,] 1.3778035
 [2,] 0.5482219
 [3,] 1.2386966</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb28-1"></a><span class="co"># 수치 적분</span></span>
-<span id="cb28-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb28-2"></a><span class="co">## integrate() 함수 사용</span></span>
-<span id="cb28-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb28-3"></a><span class="co">## 주어진 함수의 적분식을 구한 후, 입력 구간에 대한 적분값 계산</span></span>
-<span id="cb28-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb28-4"></a><span class="kw">integrate</span>(<span class="dt">f =</span> <span class="cf">function</span>(x) x<span class="op">^</span><span class="dv">2</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb291-1"></a><span class="co"># 수치 적분</span></span>
+<span id="cb291-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb291-2"></a><span class="co">## integrate() 함수 사용</span></span>
+<span id="cb291-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb291-3"></a><span class="co">## 주어진 함수의 적분식을 구한 후, 입력 구간에 대한 적분값 계산</span></span>
+<span id="cb291-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb291-4"></a><span class="kw">integrate</span>(<span class="dt">f =</span> <span class="cf">function</span>(x) x<span class="op">^</span><span class="dv">2</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>0.3333333 with absolute error &lt; 3.7e-15</code></pre>
 <p></p>
 <p><strong>확장예제 응용: Newton-Raphson method</strong></p>
@@ -443,43 +443,43 @@ f(x) = f&#39;(x_0)(x - x_0) + f(x_0)
 
 <p></p>
 
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-1"></a>newton_raphson &lt;-<span class="st"> </span><span class="cf">function</span>(FUN, <span class="co"># 함수</span></span>
-<span id="cb30-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-2"></a>                           <span class="dt">x0 =</span> <span class="dv">1</span>, <span class="co"># 초기값</span></span>
-<span id="cb30-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-3"></a>                           <span class="dt">max_iters =</span> <span class="dv">5000</span>, <span class="co"># 최대 반복 횟수</span></span>
-<span id="cb30-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-4"></a>                           <span class="dt">tol =</span> <span class="fl">1.0e-9</span>, </span>
-<span id="cb30-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-5"></a>                           <span class="dt">range =</span> <span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>), </span>
-<span id="cb30-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-6"></a>                           ...) </span>
-<span id="cb30-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-7"></a>{</span>
-<span id="cb30-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-8"></a> iters &lt;-<span class="st"> </span><span class="dv">1</span>;</span>
-<span id="cb30-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-9"></a> grads &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="kw">as.expression</span>(<span class="kw">body</span>(FUN)), <span class="st">&quot;x&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb30-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-10"></a> <span class="co"># grads 반환값 중 &quot;gradient&quot; 값 = f&#39;(x0)</span></span>
-<span id="cb30-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-11"></a> gap &lt;-<span class="st"> </span>x0 <span class="op">-</span><span class="st"> </span><span class="kw">FUN</span>(x0)<span class="op">/</span><span class="kw">attr</span>(<span class="kw">grads</span>(x0), <span class="st">&quot;gradient&quot;</span>) </span>
-<span id="cb30-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-12"></a> </span>
-<span id="cb30-13"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-13"></a> <span class="cf">while</span>(iters <span class="op">&lt;</span><span class="st"> </span>max_iters <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(gap) <span class="op">&gt;</span><span class="st"> </span>tol) {</span>
-<span id="cb30-14"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-14"></a>   <span class="co"># x_new 계산 </span></span>
-<span id="cb30-15"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-15"></a>   x_new &lt;-<span class="st"> </span>x0 <span class="op">-</span><span class="st"> </span><span class="kw">FUN</span>(x0)<span class="op">/</span><span class="kw">attr</span>(<span class="kw">grads</span>(x0), <span class="st">&quot;gradient&quot;</span>)</span>
-<span id="cb30-16"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-16"></a>   gap &lt;-<span class="st"> </span><span class="kw">FUN</span>(x_new) </span>
-<span id="cb30-17"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-17"></a>   <span class="co"># x_new 가 범위를 벗어난 경우 처리</span></span>
-<span id="cb30-18"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-18"></a>   <span class="cf">if</span> (x_new <span class="op">&lt;=</span><span class="st"> </span>range[<span class="dv">1</span>]) x_new &lt;-<span class="st"> </span>range[<span class="dv">1</span>] </span>
-<span id="cb30-19"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-19"></a>   <span class="cf">if</span> (x_new <span class="op">&gt;=</span><span class="st"> </span>range[<span class="dv">2</span>]) x_new &lt;-<span class="st"> </span>range[<span class="dv">2</span>]</span>
-<span id="cb30-20"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-20"></a>   iters &lt;-<span class="st"> </span>iters <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb30-21"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-21"></a>   x0 &lt;-<span class="st"> </span>x_new <span class="co"># 초기값 업데이트</span></span>
-<span id="cb30-22"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-22"></a> }</span>
-<span id="cb30-23"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-23"></a> </span>
-<span id="cb30-24"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-24"></a> <span class="cf">if</span> (x_new <span class="op">==</span><span class="st"> </span>range[<span class="dv">1</span>] <span class="op">|</span><span class="st"> </span>x_new <span class="op">==</span><span class="st"> </span>range[<span class="dv">2</span>]) </span>
-<span id="cb30-25"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-25"></a>   <span class="kw">warning</span>(<span class="st">&quot;마지막 점이 x 범위의 경계선 상에 있습니다.&quot;</span>)</span>
-<span id="cb30-26"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-26"></a> <span class="cf">if</span> (iters <span class="op">&gt;</span><span class="st"> </span>max_iters) </span>
-<span id="cb30-27"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-27"></a>   <span class="kw">warning</span>(<span class="st">&quot;최대 반복 때 까지 해를 찾지 못했습니다.&quot;</span>)</span>
-<span id="cb30-28"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-28"></a> <span class="kw">cat</span>(<span class="st">&quot;x 가&quot;</span>, x_new, <span class="st">&quot;일 때 함수값:&quot;</span>, <span class="kw">FUN</span>(x_new), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb30-29"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-29"></a> <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">solution =</span> x_new, <span class="dt">iteration =</span> iters))</span>
-<span id="cb30-30"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-30"></a> </span>
-<span id="cb30-31"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-31"></a>}</span>
-<span id="cb30-32"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-32"></a></span>
-<span id="cb30-33"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-33"></a><span class="co">## test: 위 동영상과 동일한 해를 갖는지 확인</span></span>
-<span id="cb30-34"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-34"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="dv">5</span> <span class="op">*</span><span class="st"> </span>x<span class="op">^</span><span class="dv">3</span> <span class="op">-</span><span class="st"> </span><span class="dv">7</span> <span class="op">*</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">40</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">100</span> </span>
-<span id="cb30-35"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-35"></a><span class="kw">newton_raphson</span>(<span class="dt">FUN =</span> f, </span>
-<span id="cb30-36"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-36"></a>               <span class="dt">x0 =</span> <span class="dv">1</span>,</span>
-<span id="cb30-37"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb30-37"></a>               <span class="dt">range =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>)) -&gt;<span class="st"> </span>sols</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-1"></a>newton_raphson &lt;-<span class="st"> </span><span class="cf">function</span>(FUN, <span class="co"># 함수</span></span>
+<span id="cb293-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-2"></a>                           <span class="dt">x0 =</span> <span class="dv">1</span>, <span class="co"># 초기값</span></span>
+<span id="cb293-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-3"></a>                           <span class="dt">max_iters =</span> <span class="dv">5000</span>, <span class="co"># 최대 반복 횟수</span></span>
+<span id="cb293-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-4"></a>                           <span class="dt">tol =</span> <span class="fl">1.0e-9</span>, </span>
+<span id="cb293-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-5"></a>                           <span class="dt">range =</span> <span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="ot">Inf</span>), </span>
+<span id="cb293-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-6"></a>                           ...) </span>
+<span id="cb293-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-7"></a>{</span>
+<span id="cb293-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-8"></a> iters &lt;-<span class="st"> </span><span class="dv">1</span>;</span>
+<span id="cb293-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-9"></a> grads &lt;-<span class="st"> </span><span class="kw">deriv</span>(<span class="kw">as.expression</span>(<span class="kw">body</span>(FUN)), <span class="st">&quot;x&quot;</span>, <span class="dt">function.arg =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb293-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-10"></a> <span class="co"># grads 반환값 중 &quot;gradient&quot; 값 = f&#39;(x0)</span></span>
+<span id="cb293-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-11"></a> gap &lt;-<span class="st"> </span>x0 <span class="op">-</span><span class="st"> </span><span class="kw">FUN</span>(x0)<span class="op">/</span><span class="kw">attr</span>(<span class="kw">grads</span>(x0), <span class="st">&quot;gradient&quot;</span>) </span>
+<span id="cb293-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-12"></a> </span>
+<span id="cb293-13"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-13"></a> <span class="cf">while</span>(iters <span class="op">&lt;</span><span class="st"> </span>max_iters <span class="op">&amp;</span><span class="st"> </span><span class="kw">abs</span>(gap) <span class="op">&gt;</span><span class="st"> </span>tol) {</span>
+<span id="cb293-14"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-14"></a>   <span class="co"># x_new 계산 </span></span>
+<span id="cb293-15"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-15"></a>   x_new &lt;-<span class="st"> </span>x0 <span class="op">-</span><span class="st"> </span><span class="kw">FUN</span>(x0)<span class="op">/</span><span class="kw">attr</span>(<span class="kw">grads</span>(x0), <span class="st">&quot;gradient&quot;</span>)</span>
+<span id="cb293-16"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-16"></a>   gap &lt;-<span class="st"> </span><span class="kw">FUN</span>(x_new) </span>
+<span id="cb293-17"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-17"></a>   <span class="co"># x_new 가 범위를 벗어난 경우 처리</span></span>
+<span id="cb293-18"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-18"></a>   <span class="cf">if</span> (x_new <span class="op">&lt;=</span><span class="st"> </span>range[<span class="dv">1</span>]) x_new &lt;-<span class="st"> </span>range[<span class="dv">1</span>] </span>
+<span id="cb293-19"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-19"></a>   <span class="cf">if</span> (x_new <span class="op">&gt;=</span><span class="st"> </span>range[<span class="dv">2</span>]) x_new &lt;-<span class="st"> </span>range[<span class="dv">2</span>]</span>
+<span id="cb293-20"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-20"></a>   iters &lt;-<span class="st"> </span>iters <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb293-21"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-21"></a>   x0 &lt;-<span class="st"> </span>x_new <span class="co"># 초기값 업데이트</span></span>
+<span id="cb293-22"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-22"></a> }</span>
+<span id="cb293-23"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-23"></a> </span>
+<span id="cb293-24"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-24"></a> <span class="cf">if</span> (x_new <span class="op">==</span><span class="st"> </span>range[<span class="dv">1</span>] <span class="op">|</span><span class="st"> </span>x_new <span class="op">==</span><span class="st"> </span>range[<span class="dv">2</span>]) </span>
+<span id="cb293-25"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-25"></a>   <span class="kw">warning</span>(<span class="st">&quot;마지막 점이 x 범위의 경계선 상에 있습니다.&quot;</span>)</span>
+<span id="cb293-26"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-26"></a> <span class="cf">if</span> (iters <span class="op">&gt;</span><span class="st"> </span>max_iters) </span>
+<span id="cb293-27"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-27"></a>   <span class="kw">warning</span>(<span class="st">&quot;최대 반복 때 까지 해를 찾지 못했습니다.&quot;</span>)</span>
+<span id="cb293-28"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-28"></a> <span class="kw">cat</span>(<span class="st">&quot;x 가&quot;</span>, x_new, <span class="st">&quot;일 때 함수값:&quot;</span>, <span class="kw">FUN</span>(x_new), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb293-29"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-29"></a> <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">solution =</span> x_new, <span class="dt">iteration =</span> iters))</span>
+<span id="cb293-30"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-30"></a> </span>
+<span id="cb293-31"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-31"></a>}</span>
+<span id="cb293-32"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-32"></a></span>
+<span id="cb293-33"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-33"></a><span class="co">## test: 위 동영상과 동일한 해를 갖는지 확인</span></span>
+<span id="cb293-34"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-34"></a>f &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="dv">5</span> <span class="op">*</span><span class="st"> </span>x<span class="op">^</span><span class="dv">3</span> <span class="op">-</span><span class="st"> </span><span class="dv">7</span> <span class="op">*</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">40</span> <span class="op">*</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">100</span> </span>
+<span id="cb293-35"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-35"></a><span class="kw">newton_raphson</span>(<span class="dt">FUN =</span> f, </span>
+<span id="cb293-36"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-36"></a>               <span class="dt">x0 =</span> <span class="dv">1</span>,</span>
+<span id="cb293-37"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb293-37"></a>               <span class="dt">range =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>)) -&gt;<span class="st"> </span>sols</span></code></pre></div>
 <pre><code>x 가 -3.151719 일 때 함수값: -3.547029e-11 </code></pre>
 <p></p>
 
@@ -707,37 +707,37 @@ lambda (<span class="math inline">\(\lambda\)</span>)
 
 <p><strong>예제: 확률 분포 함수</strong></p>
 
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-1"></a><span class="co">## 카이제곱분포 </span></span>
-<span id="cb32-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-2"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</span>
-<span id="cb32-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-3"></a>y &lt;-<span class="st"> </span><span class="kw">dchisq</span>(x, <span class="dt">df =</span> <span class="dv">3</span>) <span class="co"># 자유도가 3인 카이제곱분포 밀도 함수</span></span>
-<span id="cb32-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-4"></a><span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</span>
-<span id="cb32-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-5"></a>     <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
-<span id="cb32-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-6"></a>     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
-<span id="cb32-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-7"></a>     <span class="dt">main =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;PDF of &quot;</span>, <span class="op">~</span>chi<span class="op">^</span><span class="dv">2</span>, <span class="st">&quot; distribution&quot;</span>)), </span>
-<span id="cb32-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-8"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
-<span id="cb32-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-9"></a>     <span class="dt">cex.main =</span> <span class="dv">2</span>)</span>
-<span id="cb32-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-10"></a></span>
-<span id="cb32-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-11"></a><span class="co"># P(5 &lt; V &lt; 10)</span></span>
-<span id="cb32-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb32-12"></a><span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(<span class="dv">5</span>, <span class="dt">df =</span> <span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-1"></a><span class="co">## 카이제곱분포 </span></span>
+<span id="cb295-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-2"></a>x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">30</span>, <span class="dt">by =</span> <span class="fl">0.1</span>)</span>
+<span id="cb295-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-3"></a>y &lt;-<span class="st"> </span><span class="kw">dchisq</span>(x, <span class="dt">df =</span> <span class="dv">3</span>) <span class="co"># 자유도가 3인 카이제곱분포 밀도 함수</span></span>
+<span id="cb295-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-4"></a><span class="kw">plot</span>(x, y, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</span>
+<span id="cb295-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-5"></a>     <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb295-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-6"></a>     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, </span>
+<span id="cb295-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-7"></a>     <span class="dt">main =</span> <span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&quot;PDF of &quot;</span>, <span class="op">~</span>chi<span class="op">^</span><span class="dv">2</span>, <span class="st">&quot; distribution&quot;</span>)), </span>
+<span id="cb295-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-8"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb295-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-9"></a>     <span class="dt">cex.main =</span> <span class="dv">2</span>)</span>
+<span id="cb295-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-10"></a></span>
+<span id="cb295-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-11"></a><span class="co"># P(5 &lt; V &lt; 10)</span></span>
+<span id="cb295-12"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb295-12"></a><span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(<span class="dv">5</span>, <span class="dt">df =</span> <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>[1] 0.153231</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-1"></a><span class="co">## 그림에 표현</span></span>
-<span id="cb34-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-2"></a>idx &lt;-<span class="st"> </span>x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span></span>
-<span id="cb34-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-3"></a><span class="kw">polygon</span>(<span class="kw">c</span>(<span class="dv">5</span>, x[idx], <span class="dv">10</span>), </span>
-<span id="cb34-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-4"></a>        <span class="kw">c</span>(<span class="dv">0</span>, y[idx], <span class="dv">0</span>), </span>
-<span id="cb34-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-5"></a>        <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
-<span id="cb34-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-6"></a>        <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb34-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-7"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
-<span id="cb34-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-8"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">cex =</span> <span class="dv">2</span>, </span>
-<span id="cb34-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-9"></a>     <span class="kw">bquote</span>(<span class="kw">P</span>({<span class="dv">5</span> <span class="op">&lt;=</span><span class="st"> </span>V} <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span> ) <span class="op">==</span></span>
-<span id="cb34-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-10"></a><span class="st">              </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, <span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(<span class="dv">5</span>, <span class="dt">df =</span> <span class="dv">3</span>)))),</span>
-<span id="cb34-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb34-11"></a>     <span class="dt">adj =</span> <span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-1"></a><span class="co">## 그림에 표현</span></span>
+<span id="cb297-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-2"></a>idx &lt;-<span class="st"> </span>x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span> <span class="op">&amp;</span><span class="st"> </span>x <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span></span>
+<span id="cb297-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-3"></a><span class="kw">polygon</span>(<span class="kw">c</span>(<span class="dv">5</span>, x[idx], <span class="dv">10</span>), </span>
+<span id="cb297-4"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-4"></a>        <span class="kw">c</span>(<span class="dv">0</span>, y[idx], <span class="dv">0</span>), </span>
+<span id="cb297-5"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-5"></a>        <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb297-6"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-6"></a>        <span class="dt">border =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb297-7"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-7"></a><span class="kw">abline</span>(<span class="dt">h =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb297-8"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-8"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">10</span>, <span class="dt">y =</span> <span class="fl">0.05</span>, <span class="dt">cex =</span> <span class="dv">2</span>, </span>
+<span id="cb297-9"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-9"></a>     <span class="kw">bquote</span>(<span class="kw">P</span>({<span class="dv">5</span> <span class="op">&lt;=</span><span class="st"> </span>V} <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span> ) <span class="op">==</span></span>
+<span id="cb297-10"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-10"></a><span class="st">              </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, <span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>) <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(<span class="dv">5</span>, <span class="dt">df =</span> <span class="dv">3</span>)))),</span>
+<span id="cb297-11"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb297-11"></a>     <span class="dt">adj =</span> <span class="dv">0</span>)</span></code></pre></div>
 <p><img src="03-simulation_files/figure-html/unnamed-chunk-16-1.svg" width="672" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb35-1"></a><span class="co"># 분위수</span></span>
-<span id="cb35-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb35-2"></a><span class="kw">qchisq</span>(<span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>), <span class="dt">df =</span> <span class="dv">3</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb298-1"></a><span class="co"># 분위수</span></span>
+<span id="cb298-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb298-2"></a><span class="kw">qchisq</span>(<span class="kw">pchisq</span>(<span class="dv">10</span>, <span class="dt">df =</span> <span class="dv">3</span>), <span class="dt">df =</span> <span class="dv">3</span>) </span></code></pre></div>
 <pre><code>[1] 10</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb37-1"></a><span class="co"># 난수 생성</span></span>
-<span id="cb37-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb37-2"></a>v &lt;-<span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1000</span>, <span class="dt">df =</span> <span class="dv">3</span>)</span>
-<span id="cb37-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb37-3"></a><span class="kw">mean</span>(v) <span class="co"># 카이제곱분포의 평균은 이론적으로 자유도 값과 같음 </span></span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb300-1"></a><span class="co"># 난수 생성</span></span>
+<span id="cb300-2"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb300-2"></a>v &lt;-<span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">1000</span>, <span class="dt">df =</span> <span class="dv">3</span>)</span>
+<span id="cb300-3"><a href="통계-시뮬레이션에-활용되는-수학-함수-및-분포-함수.html#cb300-3"></a><span class="kw">mean</span>(v) <span class="co"># 카이제곱분포의 평균은 이론적으로 자유도 값과 같음 </span></span></code></pre></div>
 <pre><code>[1] 2.994</code></pre>
 
 <!-- $$\frac{1}{\sqrt{2\pi}\sigma}\exp \left\{-\frac{(x - \mu)^2}{2\sigma^2} \right \}$$ -->

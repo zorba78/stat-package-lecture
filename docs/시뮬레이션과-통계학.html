@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-07" />
+<meta name="date" content="2020-11-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -230,7 +230,312 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="기초-통계학review" class="section level3">
 <h3><span class="header-section-number">3.5.1</span> 기초 통계학(review)</h3>
-<p><strong>중요 용어</strong></p>
+<div id="stat-review-ex" class="section level4 unnumbered">
+<h4><strong>혈압강하제 임상시험</strong></h4>
+
+
+<div class="rmdnote">
+<p><strong>DBP.txt</strong>: 통계패키지활용 <a href="https://github.com/zorba78/stat-package-lecture/data/DBP.txt">Github 저장소</a>에서 데이터 확인 가능</p>
+<ul>
+<li>1960년대 중반 미국에서 실시한 고혈압 치료제 유효성 확인을 위한 임상시험 결과 데이터</li>
+<li>총 40명의 고혈압 환자를 대상으로 임상시험을 실시했으며, 랜덤하게 환자를 고혈압 치료제 투여군(A)과 위약군(B)에 균등하게 배정</li>
+<li>기처지(baseline, <code>DBP1</code>) 측정 이후 월 단위로 4 번 이완기 혈압(diastolic blood pressure, DBP)을 측정(<code>DBP2</code> ~ <code>DBP5</code>)</li>
+<li>유효성 평가는 기저치 대비 투약 4 개월 후 DBP의 변화(감소)량(<code>d = DBP5 - DBP1</code>)이 두 군간 차이를 보이는지…</li>
+</ul>
+</div>
+
+
+<ul>
+<li>데이터 요약</li>
+</ul>
+
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="시뮬레이션과-통계학.html#cb363-1"></a><span class="co"># 데이터 불러오기</span></span>
+<span id="cb363-2"><a href="시뮬레이션과-통계학.html#cb363-2"></a>DBP &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;data/DBP.txt&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>Parsed with column specification:
+cols(
+  Subject = col_double(),
+  TRT = col_character(),
+  DBP1 = col_double(),
+  DBP2 = col_double(),
+  DBP3 = col_double(),
+  DBP4 = col_double(),
+  DBP5 = col_double(),
+  Age = col_double(),
+  Sex = col_character()
+)</code></pre>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="시뮬레이션과-통계학.html#cb365-1"></a><span class="co"># 변화량 변수 추기</span></span>
+<span id="cb365-2"><a href="시뮬레이션과-통계학.html#cb365-2"></a>DBP &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb365-3"><a href="시뮬레이션과-통계학.html#cb365-3"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">DIFF =</span> DBP5 <span class="op">-</span><span class="st"> </span>DBP1)</span>
+<span id="cb365-4"><a href="시뮬레이션과-통계학.html#cb365-4"></a></span>
+<span id="cb365-5"><a href="시뮬레이션과-통계학.html#cb365-5"></a><span class="co"># 각 투약군 별 변화량 측정값</span></span>
+<span id="cb365-6"><a href="시뮬레이션과-통계학.html#cb365-6"></a>DBP<span class="op">$</span>DIFF[DBP<span class="op">$</span>TRT <span class="op">==</span><span class="st"> &quot;A&quot;</span>]</span></code></pre></div>
+<pre><code> [1]  -9 -15 -21 -14 -11 -15 -19 -18 -11 -18 -16 -14 -15 -19 -13 -14 -15 -17 -14
+[20] -16</code></pre>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="시뮬레이션과-통계학.html#cb367-1"></a>DBP<span class="op">$</span>DIFF[DBP<span class="op">$</span>TRT <span class="op">==</span><span class="st"> &quot;B&quot;</span>]</span></code></pre></div>
+<pre><code> [1] -1 -6 -5  1 -7 -4 -4 -6 -6 -7 -2 -8 -6 -5 -6 -8 -7 -4 -2 -3</code></pre>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="시뮬레이션과-통계학.html#cb369-1"></a><span class="co"># 요약 통계량</span></span>
+<span id="cb369-2"><a href="시뮬레이션과-통계학.html#cb369-2"></a>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb369-3"><a href="시뮬레이션과-통계학.html#cb369-3"></a><span class="st">  </span><span class="kw">group_by</span>(TRT) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb369-4"><a href="시뮬레이션과-통계학.html#cb369-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">N =</span> <span class="kw">n</span>(), </span>
+<span id="cb369-5"><a href="시뮬레이션과-통계학.html#cb369-5"></a>            <span class="dt">Mean =</span> <span class="kw">mean</span>(DIFF, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb369-6"><a href="시뮬레이션과-통계학.html#cb369-6"></a>            <span class="dt">SD =</span> <span class="kw">sd</span>(DIFF, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb369-7"><a href="시뮬레이션과-통계학.html#cb369-7"></a>            <span class="dt">Min =</span> <span class="kw">min</span>(DIFF, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb369-8"><a href="시뮬레이션과-통계학.html#cb369-8"></a>            <span class="dt">Max =</span> <span class="kw">max</span>(DIFF, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb369-9"><a href="시뮬레이션과-통계학.html#cb369-9"></a>            <span class="dt">Median =</span> <span class="kw">median</span>(DIFF, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>), </span>
+<span id="cb369-10"><a href="시뮬레이션과-통계학.html#cb369-10"></a>            <span class="dt">Q1 =</span> <span class="kw">quantile</span>(DIFF, <span class="dt">probs =</span> <span class="fl">0.25</span>), </span>
+<span id="cb369-11"><a href="시뮬레이션과-통계학.html#cb369-11"></a>            <span class="dt">Q3 =</span> <span class="kw">quantile</span>(DIFF, <span class="dt">probs =</span> <span class="fl">0.75</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb369-12"><a href="시뮬레이션과-통계학.html#cb369-12"></a><span class="st">  </span>kbl <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb369-13"><a href="시뮬레이션과-통계학.html#cb369-13"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+TRT
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+SD
+</th>
+<th style="text-align:right;">
+Min
+</th>
+<th style="text-align:right;">
+Max
+</th>
+<th style="text-align:right;">
+Median
+</th>
+<th style="text-align:right;">
+Q1
+</th>
+<th style="text-align:right;">
+Q3
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+-15.2
+</td>
+<td style="text-align:right;">
+2.966479
+</td>
+<td style="text-align:right;">
+-21
+</td>
+<td style="text-align:right;">
+-9
+</td>
+<td style="text-align:right;">
+-15.0
+</td>
+<td style="text-align:right;">
+-17.25
+</td>
+<td style="text-align:right;">
+-14.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+-4.8
+</td>
+<td style="text-align:right;">
+2.419221
+</td>
+<td style="text-align:right;">
+-8
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+-5.5
+</td>
+<td style="text-align:right;">
+-6.25
+</td>
+<td style="text-align:right;">
+-3.75
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>데이터 시각화</li>
+</ul>
+
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="시뮬레이션과-통계학.html#cb371-1"></a><span class="co"># 변화량 데이터의 분포 확인(치료약에 대해서)</span></span>
+<span id="cb371-2"><a href="시뮬레이션과-통계학.html#cb371-2"></a><span class="co">## ggplot 사용</span></span>
+<span id="cb371-3"><a href="시뮬레이션과-통계학.html#cb371-3"></a><span class="co"># require(tidyverse)</span></span>
+<span id="cb371-4"><a href="시뮬레이션과-통계학.html#cb371-4"></a><span class="kw">require</span>(ggpubr)</span>
+<span id="cb371-5"><a href="시뮬레이션과-통계학.html#cb371-5"></a></span>
+<span id="cb371-6"><a href="시뮬레이션과-통계학.html#cb371-6"></a>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb371-7"><a href="시뮬레이션과-통계학.html#cb371-7"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-8"><a href="시뮬레이션과-통계학.html#cb371-8"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> DIFF, <span class="dt">fill =</span> TRT) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-9"><a href="시뮬레이션과-통계학.html#cb371-9"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb371-10"><a href="시뮬레이션과-통계학.html#cb371-10"></a>               <span class="dt">alpha =</span> <span class="fl">0.2</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-11"><a href="시뮬레이션과-통계학.html#cb371-11"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">25</span>, <span class="dv">5</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-12"><a href="시뮬레이션과-통계학.html#cb371-12"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="kw">aes</span>(<span class="dt">y =</span> ..density..), </span>
+<span id="cb371-13"><a href="시뮬레이션과-통계학.html#cb371-13"></a>                 <span class="dt">color =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb371-14"><a href="시뮬레이션과-통계학.html#cb371-14"></a>                 <span class="dt">binwidth =</span> <span class="fl">1.8</span>, <span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-15"><a href="시뮬레이션과-통계학.html#cb371-15"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-16"><a href="시뮬레이션과-통계학.html#cb371-16"></a><span class="st">  </span><span class="kw">theme_minimal</span>() -&gt;<span class="st"> </span>p1</span>
+<span id="cb371-17"><a href="시뮬레이션과-통계학.html#cb371-17"></a></span>
+<span id="cb371-18"><a href="시뮬레이션과-통계학.html#cb371-18"></a>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb371-19"><a href="시뮬레이션과-통계학.html#cb371-19"></a><span class="st">  </span><span class="kw">ggplot</span>() <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-20"><a href="시뮬레이션과-통계학.html#cb371-20"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> TRT, <span class="dt">y =</span> DIFF, <span class="dt">fill =</span> TRT) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-21"><a href="시뮬레이션과-통계학.html#cb371-21"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">alpha =</span> <span class="fl">0.4</span>) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-22"><a href="시뮬레이션과-통계학.html#cb371-22"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;blue&quot;</span>)) <span class="op">+</span><span class="st"> </span></span>
+<span id="cb371-23"><a href="시뮬레이션과-통계학.html#cb371-23"></a><span class="st">  </span><span class="kw">theme_minimal</span>() -&gt;<span class="st"> </span>p2</span>
+<span id="cb371-24"><a href="시뮬레이션과-통계학.html#cb371-24"></a></span>
+<span id="cb371-25"><a href="시뮬레이션과-통계학.html#cb371-25"></a><span class="co"># 두 개 플롯을 한 화면에 표시하기 위한 함수</span></span>
+<span id="cb371-26"><a href="시뮬레이션과-통계학.html#cb371-26"></a><span class="kw">ggarrange</span>(p1, p2, <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">common.legend =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-42-1.svg" width="672" /></p>
+
+<p><strong>위 데이터로부터 어떤 결론을 도출할 수 있을까?</strong></p>
+<blockquote>
+<ol style="list-style-type: decimal">
+<li>혈압치료제 A는 4 개월 복용 후 DBP를 감소시키는가?</li>
+<li>위약 B를 4 개월 복용 후에도 DBP를 감소 시키는가?</li>
+<li>치료약 A는 위약 B보다 효과가 있는가?</li>
+<li>위약 대비 치료약 A의 효과는 어느 정도인가?</li>
+<li>다른 고혈압 환자가 치료제 A를 복용하면 어떤 효과가 있을까?</li>
+</ol>
+</blockquote>
+
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="시뮬레이션과-통계학.html#cb372-1"></a><span class="kw">require</span>(tidymodels)</span>
+<span id="cb372-2"><a href="시뮬레이션과-통계학.html#cb372-2"></a><span class="co"># Question 1-2: 일표본 t 검정</span></span>
+<span id="cb372-3"><a href="시뮬레이션과-통계학.html#cb372-3"></a>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-4"><a href="시뮬레이션과-통계학.html#cb372-4"></a><span class="st">  </span><span class="kw">mutate_if</span>(is.character, factor) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-5"><a href="시뮬레이션과-통계학.html#cb372-5"></a><span class="st">  </span><span class="kw">group_by</span>(TRT) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-6"><a href="시뮬레이션과-통계학.html#cb372-6"></a><span class="st">  </span>nest <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># group 변수 별로 데이터 나누기</span></span>
+<span id="cb372-7"><a href="시뮬레이션과-통계학.html#cb372-7"></a><span class="st">  </span><span class="co"># split한 데이터셋 각각에 일표본 t-검정 실시</span></span>
+<span id="cb372-8"><a href="시뮬레이션과-통계학.html#cb372-8"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">t_test_result =</span> <span class="kw">map</span>(data,  <span class="op">~</span><span class="st"> </span><span class="kw">t.test</span>(.x<span class="op">$</span>DIFF))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-9"><a href="시뮬레이션과-통계학.html#cb372-9"></a><span class="st">  </span><span class="co"># ttest 결과로부터 통계량 추출 후 tibble로 변환</span></span>
+<span id="cb372-10"><a href="시뮬레이션과-통계학.html#cb372-10"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">result =</span> <span class="kw">map</span>(t_test_result, <span class="op">~</span><span class="st"> </span><span class="kw">tidy</span>(.x))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-11"><a href="시뮬레이션과-통계학.html#cb372-11"></a><span class="st">  </span><span class="kw">select</span>(TRT, result) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-12"><a href="시뮬레이션과-통계학.html#cb372-12"></a><span class="st">  </span><span class="kw">unnest</span>(<span class="dt">cols =</span> result) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-13"><a href="시뮬레이션과-통계학.html#cb372-13"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(statistic, conf.low, conf.high), </span>
+<span id="cb372-14"><a href="시뮬레이션과-통계학.html#cb372-14"></a>            format, <span class="dt">digits =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-15"><a href="시뮬레이션과-통계학.html#cb372-15"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">p.value =</span> <span class="kw">format</span>(p.value, <span class="dt">digits =</span> <span class="dv">2</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-16"><a href="시뮬레이션과-통계학.html#cb372-16"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>method, <span class="op">-</span>alternative) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-17"><a href="시뮬레이션과-통계학.html#cb372-17"></a><span class="st">  </span><span class="kw">set_names</span>(<span class="kw">c</span>(<span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;$</span><span class="ch">\\</span><span class="st">hat{</span><span class="ch">\\</span><span class="st">delta}$&quot;</span>, <span class="st">&quot;t-value&quot;</span>, <span class="st">&quot;p-value&quot;</span>, <span class="st">&quot;df&quot;</span>, </span>
+<span id="cb372-18"><a href="시뮬레이션과-통계학.html#cb372-18"></a>              <span class="st">&quot;LCL (95%)&quot;</span>, <span class="st">&quot;UCL (95%)&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb372-19"><a href="시뮬레이션과-통계학.html#cb372-19"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st">  </span></span>
+<span id="cb372-20"><a href="시뮬레이션과-통계학.html#cb372-20"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+Treatment
+</th>
+<th style="text-align:right;">
+<span class="math inline">\(\hat{\delta}\)</span>
+</th>
+<th style="text-align:left;">
+t-value
+</th>
+<th style="text-align:left;">
+p-value
+</th>
+<th style="text-align:right;">
+df
+</th>
+<th style="text-align:left;">
+LCL (95%)
+</th>
+<th style="text-align:left;">
+UCL (95%)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+-15.2
+</td>
+<td style="text-align:left;">
+-22.9
+</td>
+<td style="text-align:left;">
+2.6e-15
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+-16.6
+</td>
+<td style="text-align:left;">
+-13.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+-4.8
+</td>
+<td style="text-align:left;">
+-8.87
+</td>
+<td style="text-align:left;">
+3.5e-08
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+-5.93
+</td>
+<td style="text-align:left;">
+-3.67
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="시뮬레이션과-통계학.html#cb373-1"></a><span class="co"># Question 3-4: 독립 이표본 t 검정</span></span>
+<span id="cb373-2"><a href="시뮬레이션과-통계학.html#cb373-2"></a><span class="kw">t.test</span>(DIFF <span class="op">~</span><span class="st"> </span>TRT, <span class="dt">data =</span> DBP, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>
+	Two Sample t-test
+
+data:  DIFF by TRT
+t = -12.15, df = 38, p-value = 1.169e-14
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -12.132758  -8.667242
+sample estimates:
+mean in group A mean in group B 
+          -15.2            -4.8 </code></pre>
+
+</div>
+<div id="stat-review" class="section level4 unnumbered">
+<h4><strong>중요 용어</strong></h4>
 <ul>
 <li><p><strong>모집단(population)</strong>: 조사/실험/연구 등에서 관심의 대상이 되는 모든 개체의 관측값, 사건, 항목, 측정단위의 집합 <span class="math inline">\(\rightarrow\)</span> 획득한 데이터가 랜덤하게 표집되었다고 가정하는 분포 또는 집단</p>
 <ul>
@@ -241,32 +546,605 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>이항분포(binomial distribution): 성공 또는 실패 중 하나가 결과로 나오는 실험을 <span class="math inline">\(n\)</span> 번 시행했을 때 성공이 나올 확률 <span class="math inline">\(\theta\)</span></li>
 <li>정규분포(normal distribution): 평균 <span class="math inline">\(\mu\)</span>, 표준편차 <span class="math inline">\(\sigma\)</span></li>
 </ul></li>
+<li><p><strong>가설검정(hypothesis testing)</strong>: 표본으로부터 얻은 정보를 토대로 모집단에 대한 특정 가설을 받아들이거나(accept) 혹은 기각(reject)을 위한 통계적 절차</p></li>
+<li><p><strong>귀무가설(null hypothesis)</strong>: 모수에 대한 기존의 사실 또는 디폴트 값</p>
+<ul>
+<li>두 측정 변수 간 연관성이 존재하지 않음/ 두 집단 간 평균의 차이가 없음 …</li>
+<li><span class="math inline">\(H_0: \mu_X = \mu_Y\)</span>, <span class="math inline">\(\rho_{XY} = 0\)</span>, …</li>
+</ul></li>
+<li><p><strong>대립가설(alternative hypothesis)</strong>: 모수에 대해 귀무가설과 대립해 증명하고 싶은 사실 또는 연구자가 입증하고 싶어하는 가설</p>
+<ul>
+<li><span class="math inline">\(H_1: \mu_X \neq \mu_Y\)</span>, <span class="math inline">\(\rho_{XY} \neq 0\)</span></li>
+</ul></li>
+<li><p><strong>1종 오류(type I error)</strong>: 사실인 귀무가설을 기각할 사건(오류)</p></li>
+<li><p><strong>2종 오류(type II error)</strong>: 대립가설이 사실인데 이를 기각한 사건 = 귀무가설이 거짓인데 귀무가설을 기각하지 않은 사건</p></li>
+<li><p><strong>P 값(p-value)</strong>: 귀무가설이 참일 때 실제 데이터가 보여준 정도로 특이한 값이 관측될 확률 <span class="math inline">\(\rightarrow\)</span> 귀무가설 하에서 실제 데이터로부터 얻은 통계량이 관찰된 것과 같거나 그 이상의 극단적 결과를 얻을 확률 <span class="math inline">\(\rightarrow\)</span> 귀무가설이 참이라는 검정 통계량을 바탕으로 귀무가설을 기각했을 때 실제로 제 1종 오류를 범할 최대 확률</p>
+<ul>
+<li>p-value = 0.5: 귀무가설 하에서 주어진 데이터로부터 얻은 통계량보다 크거나 작은 값들이 두 번에 한 번 꼴로 관찰 <span class="math inline">\(\rightarrow\)</span> 귀무가설을 기각하기에 충분한 근거가 아님</li>
+<li>p-value = 0.0001: 귀무가설 하에서 데이터로부터 획득한 통계량만큼의 값을 관찰할 확률이 매우 낮음 <span class="math inline">\(\rightarrow\)</span> 귀무가설 기각하기에 충분한 근거</li>
+</ul></li>
 <li><p><strong>표본(sample)</strong>: 통계적 처리를 위해 임의의 모집단으로부터 관찰된 일부 관찰값 또는 측정값의 집합</p></li>
-<li><p><strong>데이터(data)</strong>: 표본을 구성하는 관찰/측정 대상에 대응하는 측정값들의 집합(보통은 2차원 테이블 형태의 행렬)</p></li>
+</ul>
+<!-- - **데이터(data)**: 표본을 구성하는 관찰/측정 대상에 대응하는 측정값들의 집합(보통은 2차원 테이블 형태의 행렬) -->
+<p><strong>용어 연결(DBP 예제)</strong></p>
+<ul>
+<li>모집단: 미국 또는 지구 상 존재하는 모든 고혈압 환자</li>
+<li>모수: 고혈압 환자에 치료약(A)와 위약(B)을 투여 했을 때, 기저치 대비 4개월 후 DBP 변화량의 평균</li>
+<li>표본: 랜덤하게 표집된 전체 40명의 고혈압 환자(각 투여군 당 20 명씩 무작위로 배정된 고혈압 환자)</li>
+<li>통계량: 각 투여군 별 기저치 대비 4개월 후 DBP 변화(감소)량의 평균</li>
+<li>귀무가설: 치료약 A와 위약 B를 투여 했을 때 두 집단 간 DBP 변화(감소)량은 차이가 없다.</li>
+<li>대립가설: 치료약 A를 투여 했을 때 DBP의 기저치 대비 변화(감소)량은 위약군에 비해 크다(같지 않다).</li>
+<li>1종 오류: 실제 치료약 A와 위약 B의 DBP 변화량이 차이가 없음에도 불구하고 차이가 있다고 결론내릴 오류</li>
+<li>2종 오류: 실제 치료약 A와 위약 B의 DBP 변화량이 차이가 있는데 이를 감지하지 못해 차이가 없다고 결론내릴 오류</li>
+<li>P 값: 실제 두 투약군 간 차이가 없을 때 데이터가 보여준 두 군간 평균 변화량이 관찰된 값 이상의 극단적 결과를 얻을 확률</li>
+</ul>
+</div>
+<div id="sampling-dist" class="section level4 unnumbered">
+<h4>표본분포</h4>
+
+
+<div class="rmdimportant">
+<p><strong>통계학의 가장 중요한 개념</strong>: 우리가 현재 관측한 데이터는 특정 모수를 갖는 모집단에서 관측될 수 있는 여러 가능한 데이터 중 하나임. 예를 들어 DBP 예제처럼 또 다른 40명을 추출해 동일한 임상시험을 진행한다고 하면 DBP 변화량은 현재 데이터와 동일한 관찰값을 가지진 않을 것임. 즉, 표본을 추출할 때 마다 표본 간 그리고 표본 내 자연스러운 변동이 존재할 것임. 빈도론적 관점에서 통계학은 모집단으로부터 각기 다른 표본(일종의 평행우주)을 무수히 많이 추출 했다고 보고 이를 일반화 하는데서 모든 추론이 시작됨.</p>
+</div>
+
+
+<ul>
 <li><p><strong>통계량(statistics)</strong>: 모수를 추정하기 위해 표본(데이터)로부터 계산된 값(일반적으로 알파벳으로 표시)</p>
 <ul>
 <li>표본평균 <span class="math inline">\(\bar{X}\)</span>, 표본분산 <span class="math inline">\(s^2\)</span></li>
 <li>통계량은 <strong>확률변수(random variable)</strong></li>
 </ul></li>
-<li><p><strong>표본푼포(sampling distribution)</strong>: 통계량의 분포</p></li>
-<li><p><strong>가설검정(hypothesis testing)</strong>: 표본으로부터 얻은 정보를 토대로 모집단에 대한 특정 가설을 받아들이거나(accept) 혹은 기각(reject)을 위한 통계적 절차</p></li>
-<li><p><strong>귀무가설(null hypothesis)</strong>: 모수에 대한 기존의 사실 또는 디폴트 값</p>
-<ul>
-<li>두 측정 변수 간 연관성이 존재하지 않음/ 두 집단 간 평균의 차이가 없음 …</li>
-<li><span class="math inline">\(H_0: \mu_X = \mu_Y\)</span>, <span class="math inline">\(\rho_X = 0\)</span>, …</li>
-</ul></li>
-<li><p><strong>대립가설(alternative hypothesis)</strong>: 모수에 대해 귀무가설과 대립해 증명하고 싶은 사실</p></li>
+<li><p><strong>표본푼포(sampling distribution)</strong>: 통계량의 분포. 즉, 여러 평행우주(표본)으로부터 도출한 각기 다른 값을 갖는 통계량이 이루는 분포</p></li>
+<li><p>실제 관찰한 데이터 외에 “평행우주”로 지칭되는 나머지 표본은 관측되지 않은 값 <span class="math inline">\(\rightarrow\)</span> <strong>시뮬레이션</strong>을 통해 가상의 평행우주를 생성 가능함</p></li>
 </ul>
 
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-40"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-45"></span>
 <img src="figures/scheme-stat.jpg" alt="모집단, 표본, 통계량, 표본분포 관계" width="100%" />
 <p class="caption">
-Figure 3.5: 모집단, 표본, 통계량, 표본분포 관계
+Figure 2.8: 모집단, 표본, 통계량, 표본분포 관계
 </p>
 </div>
 
-<p><strong>p-value와 “통계적 유의성”에 대한 미국 통계학회 성명</strong></p>
+<p><strong>DBP 예제에서 독립 이표본 t-검정을 시뮬레이션을 통해 확인</strong></p>
+
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="시뮬레이션과-통계학.html#cb375-1"></a><span class="co"># 1. 현재 획득한 표본으로부터 필요한 통계량 계산</span></span>
+<span id="cb375-2"><a href="시뮬레이션과-통계학.html#cb375-2"></a>n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span><span class="dv">20</span></span>
+<span id="cb375-3"><a href="시뮬레이션과-통계학.html#cb375-3"></a>n &lt;-<span class="st"> </span>n1 <span class="op">+</span><span class="st"> </span>n2 <span class="co"># 전체 표본 수</span></span>
+<span id="cb375-4"><a href="시뮬레이션과-통계학.html#cb375-4"></a>mu_real &lt;-<span class="st"> </span><span class="kw">tapply</span>(DBP<span class="op">$</span>DIFF, DBP<span class="op">$</span>TRT, mean)</span>
+<span id="cb375-5"><a href="시뮬레이션과-통계학.html#cb375-5"></a>sigma_real &lt;-<span class="st"> </span><span class="kw">tapply</span>(DBP<span class="op">$</span>DIFF, DBP<span class="op">$</span>TRT, sd)</span>
+<span id="cb375-6"><a href="시뮬레이션과-통계학.html#cb375-6"></a>delta_real &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">diff</span>(mu_real)</span>
+<span id="cb375-7"><a href="시뮬레이션과-통계학.html#cb375-7"></a>sp &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>(sigma_real<span class="op">^</span><span class="dv">2</span>))</span>
+<span id="cb375-8"><a href="시뮬레이션과-통계학.html#cb375-8"></a>tval &lt;-<span class="st"> </span>delta_real<span class="op">/</span>(sp <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n2))</span>
+<span id="cb375-9"><a href="시뮬레이션과-통계학.html#cb375-9"></a></span>
+<span id="cb375-10"><a href="시뮬레이션과-통계학.html#cb375-10"></a><span class="kw">set.seed</span>(<span class="dv">38317</span>)</span>
+<span id="cb375-11"><a href="시뮬레이션과-통계학.html#cb375-11"></a><span class="co"># 귀무가설이 참(mu_a = mu_b)이라는 가정 하에서 </span></span>
+<span id="cb375-12"><a href="시뮬레이션과-통계학.html#cb375-12"></a><span class="co"># DBP 변화량의 두 군 간 차이에 대해 10,000개의 표본(평행우주) 생성</span></span>
+<span id="cb375-13"><a href="시뮬레이션과-통계학.html#cb375-13"></a><span class="co"># 단, 분산(표준편차)은 현재 획득한 표본으로부터 구한 </span></span>
+<span id="cb375-14"><a href="시뮬레이션과-통계학.html#cb375-14"></a><span class="co"># 합동표준편차(분산)과 동일하다고 가정</span></span>
+<span id="cb375-15"><a href="시뮬레이션과-통계학.html#cb375-15"></a><span class="co"># 표본 개수는 40개로 동일</span></span>
+<span id="cb375-16"><a href="시뮬레이션과-통계학.html#cb375-16"></a>B &lt;-<span class="st"> </span><span class="dv">10000</span></span>
+<span id="cb375-17"><a href="시뮬레이션과-통계학.html#cb375-17"></a>delta_star &lt;-<span class="st"> </span><span class="kw">replicate</span>(B, <span class="kw">rnorm</span>(n, <span class="dv">0</span>, sp))</span>
+<span id="cb375-18"><a href="시뮬레이션과-통계학.html#cb375-18"></a>md_star &lt;-<span class="st"> </span><span class="kw">apply</span>(delta_star, <span class="dv">2</span>, mean)</span>
+<span id="cb375-19"><a href="시뮬레이션과-통계학.html#cb375-19"></a>sd_star &lt;-<span class="st"> </span><span class="kw">apply</span>(delta_star, <span class="dv">2</span>, sd)</span>
+<span id="cb375-20"><a href="시뮬레이션과-통계학.html#cb375-20"></a>t_star &lt;-<span class="st"> </span>md_star<span class="op">/</span>(sd_star <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span><span class="op">/</span>n1 <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>n2))</span>
+<span id="cb375-21"><a href="시뮬레이션과-통계학.html#cb375-21"></a></span>
+<span id="cb375-22"><a href="시뮬레이션과-통계학.html#cb375-22"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb375-23"><a href="시뮬레이션과-통계학.html#cb375-23"></a><span class="kw">hist</span>(md_star, <span class="dt">nclass =</span> <span class="dv">100</span>, </span>
+<span id="cb375-24"><a href="시뮬레이션과-통계학.html#cb375-24"></a>     <span class="dt">main =</span> <span class="kw">expression</span>(Histogram<span class="op">~</span>of<span class="op">~</span><span class="kw">bar</span>(delta)), </span>
+<span id="cb375-25"><a href="시뮬레이션과-통계학.html#cb375-25"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">11</span>, <span class="dv">2</span>))</span>
+<span id="cb375-26"><a href="시뮬레이션과-통계학.html#cb375-26"></a><span class="kw">abline</span>(<span class="dt">v =</span> delta_real, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb375-27"><a href="시뮬레이션과-통계학.html#cb375-27"></a><span class="kw">hist</span>(sd_star, <span class="dt">nclass =</span> <span class="dv">100</span>, </span>
+<span id="cb375-28"><a href="시뮬레이션과-통계학.html#cb375-28"></a>     <span class="dt">main =</span> <span class="kw">expression</span>(Histogram<span class="op">~</span>of<span class="op">~</span>s[p]))</span>
+<span id="cb375-29"><a href="시뮬레이션과-통계학.html#cb375-29"></a><span class="kw">abline</span>(<span class="dt">v =</span> sp, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb375-30"><a href="시뮬레이션과-통계학.html#cb375-30"></a><span class="kw">hist</span>(t_star, <span class="dt">nclass =</span> <span class="dv">100</span>, </span>
+<span id="cb375-31"><a href="시뮬레이션과-통계학.html#cb375-31"></a>     <span class="dt">main =</span> <span class="kw">expression</span>(Histogram<span class="op">~</span>of<span class="op">~</span>t[<span class="dv">0</span>]), </span>
+<span id="cb375-32"><a href="시뮬레이션과-통계학.html#cb375-32"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">12.5</span>, <span class="dv">3</span>))</span>
+<span id="cb375-33"><a href="시뮬레이션과-통계학.html#cb375-33"></a><span class="kw">abline</span>(<span class="dt">v =</span> tval, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb375-34"><a href="시뮬레이션과-통계학.html#cb375-34"></a><span class="kw">qqnorm</span>(t_star); <span class="kw">qqline</span>(t_star)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-46-1.svg" width="960" /></p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="시뮬레이션과-통계학.html#cb376-1"></a><span class="co"># p-value 계산: 귀무가설 하에 관찰한 통계량만큼 큰(작은) 값이 발생할 확률</span></span>
+<span id="cb376-2"><a href="시뮬레이션과-통계학.html#cb376-2"></a><span class="kw">length</span>(<span class="kw">which</span>(t_star <span class="op">&lt;</span><span class="st"> </span>tval))<span class="op">/</span>B</span></code></pre></div>
+<pre><code>[1] 0</code></pre>
+
+</div>
+<div id="clt" class="section level4 unnumbered">
+<h4>중심극한정리</h4>
+<ul>
+<li><strong>표본평균</strong>이 갖는 확률분포에 대한 정리</li>
+<li><strong>모집단의 분포와 관계 없이 표본의 크기(수)가 무한하게 크다면 표본평균의 분포는 정규분포에 근사</strong></li>
+<li>평균이 <span class="math inline">\(\mu\)</span> 이고, 분산이 <span class="math inline">\(\sigma^2\)</span> 인 임의의 모집단에서 추출한 표본 <span class="math inline">\(X_{1}, X_2, \ldots, X_n\)</span> 의 평균 <span class="math inline">\(\bar{X}\)</span> 의 분포는 <span class="math inline">\(n\rightarrow\infty\)</span> 일 때(충분히 클 때), 근사적으로 평균이 <span class="math inline">\(\mu\)</span> 이고 분산이 <span class="math inline">\(\sigma^2 /n\)</span>인 정규분포를 따르고, <span class="math inline">\(Z=\sqrt{N}(\bar X - \mu)/\sigma\)</span> 의 분포는 표준정규분포 <span class="math inline">\(N(0, 1)\)</span>에 근사함.</li>
+<li>통계적 추론의 핵심인 가설검정의 이론적 토대 마련</li>
+<li>경험적으로 <span class="math inline">\(n \geq 30\)</span> 이면 표본평균 <span class="math inline">\(\bar X\)</span>는 정규분포를 따름</li>
+<li>만약 표본의 크기가 무한하게 크다면( <span class="math inline">\(n\rightarrow\infty\)</span> ), 표본평균의 분산은 0에 가까워 질 것이기 때문에 <span class="math inline">\(\bar X\)</span> 를 모평균 <span class="math inline">\(\mu\)</span>로 간주할 수 있음</li>
+</ul>
+
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="시뮬레이션과-통계학.html#cb378-1"></a><span class="co"># CLT 시각화를 위한 일반 함수</span></span>
+<span id="cb378-2"><a href="시뮬레이션과-통계학.html#cb378-2"></a>clt_test &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">rep =</span> <span class="dv">300</span>, <span class="co"># 반복 수</span></span>
+<span id="cb378-3"><a href="시뮬레이션과-통계학.html#cb378-3"></a>                     <span class="dt">n =</span> <span class="dv">50</span>, </span>
+<span id="cb378-4"><a href="시뮬레이션과-통계학.html#cb378-4"></a>                     <span class="dt">mtrue =</span> <span class="ot">NULL</span>, </span>
+<span id="cb378-5"><a href="시뮬레이션과-통계학.html#cb378-5"></a>                     <span class="dt">strue =</span> <span class="ot">NULL</span>, </span>
+<span id="cb378-6"><a href="시뮬레이션과-통계학.html#cb378-6"></a>                     <span class="dt">FUN =</span> rbinom, </span>
+<span id="cb378-7"><a href="시뮬레이션과-통계학.html#cb378-7"></a>                     <span class="dt">plot =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb378-8"><a href="시뮬레이션과-통계학.html#cb378-8"></a>                     <span class="dt">sim.out =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb378-9"><a href="시뮬레이션과-통계학.html#cb378-9"></a>                     ...) {</span>
+<span id="cb378-10"><a href="시뮬레이션과-통계학.html#cb378-10"></a>  <span class="co"># browser()</span></span>
+<span id="cb378-11"><a href="시뮬레이션과-통계학.html#cb378-11"></a>  dots &lt;-<span class="st"> </span><span class="kw">list</span>(...)</span>
+<span id="cb378-12"><a href="시뮬레이션과-통계학.html#cb378-12"></a>  x &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dt">nrow =</span> n, <span class="dt">ncol =</span> rep)</span>
+<span id="cb378-13"><a href="시뮬레이션과-통계학.html#cb378-13"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb378-14"><a href="시뮬레이션과-통계학.html#cb378-14"></a>    x[i, ] &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">matrix</span>(<span class="kw">drop</span>(</span>
+<span id="cb378-15"><a href="시뮬레이션과-통계학.html#cb378-15"></a>      <span class="kw">mapply</span>(FUN, i<span class="op">*</span>rep, <span class="dt">MoreArgs =</span> dots)), i, rep), </span>
+<span id="cb378-16"><a href="시뮬레이션과-통계학.html#cb378-16"></a>      <span class="dv">2</span>, mean)</span>
+<span id="cb378-17"><a href="시뮬레이션과-통계학.html#cb378-17"></a>  }</span>
+<span id="cb378-18"><a href="시뮬레이션과-통계학.html#cb378-18"></a>  </span>
+<span id="cb378-19"><a href="시뮬레이션과-통계학.html#cb378-19"></a>  <span class="cf">if</span> (<span class="kw">is.null</span>(mtrue)) mtrue =<span class="st"> </span><span class="ot">NA</span></span>
+<span id="cb378-20"><a href="시뮬레이션과-통계학.html#cb378-20"></a>  <span class="cf">if</span> (<span class="kw">is.null</span>(strue)) strue =<span class="st"> </span><span class="ot">NA</span></span>
+<span id="cb378-21"><a href="시뮬레이션과-통계학.html#cb378-21"></a>  </span>
+<span id="cb378-22"><a href="시뮬레이션과-통계학.html#cb378-22"></a>  </span>
+<span id="cb378-23"><a href="시뮬레이션과-통계학.html#cb378-23"></a>  mf &lt;-<span class="st"> </span><span class="kw">match.call</span>()</span>
+<span id="cb378-24"><a href="시뮬레이션과-통계학.html#cb378-24"></a>  FUN.name &lt;-<span class="st"> </span><span class="kw">as.character</span>(mf<span class="op">$</span>FUN)</span>
+<span id="cb378-25"><a href="시뮬레이션과-통계학.html#cb378-25"></a>  title_name &lt;-<span class="st"> </span><span class="cf">switch</span>(FUN.name, </span>
+<span id="cb378-26"><a href="시뮬레이션과-통계학.html#cb378-26"></a>                       <span class="dt">rbinom =</span> <span class="st">&quot;Binomial distribution&quot;</span>, </span>
+<span id="cb378-27"><a href="시뮬레이션과-통계학.html#cb378-27"></a>                       <span class="dt">rpois =</span> <span class="st">&quot;Poisson distribution&quot;</span>, </span>
+<span id="cb378-28"><a href="시뮬레이션과-통계학.html#cb378-28"></a>                       <span class="dt">runif =</span> <span class="st">&quot;Uniform distribution&quot;</span>, </span>
+<span id="cb378-29"><a href="시뮬레이션과-통계학.html#cb378-29"></a>                       <span class="dt">rexp =</span> <span class="st">&quot;Exponential distribution&quot;</span>, </span>
+<span id="cb378-30"><a href="시뮬레이션과-통계학.html#cb378-30"></a>                       <span class="dt">rnorm =</span> <span class="st">&quot;Normal distribution&quot;</span>, </span>
+<span id="cb378-31"><a href="시뮬레이션과-통계학.html#cb378-31"></a>                       <span class="dt">rchisq =</span> <span class="kw">expression</span>(chi<span class="op">^</span><span class="dv">2</span> <span class="op">~</span><span class="st"> </span>distribution), </span>
+<span id="cb378-32"><a href="시뮬레이션과-통계학.html#cb378-32"></a>                       <span class="dt">rt =</span> <span class="st">&quot;t distribution&quot;</span>)</span>
+<span id="cb378-33"><a href="시뮬레이션과-통계학.html#cb378-33"></a>  </span>
+<span id="cb378-34"><a href="시뮬레이션과-통계학.html#cb378-34"></a>  xlim &lt;-<span class="st"> </span><span class="kw">quantile</span>(x, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</span>
+<span id="cb378-35"><a href="시뮬레이션과-통계학.html#cb378-35"></a>  <span class="co"># norm_line_x &lt;- seq(xlim[1], xlim[2], length = 300)</span></span>
+<span id="cb378-36"><a href="시뮬레이션과-통계학.html#cb378-36"></a>  <span class="cf">if</span> (plot) {</span>
+<span id="cb378-37"><a href="시뮬레이션과-통계학.html#cb378-37"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>n) {</span>
+<span id="cb378-38"><a href="시뮬레이션과-통계학.html#cb378-38"></a>      <span class="kw">dev.hold</span>()</span>
+<span id="cb378-39"><a href="시뮬레이션과-통계학.html#cb378-39"></a>      <span class="kw">hist</span>(x[i, ], <span class="dt">freq =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb378-40"><a href="시뮬레이션과-통계학.html#cb378-40"></a>           <span class="dt">main =</span> title_name, </span>
+<span id="cb378-41"><a href="시뮬레이션과-통계학.html#cb378-41"></a>           <span class="dt">xlab =</span> <span class="kw">substitute</span>(<span class="kw">italic</span>(<span class="kw">bar</span>(X)[N <span class="op">==</span><span class="st"> </span>i]), </span>
+<span id="cb378-42"><a href="시뮬레이션과-통계학.html#cb378-42"></a>            <span class="kw">list</span>(<span class="dt">i =</span> i)), </span>
+<span id="cb378-43"><a href="시뮬레이션과-통계학.html#cb378-43"></a>           <span class="dt">xlim =</span> xlim)</span>
+<span id="cb378-44"><a href="시뮬레이션과-통계학.html#cb378-44"></a>      <span class="kw">lines</span>(<span class="kw">density</span>(x[i, ]), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb378-45"><a href="시뮬레이션과-통계학.html#cb378-45"></a>      <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.na</span>(mtrue) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(strue)) {</span>
+<span id="cb378-46"><a href="시뮬레이션과-통계학.html#cb378-46"></a>        <span class="kw">curve</span>(<span class="kw">dnorm</span>(x, mtrue, strue<span class="op">/</span><span class="kw">sqrt</span>(i)), <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb378-47"><a href="시뮬레이션과-통계학.html#cb378-47"></a>        <span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="dt">legend =</span> <span class="kw">bquote</span>(mu <span class="op">==</span><span class="st"> </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, mtrue)) <span class="op">~</span><span class="st">  </span></span>
+<span id="cb378-48"><a href="시뮬레이션과-통계학.html#cb378-48"></a><span class="st">                                              </span>sigma<span class="op">/</span><span class="kw">sqrt</span>(n) <span class="op">==</span><span class="st"> </span></span>
+<span id="cb378-49"><a href="시뮬레이션과-통계학.html#cb378-49"></a><span class="st">                                                </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, strue<span class="op">/</span><span class="kw">sqrt</span>(i)))), </span>
+<span id="cb378-50"><a href="시뮬레이션과-통계학.html#cb378-50"></a>               <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>)      </span>
+<span id="cb378-51"><a href="시뮬레이션과-통계학.html#cb378-51"></a>      }</span>
+<span id="cb378-52"><a href="시뮬레이션과-통계학.html#cb378-52"></a>      <span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">bquote</span>(<span class="kw">bar</span>(<span class="kw">bar</span>(x)) <span class="op">==</span><span class="st"> </span></span>
+<span id="cb378-53"><a href="시뮬레이션과-통계학.html#cb378-53"></a><span class="st">                                           </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, <span class="kw">mean</span>(x[i,]))) <span class="op">~</span><span class="st">  </span></span>
+<span id="cb378-54"><a href="시뮬레이션과-통계학.html#cb378-54"></a><span class="st">                                         </span><span class="kw">hat</span>(sigma)[<span class="kw">bar</span>(x)] <span class="op">==</span><span class="st"> </span></span>
+<span id="cb378-55"><a href="시뮬레이션과-통계학.html#cb378-55"></a><span class="st">                                           </span>.(<span class="kw">sprintf</span>(<span class="st">&quot;%.3f&quot;</span>, <span class="kw">sd</span>(x[i,])))), </span>
+<span id="cb378-56"><a href="시뮬레이션과-통계학.html#cb378-56"></a>             <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>)      </span>
+<span id="cb378-57"><a href="시뮬레이션과-통계학.html#cb378-57"></a>      <span class="kw">dev.flush</span>() <span class="co">#</span></span>
+<span id="cb378-58"><a href="시뮬레이션과-통계학.html#cb378-58"></a>      <span class="kw">Sys.sleep</span>(<span class="fl">0.01</span>)</span>
+<span id="cb378-59"><a href="시뮬레이션과-통계학.html#cb378-59"></a>    }</span>
+<span id="cb378-60"><a href="시뮬레이션과-통계학.html#cb378-60"></a>  }</span>
+<span id="cb378-61"><a href="시뮬레이션과-통계학.html#cb378-61"></a>  </span>
+<span id="cb378-62"><a href="시뮬레이션과-통계학.html#cb378-62"></a>  <span class="cf">if</span> (sim.out) <span class="kw">return</span>(x)</span>
+<span id="cb378-63"><a href="시뮬레이션과-통계학.html#cb378-63"></a>}</span>
+<span id="cb378-64"><a href="시뮬레이션과-통계학.html#cb378-64"></a></span>
+<span id="cb378-65"><a href="시뮬레이션과-통계학.html#cb378-65"></a></span>
+<span id="cb378-66"><a href="시뮬레이션과-통계학.html#cb378-66"></a><span class="co"># binomial distribution</span></span>
+<span id="cb378-67"><a href="시뮬레이션과-통계학.html#cb378-67"></a><span class="co"># p &lt;- 0.25; size = 1</span></span>
+<span id="cb378-68"><a href="시뮬레이션과-통계학.html#cb378-68"></a><span class="co"># clt_test(rep = 500, n = 50,</span></span>
+<span id="cb378-69"><a href="시뮬레이션과-통계학.html#cb378-69"></a><span class="co">#          FUN = rbinom, mtrue = size * p,</span></span>
+<span id="cb378-70"><a href="시뮬레이션과-통계학.html#cb378-70"></a><span class="co">#          strue = sqrt(size * p * (1 - p)), size = size, prob = p * size)</span></span>
+<span id="cb378-71"><a href="시뮬레이션과-통계학.html#cb378-71"></a><span class="co"># </span></span>
+<span id="cb378-72"><a href="시뮬레이션과-통계학.html#cb378-72"></a><span class="co"># clt_test(rep = 300, n = 30, FUN = rchisq, mtrue = 5, strue = sqrt(2*5), df = 5)</span></span></code></pre></div>
+
+<p><strong>이항분포</strong></p>
 <blockquote>
+<ul>
+<li>베르누이 시행(Bernoulli trial): 성공 또는 실패로 결과가 나오는 시행 또는 시험</li>
+<li>베르누이 시행을 <span class="math inline">\(n\)</span> 번 반복 했을 때, 성공이 나타난 횟수를 확률변수 <span class="math inline">\(X\)</span> <span class="math inline">\(\rightarrow\)</span> 이항확률변수(binomial random variable)</li>
+<li><span class="math inline">\(n\)</span> 번 베르누이 시행을 할 때, 각각의 시행은 서로 영향을 주지 않음 <span class="math inline">\(\rightarrow\)</span> <strong>독립</strong></li>
+<li>성공 확률이 <span class="math inline">\(\theta\)</span> 이고, 실패확률이 <span class="math inline">\(1-\theta\)</span> 일 때, 베르누이 시행을 독립적으로 <span class="math inline">\(n\)</span> 번 시행했을 때 성공횟수에 대한 확률분포 <span class="math inline">\(\rightarrow\)</span> <strong>이항분포</strong></li>
+</ul>
+</blockquote>
+<ul>
+<li>이항분포의 확률질량함수</li>
+</ul>
+<p><span class="math display">\[P(X = x) = f(x; n, \theta) = {n \choose x} \theta^x (1-\theta)^{n-x}\]</span></p>
+<ul>
+<li>이항분포의 평균과 분산</li>
+</ul>
+<p><span class="math display">\[\mu_X = n\theta,~\sigma^2_X = n\theta(1-\theta)\]</span></p>
+<ul>
+<li>CLT에 따른 표본 평균의 정규근사</li>
+</ul>
+<p><span class="math display">\[
+ \bar{X}_N \stackrel{d}{\rightarrow} \mathcal{N}(\mu, \frac{\sigma^2_X}{N}) = \mathcal{N}(n\theta, \frac{n\theta(1-\theta)}{N})
+\]</span></p>
+<ul>
+<li>예제</li>
+</ul>
+<p>확률 변수 <span class="math inline">\(X \sim \mathrm{binom}(n = 1, \theta = 0.25)\)</span> 일때 표본분포의 CLT에 따른 표본 평균(300개의 평행우주로부터 표본 50개 추출) 의 정규 근사 과정</p>
+
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="시뮬레이션과-통계학.html#cb379-1"></a><span class="kw">clt_test</span>(<span class="dt">rep =</span> <span class="dv">300</span>, <span class="dt">n =</span> <span class="dv">50</span>, </span>
+<span id="cb379-2"><a href="시뮬레이션과-통계학.html#cb379-2"></a>   <span class="dt">FUN =</span> rbinom, <span class="dt">mtrue =</span> size <span class="op">*</span><span class="st"> </span>p, </span>
+<span id="cb379-3"><a href="시뮬레이션과-통계학.html#cb379-3"></a>   <span class="dt">strue =</span> <span class="kw">sqrt</span>(size <span class="op">*</span><span class="st"> </span>p <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>p)), <span class="dt">size =</span> size, <span class="dt">prob =</span> p)</span></code></pre></div>
+
+<div class="figure">
+<video src="video/clt-binom.mp4" controls=""><a href="video/clt-binom.mp4"></a></video>
+<p class="caption"><span class="math inline">\(\theta = 0.25\)</span>, <span class="math inline">\(n = 1\)</span>인 이항분포의 표본평균 정규근사</p>
+</div>
+<p><strong>포아송 분포</strong></p>
+<blockquote>
+<p>단위 시간 안에 어떤 사건이 몇 번 발생할 것인지를 표현한 이산확률분포로 정해진 시간 안에 어떤 사건이 일어날 횟수의 기댓값을 <span class="math inline">\(\lambda\)</span> 라고 할 때, 사건이 <span class="math inline">\(n\)</span> 번 발생할 확률</p>
+</blockquote>
+<ul>
+<li>확률질량함수</li>
+</ul>
+<p><span class="math display">\[
+P(X =x; \lambda) = \frac{\lambda^{x}e^{-\lambda}}{x!}
+\]</span></p>
+<ul>
+<li>포아송 분포의 평균과 분산</li>
+</ul>
+<p><span class="math display">\[
+\mu_X = \sigma^2_X = \lambda
+\]</span></p>
+<ul>
+<li>CLT에 따른 표본 평균의 정규근사</li>
+</ul>
+<p><span class="math display">\[
+ \bar{X}_N \stackrel{d}{\rightarrow} \mathcal{N}(\mu, \frac{\sigma^2_X}{N}) = \mathcal{N}(\lambda, \frac{\lambda}{N})
+\]</span></p>
+<ul>
+<li>예제</li>
+</ul>
+<p>확률 변수 <span class="math inline">\(X \sim \mathrm{pois}(\lambda = 3)\)</span> 일때 표본분포의 CLT에 따른 표본 평균(300개의 평행우주로부터 표본 50개 추출) 의 정규 근사 과정</p>
+
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="시뮬레이션과-통계학.html#cb380-1"></a>l &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb380-2"><a href="시뮬레이션과-통계학.html#cb380-2"></a><span class="kw">clt_test</span>(<span class="dt">rep =</span> <span class="dv">300</span>, <span class="dt">n =</span> <span class="dv">50</span>, </span>
+<span id="cb380-3"><a href="시뮬레이션과-통계학.html#cb380-3"></a>   <span class="dt">FUN =</span> rpois, <span class="dt">mtrue =</span> l, </span>
+<span id="cb380-4"><a href="시뮬레이션과-통계학.html#cb380-4"></a>   <span class="dt">strue =</span> <span class="kw">sqrt</span>(l), <span class="dt">lambda =</span> l)</span></code></pre></div>
+
+
+
+<div class="figure">
+<video src="video/clt-pois.mp4" controls=""><a href="video/clt-pois.mp4"></a></video>
+<p class="caption"><span class="math inline">\(\lambda = 3\)</span>인 포아송 분포의 표본평균 정규근사</p>
+</div>
+<p><strong>연속 균일 분포</strong></p>
+<ul>
+<li>확률밀도함수</li>
+</ul>
+<p><span class="math display">\[
+f(X = x; a, b) = \begin{cases}
+\frac{1}{b - a}, &amp; ~ -\infty &lt; a &lt; b &lt; \infty \\
+0, &amp; \mathrm{otherwise}
+\end{cases}
+\]</span></p>
+<ul>
+<li>균일분포의 평균과 분산</li>
+</ul>
+<p><span class="math display">\[\mu_X = \frac{1}{2}(a + b), ~ \sigma^2_X = \frac{1}{12}(b - a)^2\]</span></p>
+<ul>
+<li>CLT에 따른 표본 평균의 정규근사</li>
+</ul>
+<p><span class="math display">\[
+ \bar{X}_N \stackrel{d}{\rightarrow} \mathcal{N}(\mu, \frac{\sigma^2_X}{N}) = \mathcal{N}(\frac{1}{2}(a +b), \frac{(b - a)^2}{12N})
+\]</span></p>
+<ul>
+<li>예제</li>
+</ul>
+<p>확률 변수 <span class="math inline">\(X \sim U(0, 1)\)</span> 일때 표본분포의 CLT에 따른 표본 평균(300개의 평행우주로부터 표본 50개 추출) 의 정규 근사 과정</p>
+
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="시뮬레이션과-통계학.html#cb381-1"></a>a =<span class="st"> </span><span class="dv">0</span>; b =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb381-2"><a href="시뮬레이션과-통계학.html#cb381-2"></a><span class="kw">clt_test</span>(<span class="dt">rep =</span> <span class="dv">300</span>, <span class="dt">n =</span> <span class="dv">50</span>, </span>
+<span id="cb381-3"><a href="시뮬레이션과-통계학.html#cb381-3"></a>   <span class="dt">FUN =</span> runif, <span class="dt">mtrue =</span> <span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b), </span>
+<span id="cb381-4"><a href="시뮬레이션과-통계학.html#cb381-4"></a>   <span class="dt">strue =</span> <span class="kw">sqrt</span>((b <span class="op">-</span><span class="st"> </span>a)<span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">12</span>), <span class="dt">min =</span> a, <span class="dt">max =</span> b)</span></code></pre></div>
+
+
+
+<div class="figure">
+<video src="video/clt-unif.mp4" controls=""><a href="video/clt-unif.mp4"></a></video>
+<p class="caption"><span class="math inline">\(X \sim U(a = 0, b = 1)\)</span> 의 표본평균 정규근사</p>
+</div>
+<p><strong><span class="math inline">\(\chi^2\)</span> 분포</strong></p>
+<ul>
+<li>확률밀도함수</li>
+</ul>
+<p><span class="math display">\[
+\frac{1}{2^{\nu/2}\Gamma(\nu/2)}x^{(\nu/2) - 1}e^{-x/2}, ~ x \in (0, +\infty),~\nu \in \mathbb{N}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\chi^2\)</span> 분포의 평균과 분산</li>
+</ul>
+<p><span class="math display">\[\mu_X = \nu, ~ \sigma^2 = 2\nu\]</span></p>
+<ul>
+<li>CLT에 따른 표본 평균의 정규근사</li>
+</ul>
+<p><span class="math display">\[
+ \bar{X}_N \stackrel{d}{\rightarrow} \mathcal{N}(\mu, \frac{\sigma^2_X}{N}) = \mathcal{N}(\nu, \frac{2\nu}{N})
+\]</span></p>
+<ul>
+<li>예제</li>
+</ul>
+<p>확률 변수 <span class="math inline">\(X \sim \chi^2(\nu = 3)\)</span> 일때 표본분포의 CLT에 따른 표본 평균(300개의 평행우주로부터 표본 50개 추출) 의 정규 근사 과정</p>
+
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="시뮬레이션과-통계학.html#cb382-1"></a>nu =<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb382-2"><a href="시뮬레이션과-통계학.html#cb382-2"></a><span class="kw">clt_test</span>(<span class="dt">rep =</span> <span class="dv">300</span>, <span class="dt">n =</span> <span class="dv">50</span>, </span>
+<span id="cb382-3"><a href="시뮬레이션과-통계학.html#cb382-3"></a>   <span class="dt">FUN =</span> rchisq, </span>
+<span id="cb382-4"><a href="시뮬레이션과-통계학.html#cb382-4"></a>   <span class="dt">mtrue =</span> nu, </span>
+<span id="cb382-5"><a href="시뮬레이션과-통계학.html#cb382-5"></a>   <span class="dt">strue =</span> <span class="kw">sqrt</span>(<span class="dv">2</span><span class="op">*</span>nu), <span class="dt">df =</span> nu)</span></code></pre></div>
+
+
+
+<div class="figure">
+<video src="video/clt-chi.mp4" controls=""><a href="video/clt-chi.mp4"></a></video>
+<p class="caption"><span class="math inline">\(X \sim \chi^2(\nu = 3)\)</span> 의 표본평균 정규근사</p>
+</div>
+</div>
+<div id="conf-int" class="section level4 unnumbered">
+<h4>신뢰구간의 정확한 의미</h4>
+<p><strong>모평균 <span class="math inline">\(\mu\)</span>에 대한 <span class="math inline">\((1 - \alpha) \%\)</span> 신뢰구간의 일반적 형태(모분산을 알고 있다고 가정한 경우)</strong></p>
+<p><span class="math display">\[
+  \hat{\mu} \pm \Phi^{-1}(\alpha /2)\frac{\sigma}{\sqrt{n}}
+\]</span></p>
+<ul>
+<li>신뢰구간: 같은 모형(분포)에서 반복적으로 표본을 추출해서 얻은 통계량에 대한 신뢰구간을 구했을 때 신뢰구간이 참 모수값을 포함할 확률이 <span class="math inline">\((1 - \alpha) %\)</span>가 되도록 만들어진 구간
+<ul>
+<li>주어진 확률<span class="math inline">\((1 - \alpha) \%\)</span> (<strong>신뢰계수</strong>)에 대해 표본분포의 통계량이 모집단 모수에 포함되는 구간</li>
+<li>모든 가능한 모수에 대한 표본 추정치의 신뢰구간 중 95 %가 모수를 포함</li>
+</ul></li>
+</ul>
+
+
+<div class="rmdwarning">
+<ul>
+<li>“모수가 신뢰구간에 포함될 확률”이라는 해석은 정확한 해석이 아님.
+</div></li>
+</ul>
+<p></p>
+<p><strong>예제: <code>sleep</code> 데이터</strong></p>
+<ul>
+<li>10명의 대상자가 수면제 1과 수면제 2를 복용 시 수면시간 증가량 데이터</li>
+<li>군 별 기술통계량 요약</li>
+</ul>
+
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="시뮬레이션과-통계학.html#cb383-1"></a><span class="co"># 독립 이표본 t 검정에서 두 군간 평균 차이에 대한 95% 신뢰구간</span></span>
+<span id="cb383-2"><a href="시뮬레이션과-통계학.html#cb383-2"></a>sleep <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb383-3"><a href="시뮬레이션과-통계학.html#cb383-3"></a><span class="st">  </span><span class="kw">group_by</span>(group) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb383-4"><a href="시뮬레이션과-통계학.html#cb383-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">N =</span> <span class="kw">n</span>(), </span>
+<span id="cb383-5"><a href="시뮬레이션과-통계학.html#cb383-5"></a>            <span class="dt">Mean =</span> <span class="kw">mean</span>(extra), </span>
+<span id="cb383-6"><a href="시뮬레이션과-통계학.html#cb383-6"></a>            <span class="dt">SD =</span> <span class="kw">sd</span>(extra)) -&gt;<span class="st"> </span>desc_sleep</span></code></pre></div>
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="시뮬레이션과-통계학.html#cb385-1"></a>desc_sleep <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb385-2"><a href="시뮬레이션과-통계학.html#cb385-2"></a><span class="st">  </span><span class="kw">kbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb385-3"><a href="시뮬레이션과-통계학.html#cb385-3"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+group
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+Mean
+</th>
+<th style="text-align:right;">
+SD
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.75
+</td>
+<td style="text-align:right;">
+1.789010
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2.33
+</td>
+<td style="text-align:right;">
+2.002249
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>독립 이표본 t-검정</li>
+</ul>
+
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="시뮬레이션과-통계학.html#cb386-1"></a>mean_diff &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">diff</span>(desc_sleep<span class="op">$</span>Mean); mean_diff</span></code></pre></div>
+<pre><code>[1] -1.58</code></pre>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="시뮬레이션과-통계학.html#cb388-1"></a>sp &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">mean</span>(desc_sleep<span class="op">$</span>SD<span class="op">^</span><span class="dv">2</span>))</span>
+<span id="cb388-2"><a href="시뮬레이션과-통계학.html#cb388-2"></a>tval &lt;-<span class="st"> </span>mean_diff<span class="op">/</span>(sp <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(<span class="dv">1</span><span class="op">/</span>desc_sleep<span class="op">$</span>N))); tval</span></code></pre></div>
+<pre><code>[1] -1.860813</code></pre>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="시뮬레이션과-통계학.html#cb390-1"></a><span class="co"># df = n1 + n2 - 2 = 10 + 10 - 2 = 18</span></span>
+<span id="cb390-2"><a href="시뮬레이션과-통계학.html#cb390-2"></a>p.value &lt;-<span class="st">  </span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(tval, <span class="dt">df =</span> <span class="dv">18</span>)); p.value</span></code></pre></div>
+<pre><code>[1] 1.920813</code></pre>
+
+<ul>
+<li>해당 데이터가 주어졌을 때 두 군간 평균 차이에 대한 95 % 신뢰구간</li>
+</ul>
+
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="시뮬레이션과-통계학.html#cb392-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb392-2"><a href="시뮬레이션과-통계학.html#cb392-2"></a>lcl &lt;-<span class="st"> </span>mean_diff <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">18</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((desc_sleep<span class="op">$</span>SD<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>))</span>
+<span id="cb392-3"><a href="시뮬레이션과-통계학.html#cb392-3"></a>ucl &lt;-<span class="st"> </span>mean_diff <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, <span class="dv">18</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>((desc_sleep<span class="op">$</span>SD<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>))</span>
+<span id="cb392-4"><a href="시뮬레이션과-통계학.html#cb392-4"></a>lcl; ucl</span></code></pre></div>
+<pre><code>[1] -3.363874</code></pre>
+<pre><code>[1] 0.203874</code></pre>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="시뮬레이션과-통계학.html#cb395-1"></a><span class="co"># check </span></span>
+<span id="cb395-2"><a href="시뮬레이션과-통계학.html#cb395-2"></a><span class="kw">t.test</span>(extra <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> sleep, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>
+	Two Sample t-test
+
+data:  extra by group
+t = -1.8608, df = 18, p-value = 0.07919
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.363874  0.203874
+sample estimates:
+mean in group 1 mean in group 2 
+           0.75            2.33 </code></pre>
+
+<ul>
+<li>실제 <span class="math inline">\(X_1 \sim \mathcal{N}(1.0, 1.79^2)\)</span>, <span class="math inline">\(X_2 \sim \mathcal{N}(3.0, 2.0^2)\)</span> 이라고 가정하고, 현재 획득한 표본 수 만큼 해당 분포로 부터 추출(<span class="math inline">\(n_1 = 10, n_2 = 10\)</span>) 후, 두 군 간 평균 차이에 대한 95 % 신뢰구간을 구하는 작업을 100 번 반복</li>
+</ul>
+
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="시뮬레이션과-통계학.html#cb397-1"></a>N &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb397-2"><a href="시뮬레이션과-통계학.html#cb397-2"></a>n1 &lt;-<span class="st"> </span>n2 &lt;-<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb397-3"><a href="시뮬레이션과-통계학.html#cb397-3"></a>m_true &lt;-<span class="st"> </span><span class="dv">-2</span> <span class="co"># mu_x1 - mu_x2</span></span>
+<span id="cb397-4"><a href="시뮬레이션과-통계학.html#cb397-4"></a>mu_contain_count =<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb397-5"><a href="시뮬레이션과-통계학.html#cb397-5"></a></span>
+<span id="cb397-6"><a href="시뮬레이션과-통계학.html#cb397-6"></a><span class="kw">plot</span>(<span class="kw">c</span>(<span class="dv">1</span>, N), </span>
+<span id="cb397-7"><a href="시뮬레이션과-통계학.html#cb397-7"></a>     <span class="kw">c</span>(<span class="op">-</span><span class="dv">8</span>, <span class="dv">2</span>), </span>
+<span id="cb397-8"><a href="시뮬레이션과-통계학.html#cb397-8"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb397-9"><a href="시뮬레이션과-통계학.html#cb397-9"></a>     <span class="dt">ylab =</span> <span class="st">&quot;95 % CI&quot;</span>, </span>
+<span id="cb397-10"><a href="시뮬레이션과-통계학.html#cb397-10"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Replicates&quot;</span>)</span>
+<span id="cb397-11"><a href="시뮬레이션과-통계학.html#cb397-11"></a><span class="kw">abline</span>(<span class="dt">h =</span> m_true, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb397-12"><a href="시뮬레이션과-통계학.html#cb397-12"></a></span>
+<span id="cb397-13"><a href="시뮬레이션과-통계학.html#cb397-13"></a><span class="kw">set.seed</span>(<span class="dv">1313</span>)</span>
+<span id="cb397-14"><a href="시뮬레이션과-통계학.html#cb397-14"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N) {</span>
+<span id="cb397-15"><a href="시뮬레이션과-통계학.html#cb397-15"></a>  x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n1, <span class="dv">1</span>, <span class="fl">1.79</span>)</span>
+<span id="cb397-16"><a href="시뮬레이션과-통계학.html#cb397-16"></a>  x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n2, <span class="dv">3</span>, <span class="fl">2.0</span>)</span>
+<span id="cb397-17"><a href="시뮬레이션과-통계학.html#cb397-17"></a>  md &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x2)</span>
+<span id="cb397-18"><a href="시뮬레이션과-통계학.html#cb397-18"></a>  lcl &lt;-<span class="st"> </span>md <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, n1 <span class="op">+</span><span class="st"> </span>n2 <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="kw">sd</span>(x1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">sd</span>(x2)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>)</span>
+<span id="cb397-19"><a href="시뮬레이션과-통계학.html#cb397-19"></a>  ucl &lt;-<span class="st"> </span>md <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, n1 <span class="op">+</span><span class="st"> </span>n2 <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="kw">sd</span>(x1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">sd</span>(x2)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>)</span>
+<span id="cb397-20"><a href="시뮬레이션과-통계학.html#cb397-20"></a>  contain_mu &lt;-<span class="st"> </span>lcl <span class="op">&lt;=</span><span class="st"> </span>m_true <span class="op">&amp;</span><span class="st"> </span>m_true <span class="op">&lt;=</span><span class="st"> </span>ucl </span>
+<span id="cb397-21"><a href="시뮬레이션과-통계학.html#cb397-21"></a>  <span class="cf">if</span>(contain_mu) mu_contain_count &lt;-<span class="st"> </span>mu_contain_count <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb397-22"><a href="시뮬레이션과-통계학.html#cb397-22"></a>  <span class="kw">segments</span>(i, lcl, i, ucl, <span class="dt">col =</span> <span class="kw">as.numeric</span>(<span class="op">!</span>contain_mu) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb397-23"><a href="시뮬레이션과-통계학.html#cb397-23"></a>}</span>
+<span id="cb397-24"><a href="시뮬레이션과-통계학.html#cb397-24"></a><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb397-25"><a href="시뮬레이션과-통계학.html#cb397-25"></a>       <span class="dt">legend =</span> <span class="kw">sprintf</span>(<span class="st">&quot;# of not containing true mu: %d&quot;</span>,  N <span class="op">-</span><span class="st"> </span>mu_contain_count), </span>
+<span id="cb397-26"><a href="시뮬레이션과-통계학.html#cb397-26"></a>       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-60-1.svg" width="672" /></p>
+
+<ul>
+<li>위 <code>sleep</code> 데이터의 결과가 모집단의 특성을 충분히 반영했다고 가정하고, 독립 이표본 t 검정에서 귀무가설이 참일 때 두 집단 간 평균 차이에 대한 95 % 신뢰구간이 0을 포함하는 빈도</li>
+</ul>
+
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="시뮬레이션과-통계학.html#cb398-1"></a>m_true &lt;-<span class="st"> </span><span class="dv">0</span> <span class="co"># mu_x1 - mu_x2</span></span>
+<span id="cb398-2"><a href="시뮬레이션과-통계학.html#cb398-2"></a>mu_contain_count =<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb398-3"><a href="시뮬레이션과-통계학.html#cb398-3"></a></span>
+<span id="cb398-4"><a href="시뮬레이션과-통계학.html#cb398-4"></a><span class="kw">plot</span>(<span class="kw">c</span>(<span class="dv">1</span>, N), </span>
+<span id="cb398-5"><a href="시뮬레이션과-통계학.html#cb398-5"></a>     <span class="kw">c</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">3</span>), </span>
+<span id="cb398-6"><a href="시뮬레이션과-통계학.html#cb398-6"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb398-7"><a href="시뮬레이션과-통계학.html#cb398-7"></a>     <span class="dt">ylab =</span> <span class="st">&quot;95 % CI&quot;</span>, </span>
+<span id="cb398-8"><a href="시뮬레이션과-통계학.html#cb398-8"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Replicates&quot;</span>)</span>
+<span id="cb398-9"><a href="시뮬레이션과-통계학.html#cb398-9"></a><span class="kw">abline</span>(<span class="dt">h =</span> m_true, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb398-10"><a href="시뮬레이션과-통계학.html#cb398-10"></a></span>
+<span id="cb398-11"><a href="시뮬레이션과-통계학.html#cb398-11"></a><span class="kw">set.seed</span>(<span class="dv">1313</span>)</span>
+<span id="cb398-12"><a href="시뮬레이션과-통계학.html#cb398-12"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>N) {</span>
+<span id="cb398-13"><a href="시뮬레이션과-통계학.html#cb398-13"></a>  x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n1, <span class="fl">0.75</span>, <span class="fl">1.79</span>)</span>
+<span id="cb398-14"><a href="시뮬레이션과-통계학.html#cb398-14"></a>  x2 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n2, <span class="fl">2.33</span>, <span class="fl">2.0</span>)</span>
+<span id="cb398-15"><a href="시뮬레이션과-통계학.html#cb398-15"></a>  md &lt;-<span class="st"> </span><span class="kw">mean</span>(x1) <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x2)</span>
+<span id="cb398-16"><a href="시뮬레이션과-통계학.html#cb398-16"></a>  lcl &lt;-<span class="st"> </span>md <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, n1 <span class="op">+</span><span class="st"> </span>n2 <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="kw">sd</span>(x1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">sd</span>(x2)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>)</span>
+<span id="cb398-17"><a href="시뮬레이션과-통계학.html#cb398-17"></a>  ucl &lt;-<span class="st"> </span>md <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>, n1 <span class="op">+</span><span class="st"> </span>n2 <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="op">*</span><span class="st"> </span><span class="kw">sqrt</span>((<span class="kw">sd</span>(x1)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="kw">sd</span>(x2)<span class="op">^</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">10</span>)</span>
+<span id="cb398-18"><a href="시뮬레이션과-통계학.html#cb398-18"></a>  contain_mu &lt;-<span class="st"> </span>lcl <span class="op">&lt;=</span><span class="st"> </span>m_true <span class="op">&amp;</span><span class="st"> </span>m_true <span class="op">&lt;=</span><span class="st"> </span>ucl </span>
+<span id="cb398-19"><a href="시뮬레이션과-통계학.html#cb398-19"></a>  <span class="cf">if</span>(contain_mu) mu_contain_count &lt;-<span class="st"> </span>mu_contain_count <span class="op">+</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb398-20"><a href="시뮬레이션과-통계학.html#cb398-20"></a>  <span class="kw">segments</span>(i, lcl, i, ucl, <span class="dt">col =</span> <span class="kw">as.numeric</span>(<span class="op">!</span>contain_mu) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb398-21"><a href="시뮬레이션과-통계학.html#cb398-21"></a>}</span>
+<span id="cb398-22"><a href="시뮬레이션과-통계학.html#cb398-22"></a><span class="kw">legend</span>(<span class="st">&quot;bottomright&quot;</span>, </span>
+<span id="cb398-23"><a href="시뮬레이션과-통계학.html#cb398-23"></a>       <span class="dt">legend =</span> <span class="kw">sprintf</span>(<span class="st">&quot;# of not containing true mu: %d&quot;</span>,  N <span class="op">-</span><span class="st"> </span>mu_contain_count), </span>
+<span id="cb398-24"><a href="시뮬레이션과-통계학.html#cb398-24"></a>       <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-61-1.svg" width="672" /></p>
+
+</div>
+<div id="p-값에-대한-이해" class="section level4">
+<h4><span class="header-section-number">3.5.1.1</span> P 값에 대한 이해</h4>
+<p><strong>Simulation setting 1: 귀무가설이 참인 경우</strong></p>
+<ul>
+<li><span class="math inline">\(X \sim \mathcal{N}(\mu_{X}, \sigma^{2}_{X})\)</span>, <span class="math inline">\(Y \sim \mathcal{N}(\mu_{Y}, \sigma^{2}_{Y})\)</span> 일 때,</li>
+<li><span class="math inline">\(\mu_{X}=\mu_{Y}=100\)</span> 이고 <span class="math inline">\(\sigma_{X}=\sigma_{Y}=20\)</span></li>
+<li><span class="math inline">\(X\)</span>와 <span class="math inline">\(Y\)</span>의 분포로부터 <span class="math inline">\(n_X = n_Y = 30\)</span> 개를 추출한 데이터로 독립 이표본 t-검정 후 p-value 값 획득</li>
+<li>10,000 번 반복</li>
+</ul>
+
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="시뮬레이션과-통계학.html#cb399-1"></a>nsim &lt;-<span class="st"> </span><span class="dv">10000</span></span>
+<span id="cb399-2"><a href="시뮬레이션과-통계학.html#cb399-2"></a>p &lt;-<span class="st"> </span><span class="kw">numeric</span>(nsim)</span>
+<span id="cb399-3"><a href="시뮬레이션과-통계학.html#cb399-3"></a><span class="kw">set.seed</span>(<span class="dv">19780904</span>)</span>
+<span id="cb399-4"><a href="시뮬레이션과-통계학.html#cb399-4"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim) {</span>
+<span id="cb399-5"><a href="시뮬레이션과-통계학.html#cb399-5"></a>  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb399-6"><a href="시뮬레이션과-통계학.html#cb399-6"></a>  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb399-7"><a href="시뮬레이션과-통계학.html#cb399-7"></a>  p[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(x, y)<span class="op">$</span>p.value</span>
+<span id="cb399-8"><a href="시뮬레이션과-통계학.html#cb399-8"></a>}</span>
+<span id="cb399-9"><a href="시뮬레이션과-통계학.html#cb399-9"></a></span>
+<span id="cb399-10"><a href="시뮬레이션과-통계학.html#cb399-10"></a><span class="kw">hist</span>(p, <span class="dt">main =</span> <span class="st">&quot;Histogram of p-values under the null hypothesis&quot;</span>, </span>
+<span id="cb399-11"><a href="시뮬레이션과-통계학.html#cb399-11"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Observed p-value&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#87DAFA&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-62-1.svg" width="672" /></p>
+
+<p><span class="math inline">\(X\)</span>와 <span class="math inline">\(Y\)</span>의 분포가 동일함에도 불구하고 관찰한 p-value의 <strong>4.8</strong> % 가 0.05보다 작게 나타남.</p>
+<p><strong>Simulation setting 2: 대립가설이 참인 경우</strong></p>
+<ul>
+<li><span class="math inline">\(\mu_{X} = 100\)</span>, <span class="math inline">\(\mu_{Y} = 96\)</span>, <span class="math inline">\(\sigma_{X}=\sigma_{Y}=20\)</span></li>
+<li>실제효과크기: <span class="math inline">\(\eta = 0.2\)</span></li>
+<li>첫 번째 모의실험과 동일한 크기로 진행</li>
+</ul>
+
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="시뮬레이션과-통계학.html#cb400-1"></a><span class="kw">set.seed</span>(<span class="dv">19780904</span>)</span>
+<span id="cb400-2"><a href="시뮬레이션과-통계학.html#cb400-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim) {</span>
+<span id="cb400-3"><a href="시뮬레이션과-통계학.html#cb400-3"></a>  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb400-4"><a href="시뮬레이션과-통계학.html#cb400-4"></a>  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">96</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb400-5"><a href="시뮬레이션과-통계학.html#cb400-5"></a>  p[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(x, y)<span class="op">$</span>p.value</span>
+<span id="cb400-6"><a href="시뮬레이션과-통계학.html#cb400-6"></a>}</span>
+<span id="cb400-7"><a href="시뮬레이션과-통계학.html#cb400-7"></a></span>
+<span id="cb400-8"><a href="시뮬레이션과-통계학.html#cb400-8"></a><span class="kw">hist</span>(p, <span class="dt">main =</span> <span class="st">&quot;Histogram of p-values under the alternative hypothesis with ES = 0.2&quot;</span>, </span>
+<span id="cb400-9"><a href="시뮬레이션과-통계학.html#cb400-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Observed p-value&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#87DAFA&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-63-1.svg" width="672" /></p>
+
+<p><span class="math inline">\(p&lt;0.05\)</span>인 비율: <strong>11.8</strong> %</p>
+<p><strong>Simulation setting 3: 대립가설이 참, 표본 크기를 증가시킨 경우</strong></p>
+<ul>
+<li><span class="math inline">\(\mu_{X} = 100\)</span>, <span class="math inline">\(\mu_{Y} = 96\)</span>, <span class="math inline">\(\sigma_{X}=\sigma_{Y}=20\)</span></li>
+<li><span class="math inline">\(X\)</span>와 <span class="math inline">\(Y\)</span>의 분포로부터 <span class="math inline">\(n_X = n_Y = 100\)</span> 개를 추출한 데이터로 독립 이표본 t-검정 후 p-value 값 획득</li>
+</ul>
+
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="시뮬레이션과-통계학.html#cb401-1"></a><span class="kw">set.seed</span>(<span class="dv">19780904</span>)</span>
+<span id="cb401-2"><a href="시뮬레이션과-통계학.html#cb401-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim) {</span>
+<span id="cb401-3"><a href="시뮬레이션과-통계학.html#cb401-3"></a>  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb401-4"><a href="시뮬레이션과-통계학.html#cb401-4"></a>  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">mean =</span> <span class="dv">96</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb401-5"><a href="시뮬레이션과-통계학.html#cb401-5"></a>  p[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(x, y)<span class="op">$</span>p.value</span>
+<span id="cb401-6"><a href="시뮬레이션과-통계학.html#cb401-6"></a>}</span>
+<span id="cb401-7"><a href="시뮬레이션과-통계학.html#cb401-7"></a></span>
+<span id="cb401-8"><a href="시뮬레이션과-통계학.html#cb401-8"></a><span class="kw">hist</span>(p, <span class="dt">main =</span> <span class="st">&quot;Histogram of p-values under the alternative hypothesis with 100 samples per group&quot;</span>, </span>
+<span id="cb401-9"><a href="시뮬레이션과-통계학.html#cb401-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Observed p-value&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#87DAFA&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-64-1.svg" width="672" /></p>
+
+<p><span class="math inline">\(p&lt;0.05\)</span>인 비율: <strong>28.3</strong> %</p>
+<p><strong>Simulation setting 4: 대립가설이 참, 효과크기가 1.0인 경우</strong></p>
+<ul>
+<li><span class="math inline">\(\mu_{X} = 100\)</span>, <span class="math inline">\(\mu_{Y} = 84\)</span>, <span class="math inline">\(\sigma_{X}=\sigma_{Y}=20\)</span></li>
+<li><span class="math inline">\(X\)</span>와 <span class="math inline">\(Y\)</span>의 분포로부터 <span class="math inline">\(n_X = n_Y = 30\)</span> 개를 추출한 데이터로 독립 이표본 t-검정 후 p-value 값 획득</li>
+</ul>
+
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="시뮬레이션과-통계학.html#cb402-1"></a><span class="kw">set.seed</span>(<span class="dv">19780904</span>)</span>
+<span id="cb402-2"><a href="시뮬레이션과-통계학.html#cb402-2"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>nsim) {</span>
+<span id="cb402-3"><a href="시뮬레이션과-통계학.html#cb402-3"></a>  x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">100</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb402-4"><a href="시뮬레이션과-통계학.html#cb402-4"></a>  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">30</span>, <span class="dt">mean =</span> <span class="dv">80</span>, <span class="dt">sd =</span> <span class="dv">20</span>)</span>
+<span id="cb402-5"><a href="시뮬레이션과-통계학.html#cb402-5"></a>  p[i] &lt;-<span class="st"> </span><span class="kw">t.test</span>(x, y)<span class="op">$</span>p.value</span>
+<span id="cb402-6"><a href="시뮬레이션과-통계학.html#cb402-6"></a>}</span>
+<span id="cb402-7"><a href="시뮬레이션과-통계학.html#cb402-7"></a></span>
+<span id="cb402-8"><a href="시뮬레이션과-통계학.html#cb402-8"></a><span class="kw">hist</span>(p, <span class="dt">main =</span> <span class="st">&quot;Histogram of p-values under the alternative hypothesis: n = 30, eta = 1.0&quot;</span>, </span>
+<span id="cb402-9"><a href="시뮬레이션과-통계학.html#cb402-9"></a>     <span class="dt">xlab =</span> <span class="st">&quot;Observed p-value&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#87DAFA&quot;</span>)</span></code></pre></div>
+<p><img src="03-simulation_files/figure-html/unnamed-chunk-65-1.svg" width="672" /></p>
+
+<p><span class="math inline">\(p&lt;0.05\)</span>인 비율: <strong>96.8</strong> %</p>
+
+
+<div class="rmdimportant">
+<p><strong>p-value와 “통계적 유의성”에 대한 미국 통계학회 성명</strong></p>
 <ul>
 <li>P-value는 가정한 통계 모형이 데이터와 호환되지 않음을 나타낸다(P-values can indicate how incompatible the data are with a specified statistical model)</li>
 <li>P-value는 연구 가설이 참인 확률이나 데이터가 랜덤하게 생성된 확률을 측정하지 않는다(P-values do not measure the probability that the studied hypothesis is true, or the probability that the data were produced by random chance alone)</li>
@@ -275,7 +1153,9 @@ Figure 3.5: 모집단, 표본, 통계량, 표본분포 관계
 <li>P-value나 통계적 유의성은 효과의 크기나 결과의 중요성을 나타내지 않는다(A p-value, or statistical significance, does not measure the size of an effect or the importance of a result)</li>
 <li>P-value 자체만으로는 모형이나 가설에 대한 증거가 될 수 없다(By itself, a p-value does not provide a good measure of evidence regarding a model or hypothesis)</li>
 </ul>
-</blockquote>
+</div>
+
+
 <!-- ```{r} -->
 <!-- x <- seq(-1, 1, by = 0.01) -->
 <!-- y <- sqrt((1 - x^2)) -->
@@ -296,6 +1176,7 @@ Figure 3.5: 모집단, 표본, 통계량, 표본분포 관계
 <!-- # }, video.name = "BM.mp4", other.opts = "-pix_fmt yuv420p -b 300k") -->
 <!-- ``` -->
 
+</div>
 </div>
 </div>
 <!-- </div> -->
