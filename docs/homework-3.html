@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-18" />
+<meta name="date" content="2020-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -228,33 +228,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i \sim \mathcal{U}(0, 10)
 \]</span></p>
 <ol style="list-style-type: lower-alpha">
-<li>위 모형 <span class="math inline">\(_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i\)</span>를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오.</li>
+<li><p>위 모형 <span class="math inline">\(_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i\)</span>를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오.</p></li>
+<li><p><span class="math inline">\(y_i\)</span>가 정규분포를 따른다고 가정할 때, 설명변수 <span class="math inline">\(x_i\)</span>가 주어졌을 때 반응변수 <span class="math inline">\(y_i\)</span>는 어떤 분포를 따르는지 행렬과 벡터로 표시하시오.</p></li>
+<li><p>주어진 모형으로부터 <span class="math inline">\(y_i\)</span>를 생성하고(<span class="math inline">\(i=1,\ldots, 30\)</span>), 생성한 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>의 산점도를 그리시오. 단, seed 번호는 <code>20201111</code>로 고정하시오.</p></li>
 </ol>
-<!-- > - $\mathbf{y}_{n \times 1} = [y_1, \ldots, y_n]^T$ -->
-<!-- > - $\mathbf{X}_{n \times 2} = [\mathbf{1}, \mathbf{x}]$, $\mathbf{x} = [x_1, \ldots, x_n]^T$ -->
-<!-- > - $\boldsymbol{\mathbf{\beta}}_{2 \times 1} = [5, -2.5]^T$ -->
-<!-- > - $\boldsymbol{\mathbf{\epsilon}}_{n \times 1} = [\epsilon_1, \ldots, \epsilon_n]^T$ -->
-<!-- $$ -->
-<!--  \mathbf{y} = \mathbf{X}\boldsymbol{\mathbf{\beta}} + \boldsymbol{\mathbf{\epsilon}} -->
-<!-- $$ -->
-<ol start="2" style="list-style-type: lower-alpha">
-<li><span class="math inline">\(y_i\)</span>가 정규분포를 따른다고 가정할 때, 설명변수 <span class="math inline">\(x_i\)</span>가 주어졌을 때 반응변수 <span class="math inline">\(y_i\)</span>는 어떤 분포를 따르는지 행렬과 벡터로 표시하시오.</li>
-</ol>
-<!-- $$ -->
-<!--  \mathbf{y} \sim \mathcal{N} \left (\mathbf{X}\boldsymbol{\mathbf{\beta}}, 9\mathbf{I}_{n \times n} \right ) -->
-<!-- $$ -->
-<ol start="3" style="list-style-type: lower-alpha">
-<li>주어진 모형으로부터 <span class="math inline">\(y_i\)</span>를 생성하고(<span class="math inline">\(i=1,\ldots, 30\)</span>), 생성한 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>의 산점도를 그리시오. 단, seed 번호는 <code>20201111</code>로 고정하시오.</li>
-</ol>
-<!-- ```{r} -->
-<!-- set.seed(20201111) -->
-<!-- n_sample <- 30 -->
-<!-- btrue <- c(5.0, -2.5) -->
-<!-- x <- runif(n_sample, 0, 10) -->
-<!-- e <- rnorm(n_sample, 0, 9) -->
-<!-- y <- drop(cbind(1, x) %*% btrue) + e -->
-<!-- plot(x, y) -->
-<!-- ``` -->
 <ol start="2" style="list-style-type: decimal">
 <li>수업시간에 학습한 미분 가능한 특정 방정식의 해를 구하는 Newton-Raphson (N-R) 방법을 응용해 문제 1에서 생성한 <code>y</code>와 <code>x</code>로부터 회귀식(<code>x</code>의 기울기와 절편) 추정이 가능하다.
 단순회귀모형 및 다중회귀모형에서 회귀계수 추정의 기본 아이디어는 오차 제곱의 힙 <span class="math inline">\(\sum\epsilon_i = \boldsymbol{\mathbf{\epsilon}}^T\boldsymbol{\mathbf{\epsilon}}\)</span> 를
@@ -265,8 +242,8 @@ y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i 
  (\mathbf{y}_{n \times 1} - \mathbf{X}_{n \times p}\boldsymbol{\mathbf{\beta}_{p \times 1}}) \right \}
 \]</span></p>
 <p>위 식에서 <span class="math inline">\(\mathcal{L}(\boldsymbol{\mathbf{\beta}}) = (\mathbf{y}_{n \times 1} - \mathbf{X}_{n \times p}\boldsymbol{\mathbf{\beta}}_{p \times 1})^T (\mathbf{y}_{n \times 1} - \mathbf{X}_{n \times p}\boldsymbol{\mathbf{\beta}}_{p \times 1})\)</span> 라고 하면,
-<span class="math inline">\(\partial \mathcal{L}(\boldsymbol{\mathbf{\beta}})/\partial \boldsymbol{\mathbf{\beta}} = 0\)</span>를 만족하는 <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span>를 찾는 문제로 치환된다. 따라서 N-R
-알고리즘의 핵심단계는 개념적으로 아래와 같이 변형할 수 있다.</p>
+<span class="math inline">\(\partial \mathcal{L}(\boldsymbol{\mathbf{\beta}})/\partial \boldsymbol{\mathbf{\beta}} = 0\)</span> 를 만족하는 <span class="math inline">\(\boldsymbol{\mathbf{\beta}}\)</span> 일 때
+<span class="math inline">\(\mathcal{L}(\boldsymbol{\mathbf{\beta}})\)</span>가 최솟값을 갖는다. 따라서 학습한 N-R 알고리즘의 핵심단계는 개념적으로 아래와 같이 변형할 수 있다.</p>
 <p><span class="math display">\[
  \beta_{new} := \beta_{old} - \frac{L(\beta)&#39;}{L(\beta)&#39;&#39;}
 \]</span></p>
@@ -291,8 +268,25 @@ y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i 
 <li><p>b ~ c 에서 구현한 함수를 사용해 N-R 방법으로 선형회귀모형의 회귀계수 추정을 위한 <code>nr_linreg()</code> 함수를 구현하기 위해 필요한 필수 인수(argument)를 정의하고 함수를 작성하시오.</p></li>
 <li><p>문제 1에서 생성한 <code>x</code>와 <code>y</code>에 대해 <code>lm(y ~ x)</code>으로 구한 회귀계수와 <code>nr_linreg(x, y)</code>로 추정한 회귀계수를 비교 하시오.</p></li>
 </ol>
-<!-- 3. 스타 크래프트의 프로토스 종족의 유닛 다크 탬플러는 스스로를 숨길 수 있을 뿐 아니라 막강한 공격력(40 +- 3)을 갖고 있다.  -->
-<!-- 다크 탬플러가 정찰 중 언덕 위에서 저그 진지를 순찰 중인 히드라리스크를 발견했다. 히드라리스크의 체력은 80 이다.  -->
+<ol start="3" style="list-style-type: decimal">
+<li>스타 크래프트의 테란 종족의 유닛 고스트는 스스로를 숨길 수 있고(클로킹), 공격력(10 ~ 11)을 갖고 있다. 게임 특성 상 언덕 위에 있는 상대를
+언덕 아래에서 공격할 때 50%의 확률로 빗나간다. 고스트가 비밀 정찰 중 언덕 위에서 저그 진지를 순찰 중인 히드라리스크를 발견했다. 언덕 아래에서 고스트가
+히드라를 공격했을 때, 평균적으로 몇 번의 공격을 해야 히드라리스크를 잡을 수 있는지 모의실험(반복횟수: 10,000회)을 통해 확인하시오.
+(단, 히드라리스크의 체력은 80이고, 히드라리스크는 오버로드의 부재로 고스트를 볼 수 없고, 고스트는 테란의 스캔 능력을 통해 언덕 위를 확인할 수 있다고 가정)</li>
+</ol>
+
+<div class="rmdnote">
+<ol style="list-style-type: decimal">
+<li>제출기한: 2020년 12월 4일 금요일</li>
+<li>제출방식: R markdown으로 과제 답안 작성 후 생성한 <code>html</code> 문서 및 <code>Rmd</code> 파일을 <code>학번-이름.zip</code>으로 압축 후 사이버 캠퍼스에 업로드</li>
+<li>R markdown 작성 요령
+<ul>
+<li>수식이 필요한 경우 수업 시간에 학습한 <strong>수식 입력 방법</strong>을 통해 작성(그림 첨부 시 감점)</li>
+<li>R 스크립트 작성 시 매 행마다 주석으로 행의 의미를 기술할 것.</li>
+</ul></li>
+</ol>
+</div>
+
 
 </div>
 <!-- </div> -->
