@@ -6,6 +6,7 @@ editor_options:
 
 
 
+
 \footnotesize
 
 
@@ -202,6 +203,16 @@ qqline(eq)
 
 
 #### Q-Q plot의 형태 {.unnumbered}
+
+
+**대칭이지만 꼬리가 두꺼운 경우*
+
+
+**오른쪽으로 치우쳐진 경우(skewed to the right)**
+
+
+**왼쪽으로 치우쳐진 경우(skewed to the left)**
+
 
 
 ## 연속형 변수의 두 집단의 비교 {#two-group-comp}
