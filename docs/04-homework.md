@@ -5,7 +5,7 @@ editor_options:
 ---
 ## Homework 3
 
-1. 설명변수 $x_i$와 $y_i$, $i = 1, 2, \ldots, n$ 가 주여졌을 때 다음과 같은 반응변수 $Y_i$에 대한 설명변수 $x_i$의 단순선형회귀모형(simple linear regression)을 
+1. 설명변수 $x_i$와 $y_i$, $i = 1, 2, \ldots, n$ 가 주여졌을 때 다음과 같은 반응변수 $y_i$에 대한 설명변수 $x_i$의 단순선형회귀모형(simple linear regression)을 
 고려해보자. 
 
 
@@ -13,7 +13,7 @@ $$
 y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i \sim \mathcal{U}(0, 10)
 $$
 
-a) 위 모형 $_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i$를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오. 
+a) 위 모형 $y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i$를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오. 
 
 
 

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.2 R Markdown 문서 시작하기 | 통계 패키지 활용</title>
+  <title>4.5 두 변수의 상관 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.2 R Markdown 문서 시작하기 | 통계 패키지 활용" />
+  <meta property="og:title" content="4.5 두 변수의 상관 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.2 R Markdown 문서 시작하기 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="4.5 두 변수의 상관 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="r-markdown의-구성.html"/>
-<link rel="next" href="r-markdown-기본-문법syntax.html"/>
+<link rel="prev" href="범주형-자료분석categorical-data-analysis.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -234,64 +234,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r-markdown-문서-시작하기" class="section level2">
-<h2><span class="header-section-number">1.2</span> R Markdown 문서 시작하기</h2>
-<ul>
-<li><strong>R Markdown</strong> 문서 생성: <code>[File] -&gt; [New File] -&gt; [R Markdown..]</code>을 선택</li>
-</ul>
+<div id="두-변수의-상관" class="section level2">
+<h2><span class="header-section-number">4.5</span> 두 변수의 상관</h2>
 
-
-<div class="rmdcaution">
-RStudio를 처음 설치하고 위와 같이 진행할 경우 아래와 같은 패키지 설치 여부를 묻는 팝업 창이 나타남. 패키지 설치 여부에 <code>[Yes]</code>를 클릭하면 R Markdown 문서 생성을 위해 필요한 패키지들이 자동으로 설치
 </div>
-
-<p></p>
-
-<p><img src="figures/rmarkdown-new-01.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>설치 완료 후 R Markdown으로 생성할 최종 문서 유형 선택 질의 창이 나타남. 아래 창에서 제목(Title)과 저자(Author) 이름 입력 후 <code>[OK]</code> 버튼 클릭(<code>Document</code>, <code>html</code> 문서 선택)</li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-02.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>아래 그림과 같이 새로운 문서 창이 생성되고 <code>test.Rmd</code> 파일로 저장<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-03.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>문서 상단에 <code>Knit</code> 아이콘을 클릭 후 <code>Knit to HTML</code> 클릭 또는 문서 아무 곳에 커서를 위치하고 단축키 <code>[Ctrl] + [Shift] + [K]</code> 입력</li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-04.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li><code>knitr</code> + <code>R Markdown</code> + <code>pandoc</code> <span class="math inline">\(\rightarrow\)</span> <code>html</code> 파일 생성 결과</li>
-</ul>
-
-<div class="figure" style="text-align: center"><span id="fig:rmarkdown-new-out"></span>
-<img src="figures/rmarkdown-new-out.png" alt="test.html 문서 화면(저장 폴더 내 `test.html`을 크롬 브라우저로 실행)" width="80%" />
-<p class="caption">
-Figure 1.4: test.html 문서 화면(저장 폴더 내 <code>test.html</code>을 크롬 브라우저로 실행)
-</p>
-</div>
-<p></p>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="2">
-<li id="fn2"><p>[RStudio 프로젝트]에서 생성한 폴더 내에 파일 저장<a href="r-markdown-문서-시작하기.html#fnref2" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="r-markdown의-구성.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="r-markdown-기본-문법syntax.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="범주형-자료분석categorical-data-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -322,7 +276,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/zorba78/cnu-stat-package-lecture/01-Rmarkdown-1st.Rmd",
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/05-basic-stat-analysis.Rmd",
 "text": "Edit"
 },
 "history": {

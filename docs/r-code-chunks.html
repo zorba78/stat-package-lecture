@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-19" />
+<meta name="date" content="2020-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -199,6 +199,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.5" data-path="시뮬레이션과-통계학.html"><a href="시뮬레이션과-통계학.html"><i class="fa fa-check"></i><b>3.5</b> 시뮬레이션과 통계학</a></li>
 <li class="chapter" data-level="3.6" data-path="homework-3.html"><a href="homework-3.html"><i class="fa fa-check"></i><b>3.6</b> Homework 3</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="basic-stat-analysis.html"><a href="basic-stat-analysis.html"><i class="fa fa-check"></i><b>4</b> R을 활용한 기초통계 분석</a><ul>
+<li class="chapter" data-level="4.1" data-path="qqplot.html"><a href="qqplot.html"><i class="fa fa-check"></i><b>4.1</b> Q-Q plot</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="qqplot.html"><a href="qqplot.html#quantile-def"><i class="fa fa-check"></i><b>4.1.1</b> 분위수(Quantile)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="two-group-comp.html"><a href="two-group-comp.html"><i class="fa fa-check"></i><b>4.2</b> 연속형 변수의 두 집단의 비교</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="two-group-comp.html"><a href="two-group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="two-group-comp.html"><a href="two-group-comp.html#대응-표본-t-검정paired-samples-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 대응 표본 t 검정(paired samples t test)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="일원배치-분산분석oneway-analysis-of-variance-anova.html"><a href="일원배치-분산분석oneway-analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4.3</b> 일원배치 분산분석(oneway analysis of variance, ANOVA)</a></li>
+<li class="chapter" data-level="4.4" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html"><i class="fa fa-check"></i><b>4.4</b> 범주형 자료분석(categorical data analysis)</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#적합성-검정goodness-of-fit-test"><i class="fa fa-check"></i><b>4.4.1</b> 적합성 검정(goodness-of-fit test)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#독립성-검정"><i class="fa fa-check"></i><b>4.4.2</b> 독립성 검정</a></li>
+<li class="chapter" data-level="4.4.3" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#fisher-정확검정"><i class="fa fa-check"></i><b>4.4.3</b> Fisher 정확검정</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="두-변수의-상관.html"><a href="두-변수의-상관.html"><i class="fa fa-check"></i><b>4.5</b> 두 변수의 상관</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -486,15 +502,15 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-code-chunks.html#cb22-1"></a><span class="co"># results = &#39;hold&#39;가 아닌 경우 한 라인 별 출력 결과 생성</span></span>
 <span id="cb22-2"><a href="r-code-chunks.html#cb22-2"></a>x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb22-3"><a href="r-code-chunks.html#cb22-3"></a>x</span></code></pre></div>
-<pre><code> [1]  0.4478586 -0.9946412 -1.3258333 -0.5645482 -0.2394859 -0.5122449
- [7] -0.2960154 -1.0244771 -0.6151620 -1.4931252</code></pre>
+<pre><code> [1]  1.0547119 -0.4838868  0.1834590  0.6003044  1.2731295 -0.0498502
+ [7] -1.0404484 -0.7903746 -0.6078726  0.6558828</code></pre>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-code-chunks.html#cb24-1"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb24-2"><a href="r-code-chunks.html#cb24-2"></a>y</span></code></pre></div>
-<pre><code> [1]  1.90830306  2.32015135  1.12740570  0.45523720 -2.96644725  1.65177646
- [7]  1.40942556  3.21357923 -0.06890843 -0.05201648</code></pre>
+<pre><code> [1]  1.2953926  5.7432571  3.4182543  0.8789715  1.9800071 -2.1751522
+ [7]  0.4768072  0.4505431  2.3455792  4.6021649</code></pre>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-code-chunks.html#cb26-1"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1]  2.3561617  1.3255102 -0.1984276 -0.1093110 -3.2059332  1.1395316
- [7]  1.1134102  2.1891022 -0.6840704 -1.5451416</code></pre>
+<pre><code> [1]  2.3501045  5.2593703  3.6017133  1.4792759  3.2531366 -2.2250024
+ [7] -0.5636411 -0.3398316  1.7377066  5.2580477</code></pre>
 
 
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-code-chunks.html#cb28-1"></a><span class="co"># results = &#39;hold&#39;인 경우 코드 부분과 출력 부분이 따로 블록 처리</span></span>
@@ -503,12 +519,12 @@ Figure 1.7: 청크 옵션 results = ’asis’인 경우 rmd vs. md 파일 비�
 <span id="cb28-4"><a href="r-code-chunks.html#cb28-4"></a>y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb28-5"><a href="r-code-chunks.html#cb28-5"></a>y</span>
 <span id="cb28-6"><a href="r-code-chunks.html#cb28-6"></a>x <span class="op">+</span><span class="st"> </span>y</span></code></pre></div>
-<pre><code> [1]  0.09582155 -2.07845243  1.00187616  1.49961738  0.76479855 -1.01007260
- [7] -0.34498756  1.44843374 -0.12652546  0.43163729
- [1]  4.0194763 -2.5016796  0.3070447  1.9910871  1.1150301  0.1090712
- [7]  1.4208768 -2.0966114 -1.1869877  4.4931629
- [1]  4.1152979 -4.5801321  1.3089209  3.4907045  1.8798287 -0.9010014
- [7]  1.0758893 -0.6481776 -1.3135132  4.9248002</code></pre>
+<pre><code> [1] -0.58349938 -0.49922867 -0.04242414 -1.22000745  2.15491375  0.65727398
+ [7] -0.27233092 -0.46234410 -0.20811959 -1.75713691
+ [1] -1.16587700  3.10118308 -0.09415376 -0.97002049  0.98324197 -0.07784849
+ [7]  4.16083187  3.64112858 -0.99198624  3.44127162
+ [1] -1.7493764  2.6019544 -0.1365779 -2.1900279  3.1381557  0.5794255
+ [7]  3.8885010  3.1787845 -1.2001058  1.6841347</code></pre>
 
 <ul>
 <li><code>error</code>: 코드 청크 내 스크립트에 오류에 대한 보존 여부(<code>stop()</code>)

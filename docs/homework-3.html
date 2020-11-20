@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-19" />
+<meta name="date" content="2020-11-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="시뮬레이션과-통계학.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="basic-stat-analysis.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -200,6 +200,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.5" data-path="시뮬레이션과-통계학.html"><a href="시뮬레이션과-통계학.html"><i class="fa fa-check"></i><b>3.5</b> 시뮬레이션과 통계학</a></li>
 <li class="chapter" data-level="3.6" data-path="homework-3.html"><a href="homework-3.html"><i class="fa fa-check"></i><b>3.6</b> Homework 3</a></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="basic-stat-analysis.html"><a href="basic-stat-analysis.html"><i class="fa fa-check"></i><b>4</b> R을 활용한 기초통계 분석</a><ul>
+<li class="chapter" data-level="4.1" data-path="qqplot.html"><a href="qqplot.html"><i class="fa fa-check"></i><b>4.1</b> Q-Q plot</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="qqplot.html"><a href="qqplot.html#quantile-def"><i class="fa fa-check"></i><b>4.1.1</b> 분위수(Quantile)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="two-group-comp.html"><a href="two-group-comp.html"><i class="fa fa-check"></i><b>4.2</b> 연속형 변수의 두 집단의 비교</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="two-group-comp.html"><a href="two-group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="two-group-comp.html"><a href="two-group-comp.html#대응-표본-t-검정paired-samples-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 대응 표본 t 검정(paired samples t test)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="일원배치-분산분석oneway-analysis-of-variance-anova.html"><a href="일원배치-분산분석oneway-analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4.3</b> 일원배치 분산분석(oneway analysis of variance, ANOVA)</a></li>
+<li class="chapter" data-level="4.4" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html"><i class="fa fa-check"></i><b>4.4</b> 범주형 자료분석(categorical data analysis)</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#적합성-검정goodness-of-fit-test"><i class="fa fa-check"></i><b>4.4.1</b> 적합성 검정(goodness-of-fit test)</a></li>
+<li class="chapter" data-level="4.4.2" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#독립성-검정"><i class="fa fa-check"></i><b>4.4.2</b> 독립성 검정</a></li>
+<li class="chapter" data-level="4.4.3" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#fisher-정확검정"><i class="fa fa-check"></i><b>4.4.3</b> Fisher 정확검정</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="두-변수의-상관.html"><a href="두-변수의-상관.html"><i class="fa fa-check"></i><b>4.5</b> 두 변수의 상관</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -221,14 +237,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="homework-3" class="section level2">
 <h2><span class="header-section-number">3.6</span> Homework 3</h2>
 <ol style="list-style-type: decimal">
-<li>설명변수 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, n\)</span> 가 주여졌을 때 다음과 같은 반응변수 <span class="math inline">\(Y_i\)</span>에 대한 설명변수 <span class="math inline">\(x_i\)</span>의 단순선형회귀모형(simple linear regression)을
+<li>설명변수 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, n\)</span> 가 주여졌을 때 다음과 같은 반응변수 <span class="math inline">\(y_i\)</span>에 대한 설명변수 <span class="math inline">\(x_i\)</span>의 단순선형회귀모형(simple linear regression)을
 고려해보자.</li>
 </ol>
 <p><span class="math display">\[
 y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i \sim \mathcal{U}(0, 10)
 \]</span></p>
 <ol style="list-style-type: lower-alpha">
-<li><p>위 모형 <span class="math inline">\(_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i\)</span>를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오.</p></li>
+<li><p>위 모형 <span class="math inline">\(y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i\)</span>를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오.</p></li>
 <li><p><span class="math inline">\(y_i\)</span>가 정규분포를 따른다고 가정할 때, 설명변수 <span class="math inline">\(x_i\)</span>가 주어졌을 때 반응변수 <span class="math inline">\(y_i\)</span>는 어떤 분포를 따르는지 행렬과 벡터로 표시하시오.</p></li>
 <li><p>주어진 모형으로부터 <span class="math inline">\(y_i\)</span>를 생성하고(<span class="math inline">\(i=1,\ldots, 30\)</span>), 생성한 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>의 산점도를 그리시오. 단, seed 번호는 <code>20201111</code>로 고정하시오.</p></li>
 </ol>
@@ -288,6 +304,8 @@ y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i 
 </div>
 
 
+
+<p></p>
 </div>
 <!-- </div> -->
             </section>
@@ -296,7 +314,7 @@ y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, 9), ~~ x_i 
         </div>
       </div>
 <a href="시뮬레이션과-통계학.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="basic-stat-analysis.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
