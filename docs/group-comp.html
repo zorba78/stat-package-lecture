@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 R을 활용한 기초통계 분석 | 통계 패키지 활용</title>
+  <title>4.2 연속형 변수의 비교 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 R을 활용한 기초통계 분석 | 통계 패키지 활용" />
+  <meta property="og:title" content="4.2 연속형 변수의 비교 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 R을 활용한 기초통계 분석 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="4.2 연속형 변수의 비교 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="homework-3.html"/>
-<link rel="next" href="qqplot.html"/>
+<link rel="prev" href="qqplot.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -227,29 +227,215 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="basic-stat-analysis" class="section level1">
-<h1><span class="header-section-number">4</span> R을 활용한 기초통계 분석</h1>
-<blockquote>
-<p><strong>Sketch</strong></p>
-<ul>
-<li>Q-Q plot <span class="math inline">\(\rightarrow\)</span> 데이터가 특정 분포를 따르는가?</li>
-<li>paired t test, independent two sample t test <span class="math inline">\(\rightarrow\)</span> 연속형 반응변수 vs. 범주가 2개인 범주형 변수</li>
-<li>Oneway ANOVA test <span class="math inline">\(\rightarrow\)</span> 연속형 반응변수 vs. 범주가 2개 이상인 범주형 변수</li>
-<li><span class="math inline">\(\chi^2\)</span> &amp; Fisher’s exact test <span class="math inline">\(\rightarrow\)</span> 두 범주형 변수 간 연관성(독립성) 검정</li>
-<li>Correlation between two continuous variables <span class="math inline">\(\rightarrow\)</span> Pearson’s correlation coefficient</li>
-</ul>
-</blockquote>
+<div id="group-comp" class="section level2">
+<h2><span class="header-section-number">4.2</span> 연속형 변수의 비교</h2>
 
-<p><img src="figures/sats-flowchart.jpg" width="100%" style="display: block; margin: auto;" /></p>
+
+<div class="rmdnote">
+<p>기초 통계학 또는 타 과목에서 학습한 독립 이표본 <span class="math inline">\(t\)</span> 검정이나 일원배치분산분석은 모두 선형모형의 특별한 케이스임. 두 방법 모두 연속형 변수를 반응변수로 놓고
+범주형 변수를 예측변수로 설정한 회귀모형으로 간주할 수 있음.</p>
+<ul>
+<li>독립 이표본 <span class="math inline">\(t\)</span> 검정</li>
+</ul>
+<p><span class="math display">\[
+  y_i = \beta_0 + \beta_1 x_i + \epsilon_i, ~~ \epsilon_i \sim \mathcal{N}(0, \sigma^2), ~~ x_i = \{0, 1\}
+\]</span></p>
+<ul>
+<li>일원배치분산분석(수준 <span class="math inline">\(k = 3\)</span>, 각 수준 별 반복 <span class="math inline">\(n = 2\)</span>)</li>
+</ul>
+<p><span class="math display">\[
+  \mathbf{y}_{6 \times 1} = \mathbf{X}_{6\times 4}\boldsymbol{\mathbf{\beta}}_{4\times 1} + \boldsymbol{\mathbf{\epsilon}}_{6\times 1}
+\]</span></p>
+<p><span class="math display">\[\mathbf{y}_{6 \times 1}  = 
+\begin{bmatrix}
+y_{11} \\
+y_{21} \\
+y_{31} \\
+y_{41} \\
+y_{51} \\
+y_{61} 
+\end{bmatrix}, ~~ \mathbf{X}_{6\times 4} = 
+\begin{bmatrix}
+1 &amp; 1 &amp; 0 &amp; 0 \\
+1 &amp; 1 &amp; 0 &amp; 0 \\
+1 &amp; 0 &amp; 1 &amp; 0 \\
+1 &amp; 0 &amp; 1 &amp; 0 \\
+1 &amp; 0 &amp; 0 &amp; 1 \\
+1 &amp; 0 &amp; 0 &amp; 1 
+\end{bmatrix}, ~~ \boldsymbol{\mathbf{\beta}}_{4\times 1} = 
+\begin{bmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3 \\
+\end{bmatrix}, ~~ \boldsymbol{\mathbf{\epsilon}}_{6\times 1}
+\begin{bmatrix}
+\epsilon_{11} \\
+\epsilon_{21} \\
+\epsilon_{31} \\
+\epsilon_{41} \\
+\epsilon_{51} \\
+\epsilon_{61} 
+\end{bmatrix}
+\]</span></p>
+</div>
+
+<p></p>
+<p>일반적으로 우리가 분석을 위한 데이터는 두 가지 방법을 통해 획득</p>
+<ul>
+<li>관찰(observation): 반응변수(<span class="math inline">\(Y\)</span>) 및 예측변수(<span class="math inline">\(X\)</span>) 모두 관찰을 통해 획득
+<ul>
+<li>예: 표본조사(sample survey), 코호트 연구(cohort study), 단면연구(cross-sectional study) 등</li>
+</ul></li>
+<li>실험(experiment): 예측변수를 실험자가 결정하고 실험을 통해 반응변수를 관찰
+<ul>
+<li>실험을 진행하는 사람이 제어하는 예측변수를 <strong>요인(factor)</strong></li>
+<li>요인의 가능한 값을 <strong>수준(level)</strong></li>
+<li>요인의 수준에 따라 관찰하고자 하는 대상을 <strong>무작위</strong>로 할당</li>
+<li>예: 무작위 임상시험, 실험설계</li>
+</ul></li>
+</ul>
+<div id="paired-t-test" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> 대응 표본 t 검정(paired samples t test)</h3>
+<div id="대응-표본paired-sample" class="section level4 unnumbered">
+<h4>대응 표본(paired sample)</h4>
+<p>동일한 대상자에 대해 쌍으로 이루어진 데이터</p>
+<ul>
+<li>새 교습방법에 대한 적용 전·후 수학 점수</li>
+<li>실험용 쥐에 실험약 투여 전·후 대사량</li>
+<li>다이어트 약 복용 전·후 체중</li>
+</ul>
+<p>데이터 형태: <span class="math inline">\(X \sim \mathcal{N}(\mu_X, \sigma^2_X)\)</span>이고 <span class="math inline">\(Y \sim \mathcal{N}(\mu_Y, \sigma^2_Y)\)</span></p>
+<p><span class="math display">\[\begin{align}
+x_1, x_2, \ldots, x_n &amp; &amp; \mathrm{before~treatment} \\
+y_1, y_2, \ldots, y_n &amp; &amp; \mathrm{after~treatment} \\
+\end{align}
+\]</span></p>
+<p>여기서 <span class="math inline">\(x_i\)</span>와 <span class="math inline">\(y_i\)</span>는 서로 독립이 아님 <span class="math inline">\(\rightarrow\)</span> 전·후 차이를 계산한 새로운 변수 <span class="math inline">\(d_i = y_i - x_i\)</span>를 생성 후 <span class="math inline">\(D = \{d_1, \ldots, d_n\}\)</span>에 대한
+일표본 <span class="math inline">\(t\)</span> 검정을 실시(<span class="math inline">\(D \sim \mathcal{N}(\mu_D, \sigma_D^2)\)</span>)</p>
+<p><span class="math display">\[
+\mu_D = \mu_Y - \mu_X, ~~\sigma^2_D = \sigma^2_X + \sigma^2_Y - 2\rho_{XY}\sigma_X\sigma_Y 
+\]</span></p>
+<p>여기서 <span class="math inline">\(\rho_{XY}\)</span>는 <span class="math inline">\(X\)</span>와 <span class="math inline">\(Y\)</span>의 (피어슨) 상관계수임. 검정을 위한 귀무가설과 대립가설은 아래와 같음</p>
+<p><span class="math display">\[
+H_0: \mu_D = 0~~~\mathrm{vs.}~~~H_1:\mu_D \neq 0
+\]</span></p>
+<p>검정통계량</p>
+<p><span class="math display">\[
+t_0 = \frac{\hat{\mu}_D - 0}{\hat{\sigma}/\sqrt{n}} \sim t_{(\nu = n-1)}
+\]</span></p>
+<p>혈압강하제 임상시험 데이터(<code>DBP.txt</code>)에서 시험약 복용 전(<code>DBP1</code>) 대비 복용 1개월 후(<code>DBP2</code>) 이완기 혈압(diastolic blood pressure)의 차이 검정</p>
+
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="group-comp.html#cb415-1"></a>DBP &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;data/DBP.txt&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>Parsed with column specification:
+cols(
+  Subject = col_double(),
+  TRT = col_character(),
+  DBP1 = col_double(),
+  DBP2 = col_double(),
+  DBP3 = col_double(),
+  DBP4 = col_double(),
+  DBP5 = col_double(),
+  Age = col_double(),
+  Sex = col_character()
+)</code></pre>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="group-comp.html#cb417-1"></a>DBP &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb417-2"><a href="group-comp.html#cb417-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">D1 =</span> DBP2 <span class="op">-</span><span class="st"> </span>DBP1)</span>
+<span id="cb417-3"><a href="group-comp.html#cb417-3"></a>treatment &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb417-4"><a href="group-comp.html#cb417-4"></a><span class="st">  </span><span class="kw">filter</span>(TRT <span class="op">==</span><span class="st"> &quot;A&quot;</span>)</span>
+<span id="cb417-5"><a href="group-comp.html#cb417-5"></a>D1 &lt;-<span class="st"> </span>treatment<span class="op">$</span>D1</span>
+<span id="cb417-6"><a href="group-comp.html#cb417-6"></a>mD1 &lt;-<span class="st"> </span><span class="kw">mean</span>(D1)</span>
+<span id="cb417-7"><a href="group-comp.html#cb417-7"></a>sD1 &lt;-<span class="st"> </span><span class="kw">sd</span>(D1)</span>
+<span id="cb417-8"><a href="group-comp.html#cb417-8"></a><span class="co">### check </span></span>
+<span id="cb417-9"><a href="group-comp.html#cb417-9"></a><span class="co"># mb &lt;- mean(treatment$DBP1); ma &lt;- mean(treatment$DBP2)</span></span>
+<span id="cb417-10"><a href="group-comp.html#cb417-10"></a><span class="co"># sD1_check &lt;- with(treatment, </span></span>
+<span id="cb417-11"><a href="group-comp.html#cb417-11"></a><span class="co">#                   sqrt(var(DBP1) + var(DBP2) - </span></span>
+<span id="cb417-12"><a href="group-comp.html#cb417-12"></a><span class="co">#                          2*cor(DBP1, DBP2)*sd(DBP1)*sd(DBP2)))</span></span>
+<span id="cb417-13"><a href="group-comp.html#cb417-13"></a><span class="co"># mD1; ma - mb</span></span>
+<span id="cb417-14"><a href="group-comp.html#cb417-14"></a><span class="co"># sD1; sD1_check</span></span>
+<span id="cb417-15"><a href="group-comp.html#cb417-15"></a></span>
+<span id="cb417-16"><a href="group-comp.html#cb417-16"></a>tstat &lt;-<span class="st"> </span>mD1<span class="op">/</span>(sD1<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(D1)))</span>
+<span id="cb417-17"><a href="group-comp.html#cb417-17"></a>p.val &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="kw">pt</span>(tstat, <span class="dt">df =</span> <span class="kw">length</span>(D1) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span>
+<span id="cb417-18"><a href="group-comp.html#cb417-18"></a></span>
+<span id="cb417-19"><a href="group-comp.html#cb417-19"></a><span class="co">## t.test() check</span></span>
+<span id="cb417-20"><a href="group-comp.html#cb417-20"></a>tstat; <span class="kw">t.test</span>(D1)<span class="op">$</span>statistic</span></code></pre></div>
+<pre><code>[1] -7.493656</code></pre>
+<pre><code>        t 
+-7.493656 </code></pre>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="group-comp.html#cb420-1"></a>p.val; <span class="kw">t.test</span>(D1)<span class="op">$</span>p.value</span></code></pre></div>
+<pre><code>[1] 4.364575e-07</code></pre>
+<pre><code>[1] 4.364575e-07</code></pre>
+<p></p>
+
+
+<div class="rmdnote">
+<p>R에서 대응표본(일표본) 및 독립 이표본 <span class="math inline">\(t\)</span> 검정을 하기 위한 함수는 <code>t.test()</code>이고 아래와 같은 인수를 가짐</p>
+<ul>
+<li><code>x</code>: 검정을 할 데이터</li>
+<li><code>y</code>: 독립 이표본 검정 수행 시 두 번째 데이터
+<ul>
+<li>독립 이표본 t 검정 시 수식 형태 <code>y ~ x</code>로 표현 가능하며, 이 때 입력 데이터는 데이터 프레임 형태임</li>
+</ul></li>
+<li><code>alternative</code>: 대립가설 형태(양측 또는 단측: “two.sided”, “greater”, “less”)</li>
+<li><code>var.equal</code>: 논리값을 가지며 독립 이표본 t 검정 시 두 집단의 분산에 대한 가정(FALSE = 이분산, TRUE=등분산)</li>
+<li><code>conf.level</code>: 신뢰수준(default 값은 0.95)</li>
+</ul>
+<p>R은 다양한 가설검정 관련 함수를 제공하는데 검정 결과는 <code>htest</code>라는 클래스 개체에 저장함. <code>htest</code> 객체는 다음과 같은 출력결과를 가짐(검정함수에 따라 달라질 수 있음)</p>
+<ul>
+<li><code>statistic</code>: 검정 통계량</li>
+<li><code>parametmer</code>: 검정통계량 계산에 사용된 자유도(degree of freedom)</li>
+<li><code>p.value</code>: P 값</li>
+<li><code>conf.int</code>: 신뢰구간</li>
+<li><code>estimate</code>: 추정 평균 또는 평균 차이 (t 검정인 경우)</li>
+</ul>
+</div>
+
 <p></p>
 </div>
+</div>
+<div id="독립-이표본-t-검정independent-two-sample-t-test" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> 독립 이표본 t 검정(independent two-sample t-test)</h3>
+<p>서로 독립인 두 모집단의 평균을 비교하기 위한 가장 기본적인 통계적 가설검정 방법으로 반응 변수 <span class="math inline">\(y_{ij}\)</span>는</p>
+<p><span class="math display">\[
+y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2_i = \sigma^2)
+\]</span></p>
+<p>이고, <span class="math inline">\(i = 1, 2\)</span>, <span class="math inline">\(j = 1, \ldots, n_i\)</span>, <span class="math inline">\(n_i\)</span>는 <span class="math inline">\(i\)</span> 번째 집단의 표본 크기임.</p>
+<p>위 모형은 다음과 같은 가정을 내포함.</p>
+<ul>
+<li>두 집단의 관찰값은 <strong>정규분포</strong>를 따르며, 각 집단 간 평균은 서로 다름.</li>
+<li>각 관찰값은 <strong>서로 독립</strong></li>
+<li>두 집단의 <strong>분산은 동일</strong>: <span class="math inline">\(\sigma^2_1 = \sigma^2_2 = \sigma\)</span></li>
+</ul>
+<p>두 집단 간 평균 차이 검정에 대한 귀무가설과 대립가설은 아래와 같이 설정</p>
+<p><span class="math display">\[
+H_0: \mu_1 = \mu_2~~~\mathrm{vs.}~~~H_1: \mu_1 \neq \mu_2
+\]</span></p>
+<p>위 가설검정을 위한 검정 통계량</p>
+<p><span class="math display">\[
+t_0 = \frac{\hat{\mu}_1 - \hat{\mu}_2 - 0}{s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t_{\nu = n_1 + n_2 -2}
+\]</span></p>
+<p>여기서 <span class="math inline">\(\hat{\mu}_{1} = \sum_{j=1}^{n_1} y_{1j}/n_1\)</span>, <span class="math inline">\(\hat{\mu}_{2} = \sum_{j=1}^{n_2} y_{2j}/n_2\)</span>, 집단 1과 집단 2의 표본합동분산(sample pooled-variance)는
+아래와 같음</p>
+<p><span class="math display">\[
+\sigma_p^2 = \frac{(n_1 - 1)\hat{\sigma_1}^2 + (n_2 -1)\hat{\sigma}_2^2}{n_1 + n_2 - 2}, ~~~ \hat{\sigma}_i^2 = \frac{\sum_{j=1}^{n_i} (y_{ij} - \hat{\mu}_i)^2}{n_i - 1}
+\]</span></p>
+<!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
+<!-- ## 범주형 자료분석(categorical data analysis) -->
+<!-- ### 적합성 검정(goodness-of-fit test) -->
+<!-- ### 독립성 검정 -->
+<!-- ### Fisher 정확검정 -->
+<!-- ## 두 변수의 상관 -->
+
+</div>
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="homework-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="qqplot.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="qqplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

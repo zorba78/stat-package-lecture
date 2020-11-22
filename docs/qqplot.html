@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-20" />
+<meta name="date" content="2020-11-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="basic-stat-analysis.html"/>
-<link rel="next" href="two-group-comp.html"/>
+<link rel="next" href="group-comp.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -204,17 +204,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="qqplot.html"><a href="qqplot.html"><i class="fa fa-check"></i><b>4.1</b> Q-Q plot</a><ul>
 <li class="chapter" data-level="4.1.1" data-path="qqplot.html"><a href="qqplot.html#quantile-def"><i class="fa fa-check"></i><b>4.1.1</b> 분위수(Quantile)</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="two-group-comp.html"><a href="two-group-comp.html"><i class="fa fa-check"></i><b>4.2</b> 연속형 변수의 두 집단의 비교</a><ul>
-<li class="chapter" data-level="4.2.1" data-path="two-group-comp.html"><a href="two-group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.1</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
-<li class="chapter" data-level="4.2.2" data-path="two-group-comp.html"><a href="two-group-comp.html#대응-표본-t-검정paired-samples-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 대응 표본 t 검정(paired samples t test)</a></li>
+<li class="chapter" data-level="4.2" data-path="group-comp.html"><a href="group-comp.html"><i class="fa fa-check"></i><b>4.2</b> 연속형 변수의 비교</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="group-comp.html"><a href="group-comp.html#paired-t-test"><i class="fa fa-check"></i><b>4.2.1</b> 대응 표본 t 검정(paired samples t test)</a></li>
+<li class="chapter" data-level="4.2.2" data-path="group-comp.html"><a href="group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="일원배치-분산분석oneway-analysis-of-variance-anova.html"><a href="일원배치-분산분석oneway-analysis-of-variance-anova.html"><i class="fa fa-check"></i><b>4.3</b> 일원배치 분산분석(oneway analysis of variance, ANOVA)</a></li>
-<li class="chapter" data-level="4.4" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html"><i class="fa fa-check"></i><b>4.4</b> 범주형 자료분석(categorical data analysis)</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#적합성-검정goodness-of-fit-test"><i class="fa fa-check"></i><b>4.4.1</b> 적합성 검정(goodness-of-fit test)</a></li>
-<li class="chapter" data-level="4.4.2" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#독립성-검정"><i class="fa fa-check"></i><b>4.4.2</b> 독립성 검정</a></li>
-<li class="chapter" data-level="4.4.3" data-path="범주형-자료분석categorical-data-analysis.html"><a href="범주형-자료분석categorical-data-analysis.html#fisher-정확검정"><i class="fa fa-check"></i><b>4.4.3</b> Fisher 정확검정</a></li>
-</ul></li>
-<li class="chapter" data-level="4.5" data-path="두-변수의-상관.html"><a href="두-변수의-상관.html"><i class="fa fa-check"></i><b>4.5</b> 두 변수의 상관</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -274,11 +267,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 
 <p></p>
-<p>표본 분위수는 순서통계량(order statistics)<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>의 가중평균으로 정의하며 임의의 표본이 주어졌을 때 <span class="math inline">\(p \times 100\)</span> % 분위수 계산 식<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>은 아래와 같음(연속 변수에 대해)</p>
+<p>표본 분위수는 순서통계량(order statistics)<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>의 가중평균으로 정의하며 임의의 표본이 주어졌을 때
+<span class="math inline">\(p \times 100\)</span> % 분위수 계산 식<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>은 아래와 같음(연속 변수에 대해)</p>
 <p><span class="math display">\[
 Q(p) = (1 - \gamma) x_{(k)} + \gamma x_{(k+1)}
 \]</span></p>
-<p>이고, 여기서 <span class="math inline">\((k - 0.5)/n \leq p &lt; (k - 0.5 +1)/n\)</span>, <span class="math inline">\(x_{(k)}\)</span>는 <span class="math inline">\(k\)</span> 번째 순서통계량, <span class="math inline">\(n\)</span>은 표본크기, <span class="math inline">\(\gamma = np + 0.5 - k\)</span>, <span class="math inline">\(k\)</span>는 <span class="math inline">\(np + m\)</span>을 넘지 않는 최대 정수임.</p>
+<p>이고, 여기서 <span class="math inline">\((k - 0.5)/n \leq p &lt; (k - 0.5 +1)/n\)</span>, <span class="math inline">\(x_{(k)}\)</span>는 <span class="math inline">\(k\)</span> 번째 순서통계량, <span class="math inline">\(n\)</span>은 표본크기, <span class="math inline">\(\gamma = np + m - k\)</span>, <span class="math inline">\(k\)</span>는 <span class="math inline">\(np + m\)</span>을 넘지 않는
+최대 정수이고 <span class="math inline">\(m = 1/2\)</span> 임.</p>
 <ul>
 <li>예시</li>
 </ul>
@@ -369,19 +364,192 @@ Q(p) = (1 - \gamma) x_{(k)} + \gamma x_{(k+1)}
 <span id="cb408-26"><a href="qqplot.html#cb408-26"></a><span class="kw">qqline</span>(eq)</span></code></pre></div>
 <p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-7-1.svg" width="768" /></p>
 <p></p>
+
+
+<div class="rmdnote">
+<p>데이터의 정규성을 확인하기 위한 검정 방법으로 대표적으로 Kolmogrov-Smirnov test, Shapiro-Wilk test, Anderson-Darling test, Cramer-von Mises test 등이
+일반적으로 많이 사용되지만, 표본의 크기가 커질 경우 검정력이 높아지기 때문에 귀무가설인 “데이터가 정규분포를 따른다”를 기각할 확률이 높아짐. 그렇기 때문에
+정규성 검정과 동시에 Q-Q plot을 통한 데이터의 분포 확인이 필요함.</p>
+</div>
+
+<p></p>
 </div>
 <div id="q-q-plot의-형태" class="section level4 unnumbered">
 <h4>Q-Q plot의 형태</h4>
-<p>**대칭이지만 꼬리가 두꺼운 경우*</p>
-<p><strong>오른쪽으로 치우쳐진 경우(skewed to the right)</strong></p>
-<p><strong>왼쪽으로 치우쳐진 경우(skewed to the left)</strong></p>
+<ul>
+<li>정규분포를 기준으로 Q-Q plot의 형태를 통해 표본자료의 데이터 분포 유추가 가능.</li>
+<li>예를 들어 표본 분위수를 <span class="math inline">\(Q_E\)</span>, 표준정규분포의 분위수를 <span class="math inline">\(Q_T\)</span>라고 할 때</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(Q_E &lt; Q_T\)</span>: 이론적 분위수보다 표본 분위수가 작다 <span class="math inline">\(\rightarrow\)</span> 직선을 기준으로 오른쪽에 점 위치</li>
+</ol>
+
+<p><img src="figures/qqplot-tail-ex.png" width="80%" style="display: block; margin: auto;" /></p>
+<p></p>
+<ol start="2" style="list-style-type: decimal">
+<li><span class="math inline">\(Q_E &gt; Q_T\)</span>: 이론적 분위수보다 표본 분위수가 크다 <span class="math inline">\(\rightarrow\)</span> 직선을 기준으로 왼쪽에 점 위치</li>
+</ol>
+
+<p><img src="figures/qqplot-tail-ex2.png" width="80%" style="display: block; margin: auto;" /></p>
+<p></p>
+<p><strong>대칭이지만 표본데이터의 분포 꼬리가 표준정규분포에 비해 얇은 경우</strong></p>
+
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="qqplot.html#cb409-1"></a><span class="co"># X ~ U(-2, 2)</span></span>
+<span id="cb409-2"><a href="qqplot.html#cb409-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb409-3"><a href="qqplot.html#cb409-3"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">10000</span>, <span class="dv">-2</span>, <span class="dv">2</span>)</span>
+<span id="cb409-4"><a href="qqplot.html#cb409-4"></a></span>
+<span id="cb409-5"><a href="qqplot.html#cb409-5"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb409-6"><a href="qqplot.html#cb409-6"></a><span class="kw">qqnorm</span>(<span class="kw">scale</span>(x), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb409-7"><a href="qqplot.html#cb409-7"></a><span class="kw">qqline</span>(<span class="kw">scale</span>(x))</span>
+<span id="cb409-8"><a href="qqplot.html#cb409-8"></a></span>
+<span id="cb409-9"><a href="qqplot.html#cb409-9"></a><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">scale</span>(x)), </span>
+<span id="cb409-10"><a href="qqplot.html#cb409-10"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), </span>
+<span id="cb409-11"><a href="qqplot.html#cb409-11"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), </span>
+<span id="cb409-12"><a href="qqplot.html#cb409-12"></a>     <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb409-13"><a href="qqplot.html#cb409-13"></a>     <span class="dt">main =</span> <span class="st">&quot;Light tailed distribution: X ~ U(-2, 2)&quot;</span>)</span>
+<span id="cb409-14"><a href="qqplot.html#cb409-14"></a>z &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb409-15"><a href="qqplot.html#cb409-15"></a><span class="kw">lines</span>(z, <span class="kw">dnorm</span>(z), <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb409-16"><a href="qqplot.html#cb409-16"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Theoretical N(0, 1)&quot;</span>, <span class="st">&quot;Estimated density of the sample&quot;</span>), </span>
+<span id="cb409-17"><a href="qqplot.html#cb409-17"></a>       <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb409-18"><a href="qqplot.html#cb409-18"></a>       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-11-1.svg" width="960" /></p>
+<p></p>
+<p><strong>대칭이지만 표본데이터의 분포 꼬리가 표준정규분포에 비해 두꺼운 경우</strong></p>
+
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="qqplot.html#cb410-1"></a><span class="co"># 자유도가 8인 t 분포</span></span>
+<span id="cb410-2"><a href="qqplot.html#cb410-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb410-3"><a href="qqplot.html#cb410-3"></a>x &lt;-<span class="st"> </span><span class="kw">rt</span>(<span class="dv">10000</span>, <span class="dt">df =</span> <span class="dv">8</span>)</span>
+<span id="cb410-4"><a href="qqplot.html#cb410-4"></a></span>
+<span id="cb410-5"><a href="qqplot.html#cb410-5"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb410-6"><a href="qqplot.html#cb410-6"></a><span class="kw">qqnorm</span>(<span class="kw">scale</span>(x), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb410-7"><a href="qqplot.html#cb410-7"></a><span class="kw">qqline</span>(<span class="kw">scale</span>(x))</span>
+<span id="cb410-8"><a href="qqplot.html#cb410-8"></a></span>
+<span id="cb410-9"><a href="qqplot.html#cb410-9"></a><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">scale</span>(x)), </span>
+<span id="cb410-10"><a href="qqplot.html#cb410-10"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>), </span>
+<span id="cb410-11"><a href="qqplot.html#cb410-11"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>), </span>
+<span id="cb410-12"><a href="qqplot.html#cb410-12"></a>     <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb410-13"><a href="qqplot.html#cb410-13"></a>     <span class="dt">main =</span> <span class="st">&quot;Heavy tailed distribution: X ~ t(df = 3)&quot;</span>)</span>
+<span id="cb410-14"><a href="qqplot.html#cb410-14"></a>z &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">6</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb410-15"><a href="qqplot.html#cb410-15"></a><span class="kw">lines</span>(z, <span class="kw">dnorm</span>(z), <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb410-16"><a href="qqplot.html#cb410-16"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Theoretical N(0, 1)&quot;</span>, <span class="st">&quot;Estimated density of the sample&quot;</span>), </span>
+<span id="cb410-17"><a href="qqplot.html#cb410-17"></a>       <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb410-18"><a href="qqplot.html#cb410-18"></a>       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-12-1.svg" width="960" /></p>
+<p></p>
+<p><strong>표본데이터가 표준정규분포에 비해 오른쪽으로 치우쳐진 경우(skewed to the right)</strong></p>
+
+<div class="sourceCode" id="cb411"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb411-1"><a href="qqplot.html#cb411-1"></a><span class="co"># exp(lambda = 3)</span></span>
+<span id="cb411-2"><a href="qqplot.html#cb411-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb411-3"><a href="qqplot.html#cb411-3"></a>x &lt;-<span class="st"> </span><span class="kw">rexp</span>(<span class="dv">10000</span>, <span class="dt">rate =</span> <span class="dv">3</span>)</span>
+<span id="cb411-4"><a href="qqplot.html#cb411-4"></a></span>
+<span id="cb411-5"><a href="qqplot.html#cb411-5"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb411-6"><a href="qqplot.html#cb411-6"></a><span class="kw">qqnorm</span>(<span class="kw">scale</span>(x), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb411-7"><a href="qqplot.html#cb411-7"></a><span class="kw">qqline</span>(<span class="kw">scale</span>(x))</span>
+<span id="cb411-8"><a href="qqplot.html#cb411-8"></a></span>
+<span id="cb411-9"><a href="qqplot.html#cb411-9"></a><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">scale</span>(x)), </span>
+<span id="cb411-10"><a href="qqplot.html#cb411-10"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">6</span>), </span>
+<span id="cb411-11"><a href="qqplot.html#cb411-11"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.8</span>), </span>
+<span id="cb411-12"><a href="qqplot.html#cb411-12"></a>     <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb411-13"><a href="qqplot.html#cb411-13"></a>     <span class="dt">main =</span> <span class="st">&quot;Skewed to the right: X ~ exp(lambda = 3)&quot;</span>)</span>
+<span id="cb411-14"><a href="qqplot.html#cb411-14"></a>z &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">6</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb411-15"><a href="qqplot.html#cb411-15"></a><span class="kw">lines</span>(z, <span class="kw">dnorm</span>(z), <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb411-16"><a href="qqplot.html#cb411-16"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Theoretical N(0, 1)&quot;</span>, <span class="st">&quot;Estimated density of the sample&quot;</span>), </span>
+<span id="cb411-17"><a href="qqplot.html#cb411-17"></a>       <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb411-18"><a href="qqplot.html#cb411-18"></a>       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-13-1.svg" width="960" /></p>
+<p></p>
+<p><strong>표본데이터가 표준정규분포에 비해 왼쪽으로 치우쳐진 경우(skewed to the left)</strong></p>
+
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="qqplot.html#cb412-1"></a><span class="co"># X ~ beta(4, 1)</span></span>
+<span id="cb412-2"><a href="qqplot.html#cb412-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb412-3"><a href="qqplot.html#cb412-3"></a>x &lt;-<span class="st"> </span><span class="kw">rbeta</span>(<span class="dv">10000</span>, <span class="dt">shape1 =</span> <span class="dv">4</span>, <span class="dt">shape2 =</span> <span class="dv">1</span>)</span>
+<span id="cb412-4"><a href="qqplot.html#cb412-4"></a></span>
+<span id="cb412-5"><a href="qqplot.html#cb412-5"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb412-6"><a href="qqplot.html#cb412-6"></a><span class="kw">qqnorm</span>(<span class="kw">scale</span>(x), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb412-7"><a href="qqplot.html#cb412-7"></a><span class="kw">qqline</span>(<span class="kw">scale</span>(x))</span>
+<span id="cb412-8"><a href="qqplot.html#cb412-8"></a></span>
+<span id="cb412-9"><a href="qqplot.html#cb412-9"></a><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">scale</span>(x)), </span>
+<span id="cb412-10"><a href="qqplot.html#cb412-10"></a>     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">4</span>), </span>
+<span id="cb412-11"><a href="qqplot.html#cb412-11"></a>     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.6</span>), </span>
+<span id="cb412-12"><a href="qqplot.html#cb412-12"></a>     <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, </span>
+<span id="cb412-13"><a href="qqplot.html#cb412-13"></a>     <span class="dt">main =</span> <span class="st">&quot;Skewed to the left: X ~ beta(4, 1)&quot;</span>)</span>
+<span id="cb412-14"><a href="qqplot.html#cb412-14"></a>z &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb412-15"><a href="qqplot.html#cb412-15"></a><span class="kw">lines</span>(z, <span class="kw">dnorm</span>(z), <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>)</span>
+<span id="cb412-16"><a href="qqplot.html#cb412-16"></a><span class="kw">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Theoretical N(0, 1)&quot;</span>, <span class="st">&quot;Estimated density of the sample&quot;</span>), </span>
+<span id="cb412-17"><a href="qqplot.html#cb412-17"></a>       <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb412-18"><a href="qqplot.html#cb412-18"></a>       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-14-1.svg" width="960" /></p>
+<p></p>
+<ul>
+<li><code>qqnorm()</code>은 이론적인 표준정규분포와 표본 데이터의 분포를 비교하기 위한 함수이고, 다른 분포(<span class="math inline">\(\chi^2\)</span> 분포, <span class="math inline">\(t\)</span> 분포 등)와 비교하기 위헤서는
+<code>qqplot(x = theoretical, y = empirical)</code>를 사용해 Q-Q plot 생성 가능</li>
+</ul>
+
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="qqplot.html#cb413-1"></a><span class="co"># 카이제곱분포의 Q-Q plot </span></span>
+<span id="cb413-2"><a href="qqplot.html#cb413-2"></a><span class="kw">set.seed</span>(<span class="dv">100</span>)</span>
+<span id="cb413-3"><a href="qqplot.html#cb413-3"></a>y &lt;-<span class="st"> </span><span class="kw">rchisq</span>(<span class="dv">500</span>, <span class="dt">df =</span> <span class="dv">3</span>)</span>
+<span id="cb413-4"><a href="qqplot.html#cb413-4"></a>x &lt;-<span class="st"> </span><span class="kw">qchisq</span>(<span class="kw">ppoints</span>(<span class="dv">500</span>), <span class="co"># 500 quantiles 생성</span></span>
+<span id="cb413-5"><a href="qqplot.html#cb413-5"></a>            <span class="dt">df =</span> <span class="dv">3</span>)</span>
+<span id="cb413-6"><a href="qqplot.html#cb413-6"></a><span class="kw">qqplot</span>(x, y, </span>
+<span id="cb413-7"><a href="qqplot.html#cb413-7"></a>       <span class="dt">main =</span> <span class="kw">expression</span>(<span class="st">&quot;Q-Q plot for&quot;</span> <span class="op">~</span><span class="er">~</span><span class="st"> </span>{chi<span class="op">^</span><span class="dv">2</span>}[nu <span class="op">==</span><span class="st"> </span><span class="dv">3</span>]))</span>
+<span id="cb413-8"><a href="qqplot.html#cb413-8"></a><span class="kw">qqline</span>(y, <span class="dt">distribution =</span> <span class="cf">function</span>(p) <span class="kw">qchisq</span>(p, <span class="dt">df =</span> <span class="dv">3</span>), <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-15-1.svg" width="768" /></p>
+<p></p>
+</div>
+<div id="application" class="section level4 unnumbered">
+<h4>Application</h4>
+
+
+<div class="rmdnote">
+<ol style="list-style-type: decimal">
+<li>실제 데이터로부터 정규성 확인을 위헤 Q-Q plot 생성</li>
+<li><code>ggpubr</code> 패키지에서 제공하는 <code>ggqqplot()</code> 함수를 통해 Q-Q plot 생성</li>
+</ol>
+</div>
+
+<p></p>
+<blockquote>
+<p><code>ggpubr</code>: 논문이나 출판을 위해 high-quality 도표를 생성하기 위한 목적으로 “ggplot based Publication Ready plots”의 약어를 이름으로 갖는 패키지</p>
+</blockquote>
+<ul>
+<li>R에서 제공하는 <code>iris</code> 데이터셋 활용</li>
+<li><code>tidyverse</code> 세계에서 데이터 전처리 및 Q-Q plot 출력</li>
+</ul>
+
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="qqplot.html#cb414-1"></a><span class="co"># 각 붓꽃 종과 측정 변수에 따른 Q-Q plot 생성</span></span>
+<span id="cb414-2"><a href="qqplot.html#cb414-2"></a><span class="co"># install.packages(&quot;ggpubr&quot;)</span></span>
+<span id="cb414-3"><a href="qqplot.html#cb414-3"></a><span class="co"># require(tidyverse)</span></span>
+<span id="cb414-4"><a href="qqplot.html#cb414-4"></a><span class="co"># require(ggpubr)</span></span>
+<span id="cb414-5"><a href="qqplot.html#cb414-5"></a>iris_tb &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(iris)</span>
+<span id="cb414-6"><a href="qqplot.html#cb414-6"></a>iris_tb <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb414-7"><a href="qqplot.html#cb414-7"></a><span class="st">  </span>rownames_to_column <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 데이터프레임 행이름을 변수로 변환</span></span>
+<span id="cb414-8"><a href="qqplot.html#cb414-8"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">matches</span>(<span class="st">&quot;Sepal|Petal&quot;</span>), </span>
+<span id="cb414-9"><a href="qqplot.html#cb414-9"></a>               <span class="dt">names_to =</span> <span class="st">&quot;Measures&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># long-format으로 변환</span></span>
+<span id="cb414-10"><a href="qqplot.html#cb414-10"></a><span class="st">  </span><span class="kw">group_by</span>(Species, Measures) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb414-11"><a href="qqplot.html#cb414-11"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">zvalue =</span> <span class="kw">drop</span>(<span class="kw">scale</span>(value))) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 정규성 확인을 위해 각 변수의 종별 표준화</span></span>
+<span id="cb414-12"><a href="qqplot.html#cb414-12"></a><span class="st">  </span>ungroup <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb414-13"><a href="qqplot.html#cb414-13"></a><span class="st">  </span>ggpubr<span class="op">::</span><span class="kw">ggqqplot</span>(<span class="dt">x =</span> <span class="st">&quot;zvalue&quot;</span>, </span>
+<span id="cb414-14"><a href="qqplot.html#cb414-14"></a>                   <span class="dt">color =</span> <span class="st">&quot;Species&quot;</span>, </span>
+<span id="cb414-15"><a href="qqplot.html#cb414-15"></a>                   <span class="dt">facet.by =</span> <span class="kw">c</span>(<span class="st">&quot;Species&quot;</span>, <span class="st">&quot;Measures&quot;</span>), </span>
+<span id="cb414-16"><a href="qqplot.html#cb414-16"></a>                   <span class="dt">palette =</span> <span class="kw">c</span>(<span class="st">&quot;#00AFBB&quot;</span>, <span class="st">&quot;#E7B800&quot;</span>, <span class="st">&quot;#FC4E07&quot;</span>), </span>
+<span id="cb414-17"><a href="qqplot.html#cb414-17"></a>                   <span class="dt">ggtheme =</span> ggpubr<span class="op">::</span><span class="kw">theme_pubclean</span>(<span class="dt">base_size =</span> <span class="dv">15</span>)) </span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-17-1.svg" width="960" /></p>
+<p></p>
+
+
+<div class="rmdtip">
+<p>그래프 생성 시 원하는 색에 대한 코드를 쉽게 추출하고 싶다면 <code>colourpicker</code> 패키지를 설치해 보자.</p>
+</div>
+
+<p></p>
 </div>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol start="5">
-<li id="fn5"><p>순서통계량은 확률변수 <span class="math inline">\(X\)</span>를 <span class="math inline">\(n\)</span> 개 관찰을 했을 때 <span class="math inline">\(X\)</span>를 크기 순으로 배열한 통계량으로 <span class="math inline">\(X_{(1)} &lt; X_{(2)} &lt; \cdots &lt;X_{(n)}\)</span> 로 나타냄(순서통계량은 서로 독립이 아님)<a href="qqplot.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>순서통계량은 확률변수 <span class="math inline">\(X\)</span>를 <span class="math inline">\(n\)</span> 개 관찰을 했을 때 <span class="math inline">\(X\)</span>를 크기 순으로 배열한
+통계량으로 <span class="math inline">\(X_{(1)} &lt; X_{(2)} &lt; \cdots &lt;X_{(n)}\)</span> 로 나타냄(순서통계량은 서로 독립이 아님)<a href="qqplot.html#fnref5" class="footnote-back">↩︎</a></p></li>
 <li id="fn6"><p>R <code>quantile(x, probs, type = 5)</code>와 동일<a href="qqplot.html#fnref6" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
@@ -391,7 +559,7 @@ Q(p) = (1 - \gamma) x_{(k)} + \gamma x_{(k+1)}
         </div>
       </div>
 <a href="basic-stat-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="two-group-comp.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="group-comp.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
