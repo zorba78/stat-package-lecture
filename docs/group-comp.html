@@ -326,7 +326,7 @@ t_0 = \frac{\hat{\mu}_D - 0}{\hat{\sigma}/\sqrt{n}} \sim t_{(\nu = n-1)}
 \]</span></p>
 <p>혈압강하제 임상시험 데이터(<code>DBP.txt</code>)에서 시험약 복용 전(<code>DBP1</code>) 대비 복용 1개월 후(<code>DBP2</code>) 이완기 혈압(diastolic blood pressure)의 차이 검정</p>
 
-<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="group-comp.html#cb415-1"></a>DBP &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;data/DBP.txt&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="group-comp.html#cb13-1"></a>DBP &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="st">&quot;data/DBP.txt&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;</span><span class="ch">\t</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>Parsed with column specification:
 cols(
   Subject = col_double(),
@@ -339,30 +339,30 @@ cols(
   Age = col_double(),
   Sex = col_character()
 )</code></pre>
-<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="group-comp.html#cb417-1"></a>DBP &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb417-2"><a href="group-comp.html#cb417-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">D1 =</span> DBP2 <span class="op">-</span><span class="st"> </span>DBP1)</span>
-<span id="cb417-3"><a href="group-comp.html#cb417-3"></a>treatment &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb417-4"><a href="group-comp.html#cb417-4"></a><span class="st">  </span><span class="kw">filter</span>(TRT <span class="op">==</span><span class="st"> &quot;A&quot;</span>)</span>
-<span id="cb417-5"><a href="group-comp.html#cb417-5"></a>D1 &lt;-<span class="st"> </span>treatment<span class="op">$</span>D1</span>
-<span id="cb417-6"><a href="group-comp.html#cb417-6"></a>mD1 &lt;-<span class="st"> </span><span class="kw">mean</span>(D1)</span>
-<span id="cb417-7"><a href="group-comp.html#cb417-7"></a>sD1 &lt;-<span class="st"> </span><span class="kw">sd</span>(D1)</span>
-<span id="cb417-8"><a href="group-comp.html#cb417-8"></a><span class="co">### check </span></span>
-<span id="cb417-9"><a href="group-comp.html#cb417-9"></a><span class="co"># mb &lt;- mean(treatment$DBP1); ma &lt;- mean(treatment$DBP2)</span></span>
-<span id="cb417-10"><a href="group-comp.html#cb417-10"></a><span class="co"># sD1_check &lt;- with(treatment, </span></span>
-<span id="cb417-11"><a href="group-comp.html#cb417-11"></a><span class="co">#                   sqrt(var(DBP1) + var(DBP2) - </span></span>
-<span id="cb417-12"><a href="group-comp.html#cb417-12"></a><span class="co">#                          2*cor(DBP1, DBP2)*sd(DBP1)*sd(DBP2)))</span></span>
-<span id="cb417-13"><a href="group-comp.html#cb417-13"></a><span class="co"># mD1; ma - mb</span></span>
-<span id="cb417-14"><a href="group-comp.html#cb417-14"></a><span class="co"># sD1; sD1_check</span></span>
-<span id="cb417-15"><a href="group-comp.html#cb417-15"></a></span>
-<span id="cb417-16"><a href="group-comp.html#cb417-16"></a>tstat &lt;-<span class="st"> </span>mD1<span class="op">/</span>(sD1<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(D1)))</span>
-<span id="cb417-17"><a href="group-comp.html#cb417-17"></a>p.val &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="kw">pt</span>(tstat, <span class="dt">df =</span> <span class="kw">length</span>(D1) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span>
-<span id="cb417-18"><a href="group-comp.html#cb417-18"></a></span>
-<span id="cb417-19"><a href="group-comp.html#cb417-19"></a><span class="co">## t.test() check</span></span>
-<span id="cb417-20"><a href="group-comp.html#cb417-20"></a>tstat; <span class="kw">t.test</span>(D1)<span class="op">$</span>statistic</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="group-comp.html#cb15-1"></a>DBP &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-2"><a href="group-comp.html#cb15-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">D1 =</span> DBP2 <span class="op">-</span><span class="st"> </span>DBP1)</span>
+<span id="cb15-3"><a href="group-comp.html#cb15-3"></a>treatment &lt;-<span class="st"> </span>DBP <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb15-4"><a href="group-comp.html#cb15-4"></a><span class="st">  </span><span class="kw">filter</span>(TRT <span class="op">==</span><span class="st"> &quot;A&quot;</span>)</span>
+<span id="cb15-5"><a href="group-comp.html#cb15-5"></a>D1 &lt;-<span class="st"> </span>treatment<span class="op">$</span>D1</span>
+<span id="cb15-6"><a href="group-comp.html#cb15-6"></a>mD1 &lt;-<span class="st"> </span><span class="kw">mean</span>(D1)</span>
+<span id="cb15-7"><a href="group-comp.html#cb15-7"></a>sD1 &lt;-<span class="st"> </span><span class="kw">sd</span>(D1)</span>
+<span id="cb15-8"><a href="group-comp.html#cb15-8"></a><span class="co">### check </span></span>
+<span id="cb15-9"><a href="group-comp.html#cb15-9"></a><span class="co"># mb &lt;- mean(treatment$DBP1); ma &lt;- mean(treatment$DBP2)</span></span>
+<span id="cb15-10"><a href="group-comp.html#cb15-10"></a><span class="co"># sD1_check &lt;- with(treatment, </span></span>
+<span id="cb15-11"><a href="group-comp.html#cb15-11"></a><span class="co">#                   sqrt(var(DBP1) + var(DBP2) - </span></span>
+<span id="cb15-12"><a href="group-comp.html#cb15-12"></a><span class="co">#                          2*cor(DBP1, DBP2)*sd(DBP1)*sd(DBP2)))</span></span>
+<span id="cb15-13"><a href="group-comp.html#cb15-13"></a><span class="co"># mD1; ma - mb</span></span>
+<span id="cb15-14"><a href="group-comp.html#cb15-14"></a><span class="co"># sD1; sD1_check</span></span>
+<span id="cb15-15"><a href="group-comp.html#cb15-15"></a></span>
+<span id="cb15-16"><a href="group-comp.html#cb15-16"></a>tstat &lt;-<span class="st"> </span>mD1<span class="op">/</span>(sD1<span class="op">/</span><span class="kw">sqrt</span>(<span class="kw">length</span>(D1)))</span>
+<span id="cb15-17"><a href="group-comp.html#cb15-17"></a>p.val &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="kw">pt</span>(tstat, <span class="dt">df =</span> <span class="kw">length</span>(D1) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span>
+<span id="cb15-18"><a href="group-comp.html#cb15-18"></a></span>
+<span id="cb15-19"><a href="group-comp.html#cb15-19"></a><span class="co">## t.test() check</span></span>
+<span id="cb15-20"><a href="group-comp.html#cb15-20"></a>tstat; <span class="kw">t.test</span>(D1)<span class="op">$</span>statistic</span></code></pre></div>
 <pre><code>[1] -7.493656</code></pre>
 <pre><code>        t 
 -7.493656 </code></pre>
-<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="group-comp.html#cb420-1"></a>p.val; <span class="kw">t.test</span>(D1)<span class="op">$</span>p.value</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="group-comp.html#cb18-1"></a>p.val; <span class="kw">t.test</span>(D1)<span class="op">$</span>p.value</span></code></pre></div>
 <pre><code>[1] 4.364575e-07</code></pre>
 <pre><code>[1] 4.364575e-07</code></pre>
 <p></p>

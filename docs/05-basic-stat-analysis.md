@@ -164,7 +164,7 @@ plot(xq, yq,
 - 일반적으로 측정 또는 표집한 연속형 변수가 이론적인 특정 분포와 얼마나 유사한지를 확인하기 위해 사용하며, 특히 데이터의 정규성 검정에 많이 활용됨. 
 즉 표본으로 얻은 분포가 정규분포를 따르는지(유사한지)를 알아보기 위해 활용
 
-- 보통 x 축은 theoretical quantile (이론적 분위수)로 하고 비교하고자 하는 이론적 분포의 분위수 값을 설정하고 y 축은 표본 분위수(empirical/sample quantile)로 설정 
+- 보통 x 축은 theoretical quantile (이론적 분위수)로 하고 y 축은 표본 분위수(empirical/sample quantile)로 설정 
 
 - R에서 Q-Q plot은 `qqnorm()`, `qqplot()` 등의 함수를 사용해 간단히 그릴 수 있으나 해당 함수를 사용하지 않고 직접 그리는 방법에 대해 알아봄. 
 
