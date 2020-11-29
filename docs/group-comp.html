@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-29" />
+<meta name="date" content="2020-11-30" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -405,7 +405,7 @@ y_{ij} \sim \mathcal{N}(\mu_i, \sigma^2_i = \sigma^2)
 <ul>
 <li>두 집단의 관찰값은 <strong>정규분포</strong>를 따르며, 각 집단 간 평균은 서로 다름.</li>
 <li>각 관찰값은 <strong>서로 독립</strong></li>
-<li>두 집단의 <strong>분산은 동일</strong>: <span class="math inline">\(\sigma^2_1 = \sigma^2_2 = \sigma\)</span></li>
+<li>두 집단의 <strong>분산은 동일</strong>: <span class="math inline">\(\sigma^2_1 = \sigma^2_2 = \sigma^2\)</span></li>
 </ul>
 <p>두 집단 간 평균 차이 검정에 대한 귀무가설과 대립가설은 아래와 같이 설정</p>
 <p><span class="math display">\[
@@ -836,7 +836,7 @@ F-statistic: 7.225 on 1 and 45 DF,  p-value: 0.01004</code></pre>
 <p>다음과 같이 확률변수가 주어졌을 때,</p>
 <p><strong>가정</strong></p>
 <ol style="list-style-type: decimal">
-<li>가 집단의 관찰값은 정규분포를 따른다</li>
+<li>각 집단의 관찰값은 정규분포를 따른다</li>
 <li>각 집단의 분산은 동일하다</li>
 <li>오차항은 서로 독립이며, 평균이 0이고 분산이 <span class="math inline">\(\sigma^2\)</span>인 정규분포를 따른다.</li>
 </ol>
@@ -960,7 +960,7 @@ SSW = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i.})^2 = \sum_{i=1}^{g}
 <ul>
 <li><span class="math inline">\(SST\)</span>: 총관측수 - 전체평균 = <span class="math inline">\(\sum_{i=1}^{g} n_i - 1 = N - 1\)</span></li>
 <li><span class="math inline">\(SSB\)</span>: 전체 수준(집단)의 수 - 전체 평균 = <span class="math inline">\(g - 1\)</span></li>
-<li><span class="math inline">\(SSW\)</span>: 각 집단마다 제곱합 계신 기준이 다름. 즉 첫 번째 집단의 첫 번째 관찰값 <span class="math inline">\(y_11\)</span> 의 편차 계산 시 <span class="math inline">\(\bar{y}_{1.}\)</span> 만 사용
+<li><span class="math inline">\(SSW\)</span>: 각 집단마다 제곱합 계신 기준이 다름. 즉 첫 번째 집단의 첫 번째 관찰값 <span class="math inline">\(y_{11}\)</span> 의 편차 계산 시 <span class="math inline">\(\bar{y}_{1.}\)</span> 만 사용
 <ul>
 <li><span class="math inline">\((n_1 - 1) + (n_2 - 1) + \cdots + (n_g -1) = \sum_{i = 1}^{g}n_i - g = N - g\)</span></li>
 </ul></li>
