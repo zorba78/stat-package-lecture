@@ -715,6 +715,1184 @@ $$
 $$
 
 
+- 예시: 월경통 데이터
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdnote}<div class="rmdnote">20대 월경통 환자와 대조군 간 요골동맥(손목) 맥파의 차이를 탐색하기 위한 임상연구에서 수집한 데이터의 일부이고, 해당 데이터는 
+통계패키지활용 [Github 저장소](https://github.com/zorba78/stat-package-lecture/blob/master/data/dysmenorrhea.rds)에서 다운로드 가능
+</div>\EndKnitrBlock{rmdnote}
+
+ \normalsize
+
+
+\footnotesize
+
+
+```r
+# 독립 이표본 t-검정 함수 만들어 보기
+indep_t_test <- function(y = y, group = group, 
+                         conf.level = 0.95, 
+                         na.rm = TRUE) {
+  if (!is.numeric(y)) stop("y는 수치형 벡터만 가능합니다")
+  if (length(unique(group)) != 2) stop("수준의 수가 2가 아닙니다")
+  if (!is.factor(group)) group <- factor(group)
+
+  nvec <- tapply(y, group, FUN = function(x) sum(!is.na(x))) 
+  mvec <- tapply(y, group, mean, na.rm = TRUE) # 집단별 평균
+  vvec <- tapply(y, group, var, na.rm = TRUE) # 집단별 분산
+  
+  degf <- sum(nvec) - 2 # 자유도
+  mean_diff <- mvec[1] - mvec[2] # 평균 차이
+  pool_var <- sum((nvec - 1) * vvec)/(sum(nvec) - 2) # 합동분산
+  std_err <- sqrt(sum(pool_var * (1/nvec)))
+  t_stat <- mean_diff/std_err
+  pvalue <- 2*(1 - pt(abs(t_stat), df = sum(nvec) - 2)) # 양측검정
+  ucl <- mean_diff + qt(1 - (1 - conf.level)/2, df = degf) * std_err
+  lcl <- mean_diff - qt(1 - (1 - conf.level)/2, df = degf) * std_err
+  
+  out <- list(
+    statistic = t_stat, 
+    parameter = degf, 
+    p.value = pvalue, 
+    conf.int = c(ucl, lcl), 
+    estimate = mean_diff, 
+    stderr = std_err
+  )
+  return(out)
+}
+
+
+# 데이터 불러오기
+dysmenorrhea <- read_rds("data/dysmenorrhea.rds")
+head(dysmenorrhea) %>% 
+  kbl() %>% 
+  kable_paper() %>% 
+  scroll_box(width = "100%", height = "200px")
+```
+
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; "><table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> id </th>
+   <th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"> pidyn </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> age </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> height </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> weight </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> bmi </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> sysbp </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> diabp </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> pulse </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> temp </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> mmpscr </th>
+   <th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"> pdi </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> Dysmenorrhea </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 170.2 </td>
+   <td style="text-align:right;"> 55.3 </td>
+   <td style="text-align:right;"> 19.09000 </td>
+   <td style="text-align:right;"> 116 </td>
+   <td style="text-align:right;"> 80 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 36.9 </td>
+   <td style="text-align:right;"> 7.000000 </td>
+   <td style="text-align:right;"> 6.633891 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> Control </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 156.0 </td>
+   <td style="text-align:right;"> 48.7 </td>
+   <td style="text-align:right;"> 20.01151 </td>
+   <td style="text-align:right;"> 83 </td>
+   <td style="text-align:right;"> 53 </td>
+   <td style="text-align:right;"> 53 </td>
+   <td style="text-align:right;"> 36.6 </td>
+   <td style="text-align:right;"> 2.185714 </td>
+   <td style="text-align:right;"> 8.602493 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:left;"> Dysmenorrhea </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 168.0 </td>
+   <td style="text-align:right;"> 53.2 </td>
+   <td style="text-align:right;"> 18.84921 </td>
+   <td style="text-align:right;"> 120 </td>
+   <td style="text-align:right;"> 75 </td>
+   <td style="text-align:right;"> 72 </td>
+   <td style="text-align:right;"> 36.6 </td>
+   <td style="text-align:right;"> 5.000000 </td>
+   <td style="text-align:right;"> 8.643624 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> Dysmenorrhea </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 153.0 </td>
+   <td style="text-align:right;"> 44.5 </td>
+   <td style="text-align:right;"> 19.00978 </td>
+   <td style="text-align:right;"> 100 </td>
+   <td style="text-align:right;"> 79 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 36.8 </td>
+   <td style="text-align:right;"> 6.685714 </td>
+   <td style="text-align:right;"> 9.321545 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5 </td>
+   <td style="text-align:left;"> Dysmenorrhea </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 168.3 </td>
+   <td style="text-align:right;"> 57.0 </td>
+   <td style="text-align:right;"> 20.12364 </td>
+   <td style="text-align:right;"> 105 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 78 </td>
+   <td style="text-align:right;"> 36.1 </td>
+   <td style="text-align:right;"> 5.885714 </td>
+   <td style="text-align:right;"> 10.290806 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:left;"> Dysmenorrhea </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 159.1 </td>
+   <td style="text-align:right;"> 53.4 </td>
+   <td style="text-align:right;"> 21.09604 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 61 </td>
+   <td style="text-align:right;"> 36.6 </td>
+   <td style="text-align:right;"> 6.757143 </td>
+   <td style="text-align:right;"> 8.282563 </td>
+  </tr>
+</tbody>
+</table></div>
+
+ \normalsize
+
+
+
+
+- PDI(맥의 깊이)의 두 집단(월경통 vs. 대조군) 간 평균 차이 검정 $\rightarrow$ 독립 이표본 t-검정
+
+
+
+
+
+\footnotesize
+
+
+```r
+# indep_t_test(), t.test(..., var.equal=TRUE), lm() 함수 비교
+y <- dysmenorrhea$pdi
+grp <- dysmenorrhea$pidyn
+
+indep_t_test(y = y, group = grp)
+```
+
+```
+$statistic
+Control 
+2.68792 
+
+$parameter
+[1] 45
+
+$p.value
+   Control 
+0.01004294 
+
+$conf.int
+  Control   Control 
+1.9523625 0.2797803 
+
+$estimate
+ Control 
+1.116071 
+
+$stderr
+[1] 0.4152176
+```
+
+```r
+# t.test() 함수 사용: 수식표현
+t.test(pdi ~ pidyn, data = dysmenorrhea, var.equal = TRUE)
+```
+
+```
+
+	Two Sample t-test
+
+data:  pdi by pidyn
+t = 2.6879, df = 45, p-value = 0.01004
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.2797803 1.9523625
+sample estimates:
+     mean in group Control mean in group Dysmenorrhea 
+                 10.414276                   9.298205 
+```
+
+```r
+# t.test(y[grp == "Control"], y[grp == "Dysmenorrhea"], var.equal = TRUE) 
+## 위 결과와 동일
+
+# lm() 함수 사용
+m1 <- lm(y ~ grp)
+summary(m1)
+```
+
+```
+
+Call:
+lm(formula = y ~ grp)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.3332 -0.8051 -0.1235  1.0716  2.2801 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      10.4143     0.2905  35.854   <2e-16 ***
+grpDysmenorrhea  -1.1161     0.4152  -2.688     0.01 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.423 on 45 degrees of freedom
+Multiple R-squared:  0.1383,	Adjusted R-squared:  0.1192 
+F-statistic: 7.225 on 1 and 45 DF,  p-value: 0.01004
+```
+
+```r
+m2 <- lm(pdi ~ pidyn, data = dysmenorrhea) # m1과 동일
+boxplot(y ~ grp, col = c("darkgray", "orange"))
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-24-1.svg" width="672" />
+
+ \normalsize
+
+
+### 일원배치 분산분석(oneway analysis of variance)
+
+- 두 모집단의 평균을 비교하는 경우 $t$ 검정 사용
+- 3 개 이상 집단의 평균비교: 3개 집단 중 두 집단씩 짝을 지어 $t$ 검정을 실시하는 방법 $\rightarrow$ 총 3번($_3\mathrm{C}_2 = 6$)의 $t$ 검정 실시
+
+
+**위 기술 방법의 문제점**
+
+- 모든 통계적 가설검정은 1종 오류(type I error)를 포함하고 있음. 
+- 유의수준이 0.05인 경우($\alpha = 0.05$), 통계적 검정 시 귀무가설을 지지할 확률은 95 %임. 
+- 만약 3 번의 $t$ 검정을 수행했을 때, 모든 검정 시 귀무가설을 지지할 확률 = $(1 - 0.05)^3 = 0.8574$ 
+- 즉 귀무가설이 참일 때 3 번의 검정 중 하나라도 차이를 보일 확률(대립가설을 지지할 확률) = 1 - 0.8754 = 0.1426 $\rightarrow$ 처음 설정한 유의수준보다 커짐
+
+
+#### 일원배치 분산분석의 개념{.unnumbered}
+
+다음과 같이 확률변수가 주어졌을 때, 
+
+
+**가정**
+
+1. 가 집단의 관찰값은 정규분포를 따른다
+2. 각 집단의 분산은 동일하다
+3. 오차항은 서로 독립이며, 평균이 0이고 분산이 $\sigma^2$인 정규분포를 따른다. 
+
+
+$$
+\begin{cases}
+Y_{11}, \cdots, Y_{1n_1} & \stackrel{iid}{\sim} & \mathcal{N}(\mu_1, \sigma^2) \\
+Y_{21}, \cdots, Y_{2n_2} & \stackrel{iid}{\sim} & \mathcal{N}(\mu_2, \sigma^2) \\
+& \vdots & \leftarrow \mathrm{independent} \\
+Y_{i1}, \cdots, Y_{in_i} & \stackrel{iid}{\sim} & \mathcal{N}(\mu_i, \sigma^2) \\
+\end{cases}, ~~~ i \geq 2
+$$
+
+아래와 같은 선형모형을 고려해보자. 
+
+
+$$
+y_{ij} = \mu + \alpha_i + \epsilon_{ij}, ~~~ \epsilon_{ij} \stackrel{iid}{\sim} \mathcal{N}(0, \sigma^2)
+$$
+
+여기서 $i = 1, \ldots, g$로 집단의 개수(요인의 수준 수)를 나타내며 $j = 1, \ldots, n_i$로 집단(수준) $i$의 관측수(표본 크기)를 나타내고, $\alpha_i$는 
+요인의 효과를 나타내고 아래와 같은 제약조건을 가짐.
+
+
+$$
+\sum_{i=1}^{g}\alpha_i = \sum_{i=1}^{g}(\mu_i - \mu) = 0
+$$
+
+
+\footnotesize
+
+<div class="figure">
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-25-1.svg" alt="효과 $\alpha$에 대한 이해" width="768" />
+<p class="caption">(\#fig:unnamed-chunk-25)효과 $\alpha$에 대한 이해</p>
+</div>
+
+ \normalsize
+
+
+위 모형에 대한 통계적 가설
+
+$$
+H_0: \mu_1 = \mu_2 = \cdots =\mu_g~~~\mathrm{vs.}~~~H_1: \mathrm{not}~H_0~(\mathrm{not~all}~\mu_i~\mathrm{are ~ equal})
+$$
+
+
+$H_0$가 참일 때 $\mu_1 = \mu_2 = \cdots =\mu_g = \mu$ 이므로, 위 통계적 가설을 $\alpha_i$에 대해 다시 표현하면
+
+
+$$
+H_0: \alpha_1 = \alpha_2 = \cdots =\alpha_g = 0~~~\mathrm{vs.}~~~H_1: \mathrm{not}~H_0~(\mathrm{not~all}~\alpha_i~\mathrm{are ~ equal~ to~ 0})
+$$
+
+
+이러한 검정을 일원배치 분산분석(oneway analysis of variance, oneway ANOVA)라고 함. 
+
+
+- ANOVA는 요인의 수준에 기인한 변동(집단 간 변동, between group)과 각 개인 간 변동(집단 내 변동, within group)을 비교
+- 즉, 각 집단의 평균이 전체평균(grand mean)으로부터 얼마나 멀리 떨어졌는지와 집단 내 변동을 비교해 각 집단의 평균이 동일한지를 검정
+- 평균의 동질성을 확인하기 위해 평균의 변동성을 사용했기 때문에 분산분석이라는 이름을 가짐
+
+
+#### 분산분석의 변동분해 과정{.unnumbered}
+
+분산분석을 위해 필요한 기본 통계량
+
+
+- 각 집단의 평균
+
+
+$$
+\hat{\mu}_i = \bar{y}_{i.} = \frac{1}{n_i} \sum_{j = 1}^{n_i} y_{ij}
+$$
+
+- 전체 평균
+
+$$
+\hat{\mu} = \bar{y}_{..} = \frac{1}{N}\sum_{i = 1}^{g} \sum_{j = 1}^{n_i} y_{ij}, ~~ N=\sum_{i=1}^{g} n_i
+$$
+
+- 각 집단의 표본 분산
+
+
+$$
+\hat{\sigma}^2_i = s_i^2 = \frac{1}{n_i - 1} \sum_{i = 1}^{n_i} (y_{ij} - \bar{y}_{i.})^2
+$$
+
+위 통계량을 이용해 처음 고려한 선형 모형을 표현해 보면, 
+
+
+$$
+y_{ij} = \bar{y}_{..} + (\bar{y}_{i.} - \bar{y}_{..}) + (y_{ij} - \bar{y}_{i.}) 
+$$
+
+- 귀무가설이 사실인 경우($\alpha_i = 0$), $y_{ij} = \mu + \epsilon_{ij}$ 일 것이고 $\hat{\alpha}_i = \bar{y}_{i.} - \bar{y}_{..}$의 값은 0에 가깝게 나타날 것임
+- 위의 식을 다시 표현하면
+
+
+$$
+y_{ij} - \bar{y}_{..} =  (\bar{y}_{i.} - \bar{y}_{..}) + (y_{ij} - \bar{y}_{i.}) 
+$$
+
+이고, 
+
+
+- $y_{ij} - \bar{y}_{..}$: 각 관찰값에서 전체 평균을 뺀 값 $\rightarrow$ 전체 평균으로부터의 편차 $\rightarrow$ **전체 편차(total deviation)**
+- $\bar{y}_{i.} - \bar{y}_{..}$: 각 집단 평균에서 전체 평균을 뺀 값 $\rightarrow$ **집단(처리효과) 편차(between group deviation)**
+- $y_{ij} - \bar{y}_{i.}$: 각 관찰값에서 해당 관찰값에 대응한 집단 평균을 뺀 값 $\rightarrow$ **집단내 편차(within group deviation)**
+
+
+즉 **총 변동(편차)은 집단 간 변동(편차)과 집단 내 변동(편차)으로 분해 가능**하고 제곱합으로 표현
+
+- SST: total sum of squares (전체 편차 제곱합)
+
+$$
+SST = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{..})^2
+$$
+
+
+- SSB: between group sum of squares (집단 간 편차 제곱합)
+
+
+$$
+SSB = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (\bar{y}_{i.} - \bar{y}_{..})^2 = \sum_{i=1}^{g} n_i (\bar{y}_{i.} - \bar{y}_{..})^2
+$$
+
+
+- SSW: within group sum of squares (집단 내 편차 제곱합)
+
+
+$$
+SSW = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i.})^2 = \sum_{i=1}^{g} n_i s_i^2
+$$
+
+최종적으로 아래와 같은 표현이 가능함
+
+$$
+\sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{..})^2 ~(=SST) = \sum_{i=1}^{g} n_i (\bar{y}_{i.} - \bar{y}_{..})^2~(=SSB) + \sum_{i=1}^{g} n_i s_i^2~(=SSW)\\
+$$
+
+
+#### 분산분석의 검정 원리{.unnumbered}
+
+- 요인의 효과가 크다 $\rightarrow$ 집단 간 변동이 커짐 $\rightarrow$ $SSB$가 커짐 $\rightarrow$ 집단 간 평균 차이가 존재
+- 요인의 효과가 없다 $\rightarrow$ 집단 간 변동이 작음  $\rightarrow$ $SSB$가 작음 $\rightarrow$ 집단 간 평균 차이가 없음
+
+> - 총변동($SST$) 중 집단 간 변동($SSB$)이 커지게 되면 $SSW$는 작아지고 귀무가설을 기각할 가능성이 높아짐 
+> - $SSW$와 $SSB$의 비율을 검정 통계량으로 사용 $\rightarrow$ 제곱합의 비율 $\rightarrow$ 분산의 비율 $\rightarrow$ $F$ 검정 
+
+- 실제 분산분석은  제곱합을 대응하는 자유도로 나눈 평균제곱합을 기반으로 검정 실시
+- 각 제곱합의 자유도
+   - $SST$: 총관측수 - 전체평균 = $\sum_{i=1}^{g} n_i - 1 = N - 1$ 
+   - $SSB$: 전체 수준(집단)의 수 - 전체 평균 = $g - 1$
+   - $SSW$: 각 집단마다 제곱합 계신 기준이 다름. 즉 첫 번째 집단의 첫 번째 관찰값 $y_11$ 의 편차 계산 시 $\bar{y}_{1.}$ 만 사용
+      - $(n_1 - 1) + (n_2 - 1) + \cdots + (n_g -1) = \sum_{i = 1}^{g}n_i - g = N - g$
+
+- 검정에 기초가 되는 평균제곱
+   - $MSB = SSB/(g - 1)$: 집단(요인 수준) 평균들의 분산
+   - $MSW = SSE/(N - g)$: 평균제곱오차(mean square error: MSW) $\rightarrow$ $\sigma^2$의 불편 추정량
+
+- $H_0$ 하에서 $SSB/\sigma^2 \sim \chi^2_{\nu = g - 1}$, $SSW/\sigma^2 \sim \chi^2_{\nu = N-g}$ 이므로, 두 평균 변동의 비율은 
+
+$$
+ F_0 = \frac{(SSB/\sigma^2)/(g - 1)}{(SSW/\sigma^2)/(N-g)} = \frac{MSB}{MSW} \sim F_{\nu_1 = g - 1, \nu_2 = N - g}
+$$
+
+- 분산분석 표(ANOVA table)
+
+
+| Source  | Sum of Squares | Degrees of Freedom | Mean Square | $F$         |
+|---------|----------------|--------------------|-------------|-------------|
+| Between | SSB            | $g - 1$            | SSB / DFB   | MSB / MSW   |
+| Within  | SSW            | $N - g$            | SSW / DFW   |             |
+| Total   | SST            | $N - 1$            |             |             |
+
+
+
+- 예제1: 분산분석 원리를 시뮬레이션을 통해 확인 (집단의 수 $g = 3$, 각 집단 내 표본크기 $n_1=n_2=n_3=20$)
+
+
+\footnotesize
+
+
+```r
+# 함수 생성
+plot_anova_sim <- function(n = 20, #각 집단의 관찰값 개수
+                           g = 3, 
+                           mvec = c(0, 0, 0), 
+                           sigma = 1, 
+                           cols = c("dodgerblue", "darkorange", "black")) 
+{
+  y <- rnorm(n * g, mean = mvec, sd = sigma) # 주어진 인수로부터 관찰값 생성
+  group <- factor(rep(LETTERS[1:g], n)) # 요인의 수준(집단) 생성
+  
+  # 이론적 분포 도표 생성
+  xmin <- min(mvec) - 3 * sigma # 이론적 분포의 최솟값: 도표 생성 시 사용
+  xmax <- max(mvec) + 3 * sigma # 이론적 분포의 최댓값: 도표 생성 시 사용
+  dx <- seq(xmin, xmax, length = 500) # 정규분포 밀도함수 x축 범위
+
+  plot(0, main = "Truth", 
+       xlim = c(xmin, xmax), 
+       ylim = c(0, 0.4), type = "n", 
+       xlab = "observation", ylab = "density")
+  for (i in 1:g) {
+    lines(dx, dnorm(dx, mean = mvec[i], sd = sigma), 
+          col = cols[i], 
+          lty = i, lwd = 2)
+    rug(y[group == levels(group)[i]], 
+        col = cols[i], ticksize = 0.1, lty = i, lwd = 1.5)
+  }
+  
+  boxplot(y ~ group, xlab = "group", main = "Observed Data", 
+          medcol = "white", varwidth = FALSE) 
+  stripchart(y ~ group, vertical = TRUE, 
+             method = "jitter", add = TRUE, 
+             pch = 20, cex = 2, col  = cols)
+  abline(h = mean(y), lwd = 3, lty = 1, col = "darkgray")
+  for (i in 1:g) {
+    segments(x0 = i - round(1/g, 1), 
+             x1 = i + round(1/g, 1), 
+             y0 = mean(y[group == levels(group)[i]]), 
+             y1 = mean(y[group == levels(group)[i]]), 
+             lty = 2, col = cols[i], lwd = 2)
+  } # 집단 별 평균선 표시
+  
+  # 일원배치 분산분석
+  grand_mean_obs <- mean(y) # 전체평균
+  group_mean_obs <- tapply(y, group, mean) # 집단 평균
+  sst <- sum((y - grand_mean_obs)^2) 
+  ssw <- rep(NA, g)
+  for (i in 1:g) {
+    ssw[i] <- sum((y[group == levels(group)[i]] - group_mean_obs[i])^2)
+  }
+  ssw <- sum(ssw)
+  ssb <- sst - ssw
+  msb <- ssb/(g - 1)
+  msw <- ssw/(length(y) - g)
+  Fval <- msb/msw
+  pval <- 1 - pf(Fval, g - 1, length(y) - g)
+  
+  test_result <- data.frame(
+   Source = c("Between", "Within", "Total"), 
+   SS = c(ssb, ssw, sst), 
+   degf = c(g - 1, length(y) - g, length(y) - 1), 
+   MS = c(msb, msw, NA), 
+   F.value = c(Fval, NA, NA), 
+   p.value = c(pval, NA, NA)
+  )
+  out <- list(y = y, group = group, 
+              result = test_result)
+  return(out)
+}
+```
+
+ \normalsize
+
+
+- Case 1: 집단 간 평균 차이가 존재하지 않는 경우 ($\mu_1 = \mu_2 = \mu_3 = 0, \sigma^2 = 1$)
+
+
+\footnotesize
+
+
+```r
+par(mfrow = c(1, 2))
+set.seed(123)
+out1 <- plot_anova_sim(n = 20, g = 3, mvec = c(0, 0, 0), sigma = 1)
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-27-1.svg" width="960" />
+
+```r
+out1$result %>% 
+  kbl(caption = "ANOVA table ($\\mu_1 = \\mu_2 = \\mu_3 = 0, \\sigma^2 = 1$)", 
+      escape = FALSE) %>% # kableExtra 패키지 사용방법 참고
+  kable_paper()
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>(\#tab:unnamed-chunk-27)ANOVA table ($\mu_1 = \mu_2 = \mu_3 = 0, \sigma^2 = 1$)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:right;"> SS </th>
+   <th style="text-align:right;"> degf </th>
+   <th style="text-align:right;"> MS </th>
+   <th style="text-align:right;"> F.value </th>
+   <th style="text-align:right;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Between </td>
+   <td style="text-align:right;"> 0.3568695 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0.1784348 </td>
+   <td style="text-align:right;"> 0.2095279 </td>
+   <td style="text-align:right;"> 0.8115888 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Within </td>
+   <td style="text-align:right;"> 48.5414289 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0.8516040 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:right;"> 48.8982984 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+</tbody>
+</table>
+
+```r
+# check
+# anova(with(out1, lm(y ~ group)))
+```
+
+ \normalsize
+
+
+- Case 2: 집단 간 평균 차이가 뚜렷한 경우 ($\mu_1 = -5, \mu_2 = 0, \mu_3 = 5, \sigma^2 = 1$)
+
+
+\footnotesize
+
+
+```r
+par(mfrow = c(1, 2))
+set.seed(123)
+out2 <- plot_anova_sim(n = 20, g = 3, mvec = c(-5, 0, 5), sigma = 1)
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-28-1.svg" width="960" />
+
+```r
+out2$result %>% 
+  kbl(caption = "ANOVA table ($\\mu_1 = -5, \\mu_2 = 0, \\mu_3 = 5, \\sigma^2 = 1$)", 
+      escape = FALSE) %>% # kableExtra 패키지 사용방법 참고
+  kable_paper()
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>(\#tab:unnamed-chunk-28)ANOVA table ($\mu_1 = -5, \mu_2 = 0, \mu_3 = 5, \sigma^2 = 1$)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:right;"> SS </th>
+   <th style="text-align:right;"> degf </th>
+   <th style="text-align:right;"> MS </th>
+   <th style="text-align:right;"> F.value </th>
+   <th style="text-align:right;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Between </td>
+   <td style="text-align:right;"> 1009.30665 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 504.653326 </td>
+   <td style="text-align:right;"> 592.5915 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Within </td>
+   <td style="text-align:right;"> 48.54143 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0.851604 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:right;"> 1057.84808 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+- Case 3-a: 집단 간 평균 차이가 존재 ($\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 1$)
+
+\footnotesize
+
+
+```r
+par(mfrow = c(1, 2))
+set.seed(123)
+out3 <- plot_anova_sim(n = 20, g = 3, mvec = c(-1, 0, 1), sigma = 1)
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-29-1.svg" width="960" />
+
+```r
+out3$result %>% 
+  kbl(caption = "ANOVA table ($\\mu_1 = -1, \\mu_2 = 0, \\mu_3 = 1, \\sigma^2 = 1$)", 
+      escape = FALSE) %>% # kableExtra 패키지 사용방법 참고
+  kable_paper()
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>(\#tab:unnamed-chunk-29)ANOVA table ($\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 1$)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:right;"> SS </th>
+   <th style="text-align:right;"> degf </th>
+   <th style="text-align:right;"> MS </th>
+   <th style="text-align:right;"> F.value </th>
+   <th style="text-align:right;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Between </td>
+   <td style="text-align:right;"> 42.14683 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 21.073413 </td>
+   <td style="text-align:right;"> 24.74555 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Within </td>
+   <td style="text-align:right;"> 48.54143 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0.851604 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:right;"> 90.68825 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+- Case 3-b: 집단 간 평균 차이가 존재 ($\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 3$)
+
+
+\footnotesize
+
+
+```r
+par(mfrow = c(1, 2))
+set.seed(123)
+out4 <- plot_anova_sim(n = 20, g = 3, mvec = c(-1, 0, 1), sigma = 3)
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-30-1.svg" width="960" />
+
+```r
+out4$result %>% 
+  kbl(caption = "ANOVA table ($\\mu_1 = -1, \\mu_2 = 0, \\mu_3 = 1, \\sigma^2 = 3$)", 
+      escape = FALSE) %>% # kableExtra 패키지 사용방법 참고
+  kable_paper()
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>(\#tab:unnamed-chunk-30)ANOVA table ($\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 3$)</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Source </th>
+   <th style="text-align:right;"> SS </th>
+   <th style="text-align:right;"> degf </th>
+   <th style="text-align:right;"> MS </th>
+   <th style="text-align:right;"> F.value </th>
+   <th style="text-align:right;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Between </td>
+   <td style="text-align:right;"> 48.5817 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 24.290848 </td>
+   <td style="text-align:right;"> 3.169294 </td>
+   <td style="text-align:right;"> 0.0495319 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Within </td>
+   <td style="text-align:right;"> 436.8729 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 7.664436 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Total </td>
+   <td style="text-align:right;"> 485.4546 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+- 예제2: `faraway` 패키지 내 `coagulation` 데이터셋
+   - 24 마리 쥐를 무작위로 4 가지 종류의 먹이(A, B, C, D)를 주고 혈액 응고 시간 측정
+   
+\footnotesize
+
+
+```r
+# 데이터 테이블 생성
+# install.packages("faraway")
+require(faraway)
+coagulation %>% 
+  mutate(rowname = c(1:4, 1:6, 1:6, 1:8)) %>% 
+  pivot_wider(
+    names_from = "diet", 
+    values_from = coag
+  ) %>% 
+  kbl %>% 
+  kable_paper
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> rowname </th>
+   <th style="text-align:right;"> A </th>
+   <th style="text-align:right;"> B </th>
+   <th style="text-align:right;"> C </th>
+   <th style="text-align:right;"> D </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 62 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 68 </td>
+   <td style="text-align:right;"> 56 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 66 </td>
+   <td style="text-align:right;"> 62 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 71 </td>
+   <td style="text-align:right;"> 60 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 61 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 68 </td>
+   <td style="text-align:right;"> 63 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 66 </td>
+   <td style="text-align:right;"> 68 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 63 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> NA </td>
+   <td style="text-align:right;"> 59 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+   
+
+- 데이터 탐색
+
+
+\footnotesize
+
+
+```r
+boxplot(coag ~ diet, data = coagulation)
+stripchart(coag ~ diet, data = coagulation, 
+           vertical = TRUE, method = "jitter", 
+           add = TRUE, pch = 20, cex = 2)
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-32-1.svg" width="864" />
+
+ \normalsize
+
+- 일원배치 분산분석
+
+\footnotesize
+
+
+```r
+# install.packages("car")
+require(car)
+require(tidymodels)
+# 등분산 검정: Fligner-Kileen's test
+fligner.test(coag ~ diet, data = coagulation)
+```
+
+```
+
+	Fligner-Killeen test of homogeneity of variances
+
+data:  coag by diet
+Fligner-Killeen:med chi-squared = 1.5559, df = 3, p-value = 0.6694
+```
+
+```r
+# 등분산 검정: Levene's test (SPSS)
+car::leveneTest(coag ~ diet, data = coagulation)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["F value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"3","2":"0.6491885","3":"0.5926459","_rn_":"group"},{"1":"20","2":"NA","3":"NA","_rn_":""}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# 정규성 검정: shapiro-wilk's test
+coagulation %>% 
+  group_by(diet) %>% 
+  nest %>% 
+  mutate(normal_test = map(data, ~shapiro.test(.x$coag))) %>% 
+  mutate(result = map(normal_test, ~ tidy(.x))) %>% 
+  unnest(cols = result) %>% 
+  select(diet, statistic:method) %>% 
+  kbl() %>% 
+  kable_paper()
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> diet </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:left;"> method </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:right;"> 0.9497060 </td>
+   <td style="text-align:right;"> 0.7142802 </td>
+   <td style="text-align:left;"> Shapiro-Wilk normality test </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:right;"> 0.9223854 </td>
+   <td style="text-align:right;"> 0.5227052 </td>
+   <td style="text-align:left;"> Shapiro-Wilk normality test </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> C </td>
+   <td style="text-align:right;"> 0.8727857 </td>
+   <td style="text-align:right;"> 0.2375366 </td>
+   <td style="text-align:left;"> Shapiro-Wilk normality test </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> D </td>
+   <td style="text-align:right;"> 0.9317252 </td>
+   <td style="text-align:right;"> 0.5319098 </td>
+   <td style="text-align:left;"> Shapiro-Wilk normality test </td>
+  </tr>
+</tbody>
+</table>
+
+```r
+# 일원배치 분산분석
+mod <- lm(coag ~ diet, data = coagulation)
+anova(mod)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"3","2":"228","3":"76.0","4":"13.57143","5":"4.658471e-05","_rn_":"diet"},{"1":"20","2":"112","3":"5.6","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# 사후검정(post-hoc test): Tukey's honestly significant difference (HSD)
+plot(TukeyHSD(aov(mod), conf.level = 0.95))
+```
+
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-33-1.svg" width="672" />
+
+```r
+# install.packages("emmeans")
+require(emmeans)
+em0 <- emmeans(mod, ~ diet)
+pair_cont <- contrast(em0, method = "pairwise", adjust = "tukey") # 대비검정
+tidy(pair_cont) %>% 
+  mutate_if(is.numeric, format, digits = 3) %>% 
+  kbl %>% 
+  kable_paper
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:left;"> contrast </th>
+   <th style="text-align:left;"> null.value </th>
+   <th style="text-align:left;"> estimate </th>
+   <th style="text-align:left;"> std.error </th>
+   <th style="text-align:left;"> df </th>
+   <th style="text-align:left;"> statistic </th>
+   <th style="text-align:left;"> adj.p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> A - B </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> -5.00e+00 </td>
+   <td style="text-align:left;"> 1.53 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> -3.27e+00 </td>
+   <td style="text-align:left;"> 0.018328 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> A - C </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> -7.00e+00 </td>
+   <td style="text-align:left;"> 1.53 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> -4.58e+00 </td>
+   <td style="text-align:left;"> 0.000958 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> A - D </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 1.58e-14 </td>
+   <td style="text-align:left;"> 1.45 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> 1.09e-14 </td>
+   <td style="text-align:left;"> 1.000000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> B - C </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> -2.00e+00 </td>
+   <td style="text-align:left;"> 1.37 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> -1.46e+00 </td>
+   <td style="text-align:left;"> 0.476601 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> B - D </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 5.00e+00 </td>
+   <td style="text-align:left;"> 1.28 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> 3.91e+00 </td>
+   <td style="text-align:left;"> 0.004411 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diet </td>
+   <td style="text-align:left;"> C - D </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:left;"> 7.00e+00 </td>
+   <td style="text-align:left;"> 1.28 </td>
+   <td style="text-align:left;"> 20 </td>
+   <td style="text-align:left;"> 5.48e+00 </td>
+   <td style="text-align:left;"> 0.000127 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+\footnotesize
+
+\BeginKnitrBlock{rmdimportant}<div class="rmdimportant">분산분석 결과는 각 집단(처리) 중 어느 한 집단이라도 차이를 보이면 기각. 만약 분산분석 시 귀무가설(평균이 모두 같다)을 기각했을 경우 
+어떤 집단에서 평균의 차이를 보였는지 알아볼 필요가 있음. 
+
+**사후검정**
+
+- F 검정 결과 집단 간 평균이 다르다는 결론을 얻은 경우 어떤 집단의 평균이 다른 집단과 차이가 있는지를 알아보기 위한 검정 방법
+- 가장 기본이 되는 원리는 type I error의 조절(t 검정 예 참조)
+   - Sheffe: 절차 간단, 표본 크기가 달라도 적용 가능
+   - Bonferroni: 유의수준을 비교집단 수로 나눈 유의수준 사용
+   - Tukey(honestly significant difference): 매우 보수적
+   - Duncan: 다른 다중비교 방법에 비해 덜 보수적임 
+   - Bonferroni > Tukey > Duncan > Sheffe 
+
+</div>\EndKnitrBlock{rmdimportant}
+
+ \normalsize
+
+
+
+
+<!-- ## Application {#ch4-application} -->
+
+
+<!-- ```{block2, type="rmdtip"} -->
+<!-- **R에서 통계적 모형 표현 방법** -->
+
+<!-- - 지금까지 별다른 설명 없이 `~`가 들어간 수식표현을 특정함수(예: `lm()`, `t.test()`, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함. -->
+<!-- - R은 (통계적) 모형을 표현하기 위해 **formula** 표현을 사용 $\rightarrow$ 일반적으로 `좌변 ~ 우변`형태로 표시 -->
+<!-- - 보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.  -->
+<!-- - **formula**는 "language" 객체의 일종이며 "formula" 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression) -->
+
+<!-- ``` -->
+
+
+
+
+<!-- ```{r} -->
+<!-- typeof(quote(x + 10)) # 객체의 형태가 "language" -->
+<!-- class(quote(x + 10)) # 객체의 클래스가 "call" -->
+
+<!-- ``` -->
+
+<!-- - R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임 -->
+
+<!-- ```{r} -->
+<!-- # 수식 표현 -->
+<!-- a <- y ~ x -->
+<!-- b <- y ~ x + b -->
+<!-- c <- ~ x + y + z -->
+
+<!-- typeof(c); class(c); attributes(c) -->
+
+
+<!-- ``` -->
+
+<!-- - 가장 기본적인 **formula** 표현의 형태는 아래와 같음 -->
+
+
+<!-- ``` -->
+<!-- 반응변수(response variable) ~ 독립변수(independent variables) -->
+<!-- ``` -->
+
+
+
+
+
+
+
 
 
 

@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-11-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -207,6 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2" data-path="group-comp.html"><a href="group-comp.html"><i class="fa fa-check"></i><b>4.2</b> 연속형 변수의 비교</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="group-comp.html"><a href="group-comp.html#paired-t-test"><i class="fa fa-check"></i><b>4.2.1</b> 대응 표본 t 검정(paired samples t test)</a></li>
 <li class="chapter" data-level="4.2.2" data-path="group-comp.html"><a href="group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
+<li class="chapter" data-level="4.2.3" data-path="group-comp.html"><a href="group-comp.html#일원배치-분산분석oneway-analysis-of-variance"><i class="fa fa-check"></i><b>4.2.3</b> 일원배치 분산분석(oneway analysis of variance)</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -419,6 +420,1628 @@ t_0 = \frac{\hat{\mu}_1 - \hat{\mu}_2 - 0}{s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2
 <p><span class="math display">\[
 \sigma_p^2 = \frac{(n_1 - 1)\hat{\sigma_1}^2 + (n_2 -1)\hat{\sigma}_2^2}{n_1 + n_2 - 2}, ~~~ \hat{\sigma}_i^2 = \frac{\sum_{j=1}^{n_i} (y_{ij} - \hat{\mu}_i)^2}{n_i - 1}
 \]</span></p>
+<ul>
+<li>예시: 월경통 데이터</li>
+</ul>
+
+
+<div class="rmdnote">
+<p>20대 월경통 환자와 대조군 간 요골동맥(손목) 맥파의 차이를 탐색하기 위한 임상연구에서 수집한 데이터의 일부이고, 해당 데이터는
+통계패키지활용 <a href="https://github.com/zorba78/stat-package-lecture/blob/master/data/dysmenorrhea.rds">Github 저장소</a>에서 다운로드 가능</p>
+</div>
+
+<p></p>
+
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="group-comp.html#cb423-1"></a><span class="co"># 독립 이표본 t-검정 함수 만들어 보기</span></span>
+<span id="cb423-2"><a href="group-comp.html#cb423-2"></a>indep_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">y =</span> y, <span class="dt">group =</span> group, </span>
+<span id="cb423-3"><a href="group-comp.html#cb423-3"></a>                         <span class="dt">conf.level =</span> <span class="fl">0.95</span>, </span>
+<span id="cb423-4"><a href="group-comp.html#cb423-4"></a>                         <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) {</span>
+<span id="cb423-5"><a href="group-comp.html#cb423-5"></a>  <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.numeric</span>(y)) <span class="kw">stop</span>(<span class="st">&quot;y는 수치형 벡터만 가능합니다&quot;</span>)</span>
+<span id="cb423-6"><a href="group-comp.html#cb423-6"></a>  <span class="cf">if</span> (<span class="kw">length</span>(<span class="kw">unique</span>(group)) <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>) <span class="kw">stop</span>(<span class="st">&quot;수준의 수가 2가 아닙니다&quot;</span>)</span>
+<span id="cb423-7"><a href="group-comp.html#cb423-7"></a>  <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.factor</span>(group)) group &lt;-<span class="st"> </span><span class="kw">factor</span>(group)</span>
+<span id="cb423-8"><a href="group-comp.html#cb423-8"></a></span>
+<span id="cb423-9"><a href="group-comp.html#cb423-9"></a>  nvec &lt;-<span class="st"> </span><span class="kw">tapply</span>(y, group, <span class="dt">FUN =</span> <span class="cf">function</span>(x) <span class="kw">sum</span>(<span class="op">!</span><span class="kw">is.na</span>(x))) </span>
+<span id="cb423-10"><a href="group-comp.html#cb423-10"></a>  mvec &lt;-<span class="st"> </span><span class="kw">tapply</span>(y, group, mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="co"># 집단별 평균</span></span>
+<span id="cb423-11"><a href="group-comp.html#cb423-11"></a>  vvec &lt;-<span class="st"> </span><span class="kw">tapply</span>(y, group, var, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="co"># 집단별 분산</span></span>
+<span id="cb423-12"><a href="group-comp.html#cb423-12"></a>  </span>
+<span id="cb423-13"><a href="group-comp.html#cb423-13"></a>  degf &lt;-<span class="st"> </span><span class="kw">sum</span>(nvec) <span class="op">-</span><span class="st"> </span><span class="dv">2</span> <span class="co"># 자유도</span></span>
+<span id="cb423-14"><a href="group-comp.html#cb423-14"></a>  mean_diff &lt;-<span class="st"> </span>mvec[<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>mvec[<span class="dv">2</span>] <span class="co"># 평균 차이</span></span>
+<span id="cb423-15"><a href="group-comp.html#cb423-15"></a>  pool_var &lt;-<span class="st"> </span><span class="kw">sum</span>((nvec <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span>vvec)<span class="op">/</span>(<span class="kw">sum</span>(nvec) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>) <span class="co"># 합동분산</span></span>
+<span id="cb423-16"><a href="group-comp.html#cb423-16"></a>  std_err &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(pool_var <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>nvec)))</span>
+<span id="cb423-17"><a href="group-comp.html#cb423-17"></a>  t_stat &lt;-<span class="st"> </span>mean_diff<span class="op">/</span>std_err</span>
+<span id="cb423-18"><a href="group-comp.html#cb423-18"></a>  pvalue &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pt</span>(<span class="kw">abs</span>(t_stat), <span class="dt">df =</span> <span class="kw">sum</span>(nvec) <span class="op">-</span><span class="st"> </span><span class="dv">2</span>)) <span class="co"># 양측검정</span></span>
+<span id="cb423-19"><a href="group-comp.html#cb423-19"></a>  ucl &lt;-<span class="st"> </span>mean_diff <span class="op">+</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>conf.level)<span class="op">/</span><span class="dv">2</span>, <span class="dt">df =</span> degf) <span class="op">*</span><span class="st"> </span>std_err</span>
+<span id="cb423-20"><a href="group-comp.html#cb423-20"></a>  lcl &lt;-<span class="st"> </span>mean_diff <span class="op">-</span><span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>conf.level)<span class="op">/</span><span class="dv">2</span>, <span class="dt">df =</span> degf) <span class="op">*</span><span class="st"> </span>std_err</span>
+<span id="cb423-21"><a href="group-comp.html#cb423-21"></a>  </span>
+<span id="cb423-22"><a href="group-comp.html#cb423-22"></a>  out &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb423-23"><a href="group-comp.html#cb423-23"></a>    <span class="dt">statistic =</span> t_stat, </span>
+<span id="cb423-24"><a href="group-comp.html#cb423-24"></a>    <span class="dt">parameter =</span> degf, </span>
+<span id="cb423-25"><a href="group-comp.html#cb423-25"></a>    <span class="dt">p.value =</span> pvalue, </span>
+<span id="cb423-26"><a href="group-comp.html#cb423-26"></a>    <span class="dt">conf.int =</span> <span class="kw">c</span>(ucl, lcl), </span>
+<span id="cb423-27"><a href="group-comp.html#cb423-27"></a>    <span class="dt">estimate =</span> mean_diff, </span>
+<span id="cb423-28"><a href="group-comp.html#cb423-28"></a>    <span class="dt">stderr =</span> std_err</span>
+<span id="cb423-29"><a href="group-comp.html#cb423-29"></a>  )</span>
+<span id="cb423-30"><a href="group-comp.html#cb423-30"></a>  <span class="kw">return</span>(out)</span>
+<span id="cb423-31"><a href="group-comp.html#cb423-31"></a>}</span>
+<span id="cb423-32"><a href="group-comp.html#cb423-32"></a></span>
+<span id="cb423-33"><a href="group-comp.html#cb423-33"></a></span>
+<span id="cb423-34"><a href="group-comp.html#cb423-34"></a><span class="co"># 데이터 불러오기</span></span>
+<span id="cb423-35"><a href="group-comp.html#cb423-35"></a>dysmenorrhea &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&quot;data/dysmenorrhea.rds&quot;</span>)</span>
+<span id="cb423-36"><a href="group-comp.html#cb423-36"></a><span class="kw">head</span>(dysmenorrhea) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb423-37"><a href="group-comp.html#cb423-37"></a><span class="st">  </span><span class="kw">kbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb423-38"><a href="group-comp.html#cb423-38"></a><span class="st">  </span><span class="kw">kable_paper</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb423-39"><a href="group-comp.html#cb423-39"></a><span class="st">  </span><span class="kw">scroll_box</span>(<span class="dt">width =</span> <span class="st">&quot;100%&quot;</span>, <span class="dt">height =</span> <span class="st">&quot;200px&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:100%; ">
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+id
+</th>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+pidyn
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+age
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+height
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+weight
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+bmi
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+sysbp
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+diabp
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+pulse
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+temp
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+mmpscr
+</th>
+<th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;">
+pdi
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+Dysmenorrhea
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+170.2
+</td>
+<td style="text-align:right;">
+55.3
+</td>
+<td style="text-align:right;">
+19.09000
+</td>
+<td style="text-align:right;">
+116
+</td>
+<td style="text-align:right;">
+80
+</td>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+36.9
+</td>
+<td style="text-align:right;">
+7.000000
+</td>
+<td style="text-align:right;">
+6.633891
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Control
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+156.0
+</td>
+<td style="text-align:right;">
+48.7
+</td>
+<td style="text-align:right;">
+20.01151
+</td>
+<td style="text-align:right;">
+83
+</td>
+<td style="text-align:right;">
+53
+</td>
+<td style="text-align:right;">
+53
+</td>
+<td style="text-align:right;">
+36.6
+</td>
+<td style="text-align:right;">
+2.185714
+</td>
+<td style="text-align:right;">
+8.602493
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+Dysmenorrhea
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+168.0
+</td>
+<td style="text-align:right;">
+53.2
+</td>
+<td style="text-align:right;">
+18.84921
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+75
+</td>
+<td style="text-align:right;">
+72
+</td>
+<td style="text-align:right;">
+36.6
+</td>
+<td style="text-align:right;">
+5.000000
+</td>
+<td style="text-align:right;">
+8.643624
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+Dysmenorrhea
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+153.0
+</td>
+<td style="text-align:right;">
+44.5
+</td>
+<td style="text-align:right;">
+19.00978
+</td>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:right;">
+79
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+36.8
+</td>
+<td style="text-align:right;">
+6.685714
+</td>
+<td style="text-align:right;">
+9.321545
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+Dysmenorrhea
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+168.3
+</td>
+<td style="text-align:right;">
+57.0
+</td>
+<td style="text-align:right;">
+20.12364
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+78
+</td>
+<td style="text-align:right;">
+36.1
+</td>
+<td style="text-align:right;">
+5.885714
+</td>
+<td style="text-align:right;">
+10.290806
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+Dysmenorrhea
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+159.1
+</td>
+<td style="text-align:right;">
+53.4
+</td>
+<td style="text-align:right;">
+21.09604
+</td>
+<td style="text-align:right;">
+97
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+61
+</td>
+<td style="text-align:right;">
+36.6
+</td>
+<td style="text-align:right;">
+6.757143
+</td>
+<td style="text-align:right;">
+8.282563
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<ul>
+<li>PDI(맥의 깊이)의 두 집단(월경통 vs. 대조군) 간 평균 차이 검정 <span class="math inline">\(\rightarrow\)</span> 독립 이표본 t-검정</li>
+</ul>
+
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="group-comp.html#cb424-1"></a><span class="co"># indep_t_test(), t.test(..., var.equal=TRUE), lm() 함수 비교</span></span>
+<span id="cb424-2"><a href="group-comp.html#cb424-2"></a>y &lt;-<span class="st"> </span>dysmenorrhea<span class="op">$</span>pdi</span>
+<span id="cb424-3"><a href="group-comp.html#cb424-3"></a>grp &lt;-<span class="st"> </span>dysmenorrhea<span class="op">$</span>pidyn</span>
+<span id="cb424-4"><a href="group-comp.html#cb424-4"></a></span>
+<span id="cb424-5"><a href="group-comp.html#cb424-5"></a><span class="kw">indep_t_test</span>(<span class="dt">y =</span> y, <span class="dt">group =</span> grp)</span></code></pre></div>
+<pre><code>$statistic
+Control 
+2.68792 
+
+$parameter
+[1] 45
+
+$p.value
+   Control 
+0.01004294 
+
+$conf.int
+  Control   Control 
+1.9523625 0.2797803 
+
+$estimate
+ Control 
+1.116071 
+
+$stderr
+[1] 0.4152176</code></pre>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="group-comp.html#cb426-1"></a><span class="co"># t.test() 함수 사용: 수식표현</span></span>
+<span id="cb426-2"><a href="group-comp.html#cb426-2"></a><span class="kw">t.test</span>(pdi <span class="op">~</span><span class="st"> </span>pidyn, <span class="dt">data =</span> dysmenorrhea, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>
+	Two Sample t-test
+
+data:  pdi by pidyn
+t = 2.6879, df = 45, p-value = 0.01004
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ 0.2797803 1.9523625
+sample estimates:
+     mean in group Control mean in group Dysmenorrhea 
+                 10.414276                   9.298205 </code></pre>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="group-comp.html#cb428-1"></a><span class="co"># t.test(y[grp == &quot;Control&quot;], y[grp == &quot;Dysmenorrhea&quot;], var.equal = TRUE) </span></span>
+<span id="cb428-2"><a href="group-comp.html#cb428-2"></a><span class="co">## 위 결과와 동일</span></span>
+<span id="cb428-3"><a href="group-comp.html#cb428-3"></a></span>
+<span id="cb428-4"><a href="group-comp.html#cb428-4"></a><span class="co"># lm() 함수 사용</span></span>
+<span id="cb428-5"><a href="group-comp.html#cb428-5"></a>m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>grp)</span>
+<span id="cb428-6"><a href="group-comp.html#cb428-6"></a><span class="kw">summary</span>(m1)</span></code></pre></div>
+<pre><code>
+Call:
+lm(formula = y ~ grp)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.3332 -0.8051 -0.1235  1.0716  2.2801 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)      10.4143     0.2905  35.854   &lt;2e-16 ***
+grpDysmenorrhea  -1.1161     0.4152  -2.688     0.01 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 1.423 on 45 degrees of freedom
+Multiple R-squared:  0.1383,	Adjusted R-squared:  0.1192 
+F-statistic: 7.225 on 1 and 45 DF,  p-value: 0.01004</code></pre>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="group-comp.html#cb430-1"></a>m2 &lt;-<span class="st"> </span><span class="kw">lm</span>(pdi <span class="op">~</span><span class="st"> </span>pidyn, <span class="dt">data =</span> dysmenorrhea) <span class="co"># m1과 동일</span></span>
+<span id="cb430-2"><a href="group-comp.html#cb430-2"></a><span class="kw">boxplot</span>(y <span class="op">~</span><span class="st"> </span>grp, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;darkgray&quot;</span>, <span class="st">&quot;orange&quot;</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-24-1.svg" width="672" /></p>
+
+</div>
+<div id="일원배치-분산분석oneway-analysis-of-variance" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> 일원배치 분산분석(oneway analysis of variance)</h3>
+<ul>
+<li>두 모집단의 평균을 비교하는 경우 <span class="math inline">\(t\)</span> 검정 사용</li>
+<li>3 개 이상 집단의 평균비교: 3개 집단 중 두 집단씩 짝을 지어 <span class="math inline">\(t\)</span> 검정을 실시하는 방법 <span class="math inline">\(\rightarrow\)</span> 총 3번(<span class="math inline">\(_3\mathrm{C}_2 = 6\)</span>)의 <span class="math inline">\(t\)</span> 검정 실시</li>
+</ul>
+<p><strong>위 기술 방법의 문제점</strong></p>
+<ul>
+<li>모든 통계적 가설검정은 1종 오류(type I error)를 포함하고 있음.</li>
+<li>유의수준이 0.05인 경우(<span class="math inline">\(\alpha = 0.05\)</span>), 통계적 검정 시 귀무가설을 지지할 확률은 95 %임.</li>
+<li>만약 3 번의 <span class="math inline">\(t\)</span> 검정을 수행했을 때, 모든 검정 시 귀무가설을 지지할 확률 = <span class="math inline">\((1 - 0.05)^3 = 0.8574\)</span></li>
+<li>즉 귀무가설이 참일 때 3 번의 검정 중 하나라도 차이를 보일 확률(대립가설을 지지할 확률) = 1 - 0.8754 = 0.1426 <span class="math inline">\(\rightarrow\)</span> 처음 설정한 유의수준보다 커짐</li>
+</ul>
+<div id="일원배치-분산분석의-개념" class="section level4 unnumbered">
+<h4>일원배치 분산분석의 개념</h4>
+<p>다음과 같이 확률변수가 주어졌을 때,</p>
+<p><strong>가정</strong></p>
+<ol style="list-style-type: decimal">
+<li>가 집단의 관찰값은 정규분포를 따른다</li>
+<li>각 집단의 분산은 동일하다</li>
+<li>오차항은 서로 독립이며, 평균이 0이고 분산이 <span class="math inline">\(\sigma^2\)</span>인 정규분포를 따른다.</li>
+</ol>
+<p><span class="math display">\[
+\begin{cases}
+Y_{11}, \cdots, Y_{1n_1} &amp; \stackrel{iid}{\sim} &amp; \mathcal{N}(\mu_1, \sigma^2) \\
+Y_{21}, \cdots, Y_{2n_2} &amp; \stackrel{iid}{\sim} &amp; \mathcal{N}(\mu_2, \sigma^2) \\
+&amp; \vdots &amp; \leftarrow \mathrm{independent} \\
+Y_{i1}, \cdots, Y_{in_i} &amp; \stackrel{iid}{\sim} &amp; \mathcal{N}(\mu_i, \sigma^2) \\
+\end{cases}, ~~~ i \geq 2
+\]</span></p>
+<p>아래와 같은 선형모형을 고려해보자.</p>
+<p><span class="math display">\[
+y_{ij} = \mu + \alpha_i + \epsilon_{ij}, ~~~ \epsilon_{ij} \stackrel{iid}{\sim} \mathcal{N}(0, \sigma^2)
+\]</span></p>
+<p>여기서 <span class="math inline">\(i = 1, \ldots, g\)</span>로 집단의 개수(요인의 수준 수)를 나타내며 <span class="math inline">\(j = 1, \ldots, n_i\)</span>로 집단(수준) <span class="math inline">\(i\)</span>의 관측수(표본 크기)를 나타내고, <span class="math inline">\(\alpha_i\)</span>는
+요인의 효과를 나타내고 아래와 같은 제약조건을 가짐.</p>
+<p><span class="math display">\[
+\sum_{i=1}^{g}\alpha_i = \sum_{i=1}^{g}(\mu_i - \mu) = 0
+\]</span></p>
+
+<div class="figure"><span id="fig:unnamed-chunk-25"></span>
+<img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-25-1.svg" alt="효과 $\alpha$에 대한 이해" width="768" />
+<p class="caption">
+Figure 4.1: 효과 <span class="math inline">\(\alpha\)</span>에 대한 이해
+</p>
+</div>
+
+<p>위 모형에 대한 통계적 가설</p>
+<p><span class="math display">\[
+H_0: \mu_1 = \mu_2 = \cdots =\mu_g~~~\mathrm{vs.}~~~H_1: \mathrm{not}~H_0~(\mathrm{not~all}~\mu_i~\mathrm{are ~ equal})
+\]</span></p>
+<p><span class="math inline">\(H_0\)</span>가 참일 때 <span class="math inline">\(\mu_1 = \mu_2 = \cdots =\mu_g = \mu\)</span> 이므로, 위 통계적 가설을 <span class="math inline">\(\alpha_i\)</span>에 대해 다시 표현하면</p>
+<p><span class="math display">\[
+H_0: \alpha_1 = \alpha_2 = \cdots =\alpha_g = 0~~~\mathrm{vs.}~~~H_1: \mathrm{not}~H_0~(\mathrm{not~all}~\alpha_i~\mathrm{are ~ equal~ to~ 0})
+\]</span></p>
+<p>이러한 검정을 일원배치 분산분석(oneway analysis of variance, oneway ANOVA)라고 함.</p>
+<ul>
+<li>ANOVA는 요인의 수준에 기인한 변동(집단 간 변동, between group)과 각 개인 간 변동(집단 내 변동, within group)을 비교</li>
+<li>즉, 각 집단의 평균이 전체평균(grand mean)으로부터 얼마나 멀리 떨어졌는지와 집단 내 변동을 비교해 각 집단의 평균이 동일한지를 검정</li>
+<li>평균의 동질성을 확인하기 위해 평균의 변동성을 사용했기 때문에 분산분석이라는 이름을 가짐</li>
+</ul>
+</div>
+<div id="분산분석의-변동분해-과정" class="section level4 unnumbered">
+<h4>분산분석의 변동분해 과정</h4>
+<p>분산분석을 위해 필요한 기본 통계량</p>
+<ul>
+<li>각 집단의 평균</li>
+</ul>
+<p><span class="math display">\[
+\hat{\mu}_i = \bar{y}_{i.} = \frac{1}{n_i} \sum_{j = 1}^{n_i} y_{ij}
+\]</span></p>
+<ul>
+<li>전체 평균</li>
+</ul>
+<p><span class="math display">\[
+\hat{\mu} = \bar{y}_{..} = \frac{1}{N}\sum_{i = 1}^{g} \sum_{j = 1}^{n_i} y_{ij}, ~~ N=\sum_{i=1}^{g} n_i
+\]</span></p>
+<ul>
+<li>각 집단의 표본 분산</li>
+</ul>
+<p><span class="math display">\[
+\hat{\sigma}^2_i = s_i^2 = \frac{1}{n_i - 1} \sum_{i = 1}^{n_i} (y_{ij} - \bar{y}_{i.})^2
+\]</span></p>
+<p>위 통계량을 이용해 처음 고려한 선형 모형을 표현해 보면,</p>
+<p><span class="math display">\[
+y_{ij} = \bar{y}_{..} + (\bar{y}_{i.} - \bar{y}_{..}) + (y_{ij} - \bar{y}_{i.}) 
+\]</span></p>
+<ul>
+<li>귀무가설이 사실인 경우(<span class="math inline">\(\alpha_i = 0\)</span>), <span class="math inline">\(y_{ij} = \mu + \epsilon_{ij}\)</span> 일 것이고 <span class="math inline">\(\hat{\alpha}_i = \bar{y}_{i.} - \bar{y}_{..}\)</span>의 값은 0에 가깝게 나타날 것임</li>
+<li>위의 식을 다시 표현하면</li>
+</ul>
+<p><span class="math display">\[
+y_{ij} - \bar{y}_{..} =  (\bar{y}_{i.} - \bar{y}_{..}) + (y_{ij} - \bar{y}_{i.}) 
+\]</span></p>
+<p>이고,</p>
+<ul>
+<li><span class="math inline">\(y_{ij} - \bar{y}_{..}\)</span>: 각 관찰값에서 전체 평균을 뺀 값 <span class="math inline">\(\rightarrow\)</span> 전체 평균으로부터의 편차 <span class="math inline">\(\rightarrow\)</span> <strong>전체 편차(total deviation)</strong></li>
+<li><span class="math inline">\(\bar{y}_{i.} - \bar{y}_{..}\)</span>: 각 집단 평균에서 전체 평균을 뺀 값 <span class="math inline">\(\rightarrow\)</span> <strong>집단(처리효과) 편차(between group deviation)</strong></li>
+<li><span class="math inline">\(y_{ij} - \bar{y}_{i.}\)</span>: 각 관찰값에서 해당 관찰값에 대응한 집단 평균을 뺀 값 <span class="math inline">\(\rightarrow\)</span> <strong>집단내 편차(within group deviation)</strong></li>
+</ul>
+<p>즉 <strong>총 변동(편차)은 집단 간 변동(편차)과 집단 내 변동(편차)으로 분해 가능</strong>하고 제곱합으로 표현</p>
+<ul>
+<li>SST: total sum of squares (전체 편차 제곱합)</li>
+</ul>
+<p><span class="math display">\[
+SST = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{..})^2
+\]</span></p>
+<ul>
+<li>SSB: between group sum of squares (집단 간 편차 제곱합)</li>
+</ul>
+<p><span class="math display">\[
+SSB = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (\bar{y}_{i.} - \bar{y}_{..})^2 = \sum_{i=1}^{g} n_i (\bar{y}_{i.} - \bar{y}_{..})^2
+\]</span></p>
+<ul>
+<li>SSW: within group sum of squares (집단 내 편차 제곱합)</li>
+</ul>
+<p><span class="math display">\[
+SSW = \sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{i.})^2 = \sum_{i=1}^{g} n_i s_i^2
+\]</span></p>
+<p>최종적으로 아래와 같은 표현이 가능함</p>
+<p><span class="math display">\[
+\sum_{i=1}^{g} \sum_{j=1}^{n_i} (y_{ij} - \bar{y}_{..})^2 ~(=SST) = \sum_{i=1}^{g} n_i (\bar{y}_{i.} - \bar{y}_{..})^2~(=SSB) + \sum_{i=1}^{g} n_i s_i^2~(=SSW)\\
+\]</span></p>
+</div>
+<div id="분산분석의-검정-원리" class="section level4 unnumbered">
+<h4>분산분석의 검정 원리</h4>
+<ul>
+<li>요인의 효과가 크다 <span class="math inline">\(\rightarrow\)</span> 집단 간 변동이 커짐 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(SSB\)</span>가 커짐 <span class="math inline">\(\rightarrow\)</span> 집단 간 평균 차이가 존재</li>
+<li>요인의 효과가 없다 <span class="math inline">\(\rightarrow\)</span> 집단 간 변동이 작음 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(SSB\)</span>가 작음 <span class="math inline">\(\rightarrow\)</span> 집단 간 평균 차이가 없음</li>
+</ul>
+<blockquote>
+<ul>
+<li>총변동(<span class="math inline">\(SST\)</span>) 중 집단 간 변동(<span class="math inline">\(SSB\)</span>)이 커지게 되면 <span class="math inline">\(SSW\)</span>는 작아지고 귀무가설을 기각할 가능성이 높아짐</li>
+<li><span class="math inline">\(SSW\)</span>와 <span class="math inline">\(SSB\)</span>의 비율을 검정 통계량으로 사용 <span class="math inline">\(\rightarrow\)</span> 제곱합의 비율 <span class="math inline">\(\rightarrow\)</span> 분산의 비율 <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(F\)</span> 검정</li>
+</ul>
+</blockquote>
+<ul>
+<li>실제 분산분석은 제곱합을 대응하는 자유도로 나눈 평균제곱합을 기반으로 검정 실시</li>
+<li>각 제곱합의 자유도
+<ul>
+<li><span class="math inline">\(SST\)</span>: 총관측수 - 전체평균 = <span class="math inline">\(\sum_{i=1}^{g} n_i - 1 = N - 1\)</span></li>
+<li><span class="math inline">\(SSB\)</span>: 전체 수준(집단)의 수 - 전체 평균 = <span class="math inline">\(g - 1\)</span></li>
+<li><span class="math inline">\(SSW\)</span>: 각 집단마다 제곱합 계신 기준이 다름. 즉 첫 번째 집단의 첫 번째 관찰값 <span class="math inline">\(y_11\)</span> 의 편차 계산 시 <span class="math inline">\(\bar{y}_{1.}\)</span> 만 사용
+<ul>
+<li><span class="math inline">\((n_1 - 1) + (n_2 - 1) + \cdots + (n_g -1) = \sum_{i = 1}^{g}n_i - g = N - g\)</span></li>
+</ul></li>
+</ul></li>
+<li>검정에 기초가 되는 평균제곱
+<ul>
+<li><span class="math inline">\(MSB = SSB/(g - 1)\)</span>: 집단(요인 수준) 평균들의 분산</li>
+<li><span class="math inline">\(MSW = SSE/(N - g)\)</span>: 평균제곱오차(mean square error: MSW) <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(\sigma^2\)</span>의 불편 추정량</li>
+</ul></li>
+<li><span class="math inline">\(H_0\)</span> 하에서 <span class="math inline">\(SSB/\sigma^2 \sim \chi^2_{\nu = g - 1}\)</span>, <span class="math inline">\(SSW/\sigma^2 \sim \chi^2_{\nu = N-g}\)</span> 이므로, 두 평균 변동의 비율은</li>
+</ul>
+<p><span class="math display">\[
+ F_0 = \frac{(SSB/\sigma^2)/(g - 1)}{(SSW/\sigma^2)/(N-g)} = \frac{MSB}{MSW} \sim F_{\nu_1 = g - 1, \nu_2 = N - g}
+\]</span></p>
+<ul>
+<li>분산분석 표(ANOVA table)</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>Sum of Squares</th>
+<th>Degrees of Freedom</th>
+<th>Mean Square</th>
+<th><span class="math inline">\(F\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between</td>
+<td>SSB</td>
+<td><span class="math inline">\(g - 1\)</span></td>
+<td>SSB / DFB</td>
+<td>MSB / MSW</td>
+</tr>
+<tr class="even">
+<td>Within</td>
+<td>SSW</td>
+<td><span class="math inline">\(N - g\)</span></td>
+<td>SSW / DFW</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>SST</td>
+<td><span class="math inline">\(N - 1\)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>예제1: 분산분석 원리를 시뮬레이션을 통해 확인 (집단의 수 <span class="math inline">\(g = 3\)</span>, 각 집단 내 표본크기 <span class="math inline">\(n_1=n_2=n_3=20\)</span>)</li>
+</ul>
+
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="group-comp.html#cb431-1"></a><span class="co"># 함수 생성</span></span>
+<span id="cb431-2"><a href="group-comp.html#cb431-2"></a>plot_anova_sim &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="co">#각 집단의 관찰값 개수</span></span>
+<span id="cb431-3"><a href="group-comp.html#cb431-3"></a>                           <span class="dt">g =</span> <span class="dv">3</span>, </span>
+<span id="cb431-4"><a href="group-comp.html#cb431-4"></a>                           <span class="dt">mvec =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), </span>
+<span id="cb431-5"><a href="group-comp.html#cb431-5"></a>                           <span class="dt">sigma =</span> <span class="dv">1</span>, </span>
+<span id="cb431-6"><a href="group-comp.html#cb431-6"></a>                           <span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;dodgerblue&quot;</span>, <span class="st">&quot;darkorange&quot;</span>, <span class="st">&quot;black&quot;</span>)) </span>
+<span id="cb431-7"><a href="group-comp.html#cb431-7"></a>{</span>
+<span id="cb431-8"><a href="group-comp.html#cb431-8"></a>  y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n <span class="op">*</span><span class="st"> </span>g, <span class="dt">mean =</span> mvec, <span class="dt">sd =</span> sigma) <span class="co"># 주어진 인수로부터 관찰값 생성</span></span>
+<span id="cb431-9"><a href="group-comp.html#cb431-9"></a>  group &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(LETTERS[<span class="dv">1</span><span class="op">:</span>g], n)) <span class="co"># 요인의 수준(집단) 생성</span></span>
+<span id="cb431-10"><a href="group-comp.html#cb431-10"></a>  </span>
+<span id="cb431-11"><a href="group-comp.html#cb431-11"></a>  <span class="co"># 이론적 분포 도표 생성</span></span>
+<span id="cb431-12"><a href="group-comp.html#cb431-12"></a>  xmin &lt;-<span class="st"> </span><span class="kw">min</span>(mvec) <span class="op">-</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>sigma <span class="co"># 이론적 분포의 최솟값: 도표 생성 시 사용</span></span>
+<span id="cb431-13"><a href="group-comp.html#cb431-13"></a>  xmax &lt;-<span class="st"> </span><span class="kw">max</span>(mvec) <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>sigma <span class="co"># 이론적 분포의 최댓값: 도표 생성 시 사용</span></span>
+<span id="cb431-14"><a href="group-comp.html#cb431-14"></a>  dx &lt;-<span class="st"> </span><span class="kw">seq</span>(xmin, xmax, <span class="dt">length =</span> <span class="dv">500</span>) <span class="co"># 정규분포 밀도함수 x축 범위</span></span>
+<span id="cb431-15"><a href="group-comp.html#cb431-15"></a></span>
+<span id="cb431-16"><a href="group-comp.html#cb431-16"></a>  <span class="kw">plot</span>(<span class="dv">0</span>, <span class="dt">main =</span> <span class="st">&quot;Truth&quot;</span>, </span>
+<span id="cb431-17"><a href="group-comp.html#cb431-17"></a>       <span class="dt">xlim =</span> <span class="kw">c</span>(xmin, xmax), </span>
+<span id="cb431-18"><a href="group-comp.html#cb431-18"></a>       <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.4</span>), <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb431-19"><a href="group-comp.html#cb431-19"></a>       <span class="dt">xlab =</span> <span class="st">&quot;observation&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;density&quot;</span>)</span>
+<span id="cb431-20"><a href="group-comp.html#cb431-20"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>g) {</span>
+<span id="cb431-21"><a href="group-comp.html#cb431-21"></a>    <span class="kw">lines</span>(dx, <span class="kw">dnorm</span>(dx, <span class="dt">mean =</span> mvec[i], <span class="dt">sd =</span> sigma), </span>
+<span id="cb431-22"><a href="group-comp.html#cb431-22"></a>          <span class="dt">col =</span> cols[i], </span>
+<span id="cb431-23"><a href="group-comp.html#cb431-23"></a>          <span class="dt">lty =</span> i, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb431-24"><a href="group-comp.html#cb431-24"></a>    <span class="kw">rug</span>(y[group <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(group)[i]], </span>
+<span id="cb431-25"><a href="group-comp.html#cb431-25"></a>        <span class="dt">col =</span> cols[i], <span class="dt">ticksize =</span> <span class="fl">0.1</span>, <span class="dt">lty =</span> i, <span class="dt">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb431-26"><a href="group-comp.html#cb431-26"></a>  }</span>
+<span id="cb431-27"><a href="group-comp.html#cb431-27"></a>  </span>
+<span id="cb431-28"><a href="group-comp.html#cb431-28"></a>  <span class="kw">boxplot</span>(y <span class="op">~</span><span class="st"> </span>group, <span class="dt">xlab =</span> <span class="st">&quot;group&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Observed Data&quot;</span>, </span>
+<span id="cb431-29"><a href="group-comp.html#cb431-29"></a>          <span class="dt">medcol =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">varwidth =</span> <span class="ot">FALSE</span>) </span>
+<span id="cb431-30"><a href="group-comp.html#cb431-30"></a>  <span class="kw">stripchart</span>(y <span class="op">~</span><span class="st"> </span>group, <span class="dt">vertical =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb431-31"><a href="group-comp.html#cb431-31"></a>             <span class="dt">method =</span> <span class="st">&quot;jitter&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb431-32"><a href="group-comp.html#cb431-32"></a>             <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">col  =</span> cols)</span>
+<span id="cb431-33"><a href="group-comp.html#cb431-33"></a>  <span class="kw">abline</span>(<span class="dt">h =</span> <span class="kw">mean</span>(y), <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb431-34"><a href="group-comp.html#cb431-34"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>g) {</span>
+<span id="cb431-35"><a href="group-comp.html#cb431-35"></a>    <span class="kw">segments</span>(<span class="dt">x0 =</span> i <span class="op">-</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span><span class="op">/</span>g, <span class="dv">1</span>), </span>
+<span id="cb431-36"><a href="group-comp.html#cb431-36"></a>             <span class="dt">x1 =</span> i <span class="op">+</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">1</span><span class="op">/</span>g, <span class="dv">1</span>), </span>
+<span id="cb431-37"><a href="group-comp.html#cb431-37"></a>             <span class="dt">y0 =</span> <span class="kw">mean</span>(y[group <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(group)[i]]), </span>
+<span id="cb431-38"><a href="group-comp.html#cb431-38"></a>             <span class="dt">y1 =</span> <span class="kw">mean</span>(y[group <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(group)[i]]), </span>
+<span id="cb431-39"><a href="group-comp.html#cb431-39"></a>             <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> cols[i], <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb431-40"><a href="group-comp.html#cb431-40"></a>  } <span class="co"># 집단 별 평균선 표시</span></span>
+<span id="cb431-41"><a href="group-comp.html#cb431-41"></a>  </span>
+<span id="cb431-42"><a href="group-comp.html#cb431-42"></a>  <span class="co"># 일원배치 분산분석</span></span>
+<span id="cb431-43"><a href="group-comp.html#cb431-43"></a>  grand_mean_obs &lt;-<span class="st"> </span><span class="kw">mean</span>(y) <span class="co"># 전체평균</span></span>
+<span id="cb431-44"><a href="group-comp.html#cb431-44"></a>  group_mean_obs &lt;-<span class="st"> </span><span class="kw">tapply</span>(y, group, mean) <span class="co"># 집단 평균</span></span>
+<span id="cb431-45"><a href="group-comp.html#cb431-45"></a>  sst &lt;-<span class="st"> </span><span class="kw">sum</span>((y <span class="op">-</span><span class="st"> </span>grand_mean_obs)<span class="op">^</span><span class="dv">2</span>) </span>
+<span id="cb431-46"><a href="group-comp.html#cb431-46"></a>  ssw &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>, g)</span>
+<span id="cb431-47"><a href="group-comp.html#cb431-47"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>g) {</span>
+<span id="cb431-48"><a href="group-comp.html#cb431-48"></a>    ssw[i] &lt;-<span class="st"> </span><span class="kw">sum</span>((y[group <span class="op">==</span><span class="st"> </span><span class="kw">levels</span>(group)[i]] <span class="op">-</span><span class="st"> </span>group_mean_obs[i])<span class="op">^</span><span class="dv">2</span>)</span>
+<span id="cb431-49"><a href="group-comp.html#cb431-49"></a>  }</span>
+<span id="cb431-50"><a href="group-comp.html#cb431-50"></a>  ssw &lt;-<span class="st"> </span><span class="kw">sum</span>(ssw)</span>
+<span id="cb431-51"><a href="group-comp.html#cb431-51"></a>  ssb &lt;-<span class="st"> </span>sst <span class="op">-</span><span class="st"> </span>ssw</span>
+<span id="cb431-52"><a href="group-comp.html#cb431-52"></a>  msb &lt;-<span class="st"> </span>ssb<span class="op">/</span>(g <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb431-53"><a href="group-comp.html#cb431-53"></a>  msw &lt;-<span class="st"> </span>ssw<span class="op">/</span>(<span class="kw">length</span>(y) <span class="op">-</span><span class="st"> </span>g)</span>
+<span id="cb431-54"><a href="group-comp.html#cb431-54"></a>  Fval &lt;-<span class="st"> </span>msb<span class="op">/</span>msw</span>
+<span id="cb431-55"><a href="group-comp.html#cb431-55"></a>  pval &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pf</span>(Fval, g <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="kw">length</span>(y) <span class="op">-</span><span class="st"> </span>g)</span>
+<span id="cb431-56"><a href="group-comp.html#cb431-56"></a>  </span>
+<span id="cb431-57"><a href="group-comp.html#cb431-57"></a>  test_result &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb431-58"><a href="group-comp.html#cb431-58"></a>   <span class="dt">Source =</span> <span class="kw">c</span>(<span class="st">&quot;Between&quot;</span>, <span class="st">&quot;Within&quot;</span>, <span class="st">&quot;Total&quot;</span>), </span>
+<span id="cb431-59"><a href="group-comp.html#cb431-59"></a>   <span class="dt">SS =</span> <span class="kw">c</span>(ssb, ssw, sst), </span>
+<span id="cb431-60"><a href="group-comp.html#cb431-60"></a>   <span class="dt">degf =</span> <span class="kw">c</span>(g <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="kw">length</span>(y) <span class="op">-</span><span class="st"> </span>g, <span class="kw">length</span>(y) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), </span>
+<span id="cb431-61"><a href="group-comp.html#cb431-61"></a>   <span class="dt">MS =</span> <span class="kw">c</span>(msb, msw, <span class="ot">NA</span>), </span>
+<span id="cb431-62"><a href="group-comp.html#cb431-62"></a>   <span class="dt">F.value =</span> <span class="kw">c</span>(Fval, <span class="ot">NA</span>, <span class="ot">NA</span>), </span>
+<span id="cb431-63"><a href="group-comp.html#cb431-63"></a>   <span class="dt">p.value =</span> <span class="kw">c</span>(pval, <span class="ot">NA</span>, <span class="ot">NA</span>)</span>
+<span id="cb431-64"><a href="group-comp.html#cb431-64"></a>  )</span>
+<span id="cb431-65"><a href="group-comp.html#cb431-65"></a>  out &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">y =</span> y, <span class="dt">group =</span> group, </span>
+<span id="cb431-66"><a href="group-comp.html#cb431-66"></a>              <span class="dt">result =</span> test_result)</span>
+<span id="cb431-67"><a href="group-comp.html#cb431-67"></a>  <span class="kw">return</span>(out)</span>
+<span id="cb431-68"><a href="group-comp.html#cb431-68"></a>}</span></code></pre></div>
+
+<ul>
+<li>Case 1: 집단 간 평균 차이가 존재하지 않는 경우 (<span class="math inline">\(\mu_1 = \mu_2 = \mu_3 = 0, \sigma^2 = 1\)</span>)</li>
+</ul>
+
+<div class="sourceCode" id="cb432"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb432-1"><a href="group-comp.html#cb432-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb432-2"><a href="group-comp.html#cb432-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb432-3"><a href="group-comp.html#cb432-3"></a>out1 &lt;-<span class="st"> </span><span class="kw">plot_anova_sim</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">g =</span> <span class="dv">3</span>, <span class="dt">mvec =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">sigma =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-27-1.svg" width="960" /></p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="group-comp.html#cb433-1"></a>out1<span class="op">$</span>result <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb433-2"><a href="group-comp.html#cb433-2"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">caption =</span> <span class="st">&quot;ANOVA table ($</span><span class="ch">\\</span><span class="st">mu_1 = </span><span class="ch">\\</span><span class="st">mu_2 = </span><span class="ch">\\</span><span class="st">mu_3 = 0, </span><span class="ch">\\</span><span class="st">sigma^2 = 1$)&quot;</span>, </span>
+<span id="cb433-3"><a href="group-comp.html#cb433-3"></a>      <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># kableExtra 패키지 사용방법 참고</span></span>
+<span id="cb433-4"><a href="group-comp.html#cb433-4"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>
+<span id="tab:unnamed-chunk-27">Table 4.1: </span>ANOVA table (<span class="math inline">\(\mu_1 = \mu_2 = \mu_3 = 0, \sigma^2 = 1\)</span>)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Source
+</th>
+<th style="text-align:right;">
+SS
+</th>
+<th style="text-align:right;">
+degf
+</th>
+<th style="text-align:right;">
+MS
+</th>
+<th style="text-align:right;">
+F.value
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Between
+</td>
+<td style="text-align:right;">
+0.3568695
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.1784348
+</td>
+<td style="text-align:right;">
+0.2095279
+</td>
+<td style="text-align:right;">
+0.8115888
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Within
+</td>
+<td style="text-align:right;">
+48.5414289
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.8516040
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+48.8982984
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="group-comp.html#cb434-1"></a><span class="co"># check</span></span>
+<span id="cb434-2"><a href="group-comp.html#cb434-2"></a><span class="co"># anova(with(out1, lm(y ~ group)))</span></span></code></pre></div>
+
+<ul>
+<li>Case 2: 집단 간 평균 차이가 뚜렷한 경우 (<span class="math inline">\(\mu_1 = -5, \mu_2 = 0, \mu_3 = 5, \sigma^2 = 1\)</span>)</li>
+</ul>
+
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="group-comp.html#cb435-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb435-2"><a href="group-comp.html#cb435-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb435-3"><a href="group-comp.html#cb435-3"></a>out2 &lt;-<span class="st"> </span><span class="kw">plot_anova_sim</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">g =</span> <span class="dv">3</span>, <span class="dt">mvec =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="dt">sigma =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-28-1.svg" width="960" /></p>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="group-comp.html#cb436-1"></a>out2<span class="op">$</span>result <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb436-2"><a href="group-comp.html#cb436-2"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">caption =</span> <span class="st">&quot;ANOVA table ($</span><span class="ch">\\</span><span class="st">mu_1 = -5, </span><span class="ch">\\</span><span class="st">mu_2 = 0, </span><span class="ch">\\</span><span class="st">mu_3 = 5, </span><span class="ch">\\</span><span class="st">sigma^2 = 1$)&quot;</span>, </span>
+<span id="cb436-3"><a href="group-comp.html#cb436-3"></a>      <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># kableExtra 패키지 사용방법 참고</span></span>
+<span id="cb436-4"><a href="group-comp.html#cb436-4"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>
+<span id="tab:unnamed-chunk-28">Table 4.2: </span>ANOVA table (<span class="math inline">\(\mu_1 = -5, \mu_2 = 0, \mu_3 = 5, \sigma^2 = 1\)</span>)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Source
+</th>
+<th style="text-align:right;">
+SS
+</th>
+<th style="text-align:right;">
+degf
+</th>
+<th style="text-align:right;">
+MS
+</th>
+<th style="text-align:right;">
+F.value
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Between
+</td>
+<td style="text-align:right;">
+1009.30665
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+504.653326
+</td>
+<td style="text-align:right;">
+592.5915
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Within
+</td>
+<td style="text-align:right;">
+48.54143
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.851604
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+1057.84808
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>Case 3-a: 집단 간 평균 차이가 존재 (<span class="math inline">\(\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 1\)</span>)</li>
+</ul>
+
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="group-comp.html#cb437-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb437-2"><a href="group-comp.html#cb437-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb437-3"><a href="group-comp.html#cb437-3"></a>out3 &lt;-<span class="st"> </span><span class="kw">plot_anova_sim</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">g =</span> <span class="dv">3</span>, <span class="dt">mvec =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">sigma =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-29-1.svg" width="960" /></p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="group-comp.html#cb438-1"></a>out3<span class="op">$</span>result <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb438-2"><a href="group-comp.html#cb438-2"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">caption =</span> <span class="st">&quot;ANOVA table ($</span><span class="ch">\\</span><span class="st">mu_1 = -1, </span><span class="ch">\\</span><span class="st">mu_2 = 0, </span><span class="ch">\\</span><span class="st">mu_3 = 1, </span><span class="ch">\\</span><span class="st">sigma^2 = 1$)&quot;</span>, </span>
+<span id="cb438-3"><a href="group-comp.html#cb438-3"></a>      <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># kableExtra 패키지 사용방법 참고</span></span>
+<span id="cb438-4"><a href="group-comp.html#cb438-4"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>
+<span id="tab:unnamed-chunk-29">Table 4.3: </span>ANOVA table (<span class="math inline">\(\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 1\)</span>)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Source
+</th>
+<th style="text-align:right;">
+SS
+</th>
+<th style="text-align:right;">
+degf
+</th>
+<th style="text-align:right;">
+MS
+</th>
+<th style="text-align:right;">
+F.value
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Between
+</td>
+<td style="text-align:right;">
+42.14683
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+21.073413
+</td>
+<td style="text-align:right;">
+24.74555
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Within
+</td>
+<td style="text-align:right;">
+48.54143
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+0.851604
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+90.68825
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>Case 3-b: 집단 간 평균 차이가 존재 (<span class="math inline">\(\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 3\)</span>)</li>
+</ul>
+
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="group-comp.html#cb439-1"></a><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb439-2"><a href="group-comp.html#cb439-2"></a><span class="kw">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb439-3"><a href="group-comp.html#cb439-3"></a>out4 &lt;-<span class="st"> </span><span class="kw">plot_anova_sim</span>(<span class="dt">n =</span> <span class="dv">20</span>, <span class="dt">g =</span> <span class="dv">3</span>, <span class="dt">mvec =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">sigma =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-30-1.svg" width="960" /></p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="group-comp.html#cb440-1"></a>out4<span class="op">$</span>result <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb440-2"><a href="group-comp.html#cb440-2"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">caption =</span> <span class="st">&quot;ANOVA table ($</span><span class="ch">\\</span><span class="st">mu_1 = -1, </span><span class="ch">\\</span><span class="st">mu_2 = 0, </span><span class="ch">\\</span><span class="st">mu_3 = 1, </span><span class="ch">\\</span><span class="st">sigma^2 = 3$)&quot;</span>, </span>
+<span id="cb440-3"><a href="group-comp.html#cb440-3"></a>      <span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># kableExtra 패키지 사용방법 참고</span></span>
+<span id="cb440-4"><a href="group-comp.html#cb440-4"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<caption>
+<span id="tab:unnamed-chunk-30">Table 4.4: </span>ANOVA table (<span class="math inline">\(\mu_1 = -1, \mu_2 = 0, \mu_3 = 1, \sigma^2 = 3\)</span>)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Source
+</th>
+<th style="text-align:right;">
+SS
+</th>
+<th style="text-align:right;">
+degf
+</th>
+<th style="text-align:right;">
+MS
+</th>
+<th style="text-align:right;">
+F.value
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Between
+</td>
+<td style="text-align:right;">
+48.5817
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+24.290848
+</td>
+<td style="text-align:right;">
+3.169294
+</td>
+<td style="text-align:right;">
+0.0495319
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Within
+</td>
+<td style="text-align:right;">
+436.8729
+</td>
+<td style="text-align:right;">
+57
+</td>
+<td style="text-align:right;">
+7.664436
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total
+</td>
+<td style="text-align:right;">
+485.4546
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>예제2: <code>faraway</code> 패키지 내 <code>coagulation</code> 데이터셋
+<ul>
+<li>24 마리 쥐를 무작위로 4 가지 종류의 먹이(A, B, C, D)를 주고 혈액 응고 시간 측정</li>
+</ul></li>
+</ul>
+
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="group-comp.html#cb441-1"></a><span class="co"># 데이터 테이블 생성</span></span>
+<span id="cb441-2"><a href="group-comp.html#cb441-2"></a><span class="co"># install.packages(&quot;faraway&quot;)</span></span>
+<span id="cb441-3"><a href="group-comp.html#cb441-3"></a><span class="kw">require</span>(faraway)</span>
+<span id="cb441-4"><a href="group-comp.html#cb441-4"></a>coagulation <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb441-5"><a href="group-comp.html#cb441-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rowname =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">8</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb441-6"><a href="group-comp.html#cb441-6"></a><span class="st">  </span><span class="kw">pivot_wider</span>(</span>
+<span id="cb441-7"><a href="group-comp.html#cb441-7"></a>    <span class="dt">names_from =</span> <span class="st">&quot;diet&quot;</span>, </span>
+<span id="cb441-8"><a href="group-comp.html#cb441-8"></a>    <span class="dt">values_from =</span> coag</span>
+<span id="cb441-9"><a href="group-comp.html#cb441-9"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb441-10"><a href="group-comp.html#cb441-10"></a><span class="st">  </span>kbl <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb441-11"><a href="group-comp.html#cb441-11"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:right;">
+rowname
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+C
+</th>
+<th style="text-align:right;">
+D
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+62
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+56
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+60
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+62
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+63
+</td>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+60
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+61
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+66
+</td>
+<td style="text-align:right;">
+68
+</td>
+<td style="text-align:right;">
+64
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+63
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+59
+</td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>데이터 탐색</li>
+</ul>
+
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="group-comp.html#cb442-1"></a><span class="kw">boxplot</span>(coag <span class="op">~</span><span class="st"> </span>diet, <span class="dt">data =</span> coagulation)</span>
+<span id="cb442-2"><a href="group-comp.html#cb442-2"></a><span class="kw">stripchart</span>(coag <span class="op">~</span><span class="st"> </span>diet, <span class="dt">data =</span> coagulation, </span>
+<span id="cb442-3"><a href="group-comp.html#cb442-3"></a>           <span class="dt">vertical =</span> <span class="ot">TRUE</span>, <span class="dt">method =</span> <span class="st">&quot;jitter&quot;</span>, </span>
+<span id="cb442-4"><a href="group-comp.html#cb442-4"></a>           <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-32-1.svg" width="864" /></p>
+
+<ul>
+<li>일원배치 분산분석</li>
+</ul>
+
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="group-comp.html#cb443-1"></a><span class="co"># install.packages(&quot;car&quot;)</span></span>
+<span id="cb443-2"><a href="group-comp.html#cb443-2"></a><span class="kw">require</span>(car)</span>
+<span id="cb443-3"><a href="group-comp.html#cb443-3"></a><span class="kw">require</span>(tidymodels)</span>
+<span id="cb443-4"><a href="group-comp.html#cb443-4"></a><span class="co"># 등분산 검정: Fligner-Kileen&#39;s test</span></span>
+<span id="cb443-5"><a href="group-comp.html#cb443-5"></a><span class="kw">fligner.test</span>(coag <span class="op">~</span><span class="st"> </span>diet, <span class="dt">data =</span> coagulation)</span></code></pre></div>
+<pre><code>
+	Fligner-Killeen test of homogeneity of variances
+
+data:  coag by diet
+Fligner-Killeen:med chi-squared = 1.5559, df = 3, p-value = 0.6694</code></pre>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="group-comp.html#cb445-1"></a><span class="co"># 등분산 검정: Levene&#39;s test (SPSS)</span></span>
+<span id="cb445-2"><a href="group-comp.html#cb445-2"></a>car<span class="op">::</span><span class="kw">leveneTest</span>(coag <span class="op">~</span><span class="st"> </span>diet, <span class="dt">data =</span> coagulation)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["F value"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"3","2":"0.6491885","3":"0.5926459","_rn_":"group"},{"1":"20","2":"NA","3":"NA","_rn_":""}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb446-1"><a href="group-comp.html#cb446-1"></a><span class="co"># 정규성 검정: shapiro-wilk&#39;s test</span></span>
+<span id="cb446-2"><a href="group-comp.html#cb446-2"></a>coagulation <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-3"><a href="group-comp.html#cb446-3"></a><span class="st">  </span><span class="kw">group_by</span>(diet) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-4"><a href="group-comp.html#cb446-4"></a><span class="st">  </span>nest <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-5"><a href="group-comp.html#cb446-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">normal_test =</span> <span class="kw">map</span>(data, <span class="op">~</span><span class="kw">shapiro.test</span>(.x<span class="op">$</span>coag))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-6"><a href="group-comp.html#cb446-6"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">result =</span> <span class="kw">map</span>(normal_test, <span class="op">~</span><span class="st"> </span><span class="kw">tidy</span>(.x))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-7"><a href="group-comp.html#cb446-7"></a><span class="st">  </span><span class="kw">unnest</span>(<span class="dt">cols =</span> result) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-8"><a href="group-comp.html#cb446-8"></a><span class="st">  </span><span class="kw">select</span>(diet, statistic<span class="op">:</span>method) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-9"><a href="group-comp.html#cb446-9"></a><span class="st">  </span><span class="kw">kbl</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb446-10"><a href="group-comp.html#cb446-10"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+diet
+</th>
+<th style="text-align:right;">
+statistic
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+<th style="text-align:left;">
+method
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+0.9497060
+</td>
+<td style="text-align:right;">
+0.7142802
+</td>
+<td style="text-align:left;">
+Shapiro-Wilk normality test
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+0.9223854
+</td>
+<td style="text-align:right;">
+0.5227052
+</td>
+<td style="text-align:left;">
+Shapiro-Wilk normality test
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+0.8727857
+</td>
+<td style="text-align:right;">
+0.2375366
+</td>
+<td style="text-align:left;">
+Shapiro-Wilk normality test
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+0.9317252
+</td>
+<td style="text-align:right;">
+0.5319098
+</td>
+<td style="text-align:left;">
+Shapiro-Wilk normality test
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="group-comp.html#cb447-1"></a><span class="co"># 일원배치 분산분석</span></span>
+<span id="cb447-2"><a href="group-comp.html#cb447-2"></a>mod &lt;-<span class="st"> </span><span class="kw">lm</span>(coag <span class="op">~</span><span class="st"> </span>diet, <span class="dt">data =</span> coagulation)</span>
+<span id="cb447-3"><a href="group-comp.html#cb447-3"></a><span class="kw">anova</span>(mod)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"3","2":"228","3":"76.0","4":"13.57143","5":"4.658471e-05","_rn_":"diet"},{"1":"20","2":"112","3":"5.6","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="group-comp.html#cb448-1"></a><span class="co"># 사후검정(post-hoc test): Tukey&#39;s honestly significant difference (HSD)</span></span>
+<span id="cb448-2"><a href="group-comp.html#cb448-2"></a><span class="kw">plot</span>(<span class="kw">TukeyHSD</span>(<span class="kw">aov</span>(mod), <span class="dt">conf.level =</span> <span class="fl">0.95</span>))</span></code></pre></div>
+<p><img src="05-basic-stat-analysis_files/figure-html/unnamed-chunk-33-1.svg" width="672" /></p>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="group-comp.html#cb449-1"></a><span class="co"># install.packages(&quot;emmeans&quot;)</span></span>
+<span id="cb449-2"><a href="group-comp.html#cb449-2"></a><span class="kw">require</span>(emmeans)</span>
+<span id="cb449-3"><a href="group-comp.html#cb449-3"></a>em0 &lt;-<span class="st"> </span><span class="kw">emmeans</span>(mod, <span class="op">~</span><span class="st"> </span>diet)</span>
+<span id="cb449-4"><a href="group-comp.html#cb449-4"></a>pair_cont &lt;-<span class="st"> </span><span class="kw">contrast</span>(em0, <span class="dt">method =</span> <span class="st">&quot;pairwise&quot;</span>, <span class="dt">adjust =</span> <span class="st">&quot;tukey&quot;</span>) <span class="co"># 대비검정</span></span>
+<span id="cb449-5"><a href="group-comp.html#cb449-5"></a><span class="kw">tidy</span>(pair_cont) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb449-6"><a href="group-comp.html#cb449-6"></a><span class="st">  </span><span class="kw">mutate_if</span>(is.numeric, format, <span class="dt">digits =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb449-7"><a href="group-comp.html#cb449-7"></a><span class="st">  </span>kbl <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb449-8"><a href="group-comp.html#cb449-8"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:left;">
+contrast
+</th>
+<th style="text-align:left;">
+null.value
+</th>
+<th style="text-align:left;">
+estimate
+</th>
+<th style="text-align:left;">
+std.error
+</th>
+<th style="text-align:left;">
+df
+</th>
+<th style="text-align:left;">
+statistic
+</th>
+<th style="text-align:left;">
+adj.p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+A - B
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+-5.00e+00
+</td>
+<td style="text-align:left;">
+1.53
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+-3.27e+00
+</td>
+<td style="text-align:left;">
+0.018328
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+A - C
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+-7.00e+00
+</td>
+<td style="text-align:left;">
+1.53
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+-4.58e+00
+</td>
+<td style="text-align:left;">
+0.000958
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+A - D
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+1.58e-14
+</td>
+<td style="text-align:left;">
+1.45
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+1.09e-14
+</td>
+<td style="text-align:left;">
+1.000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+B - C
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+-2.00e+00
+</td>
+<td style="text-align:left;">
+1.37
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+-1.46e+00
+</td>
+<td style="text-align:left;">
+0.476601
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+B - D
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+5.00e+00
+</td>
+<td style="text-align:left;">
+1.28
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+3.91e+00
+</td>
+<td style="text-align:left;">
+0.004411
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diet
+</td>
+<td style="text-align:left;">
+C - D
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+7.00e+00
+</td>
+<td style="text-align:left;">
+1.28
+</td>
+<td style="text-align:left;">
+20
+</td>
+<td style="text-align:left;">
+5.48e+00
+</td>
+<td style="text-align:left;">
+0.000127
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div class="rmdimportant">
+<p>분산분석 결과는 각 집단(처리) 중 어느 한 집단이라도 차이를 보이면 기각. 만약 분산분석 시 귀무가설(평균이 모두 같다)을 기각했을 경우
+어떤 집단에서 평균의 차이를 보였는지 알아볼 필요가 있음.</p>
+<p><strong>사후검정</strong></p>
+<ul>
+<li>F 검정 결과 집단 간 평균이 다르다는 결론을 얻은 경우 어떤 집단의 평균이 다른 집단과 차이가 있는지를 알아보기 위한 검정 방법</li>
+<li>가장 기본이 되는 원리는 type I error의 조절(t 검정 예 참조)
+<ul>
+<li>Sheffe: 절차 간단, 표본 크기가 달라도 적용 가능</li>
+<li>Bonferroni: 유의수준을 비교집단 수로 나눈 유의수준 사용</li>
+<li>Tukey(honestly significant difference): 매우 보수적</li>
+<li>Duncan: 다른 다중비교 방법에 비해 덜 보수적임</li>
+<li>Bonferroni &gt; Tukey &gt; Duncan &gt; Sheffe</li>
+</ul></li>
+</ul>
+</div>
+
+
+<!-- ## Application {#ch4-application} -->
+<!-- ```{block2, type="rmdtip"} -->
+<!-- **R에서 통계적 모형 표현 방법** -->
+<!-- - 지금까지 별다른 설명 없이 `~`가 들어간 수식표현을 특정함수(예: `lm()`, `t.test()`, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함. -->
+<!-- - R은 (통계적) 모형을 표현하기 위해 **formula** 표현을 사용 $\rightarrow$ 일반적으로 `좌변 ~ 우변`형태로 표시 -->
+<!-- - 보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.  -->
+<!-- - **formula**는 "language" 객체의 일종이며 "formula" 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- typeof(quote(x + 10)) # 객체의 형태가 "language" -->
+<!-- class(quote(x + 10)) # 객체의 클래스가 "call" -->
+<!-- ``` -->
+<!-- - R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임 -->
+<!-- ```{r} -->
+<!-- # 수식 표현 -->
+<!-- a <- y ~ x -->
+<!-- b <- y ~ x + b -->
+<!-- c <- ~ x + y + z -->
+<!-- typeof(c); class(c); attributes(c) -->
+<!-- ``` -->
+<!-- - 가장 기본적인 **formula** 표현의 형태는 아래와 같음 -->
+<!-- ``` -->
+<!-- 반응변수(response variable) ~ 독립변수(independent variables) -->
+<!-- ``` -->
 <!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
 <!-- ## 범주형 자료분석(categorical data analysis) -->
 <!-- ### 적합성 검정(goodness-of-fit test) -->
@@ -426,6 +2049,7 @@ t_0 = \frac{\hat{\mu}_1 - \hat{\mu}_2 - 0}{s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2
 <!-- ### Fisher 정확검정 -->
 <!-- ## 두 변수의 상관 -->
 
+</div>
 </div>
 </div>
 <!-- </div> -->

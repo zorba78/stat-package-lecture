@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | 통계 패키지 활용</title>
+  <title>4.3 Application | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | 통계 패키지 활용" />
+  <meta property="og:title" content="4.3 Application | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | 통계 패키지 활용" />
+  <meta name="twitter:title" content="4.3 Application | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-29" />
+<meta name="date" content="2020-11-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="group-comp.html"/>
-
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -209,6 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.2" data-path="group-comp.html"><a href="group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
 <li class="chapter" data-level="4.2.3" data-path="group-comp.html"><a href="group-comp.html#일원배치-분산분석oneway-analysis-of-variance"><i class="fa fa-check"></i><b>4.2.3</b> 일원배치 분산분석(oneway analysis of variance)</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="ch4-application.html"><a href="ch4-application.html"><i class="fa fa-check"></i><b>4.3</b> Application</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -228,52 +229,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
+<div id="ch4-application" class="section level2">
+<h2><span class="header-section-number">4.3</span> Application</h2>
 
-<div id="refs" class="references">
-<div>
-<p>Peng, Roger D. 2016. <em>R Programming for Data Science</em>. Learnpub. <a href="https://bookdown.org/rdpeng/rprogdatascience/">https://bookdown.org/rdpeng/rprogdatascience/</a>.</p>
-</div>
-<div>
-<p>Rizzo, Maria L. 2019. <em>Statistical Computing with R</em>. CRC Press.</p>
-</div>
-<div>
-<p>Silge, Julia, and David Robinson. 2017. <em>Text Mining with R</em>. " O’Reilly Media, Inc.". <a href="https://www.tidytextmining.com/">https://www.tidytextmining.com/</a>.</p>
-</div>
-<div>
-<p>Wickham, Hadley, and Garrett Grolemund. 2016. <em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em>. " O’Reilly Media, Inc.".</p>
-</div>
-<div>
-<p>Xie, Yihui. 2016. <em>Bookdown: Authoring Books and Technical Documents with R Markdown</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://github.com/rstudio/bookdown">https://github.com/rstudio/bookdown</a>.</p>
-</div>
-<div>
-<p>Xie, Yihui, Christophe Dervieux, and Emily Riederer. 2020. <em>R Markdown Cookbook</em>. Boca Raton, Florida: Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">https://bookdown.org/yihui/rmarkdown-cookbook/</a>.</p>
-</div>
-<div>
-<p>고석범. 2014. <em>R과 Knitr를 활용한 데이터 연동형 문서 만들기</em>. 1st ed. 에이콘 출판사.</p>
-</div>
-</div>
+
+<div class="rmdtip">
+<p><strong>R에서 통계적 모형 표현 방법</strong></p>
+<ul>
+<li>지금까지 별다른 설명 없이 <code>~</code>가 들어간 수식표현을 특정함수(예: <code>lm()</code>, <code>t.test()</code>, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함.</li>
+<li>R은 (통계적) 모형을 표현하기 위해 <strong>formula</strong> 표현을 사용 <span class="math inline">\(\rightarrow\)</span> 일반적으로 <code>좌변 ~ 우변</code>형태로 표시</li>
+<li>보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.</li>
+<li><strong>formula</strong>는 “language” 객체의 일종이며 “formula” 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression)</li>
+</ul>
 </div>
 
 
 
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch4-application.html#cb48-1"></a><span class="kw">typeof</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 형태가 &quot;language&quot;</span></span></code></pre></div>
+<pre><code>[1] &quot;language&quot;</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="ch4-application.html#cb50-1"></a><span class="kw">class</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 클래스가 &quot;call&quot;</span></span></code></pre></div>
+<pre><code>[1] &quot;call&quot;</code></pre>
 
+<ul>
+<li>R에서 <strong>formula</strong>을 특정하는 <code>~</code>의 의미는 “즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)” <span class="math inline">\(\rightarrow\)</span> 인용(quote) 연산자 볼 수 있는 이유임</li>
+</ul>
 
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="ch4-application.html#cb52-1"></a><span class="co"># 수식 표현</span></span>
+<span id="cb52-2"><a href="ch4-application.html#cb52-2"></a>a &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x</span>
+<span id="cb52-3"><a href="ch4-application.html#cb52-3"></a>b &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>b</span>
+<span id="cb52-4"><a href="ch4-application.html#cb52-4"></a>c &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>z</span>
+<span id="cb52-5"><a href="ch4-application.html#cb52-5"></a></span>
+<span id="cb52-6"><a href="ch4-application.html#cb52-6"></a><span class="kw">typeof</span>(c); <span class="kw">class</span>(c); <span class="kw">attributes</span>(c)</span></code></pre></div>
+<pre><code>[1] &quot;language&quot;</code></pre>
+<pre><code>[1] &quot;formula&quot;</code></pre>
+<pre><code>$class
+[1] &quot;formula&quot;
 
+$.Environment
+&lt;environment: R_GlobalEnv&gt;</code></pre>
 
+<ul>
+<li>가장 기본적인 <strong>formula</strong> 표현의 형태는 아래와 같음</li>
+</ul>
+<pre><code>반응변수(response variable) ~ 독립변수(independent variables)</code></pre>
+<!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
+<!-- ## 범주형 자료분석(categorical data analysis) -->
+<!-- ### 적합성 검정(goodness-of-fit test) -->
+<!-- ### 독립성 검정 -->
+<!-- ### Fisher 정확검정 -->
+<!-- ## 두 변수의 상관 -->
 
-
-
-
-
+</div>
+<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
-<a href="group-comp.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="group-comp.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -304,7 +318,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/zorba78/cnu-stat-package-lecture/11-references.Rmd",
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/05-basic-stat-analysis.Rmd",
 "text": "Edit"
 },
 "history": {
