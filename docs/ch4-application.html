@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-26" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -245,21 +245,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch4-application.html#cb48-1"></a><span class="kw">typeof</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 형태가 &quot;language&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="ch4-application.html#cb450-1"></a><span class="kw">typeof</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 형태가 &quot;language&quot;</span></span></code></pre></div>
 <pre><code>[1] &quot;language&quot;</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="ch4-application.html#cb50-1"></a><span class="kw">class</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 클래스가 &quot;call&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="ch4-application.html#cb452-1"></a><span class="kw">class</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 클래스가 &quot;call&quot;</span></span></code></pre></div>
 <pre><code>[1] &quot;call&quot;</code></pre>
 
 <ul>
 <li>R에서 <strong>formula</strong>을 특정하는 <code>~</code>의 의미는 “즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)” <span class="math inline">\(\rightarrow\)</span> 인용(quote) 연산자 볼 수 있는 이유임</li>
 </ul>
 
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="ch4-application.html#cb52-1"></a><span class="co"># 수식 표현</span></span>
-<span id="cb52-2"><a href="ch4-application.html#cb52-2"></a>a &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x</span>
-<span id="cb52-3"><a href="ch4-application.html#cb52-3"></a>b &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>b</span>
-<span id="cb52-4"><a href="ch4-application.html#cb52-4"></a>c &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>z</span>
-<span id="cb52-5"><a href="ch4-application.html#cb52-5"></a></span>
-<span id="cb52-6"><a href="ch4-application.html#cb52-6"></a><span class="kw">typeof</span>(c); <span class="kw">class</span>(c); <span class="kw">attributes</span>(c)</span></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="ch4-application.html#cb454-1"></a><span class="co"># 수식 표현</span></span>
+<span id="cb454-2"><a href="ch4-application.html#cb454-2"></a>a &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x</span>
+<span id="cb454-3"><a href="ch4-application.html#cb454-3"></a>b &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>b</span>
+<span id="cb454-4"><a href="ch4-application.html#cb454-4"></a>c &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>z</span>
+<span id="cb454-5"><a href="ch4-application.html#cb454-5"></a></span>
+<span id="cb454-6"><a href="ch4-application.html#cb454-6"></a><span class="kw">typeof</span>(c); <span class="kw">class</span>(c); <span class="kw">attributes</span>(c)</span></code></pre></div>
 <pre><code>[1] &quot;language&quot;</code></pre>
 <pre><code>[1] &quot;formula&quot;</code></pre>
 <pre><code>$class

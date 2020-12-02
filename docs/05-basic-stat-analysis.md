@@ -1844,48 +1844,81 @@ tidy(pair_cont) %>%
 
 
 
-
-<!-- ## Application {#ch4-application} -->
-
-
-<!-- ```{block2, type="rmdtip"} -->
-<!-- **R에서 통계적 모형 표현 방법** -->
-
-<!-- - 지금까지 별다른 설명 없이 `~`가 들어간 수식표현을 특정함수(예: `lm()`, `t.test()`, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함. -->
-<!-- - R은 (통계적) 모형을 표현하기 위해 **formula** 표현을 사용 $\rightarrow$ 일반적으로 `좌변 ~ 우변`형태로 표시 -->
-<!-- - 보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.  -->
-<!-- - **formula**는 "language" 객체의 일종이며 "formula" 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression) -->
-
-<!-- ``` -->
+## Application {#ch4-application}
 
 
+\footnotesize
+
+\BeginKnitrBlock{rmdtip}<div class="rmdtip">**R에서 통계적 모형 표현 방법**
+
+- 지금까지 별다른 설명 없이 `~`가 들어간 수식표현을 특정함수(예: `lm()`, `t.test()`, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함.
+- R은 (통계적) 모형을 표현하기 위해 **formula** 표현을 사용 $\rightarrow$ 일반적으로 `좌변 ~ 우변`형태로 표시
+- 보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.
+- **formula**는 "language" 객체의 일종이며 "formula" 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression)
+</div>\EndKnitrBlock{rmdtip}
+
+ \normalsize
 
 
-<!-- ```{r} -->
-<!-- typeof(quote(x + 10)) # 객체의 형태가 "language" -->
-<!-- class(quote(x + 10)) # 객체의 클래스가 "call" -->
-
-<!-- ``` -->
-
-<!-- - R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임 -->
-
-<!-- ```{r} -->
-<!-- # 수식 표현 -->
-<!-- a <- y ~ x -->
-<!-- b <- y ~ x + b -->
-<!-- c <- ~ x + y + z -->
-
-<!-- typeof(c); class(c); attributes(c) -->
+\footnotesize
 
 
-<!-- ``` -->
+```r
+typeof(quote(x + 10)) # 객체의 형태가 "language"
+```
 
-<!-- - 가장 기본적인 **formula** 표현의 형태는 아래와 같음 -->
+```
+[1] "language"
+```
+
+```r
+class(quote(x + 10)) # 객체의 클래스가 "call"
+```
+
+```
+[1] "call"
+```
+
+ \normalsize
+
+- R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임
+
+\footnotesize
 
 
-<!-- ``` -->
-<!-- 반응변수(response variable) ~ 독립변수(independent variables) -->
-<!-- ``` -->
+```r
+# 수식 표현
+a <- y ~ x
+b <- y ~ x + b
+c <- ~ x + y + z
+
+typeof(c); class(c); attributes(c)
+```
+
+```
+[1] "language"
+```
+
+```
+[1] "formula"
+```
+
+```
+$class
+[1] "formula"
+
+$.Environment
+<environment: R_GlobalEnv>
+```
+
+ \normalsize
+
+- 가장 기본적인 **formula** 표현의 형태는 아래와 같음
+
+
+```
+반응변수(response variable) ~ 독립변수(independent variables)
+```
 
 
 

@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-11-30" />
+<meta name="date" content="2020-12-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="qqplot.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="ch4-application.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -209,6 +209,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.2" data-path="group-comp.html"><a href="group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
 <li class="chapter" data-level="4.2.3" data-path="group-comp.html"><a href="group-comp.html#일원배치-분산분석oneway-analysis-of-variance"><i class="fa fa-check"></i><b>4.2.3</b> 일원배치 분산분석(oneway analysis of variance)</a></li>
 </ul></li>
+<li class="chapter" data-level="4.3" data-path="ch4-application.html"><a href="ch4-application.html"><i class="fa fa-check"></i><b>4.3</b> Application</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -2018,48 +2019,16 @@ C - D
 </div>
 
 
-<!-- ## Application {#ch4-application} -->
-<!-- ```{block2, type="rmdtip"} -->
-<!-- **R에서 통계적 모형 표현 방법** -->
-<!-- - 지금까지 별다른 설명 없이 `~`가 들어간 수식표현을 특정함수(예: `lm()`, `t.test()`, 심지어 그래프 생성에 필요한 함수 등)의 인수로 사용함. -->
-<!-- - R은 (통계적) 모형을 표현하기 위해 **formula** 표현을 사용 $\rightarrow$ 일반적으로 `좌변 ~ 우변`형태로 표시 -->
-<!-- - 보통은 특정 함수 내에서 호출되며 데이터에 포함되어 있는 변수를 평가하지 않고 해당 함수에서 해석할 수 있도록 변수값을 불러올 수 있음.  -->
-<!-- - **formula**는 "language" 객체의 일종이며 "formula" 클래스를 속성으로 갖는 평가되지 않은 표현식(unevaluated expression) -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- typeof(quote(x + 10)) # 객체의 형태가 "language" -->
-<!-- class(quote(x + 10)) # 객체의 클래스가 "call" -->
-<!-- ``` -->
-<!-- - R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임 -->
-<!-- ```{r} -->
-<!-- # 수식 표현 -->
-<!-- a <- y ~ x -->
-<!-- b <- y ~ x + b -->
-<!-- c <- ~ x + y + z -->
-<!-- typeof(c); class(c); attributes(c) -->
-<!-- ``` -->
-<!-- - 가장 기본적인 **formula** 표현의 형태는 아래와 같음 -->
-<!-- ``` -->
-<!-- 반응변수(response variable) ~ 독립변수(independent variables) -->
-<!-- ``` -->
-<!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
-<!-- ## 범주형 자료분석(categorical data analysis) -->
-<!-- ### 적합성 검정(goodness-of-fit test) -->
-<!-- ### 독립성 검정 -->
-<!-- ### Fisher 정확검정 -->
-<!-- ## 두 변수의 상관 -->
-
 </div>
 </div>
 </div>
-<!-- </div> -->
             </section>
 
           </div>
         </div>
       </div>
 <a href="qqplot.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ch4-application.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
