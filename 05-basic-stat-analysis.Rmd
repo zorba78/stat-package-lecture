@@ -1194,7 +1194,7 @@ class(quote(x + 10)) # 객체의 클래스가 "call"
 
 ```
 
-- R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자 볼 수 있는 이유임
+- R에서 **formula**을 특정하는 `~`의 의미는 "즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)" $\rightarrow$ 인용(quote) 연산자로 볼 수 있는 이유임
 
 ```{r}
 # 수식 표현
@@ -1207,7 +1207,7 @@ typeof(c); class(c); attributes(c)
 
 ```
 
-- 가장 기본적인 **formula** 표현의 형태는 아래와 같음
+- 가장 기본적인 **formula**의 형태는 아래와 같음
 
 
 ```
@@ -1215,6 +1215,53 @@ typeof(c); class(c); attributes(c)
 ```
 
 
+- `~` 는 "(좌변)은 (우변)의 함수로 나타낸 모형" 으로 해석됨. 
+- 우변과 좌변 모두 일반적으로 여러 개의 변수들이 있을 수 있으며, 해당 변수듸 추가는 `+`로 표시됨
+- 좌변은 반응변수, 우변은 설명변수를 의미
+
+```{block2, type="rmdtip"}
+일반적으로 좌편에 $y$로 표현되는 반응변수는 학문 분야에 따라 종속변수(dependent variable), 표적변수(target variable), 결과변수(outcome variable), 
+레이블(label, $y$가 범주형일 경우) 등으로 명칭되며, 우변에 $y$를 설명하기 위해 사용하는 변수($x$)를 마찬가지로 분야와 성격에 따라 독립변수(independent variable), 
+설명변수(exploratory variable), 예측변수(predictor variable), 위험 인자(risck factor), 공변량(covariate) 등으로 명칭된다. 
+
+```
+
+
+- **formula**를 구성하는 항으로 벡터 객체를 직접 사용할 수 있으나, 데이터 프레임의 변수명을 **formula**의 항으로 구성할 수 있음. 
+- **formula**의 항으로 지정된 벡터 또는 변수들의 값은 **formula**를 호출해 사용할 때 까지 연결되지 않은 "언어"로써만 존재
+- **formula**는 양면수식(two-sided formula, 좌변과 우변 모두에 하나 이상의 항이 존재)과 단면수식(one-sided formula, 우변에만 하나 이상의 항 존재)
+ 
+
+```{r}
+x1 <- rnorm(100, 2, 4)
+x2 <- runif(100, 2, 4)
+x3 <- rpois(100, 3)
+y <- 2*x1 + 3*x2 + 0.5*x3 + 5 + rnorm(100, 0, 4)
+
+f1 <- y ~ x # y는 x의 함수
+f2 <- y ~ x1 + x2 # y는 x1과 x2의 함수를 지칭하는 모형
+typeof(f2); class(f2); attributes(f2)
+
+names(iris)
+Species ~ Sepal.Length + Sepal.Width + Petal.Length
+# 붓꽃의 종은 꽃받침 길이와 너비, 꽃잎의 길이에 대한 함수
+
+
+f3 <- ~ x1 + x2
+f4 <- y ~ x1 + x2 + x3
+length(f3); length(f4)
+
+f3[[1]]; f3[[2]]
+f4[[1]]; f4[[2]]; f4[[3]]
+
+
+```
+
+
+**수식 사용 이유**
+
+> - 변수 간의 관계를 알기 쉽게 표현
+> - 복잡한 변수의 관계를 표현해 함수 내에서 손쉽게 해당 항에 대응하는 데이터 값에 접근 가능
 
 
 
@@ -1223,7 +1270,49 @@ typeof(c); class(c); attributes(c)
 
 
 
-<!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
+
+
+| Symbol  | Example      | Meaning                             |
+|---------|--------------|-------------------------------------|
+| `+`     | `X + Z`      | 변수 항 포함                        |
+| `-`     | `X + Z - X`  | 변수 항 제거                        |
+| `:`     | `X:W`        | X와 W의 교호작용                    |
+| `*`     | `X*Z`        | X + Z + X:Z                         |
+| `^`     | `(X+W+Z)^3`  | 3차 교호작용항까지 모든 항을 포함   |
+| `I`     | `I(X^2)`     | as is: X^2을 포함                   |
+| `1`     | `X - 1`      | 절편 제거                           |
+| `.`     | `Y ~ .`      | 모든 변수 포함(X + W + Z)           |
+
+- 예시
+
+```{r}
+set.seed(10)
+x <- runif(30)
+z <- runif(30, 2, 3)
+w <- sample(0:1, 30, replace = TRUE)
+y <- 3 + 2.5*x + x^2 + 1.5*z + 0.5 * w + 2*w*x + rnorm(30, 0, 2)
+
+head(model.matrix(~ x))
+head(model.matrix(~ x + z))
+head(model.matrix(~ x + z - x))
+head(model.matrix(~ x:w))
+head(model.matrix(~ x*w))
+head(model.matrix(~ (x + z + w)^3))
+head(model.matrix(~ x + I(x^2)))
+# head(model.matrix(~ x + x^2))
+head(model.matrix(~ x - 1))
+
+dat <- data.frame(y, x, w, z)
+head(model.matrix(y ~ ., data = dat))
+head(model.matrix(y ~ .^2, data = dat))
+
+
+```
+
+
+
+
+
 
 
 

@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-12-02" />
+<meta name="date" content="2020-12-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] &quot;call&quot;</code></pre>
 
 <ul>
-<li>R에서 <strong>formula</strong>을 특정하는 <code>~</code>의 의미는 “즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)” <span class="math inline">\(\rightarrow\)</span> 인용(quote) 연산자 볼 수 있는 이유임</li>
+<li>R에서 <strong>formula</strong>을 특정하는 <code>~</code>의 의미는 “즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)” <span class="math inline">\(\rightarrow\)</span> 인용(quote) 연산자로 볼 수 있는 이유임</li>
 </ul>
 
 <div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb454-1"><a href="ch4-application.html#cb454-1"></a><span class="co"># 수식 표현</span></span>
@@ -269,10 +269,215 @@ $.Environment
 &lt;environment: R_GlobalEnv&gt;</code></pre>
 
 <ul>
-<li>가장 기본적인 <strong>formula</strong> 표현의 형태는 아래와 같음</li>
+<li>가장 기본적인 <strong>formula</strong>의 형태는 아래와 같음</li>
 </ul>
 <pre><code>반응변수(response variable) ~ 독립변수(independent variables)</code></pre>
-<!-- ### 일원배치 분산분석(oneway analysis of variance, ANOVA) -->
+<ul>
+<li><code>~</code> 는 “(좌변)은 (우변)의 함수로 나타낸 모형” 으로 해석됨.</li>
+<li>우변과 좌변 모두 일반적으로 여러 개의 변수들이 있을 수 있으며, 해당 변수듸 추가는 <code>+</code>로 표시됨</li>
+<li>좌변은 반응변수, 우변은 설명변수를 의미</li>
+</ul>
+
+
+<div class="rmdtip">
+<p>일반적으로 좌편에 <span class="math inline">\(y\)</span>로 표현되는 반응변수는 학문 분야에 따라 종속변수(dependent variable), 표적변수(target variable), 결과변수(outcome variable),
+레이블(label, <span class="math inline">\(y\)</span>가 범주형일 경우) 등으로 명칭되며, 우변에 <span class="math inline">\(y\)</span>를 설명하기 위해 사용하는 변수(<span class="math inline">\(x\)</span>)를 마찬가지로 분야와 성격에 따라 독립변수(independent variable),
+설명변수(exploratory variable), 예측변수(predictor variable), 위험 인자(risck factor), 공변량(covariate) 등으로 명칭된다.</p>
+</div>
+
+
+<ul>
+<li><strong>formula</strong>를 구성하는 항으로 벡터 객체를 직접 사용할 수 있으나, 데이터 프레임의 변수명을 <strong>formula</strong>의 항으로 구성할 수 있음.</li>
+<li><strong>formula</strong>의 항으로 지정된 벡터 또는 변수들의 값은 <strong>formula</strong>를 호출해 사용할 때 까지 연결되지 않은 “언어”로써만 존재</li>
+<li><strong>formula</strong>는 양면수식(two-sided formula, 좌변과 우변 모두에 하나 이상의 항이 존재)과 단면수식(one-sided formula, 우변에만 하나 이상의 항 존재)</li>
+</ul>
+
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="ch4-application.html#cb459-1"></a>x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb459-2"><a href="ch4-application.html#cb459-2"></a>x2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb459-3"><a href="ch4-application.html#cb459-3"></a>x3 &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">3</span>)</span>
+<span id="cb459-4"><a href="ch4-application.html#cb459-4"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>x1 <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>x2 <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x3 <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb459-5"><a href="ch4-application.html#cb459-5"></a></span>
+<span id="cb459-6"><a href="ch4-application.html#cb459-6"></a>f1 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="co"># y는 x의 함수</span></span>
+<span id="cb459-7"><a href="ch4-application.html#cb459-7"></a>f2 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="co"># y는 x1과 x2의 함수를 지칭하는 모형</span></span>
+<span id="cb459-8"><a href="ch4-application.html#cb459-8"></a><span class="kw">typeof</span>(f2); <span class="kw">class</span>(f2); <span class="kw">attributes</span>(f2)</span></code></pre></div>
+<pre><code>[1] &quot;language&quot;</code></pre>
+<pre><code>[1] &quot;formula&quot;</code></pre>
+<pre><code>$class
+[1] &quot;formula&quot;
+
+$.Environment
+&lt;environment: R_GlobalEnv&gt;</code></pre>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="ch4-application.html#cb463-1"></a><span class="kw">names</span>(iris)</span></code></pre></div>
+<pre><code>[1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;     </code></pre>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="ch4-application.html#cb465-1"></a>Species <span class="op">~</span><span class="st"> </span>Sepal.Length <span class="op">+</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Petal.Length</span></code></pre></div>
+<pre><code>Species ~ Sepal.Length + Sepal.Width + Petal.Length</code></pre>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="ch4-application.html#cb467-1"></a><span class="co"># 붓꽃의 종은 꽃받침 길이와 너비, 꽃잎의 길이에 대한 함수</span></span>
+<span id="cb467-2"><a href="ch4-application.html#cb467-2"></a></span>
+<span id="cb467-3"><a href="ch4-application.html#cb467-3"></a></span>
+<span id="cb467-4"><a href="ch4-application.html#cb467-4"></a>f3 &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2</span>
+<span id="cb467-5"><a href="ch4-application.html#cb467-5"></a>f4 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3</span>
+<span id="cb467-6"><a href="ch4-application.html#cb467-6"></a><span class="kw">length</span>(f3); <span class="kw">length</span>(f4)</span></code></pre></div>
+<pre><code>[1] 2</code></pre>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="ch4-application.html#cb470-1"></a>f3[[<span class="dv">1</span>]]; f3[[<span class="dv">2</span>]]</span></code></pre></div>
+<pre><code>`~`</code></pre>
+<pre><code>x1 + x2</code></pre>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch4-application.html#cb473-1"></a>f4[[<span class="dv">1</span>]]; f4[[<span class="dv">2</span>]]; f4[[<span class="dv">3</span>]]</span></code></pre></div>
+<pre><code>`~`</code></pre>
+<pre><code>y</code></pre>
+<pre><code>x1 + x2 + x3</code></pre>
+
+<p><strong>수식 사용 이유</strong></p>
+<blockquote>
+<ul>
+<li>변수 간의 관계를 알기 쉽게 표현</li>
+<li>복잡한 변수의 관계를 표현해 함수 내에서 손쉽게 해당 항에 대응하는 데이터 값에 접근 가능</li>
+</ul>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Example</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>+</code></td>
+<td><code>X + Z</code></td>
+<td>변수 항 포함</td>
+</tr>
+<tr class="even">
+<td><code>-</code></td>
+<td><code>X + Z - X</code></td>
+<td>변수 항 제거</td>
+</tr>
+<tr class="odd">
+<td><code>:</code></td>
+<td><code>X:W</code></td>
+<td>X와 W의 교호작용</td>
+</tr>
+<tr class="even">
+<td><code>*</code></td>
+<td><code>X*Z</code></td>
+<td>X + Z + X:Z</td>
+</tr>
+<tr class="odd">
+<td><code>^</code></td>
+<td><code>(X+W+Z)^3</code></td>
+<td>3차 교호작용항까지 모든 항을 포함</td>
+</tr>
+<tr class="even">
+<td><code>I</code></td>
+<td><code>I(X^2)</code></td>
+<td>as is: X^2을 포함</td>
+</tr>
+<tr class="odd">
+<td><code>1</code></td>
+<td><code>X - 1</code></td>
+<td>절편 제거</td>
+</tr>
+<tr class="even">
+<td><code>.</code></td>
+<td><code>Y ~ .</code></td>
+<td>모든 변수 포함(X + W + Z)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>예시</li>
+</ul>
+
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="ch4-application.html#cb477-1"></a><span class="kw">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb477-2"><a href="ch4-application.html#cb477-2"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>)</span>
+<span id="cb477-3"><a href="ch4-application.html#cb477-3"></a>z &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb477-4"><a href="ch4-application.html#cb477-4"></a>w &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dv">30</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb477-5"><a href="ch4-application.html#cb477-5"></a>y &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="fl">2.5</span><span class="op">*</span>x <span class="op">+</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span>z <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>w <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>w<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb477-6"><a href="ch4-application.html#cb477-6"></a></span>
+<span id="cb477-7"><a href="ch4-application.html#cb477-7"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x))</span></code></pre></div>
+<pre><code>  (Intercept)          x
+1           1 0.50747820
+2           1 0.30676851
+3           1 0.42690767
+4           1 0.69310208
+5           1 0.08513597
+6           1 0.22543662</code></pre>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="ch4-application.html#cb479-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z))</span></code></pre></div>
+<pre><code>  (Intercept)          x        z
+1           1 0.50747820 2.535597
+2           1 0.30676851 2.093088
+3           1 0.42690767 2.169803
+4           1 0.69310208 2.899832
+5           1 0.08513597 2.422638
+6           1 0.22543662 2.747746</code></pre>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="ch4-application.html#cb481-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z <span class="op">-</span><span class="st"> </span>x))</span></code></pre></div>
+<pre><code>  (Intercept)        z
+1           1 2.535597
+2           1 2.093088
+3           1 2.169803
+4           1 2.899832
+5           1 2.422638
+6           1 2.747746</code></pre>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="ch4-application.html#cb483-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">:</span>w))</span></code></pre></div>
+<pre><code>  (Intercept)       x:w
+1           1 0.5074782
+2           1 0.3067685
+3           1 0.0000000
+4           1 0.0000000
+5           1 0.0000000
+6           1 0.0000000</code></pre>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="ch4-application.html#cb485-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">*</span>w))</span></code></pre></div>
+<pre><code>  (Intercept)          x w       x:w
+1           1 0.50747820 1 0.5074782
+2           1 0.30676851 1 0.3067685
+3           1 0.42690767 0 0.0000000
+4           1 0.69310208 0 0.0000000
+5           1 0.08513597 0 0.0000000
+6           1 0.22543662 0 0.0000000</code></pre>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="ch4-application.html#cb487-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>(x <span class="op">+</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>w)<span class="op">^</span><span class="dv">3</span>))</span></code></pre></div>
+<pre><code>  (Intercept)          x        z w       x:z       x:w      z:w     x:z:w
+1           1 0.50747820 2.535597 1 1.2867602 0.5074782 2.535597 1.2867602
+2           1 0.30676851 2.093088 1 0.6420935 0.3067685 2.093088 0.6420935
+3           1 0.42690767 2.169803 0 0.9263056 0.0000000 0.000000 0.0000000
+4           1 0.69310208 2.899832 0 2.0098799 0.0000000 0.000000 0.0000000
+5           1 0.08513597 2.422638 0 0.2062536 0.0000000 0.000000 0.0000000
+6           1 0.22543662 2.747746 0 0.6194427 0.0000000 0.000000 0.0000000</code></pre>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch4-application.html#cb489-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(x<span class="op">^</span><span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>  (Intercept)          x      I(x^2)
+1           1 0.50747820 0.257534127
+2           1 0.30676851 0.094106916
+3           1 0.42690767 0.182250156
+4           1 0.69310208 0.480390494
+5           1 0.08513597 0.007248133
+6           1 0.22543662 0.050821668</code></pre>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="ch4-application.html#cb491-1"></a><span class="co"># head(model.matrix(~ x + x^2))</span></span>
+<span id="cb491-2"><a href="ch4-application.html#cb491-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
+<pre><code>           x
+1 0.50747820
+2 0.30676851
+3 0.42690767
+4 0.69310208
+5 0.08513597
+6 0.22543662</code></pre>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="ch4-application.html#cb493-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y, x, w, z)</span>
+<span id="cb493-2"><a href="ch4-application.html#cb493-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> dat))</span></code></pre></div>
+<pre><code>  (Intercept)          x w        z
+1           1 0.50747820 1 2.535597
+2           1 0.30676851 1 2.093088
+3           1 0.42690767 0 2.169803
+4           1 0.69310208 0 2.899832
+5           1 0.08513597 0 2.422638
+6           1 0.22543662 0 2.747746</code></pre>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="ch4-application.html#cb495-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>.<span class="op">^</span><span class="dv">2</span>, <span class="dt">data =</span> dat))</span></code></pre></div>
+<pre><code>  (Intercept)          x w        z       x:w       x:z      w:z
+1           1 0.50747820 1 2.535597 0.5074782 1.2867602 2.535597
+2           1 0.30676851 1 2.093088 0.3067685 0.6420935 2.093088
+3           1 0.42690767 0 2.169803 0.0000000 0.9263056 0.000000
+4           1 0.69310208 0 2.899832 0.0000000 2.0098799 0.000000
+5           1 0.08513597 0 2.422638 0.0000000 0.2062536 0.000000
+6           1 0.22543662 0 2.747746 0.0000000 0.6194427 0.000000</code></pre>
+
 <!-- ## 범주형 자료분석(categorical data analysis) -->
 <!-- ### 적합성 검정(goodness-of-fit test) -->
 <!-- ### 독립성 검정 -->
