@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4.3 Application | 통계 패키지 활용</title>
+  <title>4.3 Miscellaneous | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4.3 Application | 통계 패키지 활용" />
+  <meta property="og:title" content="4.3 Miscellaneous | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4.3 Application | 통계 패키지 활용" />
+  <meta name="twitter:title" content="4.3 Miscellaneous | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-12-04" />
+<meta name="date" content="2020-12-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -209,7 +209,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.2" data-path="group-comp.html"><a href="group-comp.html#독립-이표본-t-검정independent-two-sample-t-test"><i class="fa fa-check"></i><b>4.2.2</b> 독립 이표본 t 검정(independent two-sample t-test)</a></li>
 <li class="chapter" data-level="4.2.3" data-path="group-comp.html"><a href="group-comp.html#일원배치-분산분석oneway-analysis-of-variance"><i class="fa fa-check"></i><b>4.2.3</b> 일원배치 분산분석(oneway analysis of variance)</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="ch4-application.html"><a href="ch4-application.html"><i class="fa fa-check"></i><b>4.3</b> Application</a></li>
+<li class="chapter" data-level="4.3" data-path="ch4-misc.html"><a href="ch4-misc.html"><i class="fa fa-check"></i><b>4.3</b> Miscellaneous</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="ch4-misc.html"><a href="ch4-misc.html#formula"><i class="fa fa-check"></i><b>4.3.1</b> Formula</a></li>
+<li class="chapter" data-level="4.3.2" data-path="ch4-misc.html"><a href="ch4-misc.html#tidyverse-모형-정리-및-테이블-생성"><i class="fa fa-check"></i><b>4.3.2</b> tidyverse 모형 정리 및 테이블 생성</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -229,8 +232,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch4-application" class="section level2">
-<h2><span class="header-section-number">4.3</span> Application</h2>
+<div id="ch4-misc" class="section level2">
+<h2><span class="header-section-number">4.3</span> Miscellaneous</h2>
+<div id="formula" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Formula</h3>
 
 
 <div class="rmdtip">
@@ -245,21 +250,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="ch4-application.html#cb48-1"></a><span class="kw">typeof</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 형태가 &quot;language&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="ch4-misc.html#cb464-1"></a><span class="kw">typeof</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 형태가 &quot;language&quot;</span></span></code></pre></div>
 <pre><code>[1] &quot;language&quot;</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="ch4-application.html#cb50-1"></a><span class="kw">class</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 클래스가 &quot;call&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb466-1"><a href="ch4-misc.html#cb466-1"></a><span class="kw">class</span>(<span class="kw">quote</span>(x <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)) <span class="co"># 객체의 클래스가 &quot;call&quot;</span></span></code></pre></div>
 <pre><code>[1] &quot;call&quot;</code></pre>
 
 <ul>
 <li>R에서 <strong>formula</strong>을 특정하는 <code>~</code>의 의미는 “즉시 평가(evaluate)하지 않고 이 코드의 의미를 전달(캡쳐)” <span class="math inline">\(\rightarrow\)</span> 인용(quote) 연산자로 볼 수 있는 이유임</li>
 </ul>
 
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="ch4-application.html#cb52-1"></a><span class="co"># 수식 표현</span></span>
-<span id="cb52-2"><a href="ch4-application.html#cb52-2"></a>a &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x</span>
-<span id="cb52-3"><a href="ch4-application.html#cb52-3"></a>b &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>b</span>
-<span id="cb52-4"><a href="ch4-application.html#cb52-4"></a>c &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>z</span>
-<span id="cb52-5"><a href="ch4-application.html#cb52-5"></a></span>
-<span id="cb52-6"><a href="ch4-application.html#cb52-6"></a><span class="kw">typeof</span>(c); <span class="kw">class</span>(c); <span class="kw">attributes</span>(c)</span></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="ch4-misc.html#cb468-1"></a><span class="co"># 수식 표현</span></span>
+<span id="cb468-2"><a href="ch4-misc.html#cb468-2"></a>a &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x</span>
+<span id="cb468-3"><a href="ch4-misc.html#cb468-3"></a>b &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>b</span>
+<span id="cb468-4"><a href="ch4-misc.html#cb468-4"></a>c &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>z</span>
+<span id="cb468-5"><a href="ch4-misc.html#cb468-5"></a></span>
+<span id="cb468-6"><a href="ch4-misc.html#cb468-6"></a><span class="kw">typeof</span>(c); <span class="kw">class</span>(c); <span class="kw">attributes</span>(c)</span></code></pre></div>
 <pre><code>[1] &quot;language&quot;</code></pre>
 <pre><code>[1] &quot;formula&quot;</code></pre>
 <pre><code>$class
@@ -292,15 +297,15 @@ $.Environment
 <li><strong>formula</strong>는 양면수식(two-sided formula, 좌변과 우변 모두에 하나 이상의 항이 존재)과 단면수식(one-sided formula, 우변에만 하나 이상의 항 존재)</li>
 </ul>
 
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="ch4-application.html#cb57-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb57-2"><a href="ch4-application.html#cb57-2"></a>x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
-<span id="cb57-3"><a href="ch4-application.html#cb57-3"></a>x2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
-<span id="cb57-4"><a href="ch4-application.html#cb57-4"></a>x3 &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">3</span>)</span>
-<span id="cb57-5"><a href="ch4-application.html#cb57-5"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>x1 <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>x2 <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x3 <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb57-6"><a href="ch4-application.html#cb57-6"></a></span>
-<span id="cb57-7"><a href="ch4-application.html#cb57-7"></a>f1 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="co"># y는 x의 함수</span></span>
-<span id="cb57-8"><a href="ch4-application.html#cb57-8"></a>f2 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="co"># y는 x1과 x2의 함수를 지칭하는 모형</span></span>
-<span id="cb57-9"><a href="ch4-application.html#cb57-9"></a><span class="kw">typeof</span>(f2); <span class="kw">class</span>(f2); <span class="kw">attributes</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="ch4-misc.html#cb473-1"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb473-2"><a href="ch4-misc.html#cb473-2"></a>x1 &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb473-3"><a href="ch4-misc.html#cb473-3"></a>x2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">100</span>, <span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb473-4"><a href="ch4-misc.html#cb473-4"></a>x3 &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">3</span>)</span>
+<span id="cb473-5"><a href="ch4-misc.html#cb473-5"></a>y &lt;-<span class="st"> </span><span class="dv">2</span><span class="op">*</span>x1 <span class="op">+</span><span class="st"> </span><span class="dv">3</span><span class="op">*</span>x2 <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span><span class="op">*</span>x3 <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb473-6"><a href="ch4-misc.html#cb473-6"></a></span>
+<span id="cb473-7"><a href="ch4-misc.html#cb473-7"></a>f1 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x <span class="co"># y는 x의 함수</span></span>
+<span id="cb473-8"><a href="ch4-misc.html#cb473-8"></a>f2 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="co"># y는 x1과 x2의 함수를 지칭하는 모형</span></span>
+<span id="cb473-9"><a href="ch4-misc.html#cb473-9"></a><span class="kw">typeof</span>(f2); <span class="kw">class</span>(f2); <span class="kw">attributes</span>(f2)</span></code></pre></div>
 <pre><code>[1] &quot;language&quot;</code></pre>
 <pre><code>[1] &quot;formula&quot;</code></pre>
 <pre><code>$class
@@ -308,21 +313,21 @@ $.Environment
 
 $.Environment
 &lt;environment: R_GlobalEnv&gt;</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="ch4-application.html#cb61-1"></a><span class="kw">names</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="ch4-misc.html#cb477-1"></a><span class="kw">names</span>(iris)</span></code></pre></div>
 <pre><code>[1] &quot;Sepal.Length&quot; &quot;Sepal.Width&quot;  &quot;Petal.Length&quot; &quot;Petal.Width&quot;  &quot;Species&quot;     </code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="ch4-application.html#cb63-1"></a>f3 &lt;-<span class="st"> </span>Species <span class="op">~</span><span class="st"> </span>Sepal.Length <span class="op">+</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Petal.Length</span>
-<span id="cb63-2"><a href="ch4-application.html#cb63-2"></a><span class="co"># 붓꽃의 종은 꽃받침 길이와 너비, 꽃잎의 길이에 대한 함수</span></span>
-<span id="cb63-3"><a href="ch4-application.html#cb63-3"></a></span>
-<span id="cb63-4"><a href="ch4-application.html#cb63-4"></a></span>
-<span id="cb63-5"><a href="ch4-application.html#cb63-5"></a>f4 &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2</span>
-<span id="cb63-6"><a href="ch4-application.html#cb63-6"></a>f5 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3</span>
-<span id="cb63-7"><a href="ch4-application.html#cb63-7"></a><span class="kw">length</span>(f3); <span class="kw">length</span>(f4)</span></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="ch4-misc.html#cb479-1"></a>f3 &lt;-<span class="st"> </span>Species <span class="op">~</span><span class="st"> </span>Sepal.Length <span class="op">+</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Petal.Length</span>
+<span id="cb479-2"><a href="ch4-misc.html#cb479-2"></a><span class="co"># 붓꽃의 종은 꽃받침 길이와 너비, 꽃잎의 길이에 대한 함수</span></span>
+<span id="cb479-3"><a href="ch4-misc.html#cb479-3"></a></span>
+<span id="cb479-4"><a href="ch4-misc.html#cb479-4"></a></span>
+<span id="cb479-5"><a href="ch4-misc.html#cb479-5"></a>f4 &lt;-<span class="st"> </span><span class="er">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2</span>
+<span id="cb479-6"><a href="ch4-misc.html#cb479-6"></a>f5 &lt;-<span class="st"> </span>y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2 <span class="op">+</span><span class="st"> </span>x3</span>
+<span id="cb479-7"><a href="ch4-misc.html#cb479-7"></a><span class="kw">length</span>(f3); <span class="kw">length</span>(f4)</span></code></pre></div>
 <pre><code>[1] 3</code></pre>
 <pre><code>[1] 2</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="ch4-application.html#cb66-1"></a>f4[[<span class="dv">1</span>]]; f4[[<span class="dv">2</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="ch4-misc.html#cb482-1"></a>f4[[<span class="dv">1</span>]]; f4[[<span class="dv">2</span>]]</span></code></pre></div>
 <pre><code>`~`</code></pre>
 <pre><code>x1 + x2</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="ch4-application.html#cb69-1"></a>f5[[<span class="dv">1</span>]]; f5[[<span class="dv">2</span>]]; f5[[<span class="dv">3</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="ch4-misc.html#cb485-1"></a>f5[[<span class="dv">1</span>]]; f5[[<span class="dv">2</span>]]; f5[[<span class="dv">3</span>]]</span></code></pre></div>
 <pre><code>`~`</code></pre>
 <pre><code>y</code></pre>
 <pre><code>x1 + x2 + x3</code></pre>
@@ -340,43 +345,43 @@ $.Environment
 <li><code>formula()</code> 또는 <code>as.formula()</code> 함수를 통해 텍스트를 <strong>formula</strong> 형태로 생성 가능</li>
 </ul>
 
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="ch4-application.html#cb73-1"></a>f6 &lt;-<span class="st"> &quot;y ~ x1 + x2 + x3&quot;</span></span>
-<span id="cb73-2"><a href="ch4-application.html#cb73-2"></a>h &lt;-<span class="st"> </span><span class="kw">as.formula</span>(f6)</span>
-<span id="cb73-3"><a href="ch4-application.html#cb73-3"></a>h</span></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="ch4-misc.html#cb489-1"></a>f6 &lt;-<span class="st"> &quot;y ~ x1 + x2 + x3&quot;</span></span>
+<span id="cb489-2"><a href="ch4-misc.html#cb489-2"></a>h &lt;-<span class="st"> </span><span class="kw">as.formula</span>(f6)</span>
+<span id="cb489-3"><a href="ch4-misc.html#cb489-3"></a>h</span></code></pre></div>
 <pre><code>y ~ x1 + x2 + x3</code></pre>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="ch4-application.html#cb75-1"></a>h &lt;-<span class="st"> </span><span class="kw">formula</span>(f6)</span>
-<span id="cb75-2"><a href="ch4-application.html#cb75-2"></a>h</span></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="ch4-misc.html#cb491-1"></a>h &lt;-<span class="st"> </span><span class="kw">formula</span>(f6)</span>
+<span id="cb491-2"><a href="ch4-misc.html#cb491-2"></a>h</span></code></pre></div>
 <pre><code>y ~ x1 + x2 + x3</code></pre>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="ch4-application.html#cb77-1"></a>fs &lt;-<span class="st"> </span><span class="kw">c</span>(f1, f2, f6) <span class="co"># formula 객체를 concatenate 할 경우 list 객체</span></span>
-<span id="cb77-2"><a href="ch4-application.html#cb77-2"></a>fl &lt;-<span class="st"> </span><span class="kw">lapply</span>(fs, as.formula)</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="ch4-misc.html#cb493-1"></a>fs &lt;-<span class="st"> </span><span class="kw">c</span>(f1, f2, f6) <span class="co"># formula 객체를 concatenate 할 경우 list 객체</span></span>
+<span id="cb493-2"><a href="ch4-misc.html#cb493-2"></a>fl &lt;-<span class="st"> </span><span class="kw">lapply</span>(fs, as.formula)</span></code></pre></div>
 
-<p><strong>formula</strong>로 표현한 모형의 항에 대응하는 값들을 호출하기 위한 함수</p>
+<p><strong>formula</strong>로 표현한 모형의 항에 대응하는 값으로 데이터 행렬 및 데이터 프레임 생성</p>
 <ul>
 <li><code>model.frame()</code>: formula 객체에 표현된 항에 대응하는 데이터 값으로 이루어진 데이터 프레임 반환</li>
 <li><code>model.matrix()</code>: 디자인 행렬을 생성하는 함수로</li>
 </ul>
 
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="ch4-application.html#cb78-1"></a>d1 &lt;-<span class="st"> </span><span class="kw">model.frame</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2) <span class="co"># 벡터값을 데이터 프레임으로 반환</span></span>
-<span id="cb78-2"><a href="ch4-application.html#cb78-2"></a><span class="kw">head</span>(d1)</span></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="ch4-misc.html#cb494-1"></a>d1 &lt;-<span class="st"> </span><span class="kw">model.frame</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2) <span class="co"># 벡터값을 데이터 프레임으로 반환</span></span>
+<span id="cb494-2"><a href="ch4-misc.html#cb494-2"></a><span class="kw">head</span>(d1)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["y"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["x1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["x2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"15.23103","2":"-0.5058152","3":"2.535016","_rn_":"1"},{"1":"25.03651","2":"2.7345733","3":"2.437291","_rn_":"2"},{"1":"19.26211","2":"-1.3425144","3":"3.033594","_rn_":"3"},{"1":"29.55232","2":"8.3811232","3":"2.537901","_rn_":"4"},{"1":"10.58213","2":"3.3180311","3":"2.362337","_rn_":"5"},{"1":"25.53836","2":"-1.2818735","3":"3.037152","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="ch4-application.html#cb79-1"></a><span class="co"># formula를 구성하고 있는 변수명에 대응하는 변수를 데이터 프레임에서 추출</span></span>
-<span id="cb79-2"><a href="ch4-application.html#cb79-2"></a>f3</span></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="ch4-misc.html#cb495-1"></a><span class="co"># formula를 구성하고 있는 변수명에 대응하는 변수를 데이터 프레임에서 추출</span></span>
+<span id="cb495-2"><a href="ch4-misc.html#cb495-2"></a>f3</span></code></pre></div>
 <pre><code>Species ~ Sepal.Length + Sepal.Width + Petal.Length</code></pre>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="ch4-application.html#cb81-1"></a>d2 &lt;-<span class="st"> </span><span class="kw">model.frame</span>(f3, iris) </span>
-<span id="cb81-2"><a href="ch4-application.html#cb81-2"></a><span class="kw">head</span>(d2)</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="ch4-misc.html#cb497-1"></a>d2 &lt;-<span class="st"> </span><span class="kw">model.frame</span>(f3, iris) </span>
+<span id="cb497-2"><a href="ch4-misc.html#cb497-2"></a><span class="kw">head</span>(d2)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Species"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Sepal.Length"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Sepal.Width"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Petal.Length"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"setosa","2":"5.1","3":"3.5","4":"1.4","_rn_":"1"},{"1":"setosa","2":"4.9","3":"3.0","4":"1.4","_rn_":"2"},{"1":"setosa","2":"4.7","3":"3.2","4":"1.3","_rn_":"3"},{"1":"setosa","2":"4.6","3":"3.1","4":"1.5","_rn_":"4"},{"1":"setosa","2":"5.0","3":"3.6","4":"1.4","_rn_":"5"},{"1":"setosa","2":"5.4","3":"3.9","4":"1.7","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="ch4-application.html#cb82-1"></a><span class="co"># model.matrix()에서는 디자인 행렬만 반환</span></span>
-<span id="cb82-2"><a href="ch4-application.html#cb82-2"></a><span class="co"># y 값은 포함하지 않고 우변에 해당하는 항에 대응하는 데이터 반환</span></span>
-<span id="cb82-3"><a href="ch4-application.html#cb82-3"></a>X1 &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2)</span>
-<span id="cb82-4"><a href="ch4-application.html#cb82-4"></a><span class="kw">head</span>(X1)</span></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="ch4-misc.html#cb498-1"></a><span class="co"># model.matrix()에서는 디자인 행렬만 반환</span></span>
+<span id="cb498-2"><a href="ch4-misc.html#cb498-2"></a><span class="co"># y 값은 포함하지 않고 우변에 해당하는 항에 대응하는 데이터 반환</span></span>
+<span id="cb498-3"><a href="ch4-misc.html#cb498-3"></a>X1 &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>x1 <span class="op">+</span><span class="st"> </span>x2)</span>
+<span id="cb498-4"><a href="ch4-misc.html#cb498-4"></a><span class="kw">head</span>(X1)</span></code></pre></div>
 <pre><code>  (Intercept)         x1       x2
 1           1 -0.5058152 2.535016
 2           1  2.7345733 2.437291
@@ -392,7 +397,7 @@ $.Environment
 <li><code>update()</code>: formula를 구성하는 항을 수정</li>
 </ul>
 
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="ch4-application.html#cb84-1"></a><span class="kw">terms</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="ch4-misc.html#cb500-1"></a><span class="kw">terms</span>(f2)</span></code></pre></div>
 <pre><code>y ~ x1 + x2
 attr(,&quot;variables&quot;)
 list(y, x1, x2)
@@ -411,9 +416,9 @@ attr(,&quot;response&quot;)
 [1] 1
 attr(,&quot;.Environment&quot;)
 &lt;environment: R_GlobalEnv&gt;</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="ch4-application.html#cb86-1"></a><span class="kw">all.vars</span>(f2)</span></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="ch4-misc.html#cb502-1"></a><span class="kw">all.vars</span>(f2)</span></code></pre></div>
 <pre><code>[1] &quot;y&quot;  &quot;x1&quot; &quot;x2&quot;</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="ch4-application.html#cb88-1"></a><span class="kw">update</span>(f2, <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>x3)</span></code></pre></div>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="ch4-misc.html#cb504-1"></a><span class="kw">update</span>(f2, <span class="op">~</span><span class="st"> </span>. <span class="op">+</span><span class="st"> </span>x3)</span></code></pre></div>
 <pre><code>y ~ x1 + x2 + x3</code></pre>
 
 <p><strong>formula</strong>에 사용되는 연산자와 의미</p>
@@ -489,13 +494,13 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 
 
 
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="ch4-application.html#cb90-1"></a><span class="kw">set.seed</span>(<span class="dv">10</span>)</span>
-<span id="cb90-2"><a href="ch4-application.html#cb90-2"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>)</span>
-<span id="cb90-3"><a href="ch4-application.html#cb90-3"></a>z &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb90-4"><a href="ch4-application.html#cb90-4"></a>w &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dv">30</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb90-5"><a href="ch4-application.html#cb90-5"></a>y &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="fl">2.5</span><span class="op">*</span>x <span class="op">+</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span>z <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>w <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>w<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
-<span id="cb90-6"><a href="ch4-application.html#cb90-6"></a></span>
-<span id="cb90-7"><a href="ch4-application.html#cb90-7"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x))</span></code></pre></div>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="ch4-misc.html#cb506-1"></a><span class="kw">set.seed</span>(<span class="dv">10</span>)</span>
+<span id="cb506-2"><a href="ch4-misc.html#cb506-2"></a>x &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>)</span>
+<span id="cb506-3"><a href="ch4-misc.html#cb506-3"></a>z &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">30</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb506-4"><a href="ch4-misc.html#cb506-4"></a>w &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="dv">30</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb506-5"><a href="ch4-misc.html#cb506-5"></a>y &lt;-<span class="st"> </span><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="fl">2.5</span><span class="op">*</span>x <span class="op">+</span><span class="st"> </span>x<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.5</span><span class="op">*</span>z <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>w <span class="op">+</span><span class="st"> </span><span class="dv">2</span><span class="op">*</span>w<span class="op">*</span>x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb506-6"><a href="ch4-misc.html#cb506-6"></a></span>
+<span id="cb506-7"><a href="ch4-misc.html#cb506-7"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x))</span></code></pre></div>
 <pre><code>  (Intercept)          x
 1           1 0.50747820
 2           1 0.30676851
@@ -503,7 +508,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208
 5           1 0.08513597
 6           1 0.22543662</code></pre>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="ch4-application.html#cb92-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z)) <span class="co"># x + z</span></span></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="ch4-misc.html#cb508-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z)) <span class="co"># x + z</span></span></code></pre></div>
 <pre><code>  (Intercept)          x        z
 1           1 0.50747820 2.535597
 2           1 0.30676851 2.093088
@@ -511,7 +516,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 2.899832
 5           1 0.08513597 2.422638
 6           1 0.22543662 2.747746</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="ch4-application.html#cb94-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z <span class="op">-</span><span class="st"> </span>x)) <span class="co"># x + z에서 z 항 제거</span></span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="ch4-misc.html#cb510-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span>z <span class="op">-</span><span class="st"> </span>x)) <span class="co"># x + z에서 z 항 제거</span></span></code></pre></div>
 <pre><code>  (Intercept)        z
 1           1 2.535597
 2           1 2.093088
@@ -519,7 +524,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 2.899832
 5           1 2.422638
 6           1 2.747746</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="ch4-application.html#cb96-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">:</span>w)) <span class="co"># 교호작용항만 포함</span></span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="ch4-misc.html#cb512-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">:</span>w)) <span class="co"># 교호작용항만 포함</span></span></code></pre></div>
 <pre><code>  (Intercept)       x:w
 1           1 0.5074782
 2           1 0.3067685
@@ -527,7 +532,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.0000000
 5           1 0.0000000
 6           1 0.0000000</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="ch4-application.html#cb98-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">*</span>w)) <span class="co"># x + w + x:w</span></span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="ch4-misc.html#cb514-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x<span class="op">*</span>w)) <span class="co"># x + w + x:w</span></span></code></pre></div>
 <pre><code>  (Intercept)          x w       x:w
 1           1 0.50747820 1 0.5074782
 2           1 0.30676851 1 0.3067685
@@ -535,7 +540,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 0 0.0000000
 5           1 0.08513597 0 0.0000000
 6           1 0.22543662 0 0.0000000</code></pre>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="ch4-application.html#cb100-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>(x <span class="op">+</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>w)<span class="op">^</span><span class="dv">3</span>)) <span class="co"># x + z + w + x:z + z:w + x:w + x:w:z</span></span></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="ch4-misc.html#cb516-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>(x <span class="op">+</span><span class="st"> </span>z <span class="op">+</span><span class="st"> </span>w)<span class="op">^</span><span class="dv">3</span>)) <span class="co"># x + z + w + x:z + z:w + x:w + x:w:z</span></span></code></pre></div>
 <pre><code>  (Intercept)          x        z w       x:z       x:w      z:w     x:z:w
 1           1 0.50747820 2.535597 1 1.2867602 0.5074782 2.535597 1.2867602
 2           1 0.30676851 2.093088 1 0.6420935 0.3067685 2.093088 0.6420935
@@ -543,7 +548,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 2.899832 0 2.0098799 0.0000000 0.000000 0.0000000
 5           1 0.08513597 2.422638 0 0.2062536 0.0000000 0.000000 0.0000000
 6           1 0.22543662 2.747746 0 0.6194427 0.0000000 0.000000 0.0000000</code></pre>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="ch4-application.html#cb102-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(x<span class="op">^</span><span class="dv">2</span>))) <span class="co"># x + x^2</span></span></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="ch4-misc.html#cb518-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="kw">I</span>(x<span class="op">^</span><span class="dv">2</span>))) <span class="co"># x + x^2</span></span></code></pre></div>
 <pre><code>  (Intercept)          x      I(x^2)
 1           1 0.50747820 0.257534127
 2           1 0.30676851 0.094106916
@@ -551,8 +556,8 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 0.480390494
 5           1 0.08513597 0.007248133
 6           1 0.22543662 0.050821668</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="ch4-application.html#cb104-1"></a><span class="co"># head(model.matrix(~ x + x^2))</span></span>
-<span id="cb104-2"><a href="ch4-application.html#cb104-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="ch4-misc.html#cb520-1"></a><span class="co"># head(model.matrix(~ x + x^2))</span></span>
+<span id="cb520-2"><a href="ch4-misc.html#cb520-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</span></code></pre></div>
 <pre><code>           x
 1 0.50747820
 2 0.30676851
@@ -560,8 +565,8 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4 0.69310208
 5 0.08513597
 6 0.22543662</code></pre>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="ch4-application.html#cb106-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y, x, w, z)</span>
-<span id="cb106-2"><a href="ch4-application.html#cb106-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> dat))</span></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="ch4-misc.html#cb522-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(y, x, w, z)</span>
+<span id="cb522-2"><a href="ch4-misc.html#cb522-2"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> dat))</span></code></pre></div>
 <pre><code>  (Intercept)          x w        z
 1           1 0.50747820 1 2.535597
 2           1 0.30676851 1 2.093088
@@ -569,7 +574,7 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 0 2.899832
 5           1 0.08513597 0 2.422638
 6           1 0.22543662 0 2.747746</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="ch4-application.html#cb108-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>.<span class="op">^</span><span class="dv">2</span>, <span class="dt">data =</span> dat))</span></code></pre></div>
+<div class="sourceCode" id="cb524"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb524-1"><a href="ch4-misc.html#cb524-1"></a><span class="kw">head</span>(<span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>.<span class="op">^</span><span class="dv">2</span>, <span class="dt">data =</span> dat))</span></code></pre></div>
 <pre><code>  (Intercept)          x w        z       x:w       x:z      w:z
 1           1 0.50747820 1 2.535597 0.5074782 1.2867602 2.535597
 2           1 0.30676851 1 2.093088 0.3067685 0.6420935 2.093088
@@ -577,11 +582,11 @@ R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를
 4           1 0.69310208 0 2.899832 0.0000000 2.0098799 0.000000
 5           1 0.08513597 0 2.422638 0.0000000 0.2062536 0.000000
 6           1 0.22543662 0 2.747746 0.0000000 0.6194427 0.000000</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="ch4-application.html#cb110-1"></a><span class="co"># nested 구조</span></span>
-<span id="cb110-2"><a href="ch4-application.html#cb110-2"></a>dat2 &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">O =</span> <span class="kw">paste0</span>(<span class="st">&quot;O&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), </span>
-<span id="cb110-3"><a href="ch4-application.html#cb110-3"></a>                    <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb110-4"><a href="ch4-application.html#cb110-4"></a>dat2 &lt;-<span class="st"> </span>dat2[<span class="kw">order</span>(dat2<span class="op">$</span>C, dat2<span class="op">$</span>O), ]</span>
-<span id="cb110-5"><a href="ch4-application.html#cb110-5"></a><span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>C <span class="op">+</span><span class="st"> </span>O <span class="op">%in%</span><span class="st"> </span>C, <span class="dt">data =</span> dat2)</span></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb526-1"><a href="ch4-misc.html#cb526-1"></a><span class="co"># nested 구조</span></span>
+<span id="cb526-2"><a href="ch4-misc.html#cb526-2"></a>dat2 &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="dt">O =</span> <span class="kw">paste0</span>(<span class="st">&quot;O&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), </span>
+<span id="cb526-3"><a href="ch4-misc.html#cb526-3"></a>                    <span class="dt">y =</span> <span class="kw">runif</span>(<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb526-4"><a href="ch4-misc.html#cb526-4"></a>dat2 &lt;-<span class="st"> </span>dat2[<span class="kw">order</span>(dat2<span class="op">$</span>C, dat2<span class="op">$</span>O), ]</span>
+<span id="cb526-5"><a href="ch4-misc.html#cb526-5"></a><span class="kw">model.matrix</span>(y <span class="op">~</span><span class="st"> </span>C <span class="op">+</span><span class="st"> </span>O <span class="op">%in%</span><span class="st"> </span>C, <span class="dt">data =</span> dat2)</span></code></pre></div>
 <pre><code>   (Intercept) CB CA:OO2 CB:OO2 CA:OO3 CB:OO3
 1            1  0      0      0      0      0
 7            1  0      0      0      0      0
@@ -610,12 +615,60 @@ attr(,&quot;contrasts&quot;)$C
 attr(,&quot;contrasts&quot;)$O
 [1] &quot;contr.treatment&quot;</code></pre>
 
+</div>
+<div id="tidyverse-모형-정리-및-테이블-생성" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> tidyverse 모형 정리 및 테이블 생성</h3>
+<ul>
+<li>독립 이표본 t 검정 및 일원배치 분산분석은 간단히 실행할 수 있으나, 그 결과를 추출하는 일은 여러 단계를 거침</li>
+<li><code>lm()</code> 및 <code>httest</code> 계열 함수의 결과는 R 콘솔에서 그 결과 확인이 가능하지만, 결과에 대응하는 수치들이 저장되지는 않음</li>
+<li>임의 변수를 지정에 위에 해당하는 함수의 결과물을 저장할 수 있으나, 보통은 리스트 형태의 객체이고 정리하기가 번거로움</li>
+</ul>
+
+<div class="sourceCode" id="cb528"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb528-1"><a href="ch4-misc.html#cb528-1"></a><span class="co"># sleep 데이터: 독립이표본 t 검정 결과 </span></span>
+<span id="cb528-2"><a href="ch4-misc.html#cb528-2"></a><span class="co"># require(tidyverse)</span></span>
+<span id="cb528-3"><a href="ch4-misc.html#cb528-3"></a><span class="co"># require(tidymodels)</span></span>
+<span id="cb528-4"><a href="ch4-misc.html#cb528-4"></a>t1 &lt;-<span class="st"> </span><span class="kw">t.test</span>(extra <span class="op">~</span><span class="st"> </span>group, <span class="dt">data =</span> sleep, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb528-5"><a href="ch4-misc.html#cb528-5"></a>summ_t1 &lt;-<span class="st"> </span><span class="kw">with</span>(t1, <span class="kw">data.frame</span>(<span class="dt">mean_diff =</span> <span class="op">-</span><span class="kw">diff</span>(estimate), </span>
+<span id="cb528-6"><a href="ch4-misc.html#cb528-6"></a>                               <span class="dt">lcl =</span> conf.int[<span class="dv">1</span>], </span>
+<span id="cb528-7"><a href="ch4-misc.html#cb528-7"></a>                               <span class="dt">ucl =</span> conf.int[<span class="dv">2</span>], </span>
+<span id="cb528-8"><a href="ch4-misc.html#cb528-8"></a>                               <span class="dt">statistic =</span> statistic, </span>
+<span id="cb528-9"><a href="ch4-misc.html#cb528-9"></a>                               <span class="dt">degf =</span> parameter, </span>
+<span id="cb528-10"><a href="ch4-misc.html#cb528-10"></a>                               <span class="dt">p.value =</span> p.value))</span>
+<span id="cb528-11"><a href="ch4-misc.html#cb528-11"></a>summ_t1</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["mean_diff"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["lcl"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["ucl"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["degf"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"-1.58","2":"-3.363874","3":"0.203874","4":"-1.860813","5":"18","6":"0.07918671","_rn_":"mean in group 2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="ch4-misc.html#cb529-1"></a><span class="co"># 일원배치 분산분석 결과 </span></span>
+<span id="cb529-2"><a href="ch4-misc.html#cb529-2"></a>mtcars2 &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb529-3"><a href="ch4-misc.html#cb529-3"></a><span class="st">  </span>as_tibble <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb529-4"><a href="ch4-misc.html#cb529-4"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">cyl =</span> <span class="kw">factor</span>(cyl))</span>
+<span id="cb529-5"><a href="ch4-misc.html#cb529-5"></a></span>
+<span id="cb529-6"><a href="ch4-misc.html#cb529-6"></a>m1 &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>cyl, <span class="dt">data =</span> mtcars2)</span>
+<span id="cb529-7"><a href="ch4-misc.html#cb529-7"></a>aov_m1 &lt;-<span class="st"> </span><span class="kw">anova</span>(m1)</span>
+<span id="cb529-8"><a href="ch4-misc.html#cb529-8"></a>mean_mpg &lt;-<span class="st"> </span><span class="kw">with</span>(mtcars2, <span class="kw">tapply</span>(mpg, cyl, mean))</span>
+<span id="cb529-9"><a href="ch4-misc.html#cb529-9"></a>summ_m1 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">t</span>(mean_mpg), </span>
+<span id="cb529-10"><a href="ch4-misc.html#cb529-10"></a>                 <span class="dt">Fval =</span> aov_m1<span class="op">$</span><span class="st">`</span><span class="dt">F value</span><span class="st">`</span>[<span class="dv">1</span>], </span>
+<span id="cb529-11"><a href="ch4-misc.html#cb529-11"></a>                 <span class="dt">p.value =</span> aov_m1<span class="op">$</span><span class="st">`</span><span class="dt">Pr(&gt;F)</span><span class="st">`</span>[<span class="dv">1</span>])</span></code></pre></div>
+
+<ul>
+<li><strong>broom</strong> 패키지에서 제공하는 <code>tidy()</code>, <code>glance()</code> 함수를 이용해 위의 예시보다 간편하게 tidyverse 문법 하에서 손쉽게 결과 정리 가능</li>
+<li><strong>broom</strong> 패키지는 <code>tidymodels</code> 라는 패키지 번들에 포함</li>
+<li><strong>broom</strong> 패키지 주요함수
+<ul>
+<li><code>tidy()</code>: 통계적 검정 결과 또는 모형 결과를 요약해 데이터 프레임으로 제공</li>
+<li><code>glance()</code>: 모형을 한줄로 간략히 요약</li>
+<li><code>augment()</code>: 원 데이터프레임에 잔차, 예측값 등의 정보를 추가</li>
+</ul></li>
+</ul>
 <!-- ## 범주형 자료분석(categorical data analysis) -->
 <!-- ### 적합성 검정(goodness-of-fit test) -->
 <!-- ### 독립성 검정 -->
 <!-- ### Fisher 정확검정 -->
 <!-- ## 두 변수의 상관 -->
 
+</div>
 </div>
 <!-- </div> -->
             </section>

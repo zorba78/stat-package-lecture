@@ -1844,8 +1844,10 @@ tidy(pair_cont) %>%
 
 
 
-## Application {#ch4-application}
+## Miscellaneous {#ch4-misc}
 
+
+### Formula
 
 \footnotesize
 
@@ -1944,6 +1946,7 @@ $.Environment
 
 
 ```r
+set.seed(1)
 x1 <- rnorm(100, 2, 4)
 x2 <- runif(100, 2, 4)
 x3 <- rpois(100, 3)
@@ -1979,32 +1982,25 @@ names(iris)
 ```
 
 ```r
-Species ~ Sepal.Length + Sepal.Width + Petal.Length
-```
-
-```
-Species ~ Sepal.Length + Sepal.Width + Petal.Length
-```
-
-```r
+f3 <- Species ~ Sepal.Length + Sepal.Width + Petal.Length
 # 붓꽃의 종은 꽃받침 길이와 너비, 꽃잎의 길이에 대한 함수
 
 
-f3 <- ~ x1 + x2
-f4 <- y ~ x1 + x2 + x3
+f4 <- ~ x1 + x2
+f5 <- y ~ x1 + x2 + x3
 length(f3); length(f4)
-```
-
-```
-[1] 2
 ```
 
 ```
 [1] 3
 ```
 
+```
+[1] 2
+```
+
 ```r
-f3[[1]]; f3[[2]]
+f4[[1]]; f4[[2]]
 ```
 
 ```
@@ -2016,7 +2012,7 @@ x1 + x2
 ```
 
 ```r
-f4[[1]]; f4[[2]]; f4[[3]]
+f5[[1]]; f5[[2]]; f5[[3]]
 ```
 
 ```
@@ -2041,11 +2037,157 @@ x1 + x2 + x3
 
 
 
+**수식표현 방법**
+
+- 위에서 기술환대로 `좌변항 ~ 우변항`으로 표현
+- `formula()` 또는 `as.formula()` 함수를 통해 텍스트를 **formula** 형태로 생성 가능
+
+\footnotesize
+
+
+```r
+f6 <- "y ~ x1 + x2 + x3"
+h <- as.formula(f6)
+h
+```
+
+```
+y ~ x1 + x2 + x3
+```
+
+```r
+h <- formula(f6)
+h
+```
+
+```
+y ~ x1 + x2 + x3
+```
+
+```r
+fs <- c(f1, f2, f6) # formula 객체를 concatenate 할 경우 list 객체
+fl <- lapply(fs, as.formula)
+```
+
+ \normalsize
+
+**formula**로 표현한 모형의 항에 대응하는 값으로 데이터 행렬 및 데이터 프레임 생성
+
+- `model.frame()`: formula 객체에 표현된 항에 대응하는 데이터 값으로 이루어진 데이터 프레임 반환
+- `model.matrix()`: 디자인 행렬을 생성하는 함수로 
 
 
 
+\footnotesize
 
 
+```r
+d1 <- model.frame(y ~ x1 + x2) # 벡터값을 데이터 프레임으로 반환
+head(d1)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["y"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["x1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["x2"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"15.23103","2":"-0.5058152","3":"2.535016","_rn_":"1"},{"1":"25.03651","2":"2.7345733","3":"2.437291","_rn_":"2"},{"1":"19.26211","2":"-1.3425144","3":"3.033594","_rn_":"3"},{"1":"29.55232","2":"8.3811232","3":"2.537901","_rn_":"4"},{"1":"10.58213","2":"3.3180311","3":"2.362337","_rn_":"5"},{"1":"25.53836","2":"-1.2818735","3":"3.037152","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# formula를 구성하고 있는 변수명에 대응하는 변수를 데이터 프레임에서 추출
+f3
+```
+
+```
+Species ~ Sepal.Length + Sepal.Width + Petal.Length
+```
+
+```r
+d2 <- model.frame(f3, iris) 
+head(d2)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Species"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Sepal.Length"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Sepal.Width"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Petal.Length"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"setosa","2":"5.1","3":"3.5","4":"1.4","_rn_":"1"},{"1":"setosa","2":"4.9","3":"3.0","4":"1.4","_rn_":"2"},{"1":"setosa","2":"4.7","3":"3.2","4":"1.3","_rn_":"3"},{"1":"setosa","2":"4.6","3":"3.1","4":"1.5","_rn_":"4"},{"1":"setosa","2":"5.0","3":"3.6","4":"1.4","_rn_":"5"},{"1":"setosa","2":"5.4","3":"3.9","4":"1.7","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# model.matrix()에서는 디자인 행렬만 반환
+# y 값은 포함하지 않고 우변에 해당하는 항에 대응하는 데이터 반환
+X1 <- model.matrix(y ~ x1 + x2)
+head(X1)
+```
+
+```
+  (Intercept)         x1       x2
+1           1 -0.5058152 2.535016
+2           1  2.7345733 2.437291
+3           1 -1.3425144 3.033594
+4           1  8.3811232 2.537901
+5           1  3.3180311 2.362337
+6           1 -1.2818735 3.037152
+```
+
+ \normalsize
+
+
+**formula** 관련 함수
+
+- `terms()`: formula 객체에 포함되어 있는 항의 구조 파악 
+- `all.vars()`:  formula에 포함되어 있는 변수명 추출
+- `update()`: formula를 구성하는 항을 수정
+
+
+\footnotesize
+
+
+```r
+terms(f2)
+```
+
+```
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+```
+
+```r
+all.vars(f2)
+```
+
+```
+[1] "y"  "x1" "x2"
+```
+
+```r
+update(f2, ~ . + x3)
+```
+
+```
+y ~ x1 + x2 + x3
+```
+
+ \normalsize
+
+
+
+**formula**에 사용되는 연산자와 의미
 
 
 | Symbol  | Example      | Meaning                             |
@@ -2053,13 +2195,31 @@ x1 + x2 + x3
 | `+`     | `X + Z`      | 변수 항 포함                        |
 | `-`     | `X + Z - X`  | 변수 항 제거                        |
 | `:`     | `X:W`        | X와 W의 교호작용                    |
+| `%in%`  | `X:W`        | 지분(nesting)                       |
 | `*`     | `X*Z`        | X + Z + X:Z                         |
 | `^`     | `(X+W+Z)^3`  | 3차 교호작용항까지 모든 항을 포함   |
 | `I`     | `I(X^2)`     | as is: X^2을 포함                   |
 | `1`     | `X - 1`      | 절편 제거                           |
 | `.`     | `Y ~ .`      | 모든 변수 포함(X + W + Z)           |
 
-- 예시
+
+\footnotesize
+
+\BeginKnitrBlock{rmdtip}<div class="rmdtip">일반 연산 시 `A %in% B`의 의미는 `A`가 `B`의 원소를 포함하는지에 대한 논리값을 반환해 주지만, **formula**에서 `%in%`은 중첩 또는 지분(nesting)을 내포함. 
+R의 리스트 객체는 중첩 및 지분 구조의 대표적 형태임. 예를 들어 리스트에 포함된 한 원소에 대응하는 데이터의 형태 및 값은 동일 리스트의 다른 원소에 대응한 
+데이터의 형태 및 값이 다름. 즉, 리스트 객체는 한 객체에 여러 형태의 데이터 구조를 가질 수 있고 이를 중접된 구조라고 함. 
+
+또한 실험계획법(experimental design)에서 지분 설계(nested design) 방법이 있는데, 두 개 요인(factor) A와 B가 존재할 때 A의 수준에 따른 B의 수준이 모두 다른 경우, 
+즉 교호작용이 존재하지 않는 형태의 실험설계법을 지칭함. 예를 들어 A사와 B사의 오랜지 주스 당도에 차이가 있는지를 알기 위해 각 회사에서 생산하고 있는 주스 3종을 
+랜덤하게 선택했다고 가정해 보자. 여기서 주 관심사는 두 회사에서 생산한 주스의 당도의 동질성이지 오랜지 주스 간 당도 차이는 관삼사항이 아님. 이 경우, 
+주 관심요인은 회사(C)이고, 요인 C는 회사 A, B라는 두 개의 수준(level)을 갖고 있음. 오랜지 주스(O)는 각 회사 별로 3개의 수준을 갖고 있는데, 
+각 회사에서 생산하는 오랜지 주스는 생산 공정에 차이가 있기 떄문에 각 회사에 지분되어 있음. 즉, 회사 A에서 생산한 오랜지 주스 O~1~, O~2~, O~3~은 
+회사 B에서 생산한 O~1~, O~2~, O~3~과 다름. 
+</div>\EndKnitrBlock{rmdtip}
+
+ \normalsize
+
+
 
 \footnotesize
 
@@ -2085,7 +2245,7 @@ head(model.matrix(~ x))
 ```
 
 ```r
-head(model.matrix(~ x + z))
+head(model.matrix(~ x + z)) # x + z
 ```
 
 ```
@@ -2099,7 +2259,7 @@ head(model.matrix(~ x + z))
 ```
 
 ```r
-head(model.matrix(~ x + z - x))
+head(model.matrix(~ x + z - x)) # x + z에서 z 항 제거
 ```
 
 ```
@@ -2113,7 +2273,7 @@ head(model.matrix(~ x + z - x))
 ```
 
 ```r
-head(model.matrix(~ x:w))
+head(model.matrix(~ x:w)) # 교호작용항만 포함
 ```
 
 ```
@@ -2127,7 +2287,7 @@ head(model.matrix(~ x:w))
 ```
 
 ```r
-head(model.matrix(~ x*w))
+head(model.matrix(~ x*w)) # x + w + x:w
 ```
 
 ```
@@ -2141,7 +2301,7 @@ head(model.matrix(~ x*w))
 ```
 
 ```r
-head(model.matrix(~ (x + z + w)^3))
+head(model.matrix(~ (x + z + w)^3)) # x + z + w + x:z + z:w + x:w + x:w:z
 ```
 
 ```
@@ -2155,7 +2315,7 @@ head(model.matrix(~ (x + z + w)^3))
 ```
 
 ```r
-head(model.matrix(~ x + I(x^2)))
+head(model.matrix(~ x + I(x^2))) # x + x^2
 ```
 
 ```
@@ -2212,7 +2372,101 @@ head(model.matrix(y ~ .^2, data = dat))
 6           1 0.22543662 0 2.747746 0.0000000 0.6194427 0.000000
 ```
 
+```r
+# nested 구조
+dat2 <- expand.grid(C = c("A", "B"), O = paste0("O", 1:3), 
+                    y = runif(3, 1, 2))
+dat2 <- dat2[order(dat2$C, dat2$O), ]
+model.matrix(y ~ C + O %in% C, data = dat2)
+```
+
+```
+   (Intercept) CB CA:OO2 CB:OO2 CA:OO3 CB:OO3
+1            1  0      0      0      0      0
+7            1  0      0      0      0      0
+13           1  0      0      0      0      0
+3            1  0      1      0      0      0
+9            1  0      1      0      0      0
+15           1  0      1      0      0      0
+5            1  0      0      0      1      0
+11           1  0      0      0      1      0
+17           1  0      0      0      1      0
+2            1  1      0      0      0      0
+8            1  1      0      0      0      0
+14           1  1      0      0      0      0
+4            1  1      0      1      0      0
+10           1  1      0      1      0      0
+16           1  1      0      1      0      0
+6            1  1      0      0      0      1
+12           1  1      0      0      0      1
+18           1  1      0      0      0      1
+attr(,"assign")
+[1] 0 1 2 2 2 2
+attr(,"contrasts")
+attr(,"contrasts")$C
+[1] "contr.treatment"
+
+attr(,"contrasts")$O
+[1] "contr.treatment"
+```
+
  \normalsize
+
+
+### tidyverse 모형 정리 및 테이블 생성
+
+
+- 독립 이표본 t 검정 및 일원배치 분산분석은 간단히 실행할 수 있으나, 그 결과를 추출하는 일은 여러 단계를 거침
+- `lm()` 및 `httest` 계열 함수의 결과는 R 콘솔에서 그 결과 확인이 가능하지만, 결과에 대응하는 수치들이 저장되지는 않음
+- 임의 변수를 지정에 위에 해당하는 함수의 결과물을 저장할 수 있으나, 보통은 리스트 형태의 객체이고 정리하기가 번거로움
+
+
+\footnotesize
+
+
+```r
+# sleep 데이터: 독립이표본 t 검정 결과 
+# require(tidyverse)
+# require(tidymodels)
+t1 <- t.test(extra ~ group, data = sleep, var.equal = TRUE)
+summ_t1 <- with(t1, data.frame(mean_diff = -diff(estimate), 
+                               lcl = conf.int[1], 
+                               ucl = conf.int[2], 
+                               statistic = statistic, 
+                               degf = parameter, 
+                               p.value = p.value))
+summ_t1
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["mean_diff"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["lcl"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["ucl"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["degf"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"-1.58","2":"-3.363874","3":"0.203874","4":"-1.860813","5":"18","6":"0.07918671","_rn_":"mean in group 2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# 일원배치 분산분석 결과 
+mtcars2 <- mtcars %>% 
+  as_tibble %>% 
+  mutate(cyl = factor(cyl))
+
+m1 <- lm(mpg ~ cyl, data = mtcars2)
+aov_m1 <- anova(m1)
+mean_mpg <- with(mtcars2, tapply(mpg, cyl, mean))
+summ_m1 <- cbind(t(mean_mpg), 
+                 Fval = aov_m1$`F value`[1], 
+                 p.value = aov_m1$`Pr(>F)`[1])
+```
+
+ \normalsize
+
+
+- **broom** 패키지에서 제공하는 `tidy()`, `glance()` 함수를 이용해 위의 예시보다 간편하게 tidyverse 문법 하에서 손쉽게 결과 정리 가능
+- **broom** 패키지는 `tidymodels` 라는 패키지 번들에 포함
+- **broom** 패키지 주요함수
+   - `tidy()`: 통계적 검정 결과 또는 모형 결과를 요약해 데이터 프레임으로 제공
+   - `glance()`: 모형을 한줄로 간략히 요약 
+   - `augment()`: 원 데이터프레임에 잔차, 예측값 등의 정보를 추가 
 
 
 

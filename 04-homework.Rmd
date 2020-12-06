@@ -16,11 +16,25 @@ $$
 a) 위 모형 $y_{i} = 5 + -2.5 x_i + \epsilon_i, ~~ \epsilon_i$를 행렬과 벡터 형태로 나타내기 위한 행렬 및 벡터를 정의하고, 정의한 행렬/벡터로 위 모형을 표시하시오. 
 
 
+> - $\mathbf{y}_{n \times 1} = [y_1, \ldots, y_n]^T$
+> - $\mathbf{X}_{n \times 2} = [\mathbf{1}, \mathbf{x}]$, $\mathbf{x} = [x_1, \ldots, x_n]^T$
+> - $\boldsymbol{\mathbf{\beta}}_{2 \times 1} = [5, -2.5]^T$
+> - $\boldsymbol{\mathbf{\epsilon}}_{n \times 1} = [\epsilon_1, \ldots, \epsilon_n]^T$
+
+
+
+ $$
+\mathbf{y} = \mathbf{X}\boldsymbol{\mathbf{\beta}} + \boldsymbol{\mathbf{\epsilon}}
+ $$
+
+
 
 b) $y_i$가 정규분포를 따른다고 가정할 때, 설명변수 $x_i$가 주어졌을 때 반응변수 $y_i$는 어떤 분포를 따르는지 행렬과 벡터로 표시하시오. 
 
 
-
+ $$
+   \mathbf{y} \stackrel{iid}{\sim} \mathcal{N} \left (\mathbf{X}\boldsymbol{\mathbf{\beta}}, 9\mathbf{I}_{n \times n} \right )
+ $$
 
 
 
@@ -28,9 +42,16 @@ b) $y_i$가 정규분포를 따른다고 가정할 때, 설명변수 $x_i$가 �
 c) 주어진 모형으로부터 $y_i$를 생성하고($i=1,\ldots, 30$), 생성한 $x_i$와 $y_i$의 산점도를 그리시오. 단, seed 번호는 `20201111`로 고정하시오. 
 
 
+```{r, fig.width=8, fig.height=7}
+set.seed(20201111)
+n_sample <- 30
+btrue <- c(5.0, -2.5)
+x <- runif(n_sample, 0, 10)
+e <- rnorm(n_sample, 0, 3)
+y <- drop(cbind(1, x) %*% btrue) + e
+plot(x, y)
 
-
-
+```
 
 
 
@@ -77,23 +98,115 @@ $$
 a) 목적함수 $\mathcal{L}(\boldsymbol{\mathbf{\beta}})$를 계산하기 위한 `obj_fun()`을 구현하기 위해 필요한 필수 인수(argument)를 정의하고 함수를 작성하시오. 
 
 
+```{r}
+obj_fun <- function(x, y, beta) {
+  xmat <- cbind(1, x)
+  xb.vec <- drop(xmat %*% beta)
+  sum((y - xb.vec)^2)
+}
+# check
+obj_fun(x, y, btrue)
+
+```
+
+
 b) $\nabla \mathcal{L}(\boldsymbol{\mathbf{\beta}})$를 도출하기 위한 `grad_fun()`을 구현하기 위해 필요한 필수 인수(argument)를 정의하고 함수를 작성하시오. 
+
+```{r}
+grad_fun <- function(x, y, beta) {
+  xmat <- cbind(1, x)
+  xb.vec <- drop(xmat %*% beta)
+  (t(xmat) %*% xb.vec - t(xmat) %*% y)
+}
+# check
+grad_fun(x, y, btrue)
+
+
+```
 
 
 c) Hessian 행렬 $\nabla^2 \mathcal{L}(\boldsymbol{\mathbf{\beta}})$을 도출하기 위한 `hess_fun()` 함수를 구현하기 위해 필요한 필수 인수(argument)를 정의하고 함수를 작성하시오. 
 
 
+```{r}
+hess_fun <- function(x, y, beta) {
+  xmat <- cbind(1, x)
+  t(xmat) %*% xmat
+}
+# check
+hess_fun(x, y, btrue)
+
+
+```
+
+
 d) b ~ c 에서 구현한 함수를 사용해 N-R 방법으로 선형회귀모형의 회귀계수 추정을 위한 `nr_linreg()` 함수를 구현하기 위해 필요한 필수 인수(argument)를 정의하고 함수를 작성하시오.  
+
+
+```{r}
+nr_linreg <- function(x, y, 
+                      max_iters = 1000, 
+                      tol = 1e-7) {
+  iters <- 0
+  bvec <- rep(0, 2)
+  bdist <- Inf
+
+  while(iters < max_iters & bdist > tol) {
+    grads <- grad_fun(x, y, bvec)
+    hessian <- hess_fun(x, y, bvec)
+    bnew <- bvec - solve(hessian) %*% grads
+    bdist <- sqrt(sum((bvec - bnew)^2))
+    iters <- iters + 1
+    bvec <- bnew
+  }
+  cat(iters, "iteration completed\n")
+  return(bvec)
+}
+
+nr_linreg(x, y)
+
+
+```
+
 
 
 e) 문제 1에서 생성한 `x`와 `y`에 대해 `lm(y ~ x)`으로 구한 회귀계수와 `nr_linreg(x, y)`로 추정한 회귀계수를 비교 하시오. 
 
+```{r}
+coef(lm(y ~ x))
+
+```
+
+> d)와 e)의 결과는 동일
 
 
 3. 스타 크래프트의 테란 종족의 유닛 고스트는 스스로를 숨길 수 있고(클로킹), 공격력(10 ~ 11)을 갖고 있다. 게임 특성 상 언덕 위에 있는 상대를 
 언덕 아래에서 공격할 때 50%의 확률로 빗나간다. 고스트가 비밀 정찰 중 언덕 위에서 저그 진지를 순찰 중인 히드라리스크를 발견했다. 언덕 아래에서 고스트가 
 히드라를 공격했을 때, 평균적으로 몇 번의 공격을 해야 히드라리스크를 잡을 수 있는지 모의실험(반복횟수: 10,000회)을 통해 확인하시오. 
 (단, 히드라리스크의 체력은 80이고, 히드라리스크는 오버로드의 부재로 고스트를 볼 수 없고, 고스트는 테란의 스캔 능력을 통해 언덕 위를 확인할 수 있다고 가정)
+
+
+
+```{r}
+ntry <- 10000
+num_attack <- rep(NA, ntry)
+set.seed(20201111)
+for (i in 1:ntry) {
+  hydra <- 80
+  j <- 0
+  while (hydra >= 0) {
+    j <- j + 1
+    s <- runif(1, 10, 11)
+    h <- rbinom(1, 1, 0.5)
+    hydra <- hydra - s*h
+  }
+  num_attack[i] <- j
+}
+
+mean(num_attack)
+
+```
+
 
 
 
