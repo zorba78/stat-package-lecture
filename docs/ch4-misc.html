@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-12-07" />
+<meta name="date" content="2020-12-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -659,15 +659,572 @@ attr(,&quot;contrasts&quot;)$O
 <ul>
 <li><code>tidy()</code>: 통계적 검정 결과 또는 모형 결과를 요약해 데이터 프레임으로 제공</li>
 <li><code>glance()</code>: 모형을 한줄로 간략히 요약</li>
-<li><code>augment()</code>: 원 데이터프레임에 잔차, 예측값 등의 정보를 추가</li>
+<li><code>augment()</code>: 원 데이터프레임에 잔차(<code>resid()</code>), 예측값(<code>predict()</code>) 등의 정보를 추가</li>
 </ul></li>
+<li>예시</li>
 </ul>
+
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="ch4-misc.html#cb530-1"></a><span class="kw">tidy</span>(t1)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["estimate"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["estimate1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["estimate2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["parameter"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["conf.low"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["conf.high"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[9],"type":["chr"],"align":["left"]},{"label":["alternative"],"name":[10],"type":["chr"],"align":["left"]}],"data":[{"1":"-1.58","2":"0.75","3":"2.33","4":"-1.860813","5":"0.07918671","6":"18","7":"-3.363874","8":"0.203874","9":"Two Sample t-test","10":"two.sided","_row":"t"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="ch4-misc.html#cb531-1"></a><span class="kw">tidy</span>(m1); <span class="kw">glance</span>(m1); <span class="kw">tidy</span>(aov_m1)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"26.663636","3":"0.9718008","4":"27.437347","5":"2.688358e-22"},{"1":"cyl6","2":"-6.920779","3":"1.5583482","4":"-4.441099","5":"1.194696e-04"},{"1":"cyl8","2":"-11.563636","3":"1.2986235","4":"-8.904534","5":"8.568209e-10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["r.squared"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["adj.r.squared"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["logLik"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["df.residual"],"name":[11],"type":["int"],"align":["right"]},{"label":["nobs"],"name":[12],"type":["int"],"align":["right"]}],"data":[{"1":"0.7324601","2":"0.714009","3":"3.223099","4":"39.69752","5":"4.978919e-09","6":"2","7":"-81.28198","8":"170.564","9":"176.4269","10":"301.2626","11":"29","12":"32","_row":"value"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["df"],"name":[2],"type":["int"],"align":["right"]},{"label":["sumsq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["meansq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"cyl","2":"2","3":"824.7846","4":"412.39230","5":"39.69752","6":"4.978919e-09"},{"1":"Residuals","2":"29","3":"301.2626","4":"10.38837","5":"NA","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="ch4-misc.html#cb532-1"></a>augdat &lt;-<span class="st"> </span><span class="kw">augment</span>(m1)</span>
+<span id="cb532-2"><a href="ch4-misc.html#cb532-2"></a>augdat</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mpg"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["cyl"],"name":[2],"type":["fctr"],"align":["left"]},{"label":[".fitted"],"name":[3],"type":["dbl"],"align":["right"]},{"label":[".resid"],"name":[4],"type":["dbl"],"align":["right"]},{"label":[".std.resid"],"name":[5],"type":["dbl"],"align":["right"]},{"label":[".hat"],"name":[6],"type":["dbl"],"align":["right"]},{"label":[".sigma"],"name":[7],"type":["dbl"],"align":["right"]},{"label":[".cooksd"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"21.0","2":"6","3":"19.74286","4":"1.25714286","5":"0.42129317","6":"0.14285714","7":"3.270096","8":"9.860441e-03"},{"1":"21.0","2":"6","3":"19.74286","4":"1.25714286","5":"0.42129317","6":"0.14285714","7":"3.270096","8":"9.860441e-03"},{"1":"22.8","2":"4","3":"26.66364","4":"-3.86363636","5":"-1.25724228","6":"0.09090909","7":"3.189504","8":"5.268861e-02"},{"1":"21.4","2":"6","3":"19.74286","4":"1.65714286","5":"0.55534100","6":"0.14285714","7":"3.262661","8":"1.713353e-02"},{"1":"18.7","2":"8","3":"15.10000","4":"3.60000000","5":"1.15910087","6":"0.07142857","7":"3.203267","8":"3.444910e-02"},{"1":"18.1","2":"6","3":"19.74286","4":"-1.64285714","5":"-0.55055357","6":"0.14285714","7":"3.262962","8":"1.683940e-02"},{"1":"14.3","2":"8","3":"15.10000","4":"-0.80000000","5":"-0.25757797","6":"0.07142857","7":"3.276395","8":"1.701190e-03"},{"1":"24.4","2":"4","3":"26.66364","4":"-2.26363636","5":"-0.73659607","6":"0.09090909","7":"3.249319","8":"1.808579e-02"},{"1":"22.8","2":"4","3":"26.66364","4":"-3.86363636","5":"-1.25724228","6":"0.09090909","7":"3.189504","8":"5.268861e-02"},{"1":"19.2","2":"6","3":"19.74286","4":"-0.54285714","5":"-0.18192205","6":"0.14285714","7":"3.278277","8":"1.838646e-03"},{"1":"17.8","2":"6","3":"19.74286","4":"-1.94285714","5":"-0.65108944","6":"0.14285714","7":"3.256087","8":"2.355097e-02"},{"1":"16.4","2":"8","3":"15.10000","4":"1.30000000","5":"0.41856420","6":"0.07142857","7":"3.270226","8":"4.492205e-03"},{"1":"17.3","2":"8","3":"15.10000","4":"2.20000000","5":"0.70833942","6":"0.07142857","7":"3.251650","8":"1.286525e-02"},{"1":"15.2","2":"8","3":"15.10000","4":"0.10000000","5":"0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"10.4","2":"8","3":"15.10000","4":"-4.70000000","5":"-1.51327059","6":"0.07142857","7":"3.147978","8":"5.871764e-02"},{"1":"10.4","2":"8","3":"15.10000","4":"-4.70000000","5":"-1.51327059","6":"0.07142857","7":"3.147978","8":"5.871764e-02"},{"1":"14.7","2":"8","3":"15.10000","4":"-0.40000000","5":"-0.12878899","6":"0.07142857","7":"3.279211","8":"4.252975e-04"},{"1":"32.4","2":"4","3":"26.66364","4":"5.73636364","5":"1.86663501","6":"0.09090909","7":"3.076792","8":"1.161442e-01"},{"1":"30.4","2":"4","3":"26.66364","4":"3.73636364","5":"1.21582724","6":"0.09090909","7":"3.195455","8":"4.927453e-02"},{"1":"33.9","2":"4","3":"26.66364","4":"7.23636364","5":"2.35474084","6":"0.09090909","7":"2.949946","8":"1.848268e-01"},{"1":"21.5","2":"4","3":"26.66364","4":"-5.16363636","5":"-1.68026733","6":"0.09090909","7":"3.116392","8":"9.410994e-02"},{"1":"15.5","2":"8","3":"15.10000","4":"0.40000000","5":"0.12878899","6":"0.07142857","7":"3.279211","8":"4.252975e-04"},{"1":"15.2","2":"8","3":"15.10000","4":"0.10000000","5":"0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"13.3","2":"8","3":"15.10000","4":"-1.80000000","5":"-0.57955044","6":"0.07142857","7":"3.261098","8":"8.612275e-03"},{"1":"19.2","2":"8","3":"15.10000","4":"4.10000000","5":"1.32008711","6":"0.07142857","7":"3.180069","8":"4.468282e-02"},{"1":"27.3","2":"4","3":"26.66364","4":"0.63636364","5":"0.20707520","6":"0.09090909","7":"3.277723","8":"1.429338e-03"},{"1":"26.0","2":"4","3":"26.66364","4":"-0.66363636","5":"-0.21594985","6":"0.09090909","7":"3.277511","8":"1.554478e-03"},{"1":"30.4","2":"4","3":"26.66364","4":"3.73636364","5":"1.21582724","6":"0.09090909","7":"3.195455","8":"4.927453e-02"},{"1":"15.8","2":"8","3":"15.10000","4":"0.70000000","5":"0.22538073","6":"0.07142857","7":"3.277275","8":"1.302474e-03"},{"1":"19.7","2":"6","3":"19.74286","4":"-0.04285714","5":"-0.01436227","6":"0.14285714","7":"3.280137","8":"1.145971e-05"},{"1":"15.0","2":"8","3":"15.10000","4":"-0.10000000","5":"-0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"21.4","2":"4","3":"26.66364","4":"-5.26363636","5":"-1.71280772","6":"0.09090909","7":"3.109812","8":"9.779034e-02"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="ch4-misc.html#cb533-1"></a><span class="co"># 참고</span></span>
+<span id="cb533-2"><a href="ch4-misc.html#cb533-2"></a></span>
+<span id="cb533-3"><a href="ch4-misc.html#cb533-3"></a><span class="co"># .fitted &lt;- predict(m1) # 예측값(predicted value): X %*% bhat</span></span>
+<span id="cb533-4"><a href="ch4-misc.html#cb533-4"></a><span class="co"># .resid &lt;- residuals(m1) # 잔차 y - X %*% bhat</span></span>
+<span id="cb533-5"><a href="ch4-misc.html#cb533-5"></a><span class="co"># .hat &lt;- hatvalues(m1) # hat matrix의 대각원소</span></span>
+<span id="cb533-6"><a href="ch4-misc.html#cb533-6"></a><span class="co"># hat matrix</span></span>
+<span id="cb533-7"><a href="ch4-misc.html#cb533-7"></a><span class="co"># H &lt;- X %*% solve(t(X) %*% X) %*% t(X)</span></span>
+<span id="cb533-8"><a href="ch4-misc.html#cb533-8"></a><span class="co"># H2 &lt;- H %*% H # H = H^2</span></span>
+<span id="cb533-9"><a href="ch4-misc.html#cb533-9"></a><span class="co"># .std.resid &lt;- rstandard(m1) # 표준화 잔차</span></span>
+<span id="cb533-10"><a href="ch4-misc.html#cb533-10"></a><span class="co"># .resid/(sigma(m1) * sqrt(1 - .hat)) </span></span>
+<span id="cb533-11"><a href="ch4-misc.html#cb533-11"></a><span class="co"># sse &lt;- sigma(m1)^2 * (32 - 2 - 1)</span></span>
+<span id="cb533-12"><a href="ch4-misc.html#cb533-12"></a><span class="co"># .sigma &lt;- sqrt((sse - .resid^2/(1 - .hat))/(df.residual(m1)))</span></span>
+<span id="cb533-13"><a href="ch4-misc.html#cb533-13"></a><span class="co"># .cooksd &lt;- cooks.distance(m1)</span></span></code></pre></div>
+
+<div id="다수-변수에-대한-독립-이표본-t-검정-결과-정리" class="section level4 unnumbered">
+<h4>다수 변수에 대한 독립 이표본 t 검정 결과 정리</h4>
+
+<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="ch4-misc.html#cb534-1"></a><span class="kw">require</span>(kableExtra)</span>
+<span id="cb534-2"><a href="ch4-misc.html#cb534-2"></a>dat &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&quot;data/dysmenorrhea.rds&quot;</span>)</span>
+<span id="cb534-3"><a href="ch4-misc.html#cb534-3"></a>dat_lab &lt;-<span class="st"> </span>Hmisc<span class="op">::</span><span class="kw">label</span>(dat)</span>
+<span id="cb534-4"><a href="ch4-misc.html#cb534-4"></a>remove_attribute &lt;-<span class="st"> </span><span class="cf">function</span>(x) {<span class="kw">attributes</span>(x) &lt;-<span class="st"> </span><span class="ot">NULL</span>; x}</span>
+<span id="cb534-5"><a href="ch4-misc.html#cb534-5"></a></span>
+<span id="cb534-6"><a href="ch4-misc.html#cb534-6"></a><span class="co">## two sample t-test: making table</span></span>
+<span id="cb534-7"><a href="ch4-misc.html#cb534-7"></a>dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-8"><a href="ch4-misc.html#cb534-8"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(age<span class="op">:</span>pdi), </span>
+<span id="cb534-9"><a href="ch4-misc.html#cb534-9"></a>            <span class="op">~</span><span class="st"> </span><span class="kw">remove_attribute</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-10"><a href="ch4-misc.html#cb534-10"></a><span class="st">  </span><span class="kw">pivot_longer</span>(</span>
+<span id="cb534-11"><a href="ch4-misc.html#cb534-11"></a>    <span class="dt">cols =</span> age<span class="op">:</span>pdi,</span>
+<span id="cb534-12"><a href="ch4-misc.html#cb534-12"></a>    <span class="dt">names_to =</span> <span class="st">&quot;variable&quot;</span>, </span>
+<span id="cb534-13"><a href="ch4-misc.html#cb534-13"></a>    <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span></span>
+<span id="cb534-14"><a href="ch4-misc.html#cb534-14"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-15"><a href="ch4-misc.html#cb534-15"></a><span class="st">  </span><span class="kw">group_by</span>(variable) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-16"><a href="ch4-misc.html#cb534-16"></a><span class="st">  </span>nest <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-17"><a href="ch4-misc.html#cb534-17"></a><span class="st">  </span>ungroup <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-18"><a href="ch4-misc.html#cb534-18"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ttest_result =</span> <span class="kw">map</span>(data, <span class="op">~</span><span class="st"> </span><span class="kw">t.test</span>(value <span class="op">~</span><span class="st"> </span>pidyn, <span class="dt">data =</span> .x)), </span>
+<span id="cb534-19"><a href="ch4-misc.html#cb534-19"></a>         <span class="dt">name =</span> dat_lab[<span class="dv">3</span><span class="op">:</span><span class="dv">12</span>]) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-20"><a href="ch4-misc.html#cb534-20"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ttest_result =</span> <span class="kw">map</span>(ttest_result, <span class="op">~</span><span class="kw">tidy</span>(.x))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-21"><a href="ch4-misc.html#cb534-21"></a><span class="st">  </span><span class="kw">select</span>(variable, name, ttest_result) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-22"><a href="ch4-misc.html#cb534-22"></a><span class="st">  </span><span class="kw">unnest</span>(<span class="dt">cols =</span> ttest_result) -&gt;<span class="st"> </span>ttest_summary</span>
+<span id="cb534-23"><a href="ch4-misc.html#cb534-23"></a></span>
+<span id="cb534-24"><a href="ch4-misc.html#cb534-24"></a>dat <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-25"><a href="ch4-misc.html#cb534-25"></a><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(age<span class="op">:</span>pdi), </span>
+<span id="cb534-26"><a href="ch4-misc.html#cb534-26"></a>            <span class="op">~</span><span class="st"> </span><span class="kw">remove_attribute</span>(.)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-27"><a href="ch4-misc.html#cb534-27"></a><span class="st">  </span><span class="kw">pivot_longer</span>(</span>
+<span id="cb534-28"><a href="ch4-misc.html#cb534-28"></a>    <span class="dt">cols =</span> age<span class="op">:</span>pdi,</span>
+<span id="cb534-29"><a href="ch4-misc.html#cb534-29"></a>    <span class="dt">names_to =</span> <span class="st">&quot;variable&quot;</span>, </span>
+<span id="cb534-30"><a href="ch4-misc.html#cb534-30"></a>    <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span></span>
+<span id="cb534-31"><a href="ch4-misc.html#cb534-31"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-32"><a href="ch4-misc.html#cb534-32"></a><span class="st">  </span><span class="kw">group_by</span>(variable, pidyn) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-33"><a href="ch4-misc.html#cb534-33"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value), </span>
+<span id="cb534-34"><a href="ch4-misc.html#cb534-34"></a>            <span class="dt">SD =</span> <span class="kw">sd</span>(value)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-35"><a href="ch4-misc.html#cb534-35"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">res =</span> <span class="kw">sprintf</span>(<span class="st">&quot;%.1f ± %.1f&quot;</span>, Mean, SD)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-36"><a href="ch4-misc.html#cb534-36"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Mean, <span class="op">-</span>SD) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb534-37"><a href="ch4-misc.html#cb534-37"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> pidyn, </span>
+<span id="cb534-38"><a href="ch4-misc.html#cb534-38"></a>              <span class="dt">values_from =</span> res) -&gt;<span class="st"> </span>desc_summary</span></code></pre></div>
+<pre><code>`summarise()` regrouping output by &#39;variable&#39; (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="ch4-misc.html#cb536-1"></a>desc_summary <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-2"><a href="ch4-misc.html#cb536-2"></a><span class="st">  </span><span class="kw">inner_join</span>(ttest_summary <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-3"><a href="ch4-misc.html#cb536-3"></a><span class="st">               </span><span class="kw">select</span>(variable<span class="op">:</span>name, statistic, parameter, p.value), </span>
+<span id="cb536-4"><a href="ch4-misc.html#cb536-4"></a>             <span class="dt">by =</span> <span class="st">&quot;variable&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-5"><a href="ch4-misc.html#cb536-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stat =</span> <span class="kw">sprintf</span>(<span class="st">&quot;$t_{</span><span class="ch">\\</span><span class="st">nu=%.1f}$ = %.2f&quot;</span>, parameter, statistic)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-6"><a href="ch4-misc.html#cb536-6"></a><span class="st">  </span><span class="kw">select</span>(name, Control<span class="op">:</span>Dysmenorrhea, stat, p.value) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-7"><a href="ch4-misc.html#cb536-7"></a><span class="st">  </span><span class="kw">mutate_if</span>(is.numeric, format, <span class="dt">digits =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-8"><a href="ch4-misc.html#cb536-8"></a><span class="st">  </span><span class="kw">kbl</span>(<span class="dt">escape =</span> <span class="ot">FALSE</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb536-9"><a href="ch4-misc.html#cb536-9"></a><span class="st">  </span><span class="kw">kable_paper</span>()</span></code></pre></div>
+<pre><code>Adding missing grouping variables: `variable`</code></pre>
+<pre><code>`mutate_if()` ignored the following grouping variables:
+Column `variable`</code></pre>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+Control
+</th>
+<th style="text-align:left;">
+Dysmenorrhea
+</th>
+<th style="text-align:left;">
+stat
+</th>
+<th style="text-align:left;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:left;">
+Age [yr]
+</td>
+<td style="text-align:left;">
+22.5 ± 1.7
+</td>
+<td style="text-align:left;">
+23.0 ± 2.5
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=38.2}\)</span> = -0.80
+</td>
+<td style="text-align:left;">
+0.4279
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bmi
+</td>
+<td style="text-align:left;">
+BMI [kg/m<sup>2</sup>]
+</td>
+<td style="text-align:left;">
+20.5 ± 2.3
+</td>
+<td style="text-align:left;">
+20.8 ± 1.7
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=42.6}\)</span> = -0.55
+</td>
+<td style="text-align:left;">
+0.5884
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+diabp
+</td>
+<td style="text-align:left;">
+Diastolic BP [mmHg]
+</td>
+<td style="text-align:left;">
+73.8 ± 7.8
+</td>
+<td style="text-align:left;">
+72.5 ± 7.1
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=44.9}\)</span> = 0.59
+</td>
+<td style="text-align:left;">
+0.5609
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+height
+</td>
+<td style="text-align:left;">
+Height [cm]
+</td>
+<td style="text-align:left;">
+160.6 ± 4.4
+</td>
+<td style="text-align:left;">
+162.3 ± 4.0
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=44.9}\)</span> = -1.43
+</td>
+<td style="text-align:left;">
+0.16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mmpscr
+</td>
+<td style="text-align:left;">
+MMP score
+</td>
+<td style="text-align:left;">
+2.2 ± 1.2
+</td>
+<td style="text-align:left;">
+5.9 ± 1.0
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=44.3}\)</span> = -11.16
+</td>
+<td style="text-align:left;">
+1.824e-14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pdi
+</td>
+<td style="text-align:left;">
+PDI [mm]
+</td>
+<td style="text-align:left;">
+10.4 ± 1.6
+</td>
+<td style="text-align:left;">
+9.3 ± 1.3
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=44.0}\)</span> = 2.70
+</td>
+<td style="text-align:left;">
+0.009822
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pulse
+</td>
+<td style="text-align:left;">
+Pulse [bpm]
+</td>
+<td style="text-align:left;">
+74.2 ± 19.5
+</td>
+<td style="text-align:left;">
+72.3 ± 8.2
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=31.2}\)</span> = 0.44
+</td>
+<td style="text-align:left;">
+0.6631
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sysbp
+</td>
+<td style="text-align:left;">
+Systolic BP [mmHg]
+</td>
+<td style="text-align:left;">
+111.2 ± 10.0
+</td>
+<td style="text-align:left;">
+106.5 ± 9.3
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=45.0}\)</span> = 1.67
+</td>
+<td style="text-align:left;">
+0.1027
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+temp
+</td>
+<td style="text-align:left;">
+Body temperature [℃]
+</td>
+<td style="text-align:left;">
+37.0 ± 0.3
+</td>
+<td style="text-align:left;">
+36.9 ± 0.3
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=44.7}\)</span> = 0.85
+</td>
+<td style="text-align:left;">
+0.3972
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weight
+</td>
+<td style="text-align:left;">
+Weight [kg]
+</td>
+<td style="text-align:left;">
+52.9 ± 6.1
+</td>
+<td style="text-align:left;">
+54.9 ± 4.9
+</td>
+<td style="text-align:left;">
+<span class="math inline">\(t_{\nu=43.7}\)</span> = -1.24
+</td>
+<td style="text-align:left;">
+0.2206
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+<div id="다수-변수에-대한-일원배치-분산분석-결과-정리" class="section level4 unnumbered">
+<h4>다수 변수에 대한 일원배치 분산분석 결과 정리</h4>
+
+<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="ch4-misc.html#cb539-1"></a><span class="co"># require(emmeans)</span></span>
+<span id="cb539-2"><a href="ch4-misc.html#cb539-2"></a>abalone &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data&quot;</span>, </span>
+<span id="cb539-3"><a href="ch4-misc.html#cb539-3"></a>                    <span class="dt">header =</span> <span class="ot">FALSE</span>) </span>
+<span id="cb539-4"><a href="ch4-misc.html#cb539-4"></a><span class="co"># vname &lt;- c(&quot;sex&quot;, &quot;length [mm]&quot;, &quot;diameter [mm]&quot;, &quot;height [mm]&quot;, </span></span>
+<span id="cb539-5"><a href="ch4-misc.html#cb539-5"></a><span class="co">#            &quot;whole weight [g]&quot;, &quot;shucked weight [g]&quot;, &quot;viscera weight [g]&quot;, &quot;Ring&quot;)</span></span>
+<span id="cb539-6"><a href="ch4-misc.html#cb539-6"></a>abalone <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-7"><a href="ch4-misc.html#cb539-7"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">V1 =</span> <span class="kw">factor</span>(V1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;M&quot;</span>, <span class="st">&quot;F&quot;</span>, <span class="st">&quot;I&quot;</span>))) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-8"><a href="ch4-misc.html#cb539-8"></a><span class="st">  </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> V2<span class="op">:</span>V9, </span>
+<span id="cb539-9"><a href="ch4-misc.html#cb539-9"></a>               <span class="dt">names_to =</span> <span class="st">&quot;variable&quot;</span>, </span>
+<span id="cb539-10"><a href="ch4-misc.html#cb539-10"></a>               <span class="dt">values_to =</span> <span class="st">&quot;value&quot;</span>) -&gt;<span class="st"> </span>abalone_long</span>
+<span id="cb539-11"><a href="ch4-misc.html#cb539-11"></a></span>
+<span id="cb539-12"><a href="ch4-misc.html#cb539-12"></a>abalone_long <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-13"><a href="ch4-misc.html#cb539-13"></a><span class="st">  </span><span class="kw">group_by</span>(variable, V1) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-14"><a href="ch4-misc.html#cb539-14"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Mean =</span> <span class="kw">mean</span>(value), </span>
+<span id="cb539-15"><a href="ch4-misc.html#cb539-15"></a>            <span class="dt">SD =</span> <span class="kw">sd</span>(value)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-16"><a href="ch4-misc.html#cb539-16"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">res =</span> <span class="kw">sprintf</span>(<span class="st">&quot;%.3f ± %.3f&quot;</span>, Mean, SD)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-17"><a href="ch4-misc.html#cb539-17"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>Mean, <span class="op">-</span>SD) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-18"><a href="ch4-misc.html#cb539-18"></a><span class="st">  </span><span class="kw">pivot_wider</span>(<span class="dt">names_from =</span> V1, <span class="dt">values_from =</span> res) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb539-19"><a href="ch4-misc.html#cb539-19"></a><span class="st">  </span>ungroup -&gt;<span class="st"> </span>desc_summ</span></code></pre></div>
+<pre><code>`summarise()` regrouping output by &#39;variable&#39; (override with `.groups` argument)</code></pre>
+<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="ch4-misc.html#cb541-1"></a>abalone_long <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-2"><a href="ch4-misc.html#cb541-2"></a><span class="st">  </span><span class="kw">group_by</span>(variable) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-3"><a href="ch4-misc.html#cb541-3"></a><span class="st">  </span>nest <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-4"><a href="ch4-misc.html#cb541-4"></a><span class="st">  </span>ungroup <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-5"><a href="ch4-misc.html#cb541-5"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">lm_res =</span> <span class="kw">map</span>(data, <span class="op">~</span><span class="st"> </span><span class="kw">lm</span>(value <span class="op">~</span><span class="st"> </span>V1, <span class="dt">data =</span> .x)), </span>
+<span id="cb541-6"><a href="ch4-misc.html#cb541-6"></a>         <span class="dt">aov_res =</span> <span class="kw">map</span>(lm_res, <span class="op">~</span><span class="st"> </span><span class="kw">glance</span>(.x))) -&gt;<span class="st"> </span>lm_summ</span>
+<span id="cb541-7"><a href="ch4-misc.html#cb541-7"></a></span>
+<span id="cb541-8"><a href="ch4-misc.html#cb541-8"></a>lm_summ <span class="op">%&gt;%</span></span>
+<span id="cb541-9"><a href="ch4-misc.html#cb541-9"></a><span class="st">  </span><span class="kw">select</span>(variable, aov_res) <span class="op">%&gt;%</span></span>
+<span id="cb541-10"><a href="ch4-misc.html#cb541-10"></a><span class="st">  </span><span class="kw">unnest</span>(<span class="dt">cols =</span> aov_res) <span class="op">%&gt;%</span></span>
+<span id="cb541-11"><a href="ch4-misc.html#cb541-11"></a><span class="st">  </span><span class="kw">select</span>(variable, statistic, p.value) -&gt;<span class="st"> </span>aov_summ</span>
+<span id="cb541-12"><a href="ch4-misc.html#cb541-12"></a></span>
+<span id="cb541-13"><a href="ch4-misc.html#cb541-13"></a>desc_summ <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-14"><a href="ch4-misc.html#cb541-14"></a><span class="st">  </span><span class="kw">inner_join</span>(aov_summ, <span class="dt">by =</span> <span class="st">&quot;variable&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-15"><a href="ch4-misc.html#cb541-15"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">statistic =</span> <span class="kw">format</span>(statistic, <span class="dt">digits =</span> <span class="dv">2</span>), </span>
+<span id="cb541-16"><a href="ch4-misc.html#cb541-16"></a>         <span class="dt">p.value =</span> <span class="kw">format</span>(p.value, <span class="dt">digits =</span> <span class="dv">4</span>)) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-17"><a href="ch4-misc.html#cb541-17"></a><span class="st">  </span><span class="kw">rename</span>(<span class="st">`</span><span class="dt">F-value</span><span class="st">`</span> =<span class="st"> </span>statistic) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-18"><a href="ch4-misc.html#cb541-18"></a><span class="st">  </span>kbl <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb541-19"><a href="ch4-misc.html#cb541-19"></a><span class="st">  </span>kable_paper</span></code></pre></div>
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+M
+</th>
+<th style="text-align:left;">
+F
+</th>
+<th style="text-align:left;">
+I
+</th>
+<th style="text-align:left;">
+F-value
+</th>
+<th style="text-align:left;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+V2
+</td>
+<td style="text-align:left;">
+0.561 ± 0.103
+</td>
+<td style="text-align:left;">
+0.579 ± 0.086
+</td>
+<td style="text-align:left;">
+0.428 ± 0.109
+</td>
+<td style="text-align:left;">
+928
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V3
+</td>
+<td style="text-align:left;">
+0.439 ± 0.084
+</td>
+<td style="text-align:left;">
+0.455 ± 0.071
+</td>
+<td style="text-align:left;">
+0.326 ± 0.088
+</td>
+<td style="text-align:left;">
+994
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V4
+</td>
+<td style="text-align:left;">
+0.151 ± 0.035
+</td>
+<td style="text-align:left;">
+0.158 ± 0.040
+</td>
+<td style="text-align:left;">
+0.108 ± 0.032
+</td>
+<td style="text-align:left;">
+784
+</td>
+<td style="text-align:left;">
+7.151e-290
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V5
+</td>
+<td style="text-align:left;">
+0.991 ± 0.471
+</td>
+<td style="text-align:left;">
+1.047 ± 0.430
+</td>
+<td style="text-align:left;">
+0.431 ± 0.286
+</td>
+<td style="text-align:left;">
+951
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V6
+</td>
+<td style="text-align:left;">
+0.433 ± 0.223
+</td>
+<td style="text-align:left;">
+0.446 ± 0.199
+</td>
+<td style="text-align:left;">
+0.191 ± 0.128
+</td>
+<td style="text-align:left;">
+783
+</td>
+<td style="text-align:left;">
+1.326e-289
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V7
+</td>
+<td style="text-align:left;">
+0.216 ± 0.105
+</td>
+<td style="text-align:left;">
+0.231 ± 0.098
+</td>
+<td style="text-align:left;">
+0.092 ± 0.063
+</td>
+<td style="text-align:left;">
+948
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V8
+</td>
+<td style="text-align:left;">
+0.282 ± 0.131
+</td>
+<td style="text-align:left;">
+0.302 ± 0.126
+</td>
+<td style="text-align:left;">
+0.128 ± 0.085
+</td>
+<td style="text-align:left;">
+906
+</td>
+<td style="text-align:left;">
+0.000e+00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+V9
+</td>
+<td style="text-align:left;">
+10.705 ± 3.026
+</td>
+<td style="text-align:left;">
+11.129 ± 3.104
+</td>
+<td style="text-align:left;">
+7.890 ± 2.512
+</td>
+<td style="text-align:left;">
+499
+</td>
+<td style="text-align:left;">
+3.725e-195
+</td>
+</tr>
+</tbody>
+</table>
+
 <!-- ## 범주형 자료분석(categorical data analysis) -->
 <!-- ### 적합성 검정(goodness-of-fit test) -->
 <!-- ### 독립성 검정 -->
 <!-- ### Fisher 정확검정 -->
 <!-- ## 두 변수의 상관 -->
 
+</div>
 </div>
 </div>
 <!-- </div> -->

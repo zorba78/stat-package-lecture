@@ -2466,10 +2466,373 @@ summ_m1 <- cbind(t(mean_mpg),
 - **broom** 패키지 주요함수
    - `tidy()`: 통계적 검정 결과 또는 모형 결과를 요약해 데이터 프레임으로 제공
    - `glance()`: 모형을 한줄로 간략히 요약 
-   - `augment()`: 원 데이터프레임에 잔차, 예측값 등의 정보를 추가 
+   - `augment()`: 원 데이터프레임에 잔차(`resid()`), 예측값(`predict()`) 등의 정보를 추가 
+
+- 예시 
+
+\footnotesize
 
 
+```r
+tidy(t1)
+```
 
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["estimate"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["estimate1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["estimate2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["parameter"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["conf.low"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["conf.high"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[9],"type":["chr"],"align":["left"]},{"label":["alternative"],"name":[10],"type":["chr"],"align":["left"]}],"data":[{"1":"-1.58","2":"0.75","3":"2.33","4":"-1.860813","5":"0.07918671","6":"18","7":"-3.363874","8":"0.203874","9":"Two Sample t-test","10":"two.sided","_row":"t"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+tidy(m1); glance(m1); tidy(aov_m1)
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"26.663636","3":"0.9718008","4":"27.437347","5":"2.688358e-22"},{"1":"cyl6","2":"-6.920779","3":"1.5583482","4":"-4.441099","5":"1.194696e-04"},{"1":"cyl8","2":"-11.563636","3":"1.2986235","4":"-8.904534","5":"8.568209e-10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div><div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["r.squared"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["adj.r.squared"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["logLik"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["df.residual"],"name":[11],"type":["int"],"align":["right"]},{"label":["nobs"],"name":[12],"type":["int"],"align":["right"]}],"data":[{"1":"0.7324601","2":"0.714009","3":"3.223099","4":"39.69752","5":"4.978919e-09","6":"2","7":"-81.28198","8":"170.564","9":"176.4269","10":"301.2626","11":"29","12":"32","_row":"value"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div><div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["df"],"name":[2],"type":["int"],"align":["right"]},{"label":["sumsq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["meansq"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"cyl","2":"2","3":"824.7846","4":"412.39230","5":"39.69752","6":"4.978919e-09"},{"1":"Residuals","2":"29","3":"301.2626","4":"10.38837","5":"NA","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+augdat <- augment(m1)
+augdat
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mpg"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["cyl"],"name":[2],"type":["fctr"],"align":["left"]},{"label":[".fitted"],"name":[3],"type":["dbl"],"align":["right"]},{"label":[".resid"],"name":[4],"type":["dbl"],"align":["right"]},{"label":[".std.resid"],"name":[5],"type":["dbl"],"align":["right"]},{"label":[".hat"],"name":[6],"type":["dbl"],"align":["right"]},{"label":[".sigma"],"name":[7],"type":["dbl"],"align":["right"]},{"label":[".cooksd"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"21.0","2":"6","3":"19.74286","4":"1.25714286","5":"0.42129317","6":"0.14285714","7":"3.270096","8":"9.860441e-03"},{"1":"21.0","2":"6","3":"19.74286","4":"1.25714286","5":"0.42129317","6":"0.14285714","7":"3.270096","8":"9.860441e-03"},{"1":"22.8","2":"4","3":"26.66364","4":"-3.86363636","5":"-1.25724228","6":"0.09090909","7":"3.189504","8":"5.268861e-02"},{"1":"21.4","2":"6","3":"19.74286","4":"1.65714286","5":"0.55534100","6":"0.14285714","7":"3.262661","8":"1.713353e-02"},{"1":"18.7","2":"8","3":"15.10000","4":"3.60000000","5":"1.15910087","6":"0.07142857","7":"3.203267","8":"3.444910e-02"},{"1":"18.1","2":"6","3":"19.74286","4":"-1.64285714","5":"-0.55055357","6":"0.14285714","7":"3.262962","8":"1.683940e-02"},{"1":"14.3","2":"8","3":"15.10000","4":"-0.80000000","5":"-0.25757797","6":"0.07142857","7":"3.276395","8":"1.701190e-03"},{"1":"24.4","2":"4","3":"26.66364","4":"-2.26363636","5":"-0.73659607","6":"0.09090909","7":"3.249319","8":"1.808579e-02"},{"1":"22.8","2":"4","3":"26.66364","4":"-3.86363636","5":"-1.25724228","6":"0.09090909","7":"3.189504","8":"5.268861e-02"},{"1":"19.2","2":"6","3":"19.74286","4":"-0.54285714","5":"-0.18192205","6":"0.14285714","7":"3.278277","8":"1.838646e-03"},{"1":"17.8","2":"6","3":"19.74286","4":"-1.94285714","5":"-0.65108944","6":"0.14285714","7":"3.256087","8":"2.355097e-02"},{"1":"16.4","2":"8","3":"15.10000","4":"1.30000000","5":"0.41856420","6":"0.07142857","7":"3.270226","8":"4.492205e-03"},{"1":"17.3","2":"8","3":"15.10000","4":"2.20000000","5":"0.70833942","6":"0.07142857","7":"3.251650","8":"1.286525e-02"},{"1":"15.2","2":"8","3":"15.10000","4":"0.10000000","5":"0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"10.4","2":"8","3":"15.10000","4":"-4.70000000","5":"-1.51327059","6":"0.07142857","7":"3.147978","8":"5.871764e-02"},{"1":"10.4","2":"8","3":"15.10000","4":"-4.70000000","5":"-1.51327059","6":"0.07142857","7":"3.147978","8":"5.871764e-02"},{"1":"14.7","2":"8","3":"15.10000","4":"-0.40000000","5":"-0.12878899","6":"0.07142857","7":"3.279211","8":"4.252975e-04"},{"1":"32.4","2":"4","3":"26.66364","4":"5.73636364","5":"1.86663501","6":"0.09090909","7":"3.076792","8":"1.161442e-01"},{"1":"30.4","2":"4","3":"26.66364","4":"3.73636364","5":"1.21582724","6":"0.09090909","7":"3.195455","8":"4.927453e-02"},{"1":"33.9","2":"4","3":"26.66364","4":"7.23636364","5":"2.35474084","6":"0.09090909","7":"2.949946","8":"1.848268e-01"},{"1":"21.5","2":"4","3":"26.66364","4":"-5.16363636","5":"-1.68026733","6":"0.09090909","7":"3.116392","8":"9.410994e-02"},{"1":"15.5","2":"8","3":"15.10000","4":"0.40000000","5":"0.12878899","6":"0.07142857","7":"3.279211","8":"4.252975e-04"},{"1":"15.2","2":"8","3":"15.10000","4":"0.10000000","5":"0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"13.3","2":"8","3":"15.10000","4":"-1.80000000","5":"-0.57955044","6":"0.07142857","7":"3.261098","8":"8.612275e-03"},{"1":"19.2","2":"8","3":"15.10000","4":"4.10000000","5":"1.32008711","6":"0.07142857","7":"3.180069","8":"4.468282e-02"},{"1":"27.3","2":"4","3":"26.66364","4":"0.63636364","5":"0.20707520","6":"0.09090909","7":"3.277723","8":"1.429338e-03"},{"1":"26.0","2":"4","3":"26.66364","4":"-0.66363636","5":"-0.21594985","6":"0.09090909","7":"3.277511","8":"1.554478e-03"},{"1":"30.4","2":"4","3":"26.66364","4":"3.73636364","5":"1.21582724","6":"0.09090909","7":"3.195455","8":"4.927453e-02"},{"1":"15.8","2":"8","3":"15.10000","4":"0.70000000","5":"0.22538073","6":"0.07142857","7":"3.277275","8":"1.302474e-03"},{"1":"19.7","2":"6","3":"19.74286","4":"-0.04285714","5":"-0.01436227","6":"0.14285714","7":"3.280137","8":"1.145971e-05"},{"1":"15.0","2":"8","3":"15.10000","4":"-0.10000000","5":"-0.03219725","6":"0.07142857","7":"3.280091","8":"2.658109e-05"},{"1":"21.4","2":"4","3":"26.66364","4":"-5.26363636","5":"-1.71280772","6":"0.09090909","7":"3.109812","8":"9.779034e-02"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+```r
+# 참고
+
+# .fitted <- predict(m1) # 예측값(predicted value): X %*% bhat
+# .resid <- residuals(m1) # 잔차 y - X %*% bhat
+# .hat <- hatvalues(m1) # hat matrix의 대각원소
+# hat matrix
+# H <- X %*% solve(t(X) %*% X) %*% t(X)
+# H2 <- H %*% H # H = H^2
+# .std.resid <- rstandard(m1) # 표준화 잔차
+# .resid/(sigma(m1) * sqrt(1 - .hat)) 
+# sse <- sigma(m1)^2 * (32 - 2 - 1)
+# .sigma <- sqrt((sse - .resid^2/(1 - .hat))/(df.residual(m1)))
+# .cooksd <- cooks.distance(m1)
+```
+
+ \normalsize
+
+
+#### 다수 변수에 대한 독립 이표본 t 검정 결과 정리 {.unnumbered}
+
+\footnotesize
+
+
+```r
+require(kableExtra)
+dat <- read_rds("data/dysmenorrhea.rds")
+dat_lab <- Hmisc::label(dat)
+remove_attribute <- function(x) {attributes(x) <- NULL; x}
+
+## two sample t-test: making table
+dat %>% 
+  mutate_at(vars(age:pdi), 
+            ~ remove_attribute(.)) %>% 
+  pivot_longer(
+    cols = age:pdi,
+    names_to = "variable", 
+    values_to = "value"
+  ) %>% 
+  group_by(variable) %>% 
+  nest %>% 
+  ungroup %>% 
+  mutate(ttest_result = map(data, ~ t.test(value ~ pidyn, data = .x)), 
+         name = dat_lab[3:12]) %>% 
+  mutate(ttest_result = map(ttest_result, ~tidy(.x))) %>% 
+  select(variable, name, ttest_result) %>% 
+  unnest(cols = ttest_result) -> ttest_summary
+
+dat %>% 
+  mutate_at(vars(age:pdi), 
+            ~ remove_attribute(.)) %>% 
+  pivot_longer(
+    cols = age:pdi,
+    names_to = "variable", 
+    values_to = "value"
+  ) %>% 
+  group_by(variable, pidyn) %>% 
+  summarise(Mean = mean(value), 
+            SD = sd(value)) %>% 
+  mutate(res = sprintf("%.1f ± %.1f", Mean, SD)) %>% 
+  select(-Mean, -SD) %>% 
+  pivot_wider(names_from = pidyn, 
+              values_from = res) -> desc_summary
+```
+
+```
+`summarise()` regrouping output by 'variable' (override with `.groups` argument)
+```
+
+```r
+desc_summary %>% 
+  inner_join(ttest_summary %>% 
+               select(variable:name, statistic, parameter, p.value), 
+             by = "variable") %>% 
+  mutate(stat = sprintf("$t_{\\nu=%.1f}$ = %.2f", parameter, statistic)) %>% 
+  select(name, Control:Dysmenorrhea, stat, p.value) %>% 
+  mutate_if(is.numeric, format, digits = 4) %>% 
+  kbl(escape = FALSE) %>% 
+  kable_paper()
+```
+
+```
+Adding missing grouping variables: `variable`
+```
+
+```
+`mutate_if()` ignored the following grouping variables:
+Column `variable`
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:left;"> name </th>
+   <th style="text-align:left;"> Control </th>
+   <th style="text-align:left;"> Dysmenorrhea </th>
+   <th style="text-align:left;"> stat </th>
+   <th style="text-align:left;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> Age [yr] </td>
+   <td style="text-align:left;"> 22.5 ± 1.7 </td>
+   <td style="text-align:left;"> 23.0 ± 2.5 </td>
+   <td style="text-align:left;"> $t_{\nu=38.2}$ = -0.80 </td>
+   <td style="text-align:left;"> 0.4279 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> bmi </td>
+   <td style="text-align:left;"> BMI [kg/m^2^] </td>
+   <td style="text-align:left;"> 20.5 ± 2.3 </td>
+   <td style="text-align:left;"> 20.8 ± 1.7 </td>
+   <td style="text-align:left;"> $t_{\nu=42.6}$ = -0.55 </td>
+   <td style="text-align:left;"> 0.5884 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabp </td>
+   <td style="text-align:left;"> Diastolic BP [mmHg] </td>
+   <td style="text-align:left;"> 73.8 ± 7.8 </td>
+   <td style="text-align:left;"> 72.5 ± 7.1 </td>
+   <td style="text-align:left;"> $t_{\nu=44.9}$ = 0.59 </td>
+   <td style="text-align:left;"> 0.5609 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> height </td>
+   <td style="text-align:left;"> Height [cm] </td>
+   <td style="text-align:left;"> 160.6 ± 4.4 </td>
+   <td style="text-align:left;"> 162.3 ± 4.0 </td>
+   <td style="text-align:left;"> $t_{\nu=44.9}$ = -1.43 </td>
+   <td style="text-align:left;"> 0.16 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> mmpscr </td>
+   <td style="text-align:left;"> MMP score </td>
+   <td style="text-align:left;"> 2.2 ± 1.2 </td>
+   <td style="text-align:left;"> 5.9 ± 1.0 </td>
+   <td style="text-align:left;"> $t_{\nu=44.3}$ = -11.16 </td>
+   <td style="text-align:left;"> 1.824e-14 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pdi </td>
+   <td style="text-align:left;"> PDI [mm] </td>
+   <td style="text-align:left;"> 10.4 ± 1.6 </td>
+   <td style="text-align:left;"> 9.3 ± 1.3 </td>
+   <td style="text-align:left;"> $t_{\nu=44.0}$ = 2.70 </td>
+   <td style="text-align:left;"> 0.009822 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> pulse </td>
+   <td style="text-align:left;"> Pulse [bpm] </td>
+   <td style="text-align:left;"> 74.2 ± 19.5 </td>
+   <td style="text-align:left;"> 72.3 ± 8.2 </td>
+   <td style="text-align:left;"> $t_{\nu=31.2}$ = 0.44 </td>
+   <td style="text-align:left;"> 0.6631 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sysbp </td>
+   <td style="text-align:left;"> Systolic BP [mmHg] </td>
+   <td style="text-align:left;"> 111.2 ± 10.0 </td>
+   <td style="text-align:left;"> 106.5 ± 9.3 </td>
+   <td style="text-align:left;"> $t_{\nu=45.0}$ = 1.67 </td>
+   <td style="text-align:left;"> 0.1027 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> temp </td>
+   <td style="text-align:left;"> Body temperature [℃] </td>
+   <td style="text-align:left;"> 37.0 ± 0.3 </td>
+   <td style="text-align:left;"> 36.9 ± 0.3 </td>
+   <td style="text-align:left;"> $t_{\nu=44.7}$ = 0.85 </td>
+   <td style="text-align:left;"> 0.3972 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> weight </td>
+   <td style="text-align:left;"> Weight [kg] </td>
+   <td style="text-align:left;"> 52.9 ± 6.1 </td>
+   <td style="text-align:left;"> 54.9 ± 4.9 </td>
+   <td style="text-align:left;"> $t_{\nu=43.7}$ = -1.24 </td>
+   <td style="text-align:left;"> 0.2206 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
+
+
+#### 다수 변수에 대한 일원배치 분산분석 결과 정리 {.unnumbered}
+
+\footnotesize
+
+
+```r
+# require(emmeans)
+abalone <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data", 
+                    header = FALSE) 
+# vname <- c("sex", "length [mm]", "diameter [mm]", "height [mm]", 
+#            "whole weight [g]", "shucked weight [g]", "viscera weight [g]", "Ring")
+abalone %>% 
+  mutate(V1 = factor(V1, levels = c("M", "F", "I"))) %>% 
+  pivot_longer(cols = V2:V9, 
+               names_to = "variable", 
+               values_to = "value") -> abalone_long
+
+abalone_long %>% 
+  group_by(variable, V1) %>% 
+  summarise(Mean = mean(value), 
+            SD = sd(value)) %>% 
+  mutate(res = sprintf("%.3f ± %.3f", Mean, SD)) %>% 
+  select(-Mean, -SD) %>% 
+  pivot_wider(names_from = V1, values_from = res) %>% 
+  ungroup -> desc_summ
+```
+
+```
+`summarise()` regrouping output by 'variable' (override with `.groups` argument)
+```
+
+```r
+abalone_long %>% 
+  group_by(variable) %>% 
+  nest %>% 
+  ungroup %>% 
+  mutate(lm_res = map(data, ~ lm(value ~ V1, data = .x)), 
+         aov_res = map(lm_res, ~ glance(.x))) -> lm_summ
+
+lm_summ %>%
+  select(variable, aov_res) %>%
+  unnest(cols = aov_res) %>%
+  select(variable, statistic, p.value) -> aov_summ
+
+desc_summ %>% 
+  inner_join(aov_summ, by = "variable") %>% 
+  mutate(statistic = format(statistic, digits = 2), 
+         p.value = format(p.value, digits = 4)) %>% 
+  rename(`F-value` = statistic) %>% 
+  kbl %>% 
+  kable_paper
+```
+
+<table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:left;"> M </th>
+   <th style="text-align:left;"> F </th>
+   <th style="text-align:left;"> I </th>
+   <th style="text-align:left;"> F-value </th>
+   <th style="text-align:left;"> p.value </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> V2 </td>
+   <td style="text-align:left;"> 0.561 ± 0.103 </td>
+   <td style="text-align:left;"> 0.579 ± 0.086 </td>
+   <td style="text-align:left;"> 0.428 ± 0.109 </td>
+   <td style="text-align:left;"> 928 </td>
+   <td style="text-align:left;"> 0.000e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V3 </td>
+   <td style="text-align:left;"> 0.439 ± 0.084 </td>
+   <td style="text-align:left;"> 0.455 ± 0.071 </td>
+   <td style="text-align:left;"> 0.326 ± 0.088 </td>
+   <td style="text-align:left;"> 994 </td>
+   <td style="text-align:left;"> 0.000e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V4 </td>
+   <td style="text-align:left;"> 0.151 ± 0.035 </td>
+   <td style="text-align:left;"> 0.158 ± 0.040 </td>
+   <td style="text-align:left;"> 0.108 ± 0.032 </td>
+   <td style="text-align:left;"> 784 </td>
+   <td style="text-align:left;"> 7.151e-290 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V5 </td>
+   <td style="text-align:left;"> 0.991 ± 0.471 </td>
+   <td style="text-align:left;"> 1.047 ± 0.430 </td>
+   <td style="text-align:left;"> 0.431 ± 0.286 </td>
+   <td style="text-align:left;"> 951 </td>
+   <td style="text-align:left;"> 0.000e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V6 </td>
+   <td style="text-align:left;"> 0.433 ± 0.223 </td>
+   <td style="text-align:left;"> 0.446 ± 0.199 </td>
+   <td style="text-align:left;"> 0.191 ± 0.128 </td>
+   <td style="text-align:left;"> 783 </td>
+   <td style="text-align:left;"> 1.326e-289 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V7 </td>
+   <td style="text-align:left;"> 0.216 ± 0.105 </td>
+   <td style="text-align:left;"> 0.231 ± 0.098 </td>
+   <td style="text-align:left;"> 0.092 ± 0.063 </td>
+   <td style="text-align:left;"> 948 </td>
+   <td style="text-align:left;"> 0.000e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V8 </td>
+   <td style="text-align:left;"> 0.282 ± 0.131 </td>
+   <td style="text-align:left;"> 0.302 ± 0.126 </td>
+   <td style="text-align:left;"> 0.128 ± 0.085 </td>
+   <td style="text-align:left;"> 906 </td>
+   <td style="text-align:left;"> 0.000e+00 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> V9 </td>
+   <td style="text-align:left;"> 10.705 ± 3.026 </td>
+   <td style="text-align:left;"> 11.129 ± 3.104 </td>
+   <td style="text-align:left;"> 7.890 ± 2.512 </td>
+   <td style="text-align:left;"> 499 </td>
+   <td style="text-align:left;"> 3.725e-195 </td>
+  </tr>
+</tbody>
+</table>
+
+ \normalsize
 
 
 

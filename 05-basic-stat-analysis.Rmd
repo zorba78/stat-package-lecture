@@ -1432,10 +1432,135 @@ summ_m1 <- cbind(t(mean_mpg),
 - **broom** 패키지 주요함수
    - `tidy()`: 통계적 검정 결과 또는 모형 결과를 요약해 데이터 프레임으로 제공
    - `glance()`: 모형을 한줄로 간략히 요약 
-   - `augment()`: 원 데이터프레임에 잔차, 예측값 등의 정보를 추가 
+   - `augment()`: 원 데이터프레임에 잔차(`resid()`), 예측값(`predict()`) 등의 정보를 추가 
+
+- 예시 
+
+```{r}
+tidy(t1)
+tidy(m1); glance(m1); tidy(aov_m1)
+augdat <- augment(m1)
+augdat
+# 참고
+
+# .fitted <- predict(m1) # 예측값(predicted value): X %*% bhat
+# .resid <- residuals(m1) # 잔차 y - X %*% bhat
+# .hat <- hatvalues(m1) # hat matrix의 대각원소
+# hat matrix
+# H <- X %*% solve(t(X) %*% X) %*% t(X)
+# H2 <- H %*% H # H = H^2
+# .std.resid <- rstandard(m1) # 표준화 잔차
+# .resid/(sigma(m1) * sqrt(1 - .hat)) 
+# sse <- sigma(m1)^2 * (32 - 2 - 1)
+# .sigma <- sqrt((sse - .resid^2/(1 - .hat))/(df.residual(m1)))
+# .cooksd <- cooks.distance(m1)
+
+
+```
+
+
+#### 다수 변수에 대한 독립 이표본 t 검정 결과 정리 {.unnumbered}
+
+```{r}
+require(kableExtra)
+dat <- read_rds("data/dysmenorrhea.rds")
+dat_lab <- Hmisc::label(dat)
+remove_attribute <- function(x) {attributes(x) <- NULL; x}
+
+## two sample t-test: making table
+dat %>% 
+  mutate_at(vars(age:pdi), 
+            ~ remove_attribute(.)) %>% 
+  pivot_longer(
+    cols = age:pdi,
+    names_to = "variable", 
+    values_to = "value"
+  ) %>% 
+  group_by(variable) %>% 
+  nest %>% 
+  ungroup %>% 
+  mutate(ttest_result = map(data, ~ t.test(value ~ pidyn, data = .x)), 
+         name = dat_lab[3:12]) %>% 
+  mutate(ttest_result = map(ttest_result, ~tidy(.x))) %>% 
+  select(variable, name, ttest_result) %>% 
+  unnest(cols = ttest_result) -> ttest_summary
+
+dat %>% 
+  mutate_at(vars(age:pdi), 
+            ~ remove_attribute(.)) %>% 
+  pivot_longer(
+    cols = age:pdi,
+    names_to = "variable", 
+    values_to = "value"
+  ) %>% 
+  group_by(variable, pidyn) %>% 
+  summarise(Mean = mean(value), 
+            SD = sd(value)) %>% 
+  mutate(res = sprintf("%.1f ± %.1f", Mean, SD)) %>% 
+  select(-Mean, -SD) %>% 
+  pivot_wider(names_from = pidyn, 
+              values_from = res) -> desc_summary
+
+
+desc_summary %>% 
+  inner_join(ttest_summary %>% 
+               select(variable:name, statistic, parameter, p.value), 
+             by = "variable") %>% 
+  mutate(stat = sprintf("$t_{\\nu=%.1f}$ = %.2f", parameter, statistic)) %>% 
+  select(name, Control:Dysmenorrhea, stat, p.value) %>% 
+  mutate_if(is.numeric, format, digits = 4) %>% 
+  kbl(escape = FALSE) %>% 
+  kable_paper()
 
 
 
+```
+
+
+#### 다수 변수에 대한 일원배치 분산분석 결과 정리 {.unnumbered}
+
+```{r}
+# require(emmeans)
+abalone <- read.csv("http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data", 
+                    header = FALSE) 
+# vname <- c("sex", "length [mm]", "diameter [mm]", "height [mm]", 
+#            "whole weight [g]", "shucked weight [g]", "viscera weight [g]", "Ring")
+abalone %>% 
+  mutate(V1 = factor(V1, levels = c("M", "F", "I"))) %>% 
+  pivot_longer(cols = V2:V9, 
+               names_to = "variable", 
+               values_to = "value") -> abalone_long
+
+abalone_long %>% 
+  group_by(variable, V1) %>% 
+  summarise(Mean = mean(value), 
+            SD = sd(value)) %>% 
+  mutate(res = sprintf("%.3f ± %.3f", Mean, SD)) %>% 
+  select(-Mean, -SD) %>% 
+  pivot_wider(names_from = V1, values_from = res) %>% 
+  ungroup -> desc_summ
+
+abalone_long %>% 
+  group_by(variable) %>% 
+  nest %>% 
+  ungroup %>% 
+  mutate(lm_res = map(data, ~ lm(value ~ V1, data = .x)), 
+         aov_res = map(lm_res, ~ glance(.x))) -> lm_summ
+
+lm_summ %>%
+  select(variable, aov_res) %>%
+  unnest(cols = aov_res) %>%
+  select(variable, statistic, p.value) -> aov_summ
+
+desc_summ %>% 
+  inner_join(aov_summ, by = "variable") %>% 
+  mutate(statistic = format(statistic, digits = 2), 
+         p.value = format(p.value, digits = 4)) %>% 
+  rename(`F-value` = statistic) %>% 
+  kbl %>% 
+  kable_paper
+
+```
 
 
 
