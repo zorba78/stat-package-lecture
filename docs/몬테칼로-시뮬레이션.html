@@ -24,7 +24,7 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-12-08" />
+<meta name="date" content="2020-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -437,7 +437,7 @@ E[f(x)] = \int f(x) p(x) dx \approx \frac{1}{N}\sum_{i=1}^{N}f(x_i)
 <ul>
 <li>위 그림에서 <span class="math inline">\(x\)</span> 축과 평행한 <span class="math inline">\(y = c\)</span>의 선을 그었을 때 <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> 구간 상에 사각형 면적은 <span class="math inline">\(c(b-a)\)</span> 임.</li>
 <li>사각형에서 <span class="math inline">\(I\)</span>가 차지하는 비율을 <span class="math inline">\(p\)</span> 라고 할 때, <span class="math inline">\(I = c(b - a)p\)</span> 임.</li>
-<li>위 사각형 안에 랜덤하게 N개의 점을 x-y 좌표 상에 찍었을 때, <span class="math inline">\(f(x)\)</span> 아래 놓인 점의 개수를 <span class="math inline">\(X\)</span>라고 하면 <span class="math inline">\(X\)</span>은 모수가 <span class="math inline">\(N\)</span>, <span class="math inline">\(p\)</span>인 이앙분포를 따름.</li>
+<li>위 사각형 안에 랜덤하게 N개의 점을 x-y 좌표 상에 찍었을 때, <span class="math inline">\(f(x)\)</span> 아래 놓인 점의 개수를 <span class="math inline">\(X\)</span>라고 하면 <span class="math inline">\(X\)</span>은 모수가 <span class="math inline">\(N\)</span>, <span class="math inline">\(p\)</span>인 이항분포를 따름.</li>
 <li>따라서 <span class="math inline">\(\hat{p} = X/N\)</span>이고 <span class="math inline">\(f(x)\)</span> 아래 면적 <span class="math inline">\(I\)</span>의 추정값은 아래와 같음.</li>
 </ul>
 <p><span class="math display">\[
@@ -516,7 +516,7 @@ E[f(x)] &amp;= \frac{1}{N}\sum_{i = 1}^N f(x_i),~~ x_i \stackrel{iid}{\sim} \mat
 <div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="몬테칼로-시뮬레이션.html#cb354-1"></a><span class="kw">system.time</span>(<span class="kw">mean_pi</span>(<span class="dv">5000000</span>)) <span class="co"># 5,000,000</span></span></code></pre></div>
 <pre><code>Estimated pi:  3.141221 </code></pre>
 <pre><code> 사용자  시스템 elapsed 
-  0.212   0.003   0.215 </code></pre>
+  0.155   0.016   0.171 </code></pre>
 
 </div>
 <div id="buffon의-바늘-실험" class="section level3">

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1.2 R Markdown 문서 시작하기 | 통계 패키지 활용</title>
+  <title>5 2020년 2학기 기말고사 대비 연습문제 | 통계 패키지 활용</title>
   <meta name="description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1.2 R Markdown 문서 시작하기 | 통계 패키지 활용" />
+  <meta property="og:title" content="5 2020년 2학기 기말고사 대비 연습문제 | 통계 패키지 활용" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="zorba78/cnu-r-programming-lecture-note" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1.2 R Markdown 문서 시작하기 | 통계 패키지 활용" />
+  <meta name="twitter:title" content="5 2020년 2학기 기말고사 대비 연습문제 | 통계 패키지 활용" />
   
   <meta name="twitter:description" content="2020년도 2학기 정보통계학과 통계 프로그래밍 언어 강의 노트로 해당 노트는 https://zorba78.github.io/cnu-stat-package-lecture/ 에서 확인 가능" />
   
@@ -24,15 +24,15 @@
 <meta name="author" content="한국한의학연구원, 구본초" />
 
 
-<meta name="date" content="2020-12-11" />
+<meta name="date" content="2020-12-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="r-markdown의-구성.html"/>
-<link rel="next" href="r-markdown-기본-문법syntax.html"/>
+<link rel="prev" href="ch4-misc.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -214,6 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.2" data-path="ch4-misc.html"><a href="ch4-misc.html#tidyverse-모형-정리-및-테이블-생성"><i class="fa fa-check"></i><b>4.3.2</b> tidyverse 모형 정리 및 테이블 생성</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="년-2학기-기말고사-대비-연습문제.html"><a href="년-2학기-기말고사-대비-연습문제.html"><i class="fa fa-check"></i><b>5</b> 2020년 2학기 기말고사 대비 연습문제</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -232,64 +233,87 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="r-markdown-문서-시작하기" class="section level2">
-<h2><span class="header-section-number">1.2</span> R Markdown 문서 시작하기</h2>
-<ul>
-<li><strong>R Markdown</strong> 문서 생성: <code>[File] -&gt; [New File] -&gt; [R Markdown..]</code>을 선택</li>
-</ul>
-
-
-<div class="rmdcaution">
-RStudio를 처음 설치하고 위와 같이 진행할 경우 아래와 같은 패키지 설치 여부를 묻는 팝업 창이 나타남. 패키지 설치 여부에 <code>[Yes]</code>를 클릭하면 R Markdown 문서 생성을 위해 필요한 패키지들이 자동으로 설치
-</div>
-
-<p></p>
-
-<p><img src="figures/rmarkdown-new-01.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>설치 완료 후 R Markdown으로 생성할 최종 문서 유형 선택 질의 창이 나타남. 아래 창에서 제목(Title)과 저자(Author) 이름 입력 후 <code>[OK]</code> 버튼 클릭(<code>Document</code>, <code>html</code> 문서 선택)</li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-02.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>아래 그림과 같이 새로운 문서 창이 생성되고 <code>test.Rmd</code> 파일로 저장<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-03.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li>문서 상단에 <code>Knit</code> 아이콘을 클릭 후 <code>Knit to HTML</code> 클릭 또는 문서 아무 곳에 커서를 위치하고 단축키 <code>[Ctrl] + [Shift] + [K]</code> 입력</li>
-</ul>
-
-<p><img src="figures/rmarkdown-new-04.png" width="80%" style="display: block; margin: auto;" /></p>
-<p></p>
-<ul>
-<li><code>knitr</code> + <code>R Markdown</code> + <code>pandoc</code> <span class="math inline">\(\rightarrow\)</span> <code>html</code> 파일 생성 결과</li>
-</ul>
-
-<div class="figure" style="text-align: center"><span id="fig:rmarkdown-new-out"></span>
-<img src="figures/rmarkdown-new-out.png" alt="test.html 문서 화면(저장 폴더 내 `test.html`을 크롬 브라우저로 실행)" width="80%" />
-<p class="caption">
-Figure 1.4: test.html 문서 화면(저장 폴더 내 <code>test.html</code>을 크롬 브라우저로 실행)
-</p>
-</div>
-<p></p>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="2">
-<li id="fn2"><p>[RStudio 프로젝트]에서 생성한 폴더 내에 파일 저장<a href="r-markdown-문서-시작하기.html#fnref2" class="footnote-back">↩︎</a></p></li>
+<div id="년-2학기-기말고사-대비-연습문제" class="section level1">
+<h1><span class="header-section-number">5</span> 2020년 2학기 기말고사 대비 연습문제</h1>
+<ol style="list-style-type: decimal">
+<li>다음과 같은 두 가지 게임을 고려해보자.</li>
 </ol>
+<blockquote>
+<p>게임 규칙</p>
+<ul>
+<li>A 게임: 공정한 동전을 던졌을 때 앞면이 나오면 2000 원을 얻고, 뒷면이 나오면 1500 원을 잃음.</li>
+<li>B 게임: 공정한 주사위를 던졌을 때, 6이 나오면 12000 원을 얻음. 2, 3, 4, 5 가 나오면 비김. 1이 나오면 11000 원을 잃음.</li>
+</ul>
+</blockquote>
+<ol style="list-style-type: lower-alpha">
+<li><p>만약 A와 B 중 단 한 번만 플레이 할 수 있다면 어떤 게임을 선택할 것이고 그 이유는 무엇인지 기술하시오.</p></li>
+<li><p>A와 B 게임을 각각 무한히 플레이 했을 때 얻을 수 있는 금액을 Rmarkdown 수식으로 나타내시오.</p></li>
+<li><p>A와 B 둘 중 하나를 10000 번 플레이 할 수 있다면 어떤 선택을 할 지를 결정하기 위해 모의실험을 통해 확인해보기로 하자.</p>
+<ul>
+<li>A 게임 플레이 시 예상되는 상금의 가치를 추정하기 위한 시뮬레이션 함수 <code>gameA()</code>를 작성 하시오.</li>
+<li>B 게임 플레이 시 예상되는 상금의 가치를 추정하기 위한 시뮬레이션 함수 <code>gameB()</code>를 작성 하시오.</li>
+</ul></li>
+<li><p>어떤 게임이 이익의 측면에서 더 나은 게임인지 위 모의실험 결과에 근거하여 기술하시오.</p></li>
+</ol>
+
+<div class="rmdnote">
+<p><strong>함수 생성 시 필수 매개변수(arguments)</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>reps</code>: 반복 횟수를 지정(초기값은 10000)</li>
+<li><code>seed</code>: 시드 번호 지정(초기값은 <code>NULL</code>)</li>
+<li><code>verbose</code>: 참인 경우 “A(또는) B 게임을 했을 때 기대되는 수익은 ### 원임.”이 콘솔 상에 출력</li>
+</ol>
+<p><strong>함수의 구성</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>seed</code> 값이 <code>NULL</code>이 아닌 경우 seed 값 지정</li>
+<li>함수의 최종 산출물인 기댓값을 반환(return)</li>
+</ol>
+</div>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-1"></a>gameA &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">reps =</span> <span class="dv">10000</span>, <span class="dt">seed =</span> <span class="ot">NULL</span>, </span>
+<span id="cb1-2"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-2"></a>                  <span class="dt">verbose =</span> <span class="ot">TRUE</span>) {</span>
+<span id="cb1-3"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-3"></a>  <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.null</span>(seed)) <span class="kw">set.seed</span>(seed)</span>
+<span id="cb1-4"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-4"></a>  price &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">2000</span>, <span class="dv">-1500</span>)</span>
+<span id="cb1-5"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-5"></a>  pcoin &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-6"></a>  win &lt;-<span class="st"> </span><span class="kw">sample</span>(price, <span class="dt">size =</span> reps, </span>
+<span id="cb1-7"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-7"></a>                <span class="dt">replace =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb1-8"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-8"></a>                <span class="dt">prob =</span> pcoin)</span>
+<span id="cb1-9"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-9"></a>  <span class="cf">if</span> (verbose) </span>
+<span id="cb1-10"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-10"></a>    <span class="kw">cat</span>(<span class="st">&quot;A 게임을 했을 때 기대되는 수익은 &quot;</span>, </span>
+<span id="cb1-11"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-11"></a>        <span class="kw">mean</span>(win), <span class="st">&quot;.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb1-12"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-12"></a>  <span class="kw">invisible</span>(<span class="kw">mean</span>(win))</span>
+<span id="cb1-13"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-13"></a>}</span>
+<span id="cb1-14"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-14"></a></span>
+<span id="cb1-15"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-15"></a>gameB &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">reps =</span> <span class="dv">10000</span>, <span class="dt">seed =</span> <span class="ot">NULL</span>, </span>
+<span id="cb1-16"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-16"></a>                  <span class="dt">verbose =</span> <span class="ot">TRUE</span>) {</span>
+<span id="cb1-17"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-17"></a>  <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.null</span>(seed)) <span class="kw">set.seed</span>(seed)</span>
+<span id="cb1-18"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-18"></a>  price &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">12000</span>, <span class="dv">0</span>, <span class="dv">-11000</span>)</span>
+<span id="cb1-19"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-19"></a>  pdice &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">6</span>, <span class="dv">2</span><span class="op">/</span><span class="dv">3</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">6</span>)</span>
+<span id="cb1-20"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-20"></a>  win &lt;-<span class="st"> </span><span class="kw">sample</span>(price, <span class="dt">size =</span> reps, </span>
+<span id="cb1-21"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-21"></a>                <span class="dt">replace =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb1-22"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-22"></a>                <span class="dt">prob =</span> pdice)</span>
+<span id="cb1-23"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-23"></a>  <span class="cf">if</span> (verbose) </span>
+<span id="cb1-24"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-24"></a>    <span class="kw">cat</span>(<span class="st">&quot;B 게임을 했을 때 기대되는 수익은 &quot;</span>, </span>
+<span id="cb1-25"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-25"></a>        <span class="kw">mean</span>(win), <span class="st">&quot;.</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb1-26"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-26"></a>  <span class="kw">invisible</span>(<span class="kw">mean</span>(win))</span>
+<span id="cb1-27"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-27"></a></span>
+<span id="cb1-28"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-28"></a>}</span>
+<span id="cb1-29"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-29"></a></span>
+<span id="cb1-30"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-30"></a><span class="kw">gameA</span>(<span class="dt">reps =</span> <span class="dv">50000</span>, <span class="dt">seed =</span> <span class="dv">1234</span>, </span>
+<span id="cb1-31"><a href="년-2학기-기말고사-대비-연습문제.html#cb1-31"></a>      <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## A 게임을 했을 때 기대되는 수익은 252.17.</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="년-2학기-기말고사-대비-연습문제.html#cb3-1"></a><span class="kw">gameB</span>(<span class="dt">reps =</span> <span class="dv">50000</span>, <span class="dt">seed =</span> <span class="dv">1234</span>, </span>
+<span id="cb3-2"><a href="년-2학기-기말고사-대비-연습문제.html#cb3-2"></a>      <span class="dt">verbose =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## B 게임을 했을 때 기대되는 수익은 151.38.</code></pre>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="r-markdown의-구성.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="r-markdown-기본-문법syntax.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="ch4-misc.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -320,7 +344,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/zorba78/cnu-stat-package-lecture/01-Rmarkdown-1st.Rmd",
+"link": "https://github.com/zorba78/cnu-stat-package-lecture/06-exercise-final.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -339,20 +363,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

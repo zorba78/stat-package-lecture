@@ -1,0 +1,689 @@
+---
+title: "통계패키지활용 연습문제"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# 2020년 2학기 기말고사 대비 연습문제
+
+## 모의실험: 기댓값 추정 1
+
+### Exercise 
+
+**다음과 같은 두 가지 게임을 고려해보자.**
+
+
+> 게임 규칙
+> 
+>- A 게임: 공정한 동전을 던졌을 때 앞면이 나오면 2000 원을 얻고, 뒷면이 나오면 1500 원을 잃음.
+>- B 게임: 공정한 주사위를 던졌을 때, 6이 나오면 12000 원을 얻음. 2, 3, 4, 5 가 나오면 비김. 1이 나오면 11000 원을 잃음. 
+
+
+<!-- a. 만약 A와 B 중 단 한 번만 플레이 할 수 있다면 어떤 게임을 선택할 것이고 그 이유는 무엇인지 기술하시오. -->
+
+
+```{r 1a, echo=FALSE}
+quiz(caption = "만약 A와 B 중 단 한 번만 플레이 할 수 있다면 어떤 게임을 선택할 것이고 그 이유는 무엇인지 기술하시오.", 
+     question_text("아래 입력란에 답을 기술하시오.", 
+              answer("", correct = TRUE), 
+              allow_retry = TRUE))
+
+
+```
+
+
+
+<!-- b. A와 B 게임을 각각 무한히 플레이 했을 때 얻을 수 있는 금액을 Rmarkdown 수식으로 나타내시오.  -->
+
+
+```{r 1b, echo=FALSE}
+quiz(caption = "A와 B 게임을 각각 무한히 플레이 했을 때 얻을 수 있는 금액을 Rmarkdown 수식으로 나타내시오.", 
+     question_text("R markdown 문서에서 직접 작성해볼 것", 
+              answer("", correct = TRUE), 
+              allow_retry = TRUE))
+```
+
+
+<!-- c. A와 B 둘 중 하나를 10000 번 플레이 할 수 있다면 어떤 선택을 할 지를 결정하기 위해 모의실험을 통해 확인해보기로 하자.  -->
+
+   
+```{r 1cq, echo=FALSE}
+quiz(caption = "A와 B 둘 중 하나를 10000 번 플레이 할 수 있다면 어떤 선택을 할 지를 결정하기 위해 모의실험을 통해 확인해보기로 하자")
+```
+
+
+**함수 생성 시 필수 매개변수(arguments)**
+
+1. `reps`: 반복 횟수를 지정(초기값은 10000)
+2. `seed`: 시드 번호 지정(초기값은 `NULL`)
+3. `verbose`: 참인 경우 "A(또는) B 게임을 했을 때 기대되는 수익은 ### 원임."이 콘솔 상에 출력
+
+
+**함수의 구성**
+
+1. `seed` 값이 `NULL`이 아닌 경우 seed 값 지정
+2. 함수의 최종 산출물인 기댓값을 반환(return)
+
+
+
+- A 게임 플레이 시 예상되는 상금의 가치를 추정하기 위한 시뮬레이션 함수 `gameA()`를 작성 하시오. 
+
+```{r ansa, exercise=TRUE, exercise.lines=20}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+
+
+```
+
+
+```{r ansa-hint-1, eval=FALSE}
+gameA <- function(reps = 10000, seed = NULL, verbose = TRUE) {
+  if (...) set.seed(...)
+  price <- ...
+  pcoin <- ...
+  win <- sample(...)
+  if (...)
+    cat("A 게임을 했을 때 기대되는 수익은 ", 
+        ..., ".\n", sep = "")
+  return(...)
+}
+
+```
+
+
+
+```{r ansa-hint-2}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+gameA <- function(reps = 10000, seed = NULL, 
+                  verbose = TRUE) {
+  if (!is.null(seed)) set.seed(seed)
+  price <- c(2000, -1500)
+  pcoin <- c(1/2, 1/2)
+  win <- sample(price, size = reps, 
+                replace = TRUE, 
+                prob = pcoin)
+  if (verbose) 
+    cat("A 게임을 했을 때 기대되는 수익은 ", 
+        mean(win), ".\n", sep = "")
+  return(mean(win))
+}
+
+gameA(reps = 50000, seed = 1234, 
+      verbose = TRUE)
+```
+
+
+
+- B 게임 플레이 시 예상되는 상금의 가치를 추정하기 위한 시뮬레이션 함수 `gameB()`를 작성 하시오. 
+
+
+```{r ansb, exercise=TRUE, exercise.lines=20}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+
+
+```
+
+
+<div id="ansb-hint">
+**Hint:** 위 문제와 거의 동일하지만 확률변수와 대응하는 확률값이 다름
+</div>
+
+
+
+<!-- d. 어떤 게임이 이익의 측면에서 더 나은 게임인지 위 모의실험 결과에 근거하여 기술하시오.  -->
+
+
+
+```{r 1d, echo=FALSE}
+quiz(caption = "어떤 게임이 이익의 측면에서 더 나은 게임인지 위 모의실험 결과에 근거하여 기술하시오. ", 
+     question_text("아래 입력란에 답을 기술하시오.", 
+              answer("게임 A의 기댓값이 게임 B의 기댓값보다 크기 때문에 게임 A를 플레이 하는 것이 유리하다.", correct = TRUE), 
+              allow_retry = TRUE))
+
+
+```
+
+
+## 모의실험: 기댓값 추정 2
+
+**다음과 같은 확률 과정을 고려해 보자**
+
+> 1. 0과 1 사이 실수 $x_1$을 뽑는다. 
+> 2. 연속적으로 0과 1 사이 실수 $x_2$를 뽑은 후 $x_1 + x_2$ 계산
+> 3. 만약 $x_1 + x_2 > 1$ 이면 중지 $\rightarrow$  $x_1 + x_2 <= 1$ 이면 다시 0에서 1 사이의 실수 $x_3$을 뽑은 후 $x_1 + x_2 + x3$ 계산
+> 4. 만약 $x_1 + x_2 + x_3 > 1$ 이면 중지 $\rightarrow$ $x_1 + x_2 + x_3 <= 1$ 이면 다시 0에서 1 사이 실수 $x_4$ 뽑은 후 
+$\sum_{i=1}^{4} x_i$ 계산 $\rightarrow$ $\sum_{i = 1}^{\infty} x_i > 1$ 일 때 까지 반복
+
+
+위 과정에서 관심 사항은 0에서 1 사이에서 뽑은 난수들의 합이 1이 넘을 때 까지 추출한 난수의 개수이다. 따라서 확률변수 $X = 2, 3, 4, \ldots$로 정의할 수 있다. 
+
+
+```{r q2a, echo=FALSE}
+quiz(caption = "A. 확률변수 $X$ 를 생성하기 위한 `numberNeed()` 함수를 작성하시오(해당 함수는 인수를 갖지 않음).")
+```
+
+
+```{r ansq2a, exercise=TRUE, exercise.lines=25}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+
+
+```
+
+
+```{r ansq2a-hint-1}
+- 변수의 합을 저장하기 위한 변수와 추출횟수(반복횟수)를 저장하기 위한 변수 지정
+- while 문 이용한 반복을 고려해 보자
+```
+
+
+
+```{r ansq2a-hint-2}
+numberNeed <- function() {
+  count <- 0
+  csum <- 0 
+  while (csum < 1) {
+    picked_num <- runif(1)
+    csum <- csum + picked_num
+    count <- count + 1
+  }
+  return(count)
+}
+
+numberNeed()
+```
+
+
+
+```{r q2b, echo=FALSE}
+quiz(caption = "B. A에서 생성한 `numberNeed()` 함수를 사용해 확률변수 $X$ 의 기댓값을 계산하시오.")
+
+```
+
+
+
+```{r ansq2b, exercise=TRUE, exercise.lines=10}
+# 스크립트 작성
+
+```
+
+
+```{r ansq2b-solution}
+need <- rep(NA, 10000)
+for (i in 1:length(need)) need[i] <- numberNeed()
+mean(need)
+
+```
+
+
+```{r q2c, echo=FALSE}
+quiz(caption = "C. B에서 확률변수 $X$ 의 값을 저장한 객체를 이용해 1이 넘을 때 까지 사용한 난수의 수에 대한 빈도표와 그 비율을 구하시오.")
+
+```
+
+
+
+```{r ansq2c, exercise=TRUE, exercise.lines=5}
+# 스크립트 작성
+
+```
+
+
+
+```{r ansq2c-solution}
+t1 <- table(need)
+t2 <- prop.table(t1)
+t1; t2
+
+```
+
+
+
+```{r q2d, echo=FALSE}
+quiz(caption = "D. A ~ C를 통합해 아래 기술한 내용의 기능을 가진 `numberNeedSim()` 함수를 작성 하시오. `numberNeedSim()` 함수는 아래와 같은 기능을 갖는다.")
+
+```
+
+
+
+
+> - 목표 총합의 값 지정 가능
+> - 기댓값을 구하기 위한 반복 횟수 조정 가능
+> - 시드 번호 지정(초기값은 `NULL`)
+> - $X$의 값에 대한 비율(표)와 기댓값 출력. 단 특정 인수를 지정해 출력이 되지 않도록 할 수 있음
+> - 기댓값 반환
+
+
+
+```{r ansq2d, exercise=TRUE, exercise.lines = 30}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+
+```
+
+
+```{r ansq2d-hint-1}
+- 몇 개의 인수가 필요할 지 생각해 볼 것
+- numberNeed() 함수를 소폭 수정해 목표 총합 값을 인수로 받도록 수정
+- 시드 번호의 처리와 텍스트 출력여부에 대한 기능은 문제 1번의 코드를 연상해 볼 것
+
+```
+
+
+
+```{r ansq2d-hint-2}
+numberNeed <- function(target = 1) {
+  count <- 0
+  csum <- 0 
+  while (csum < target) {
+    picked_num <- runif(1)
+    csum <- csum + picked_num
+    count <- count + 1
+  }
+  return(count)
+}
+
+
+numberNeedSim <- function(target = 1, reps = 1000, 
+                          seed = NULL, verbose = FALSE) 
+{
+  if (!is.null(seed)) set.seed(seed)
+  need <- rep(NA, reps)
+  for (i in 1:reps) need[i] <- numberNeed(target = target)
+  if (verbose) {
+    print(prop.table(table(need)))
+    cat("\n")
+    cat(sprintf("총합이 %d 보다 크기 위해 필요한 난수의 개수에 대한 기댓값은 %.3f 임.", 
+                target, mean(need)), "\n", sep = "")
+  }
+  invisible(mean(need))
+  
+}
+
+numberNeedSim(target = 1, reps = 10000, seed = 1234, verbose = TRUE)
+
+```
+
+
+
+<!-- ## 모의실험: 기댓값 추정 3 -->
+
+
+
+## 모의실험: 몬테칼로 적분법
+
+
+```{r q3a, echo=FALSE}
+quiz(caption = "A. $\\phi(x)$ 를 표준정규분포의 확률밀도함수라고 할 때 
+     $$I = \\int_{0}^{1} \\phi(x) ~dx = \\int_{0}^{1} \\frac{1}{\\sqrt{2\\pi}} \\exp{[-\\frac{1}{2} x^2]} ~dx$$
+     값을 두 가지 몬테칼로 적분법(적중법과 표본평균 방법)을 사용해 구하시오.")
+
+```
+
+
+```{r ansq3a, exercise=TRUE, exercise.lines = 30}
+# 입력창에 함수를 작성하고 결과를 확인하시오. 
+
+```
+
+
+```{r ansq3a-solution}
+# 적중법
+hit_norm <- function(ntry) {
+ X <- 0
+ for (i in 1:ntry) {
+   uxy <- runif(2, 0, 1)  
+   if(uxy[2] < dnorm(uxy[1])) X <- X + 1
+ }
+ X/ntry
+}
+
+# 벡터 연산을 이용한 함수(훨씬 효율적임)
+hit_norm2 <- function(ntry) {
+  uxy <- matrix(runif(2*ntry), ntry, 2)
+  sum(drop(uxy[,2]) < dnorm(uxy[,1]))/ntry
+}
+
+# 표본평균 방법
+mean_norm <- function(ntry) {
+  x <- runif(ntry, 0, 1)
+  I <- mean(dnorm(x, 0, 1))
+  return(I)
+}
+
+```
+
+
+```{r q3b, echo=FALSE}
+quiz(caption = "B. 이론적인 확률값과 A에서 작성한 두 함수로 도출한 적분값을 비교 하시오.")
+
+```
+
+
+```{r ansq3b, exercise=TRUE, exercise.lines = 10}
+# 스크립트 작성
+
+
+```
+
+
+<div id="ansq3b-hint">
+**Hint:** `pnorm()` 함수 사용
+</div>
+
+
+
+
+## 모의실험: 신뢰구간
+
+
+
+```{r q4, echo=FALSE}
+quiz(caption = "확률표본 $X_1, \\ldots, X_n \\stackrel{i.i.d}{\\sim} \\mathcal{N}(\\mu, \\sigma^2)$ ($n \\leq 2$) 이고 $S^2$ 가 표본 분산일 때, 
+     $$V = \\frac{(n - 1)S^2}{\\sigma^2} \\sim \\chi^2_{\\nu = n - 1} $$
+     이고, 이를 이용한 $\\sigma^2$ 의 $(1 - \\alpha) \\times 100$ % 신뢰구간은 $[0, (n - 1)S^2/\\chi^2_{\\alpha}]$ 로 나타낼 수 있다.")
+
+
+
+```
+
+
+```{r q4a, echo=FALSE}
+quiz(caption = "A. 확률표본 $X_1,\\ldots,X_n$ 의 모분산 $\\sigma^2$ 에 대한 $(1 - \\alpha) \\times 100$ % 신뢰구간을 구하기 위한 함수 `calCI()`를 작성 하시오.")
+
+```
+
+
+```{r ansq4a, exercise=TRUE, exercise.lines=10}
+# 함수를 작성하시오.
+
+```
+
+
+```{r ansq4a-hint-1}
+- `calCI()`에서 필요한 인수를 생각해보자. 
+- `qchisq()` 함수 사용
+
+```
+
+
+
+
+```{r ansq4a-hint-2}
+calCI <- function(n = 20, mean = 0, 
+                  sigma = 1, alpha = 0.05) {
+  x <- rnorm(n, mean = mean, sd = sigma)
+  (n - 1) * var(x) / qchisq(alpha, df = n - 1)
+}
+
+#check
+calCI(n=20, mean=0, sigma = 2, alpha = 0.05)
+
+```
+
+
+```{r q4b, echo=FALSE}
+quiz(caption = "B. 평균이 4이고 분산이 8인 정규분포로부터 표본 크기가 30인 랜덤 표본을 추출하는 작업을 10000 번 반복 했을 때 구한 $\\sigma^2$ 의 95 % 신뢰구간이 
+     모분산 9를 포함하지 않는 비율을 계산하시오(시드 번호는 12345로 고정).")
+
+```
+
+
+```{r ansq4b, exercise=TRUE, exercise.lines=10}
+# 스크립트를 작성 하시오
+
+
+```
+
+
+```{r ansq4b-solution}
+set.seed(12345)
+n <- 30; alpha <- 0.05; reps <- 10000
+mu <- 4; sigma <- sqrt(8)
+ucl <- replicate(reps, calCI(n = n, mean = mu, 
+                             sigma = sigma, alpha = alpha))
+1 - sum(ucl > 8)/reps
+
+```
+
+```{r q4c, echo=FALSE}
+quiz(caption = "C. $X_1, \\ldots, X_n \\stackrel{i.i.d}{\\sim} \\chi^2_{\\nu = 4}$ 일 때에도 $X$의 모분산 $\\sigma^2 = 2\\nu = 8$ 을 
+     포함하지 않을 비율이 B의 결과와 유사하게 나오는지 확인하시오. 유사하지 않다면 왜 그런 결과가 나왔는지 기술 하시오." )
+
+```
+
+
+
+```{r ansq4c, exercise=TRUE, exercise.lines=20}
+# 스크립트를 작성 하시오
+
+
+```
+
+
+
+```{r ansq4c-solution}
+calCI2 <- function(n = 20, df = 2, alpha = 0.05) {
+  x <- rchisq(n, df = df)
+  (n - 1) * var(x) / qchisq(alpha, df = n - 1)
+}
+n <- 30; alpha <- 0.05; reps <- 10000; degf <- 4
+set.seed(12345)
+ucl2 <- replicate(reps, calCI2(n = n, df = degf, 
+                               alpha = alpha))
+1 - sum(ucl2 > 8)/reps
+
+# 확률표본이 정규분포가 아니기 때문에 95 % 신뢰수준을 만족하지 못한다. 
+
+```
+
+
+
+<!-- ## 기초통계분석: 일원배치분산분석 -->
+
+
+<!-- ```{r} -->
+<!-- require(tidyverse) -->
+<!-- require(tidymodels) -->
+
+<!-- mtcars -->
+
+
+<!-- ``` -->
+
+
+
+
+
+## Newton-Raphson 알고리즘 응용: Gradient descent 알고리즘
+
+
+```{r q6, echo=FALSE}
+quiz(caption = "Gradient decent (GD) 알고리즘은 목적함수의 일차 미분(기울기)을 이용해 일정한 단계로 일차 미분과 반대 방향으로 값이 작아지는 
+방향으로 이동하면서 최솟값을 찾는 알고리즘이다. 수업시간에 배운 Newton-Raphson 알고리즘과 유사하지만 2차 미분을 할 필요가 없고 간단히 적용할 수 있기 때문에 
+최적화 문제에서 범용적으로 사용되고 있는 알고리즘 중 하나이다. GD 알고리즘의 pseudo-code는 다음과 같다.")
+
+```
+
+> 1. 초기값(initial value)을 설정한다
+> 2. $x_{n+1} = x_n - \lambda_n \nabla f(x_n), ~ \forall n=1,2,\cdots$ 계산
+> 3. $||f(x_{n+1}) - f(x_{n})|| < \epsilon$ 이면 반복 중지. 
+
+
+
+```{r q6a, echo=FALSE}
+quiz(caption = "GD 알고리즘을 단순선형회귀모형의 최적 계수를 구하는 문제에 적용하면 잔차제곱합을 최소화 하는 회귀계수를 찾는 문제로 간주할 수 있고, 목적함수는 
+     다음과 같다. 
+     $$ \\mathcal{L}(\\boldsymbol{\\mathbf{\\beta}}) = (\\mathbf{y}_{n \\times 1} - \\mathbf{X}_{n \\times p}\\boldsymbol{\\mathbf{\\beta}}_{p \\times 1})^T
+(\\mathbf{y}_{n \\times 1} - \\mathbf{X}_{n \\times p}\\boldsymbol{\\mathbf{\\beta}}_{p \\times 1})$$ 
+위 목적함수의 gradient 함수는 과제 3에서와 동일하게 
+$$\\nabla \\mathcal{L}(\\boldsymbol{\\mathbf{\\beta}}) = \\frac{\\partial \\mathcal{L}(\\boldsymbol{\\mathbf{\\beta}})}{\\partial \\boldsymbol{\\mathbf{\\beta}}} = 
+\\mathbf{X}^T\\mathbf{X}\\boldsymbol{\\mathbf{\\beta}} - \\mathbf{X}^T\\mathbf{y}$$
+로 나타낼 수 있다.")
+
+```
+
+
+> 1. $\boldsymbol{\mathbf{\beta}}_{old}$ 초기값을 설정한다. 
+> 2. $\mathcal{L}(\boldsymbol{\mathbf{\beta}}_{old})$ 계산
+> 3. $\boldsymbol{\mathbf{\beta}}_{new} := \boldsymbol{\mathbf{\beta}}_{old} - \lambda \nabla \mathcal{L}(\boldsymbol{\mathbf{\beta}}_{old})$를 계산
+> 4. $\mathcal{L}(\boldsymbol{\mathbf{\beta}}_{new})$ 계산
+> 5. $|\mathcal{L}(\boldsymbol{\mathbf{\beta}}_{old}) - \mathcal{L}(\boldsymbol{\mathbf{\beta}}_{new})|$ 가 설정한 임계치(tolerance)보다 작아질 때 까지 반복
+
+
+**함수 인수 초기값**
+
+> - `max_iters=50000`
+> - `lambda = 0.00001`
+> - `bvec = c(0, 0)`
+> - `tol = 1e-7`
+
+
+```{r ansq6a, exercise=TRUE, exercise.lines = 30}
+# 함수를 작성 하시오
+
+```
+
+
+
+```{r ansq6a-hint-1}
+- ∇L(B)가 grad_fun()임
+- 과제3 N-R 알고리즘과 유사하지만 반복 종료 조건으로 목적함수 간 차이에 대한 설정이 필요함
+  
+```
+
+
+
+```{r ansq6a-hint-2}
+# obj_fun(): 과제 3 answer와 동일
+obj_fun <- function(x, y, beta) {
+  n <- length(x)
+  xmat <- cbind(1, x)
+  xb.vec <- drop(xmat %*% beta)
+  sum((y - xb.vec)^2)
+}
+
+
+```
+
+
+
+```{r ansq6a-hint-3}
+# grad_fun(): 과제 3 answer와 동일
+grad_fun <- function(x, y, beta) {
+  n <- length(x)
+  xmat <- cbind(1, x)
+  xb.vec <- drop(xmat %*% beta)
+  (t(xmat) %*% xb.vec - t(xmat) %*% y)
+}
+
+```
+
+
+```{r ansq6a-hint-4}
+gd_linreg <- function(x, y, 
+                      max_iters = 50000, 
+                      bvec = c(0, 0), 
+                      lambda = 0.0001, 
+                      tol = 1e-7) {
+  iters <- 0
+  # loss_init <- obj_fun(x, y, bvec)
+  converge = FALSE
+  while(iters < max_iters & converge == FALSE) {
+    gvec <- grad_fun(x, y, bvec)
+    loss_ob <- obj_fun(x, y, bvec)
+    bnew <- bvec - lambda * gvec
+    loss_nb <- obj_fun(x, y, bnew)
+    iters <- iters + 1
+    bvec <- bnew
+    if (abs(loss_ob - loss_nb) < tol) converge = TRUE
+  }
+  cat(iters, " iteration.\n")
+  return(bvec)
+}
+
+
+```
+
+
+
+```{r q6b, echo=FALSE}
+quiz(caption = "`cars` 데이터에서 `speed`를 설명변수, `dist`를 종속변수로 설정하여 `gd_linreg()`와 `lm()`을 비교하시오")
+
+```
+
+
+```{r ansq6b, exercise=TRUE, exercise.lines=5}
+# x <- cars$speed; y <- cars$dist
+# gd_linreg(x, y)
+# lm(y ~ x)
+
+```
+
+
+
+
+
+
+
+
+
+
+<!-- ### Exercise with Code -->
+
+<!-- *Here's an exercise with some prepopulated code as well as `exercise.lines = 5` to provide a bit more initial room to work.* -->
+
+<!-- Now write a function that adds any two numbers and then call it: -->
+
+<!-- ```{r add-function, exercise=TRUE, exercise.lines = 5} -->
+<!-- add <- function() { -->
+
+<!-- } -->
+<!-- ``` -->
+
+
+
+
+
+
+<!-- ## Topic 2 -->
+
+<!-- ### Exercise with Hint -->
+
+<!-- *Here's an exercise where the chunk is pre-evaulated via the `exercise.eval` option (so the user can see the default output we'd like them to customize). We also add a "hint" to the correct solution via the chunk immediate below labeled `print-limit-hint`.* -->
+
+<!-- Modify the following code to limit the number of rows printed to 5: -->
+
+<!-- ```{r print-limit, exercise=TRUE, exercise.eval=TRUE} -->
+<!-- mtcars -->
+<!-- ``` -->
+
+<!-- ```{r print-limit-hint} -->
+<!-- head(mtcars) -->
+<!-- ``` -->
+
+<!-- ### Quiz -->
+
+<!-- *You can include any number of single or multiple choice questions as a quiz. Use the `question` function to define a question and the `quiz` function for grouping multiple questions together.* -->
+
+<!-- Some questions to verify that you understand the purposes of various base and recommended R packages: -->
+
+<!-- ```{r quiz} -->
+<!-- quiz( -->
+<!--   question("Which package contains functions for installing other R packages?", -->
+<!--     answer("base"), -->
+<!--     answer("tools"), -->
+<!--     answer("utils", correct = TRUE), -->
+<!--     answer("codetools") -->
+<!--   ), -->
+<!--   question("Which of the R packages listed below are used to create plots?", -->
+<!--     answer("lattice", correct = TRUE), -->
+<!--     answer("tools"), -->
+<!--     answer("stats"), -->
+<!--     answer("grid", correct = TRUE) -->
+<!--   ) -->
+<!-- ) -->
+<!-- ``` -->
+
