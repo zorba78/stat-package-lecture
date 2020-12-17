@@ -2,7 +2,7 @@
 title: "통계 패키지 활용"
 subtitle: "2020년도 2학기 충남대학교 정보통계학과 강의 노트"
 author: "한국한의학연구원, 구본초"
-date: "2020-12-11"
+date: "2020-12-18"
 knit: "bookdown::render_book"
 documentclass: krantz
 bibliography: [book.bib, packages.bib]
